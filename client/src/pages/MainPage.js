@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useState } from 'react';
 import './MainPage.css';
 import Header from '../component/Header.js';
 import SideBar from '../component/SideBar.js';
@@ -7,37 +7,95 @@ const NaviContainer = () => {
   return(
     <div className="main-page-navicontainer">
       <div className="order-search">
-        <img src="/image/searchicon.png" alt="주문 조회"/>
+        <span>주문 조회</span>
+        <img src="/image/searchgreen.png" alt="주문 조회"/>
       </div>
       <div className="order-post">
+        <span>주문 등록</span>
         <img src="/image/writeicon.png" alt="주문 등록"/>
       </div>
       <div className="product-search">
-        <img src="/image/producticon.png" alt="상품 조회"/>
+        <span>상품 조회</span>
+        <img src="/image/productlogo.png" alt="상품 조회"/>
       </div>
       <div className="price-search">
+        <span>판매가 조회</span>
         <img src="/image/wonlogo.png" alt="판매가 조회"/>
       </div>
       <div className="customer-search">
+        <span>판매 업체 조회</span>
         <img src="/image/companylogo.png" alt="판매 업체 조회"/>
       </div>
       <div className="management-go">
-        <img src="/image/companylogo.png" alt="판매 업체 조회"/>
+        <span>관리</span>
+        <img src="/image/stampicon.png" alt="판매 업체 조회"/>
       </div>
     </div>
-  );
+  ); 
 }
 
+// 즐겨찾기 로직
 const Favorite = () => {
+  const [favorites, setFavorites] = useState([
+    {
+      orderNumber: '12852',
+      customerCode: 'HMKM2402',
+      orderDate: '2024.09.04.',
+      deliveryRequestDate: '2024.10.24.',
+      orderStatus: '',
+      isFavorite: true,
+    },
+    {
+      orderNumber: '12853',
+      customerCode: 'HMKM2403',
+      orderDate: '2024.09.05.',
+      deliveryRequestDate: '2024.10.25.',
+      orderStatus: '',
+      isFavorite: true,
+    },
+    {
+      orderNumber: '12854',
+      customerCode: 'HMKM2404',
+      orderDate: '2024.09.06.',
+      deliveryRequestDate: '2024.10.26.',
+      orderStatus: '',
+      isFavorite: true,
+    },
+  ]);
+
+  const toggleFavorite = (index) => {
+    setFavorites((prevFavorites) => {
+      const newFavorites = [...prevFavorites];
+      newFavorites[index].isFavorite = !newFavorites[index].isFavorite;
+      return newFavorites;
+    });
+  }
+
   return (
-    <div>
+    <div className="favorite-section">
       <div className="favorite-title"> 즐겨찾기
         <div className="favorite-img">
           <img src="/image/favorite.png" alt="즐찾"></img>
         </div>
       </div>
-      <div className="favorite-section">
-        <div className="favorite-section-1"></div>
+      <div className="favorite-content">
+        {favorites.map((item, index) => (
+          <div key={index} className={`favorite-content-${index + 1}`}>
+            <div className="favorite-content-firstline">
+              <div className="order-number">주문번호 : {item.isFavorite ? item.orderNumber : ''}</div>
+              <div className="customer-code">판매업체코드 : {item.isFavorite ? item.customerCode : ''}</div>
+              <div className="order-status">주문상태 : {item.isFavorite ? item.orderStatus : ''}</div>
+              <div className="favorite-img" onClick={() => toggleFavorite(index)}>
+                <img src={item.isFavorite ? "/image/favorite.png" : "/image/favorite-grey.png"}
+                alt="즐찾" className="favorite-icon"/>
+              </div>
+            </div>
+            <div className="favorite-content-secondline">
+              <div className="order-date">주문일자 : {item.isFavorite ? item.orderDate : ''}</div>
+              <div className="delivery-request-date">납품요청일자 : {item.isFavorite ? item.deliveryRequestDate : ''}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -48,8 +106,10 @@ const MainPage = () => {
     <div className="app">
       <Header />
       <SideBar />
-      {/* <NaviContainer />
-      <Favorite /> */}
+      <div className="mainpage-container">
+          <NaviContainer />
+          <Favorite />
+      </div>
     </div>
   )
 };
