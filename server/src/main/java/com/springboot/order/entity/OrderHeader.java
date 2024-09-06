@@ -59,7 +59,7 @@ public class OrderHeader {
         this.orderHeaderId = orderHeaderId;
     }
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
     List<OrderItem> orderItemList = new ArrayList<>();
 
     public void setOrderItem(OrderItem orderItem) {
