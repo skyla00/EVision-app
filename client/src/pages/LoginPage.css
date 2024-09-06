@@ -32,11 +32,10 @@
     height: auto;
     aspect-ratio: 460 / 540;
     position: absolute;
-    top: 15%;
+    top: 20%;
     left: 40%;
     transform: translateX(-50%);
 }
-
 
 .login-logo-container-back {
     background-color: rgba(255, 255, 255, 0.4);
@@ -45,7 +44,7 @@
     height: auto;
     aspect-ratio: 460 / 540;
     position: absolute;
-    top: 13%;
+    top: 18%;
     left: 41%;
     transform: translateX(-50%);
 }
@@ -75,15 +74,15 @@
     aspect-ratio: 360 / 440;
     height: auto;
     position: absolute;
-    top: 50%;
-    left: 63%;
-    transform: translate(-50%, -50%);
+    top: 26%;
+    left: 60%;
+    transform: translate(-50%);
   }
   
 .input-field {
     width: 80%;
-    max-width: 240px;
-    height: 26px;
+    max-width: 260px;
+    height: 40px;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -100,6 +99,7 @@
 .login-button {
     width: 80%;
     max-width: 260px;
+    height: 40px;
     padding: 10px;
     background-color: #74BDA1;
     color: white;
