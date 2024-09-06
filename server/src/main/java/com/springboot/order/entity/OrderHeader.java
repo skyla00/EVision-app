@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,10 +21,10 @@ public class OrderHeader {
     private String orderHeaderId;
 
     @Column(nullable = false)
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
     @Column(nullable = false)
-    private LocalDateTime acceptDate;
+    private Date acceptDate;
 
     @OneToMany (mappedBy = "orderHeader")
     private List<Favorite> favoriteList = new ArrayList<>();
@@ -57,6 +57,16 @@ public class OrderHeader {
     @Builder
     public OrderHeader(String orderHeaderId) {
         this.orderHeaderId = orderHeaderId;
+    }
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    List<OrderItem> orderItemList = new ArrayList<>();
+
+    public void setOrderItem(OrderItem orderItem) {
+        orderItemList.add(orderItem);
+        if(orderItem.getOrderHeader() != this) {
+            orderItem.setOrderHeader(this);
+        }
     }
 
 }
