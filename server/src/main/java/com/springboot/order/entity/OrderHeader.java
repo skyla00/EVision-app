@@ -1,5 +1,6 @@
 package com.springboot.order.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class OrderHeaderEntity {
+public class OrderHeader {
 
     @Id
-    private long orderHeaderId;
+    private String orderHeaderId;
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
@@ -39,4 +40,10 @@ public class OrderHeaderEntity {
             this.status = status;
         }
     }
+
+    @Builder
+    public OrderHeader(String orderHeaderId) {
+        this.orderHeaderId = orderHeaderId;
+    }
+
 }
