@@ -1,11 +1,14 @@
 package com.springboot.orderhistory.entity;
 
+import com.springboot.order.entity.OrderItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,4 +40,15 @@ public class OrderHeaderHistory {
 
     @Column(nullable = false)
     private String editorId;
+
+    @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.ALL)
+    List<OrderItemHistory> orderItemHistoryList = new ArrayList<>();
+
+    public void setOrderItemHistory(OrderItemHistory orderItemHistory) {
+        orderItemHistoryList.add(orderItemHistory);
+        if(orderItemHistory.getOrderHeaderHistory() != this) {
+            orderItemHistory.setOrderHeaderHistory(this);
+        }
+    }
+
 }

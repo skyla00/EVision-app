@@ -1,6 +1,6 @@
-package com.springboot.order.entity;
+package com.springboot.orderhistory.entity;
 
-import lombok.Builder;
+import com.springboot.order.entity.OrderHeader;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,18 +8,18 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
-public class OrderItem {
+@NoArgsConstructor
+public class OrderItemHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemId;
+    private Long orderItemHistoryId;
 
     @Column(nullable = false)
-    private Date requestDate;
+    private Long orderItemId;
 
     @Column(nullable = false)
     private String itemCode;
@@ -42,15 +42,17 @@ public class OrderItem {
     @Column(nullable = false)
     private Long finalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "ORDER_HEADER_ID")
-    private OrderHeader orderHeader;
+    @Column(nullable = false)
+    private Date requestDate;
 
-    public void setOrderHeader(OrderHeader orderHeader) {
-        this.orderHeader = orderHeader;
-        if(!orderHeader.getOrderItemList().contains(this)) {
-            orderHeader.setOrderItem(this);
+    @ManyToOne
+    @JoinColumn(name = "ORDER_HEADER_HISTORY_ID")
+    private OrderHeaderHistory orderHeaderHistory;
+
+    public void setOrderHeaderHistory(OrderHeaderHistory orderHeaderHistory) {
+        this.orderHeaderHistory = orderHeaderHistory;
+        if (!orderHeaderHistory.getOrderItemHistoryList().contains(this)) {
+            orderHeaderHistory.setOrderItemHistory(this);
         }
     }
-
 }
