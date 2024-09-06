@@ -11,13 +11,13 @@ public class Supplier {
     @Id
     private String supplierCode;
     @Column(nullable = false,length = 30)
-    private String name;
+    private String supplierName;
     @Column(nullable = false,length = 50)
-    private String address;
+    private String supplierAddress;
     @Column(nullable = false,length = 13)
-    private String phone;
+    private String supplierPhone;
     @Column(nullable = false,length = 30)
-    private String email;
+    private String supplierEmail;
 
     public enum SupplierStatus {
         ACTIVE("이용가능"),
