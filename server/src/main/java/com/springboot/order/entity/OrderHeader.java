@@ -1,5 +1,6 @@
 package com.springboot.order.entity;
 
+import com.springboot.member.entity.Favorite;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -22,6 +25,16 @@ public class OrderHeader {
 
     @Column(nullable = false)
     private LocalDateTime acceptDate;
+
+    @OneToMany (mappedBy = "orderHeader")
+    private List<Favorite> favoriteList = new ArrayList<>();
+    public void setFavoriteList (Favorite favorite) {
+        this.favoriteList.add(favorite);
+        if(favorite.getOrderHeader() != this) {
+            favorite.setOrderHeader(this);
+        }
+    }
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
