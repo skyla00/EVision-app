@@ -1,35 +1,39 @@
 .header {
     width: 100%;
-    height: 70px;
+    height: 5vw;
+    padding-left: 140px;
+    padding-right: 140px;
     border-bottom: 2px solid #e0e0e0;
     display: flex;
     flex-direction: row;
 }
 
 .logo-img {
-    margin-left: 100px;
-    width: 140px;
+    position: absolute;
+    left: 10%;
+    width: 14vw;
     cursor: pointer;
-    margin-top: 6px;
+    margin-top: 0.3vw;
 }
 
 .logo-img img {
-    max-width: 140px;
-    height: 70px;
+    max-width: 14vw;
+    height: 5vw;
 }
 
 .user-info {
-    width: 210px;
-    height: 50px;
-    margin-right: 100px;
-    margin-left: auto;
-    margin-top: 10px;
+    width: 21vw;
+    height: 5vw;
+    position: absolute;
+    right: 3.6%;
+    left: auto;
+    margin-top: 1vw;
     display: flex;
     flex-direction: row;
 }
 
 .user-img {
-    width: 50px;
+    width: 3vw;
 }
 
 .user-img img {
@@ -38,25 +42,25 @@
 }
 
 .user-info-detail {
-    width: 90px;
-    font-size: 14px;
+    width: 6vw;
+    font-size: 0.9vw;
     font-weight: bold;
     text-align: left;
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding: 8px 0;
-    padding-left: 6px;
+    padding: 0.7vw 0;
+    padding-left: 0.5vw;
 }
 
 .logout {
-    width: 70px;
-    height: 24px;
+    width: 5vw;
+    height: 2vw;
     color: #ffffff;
-    font-size: 13px;
+    font-size: 0.9vw;
     font-weight: bold;
     background-color: #348F6C;
     cursor: pointer;
     border: none;
-    margin-top: 6%;
+    margin-top: 4%;
 }

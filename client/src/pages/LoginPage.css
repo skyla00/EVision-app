@@ -1,6 +1,6 @@
 .login-page-container {
     background-size: cover;
-    height: 100vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,24 +28,24 @@
 .login-logo-container {
     background-color: rgba(116, 189, 161, 0.6);
     width: 40%;
-    max-width: 460px;
+    max-width: 30vw;
     height: auto;
     aspect-ratio: 460 / 540;
     position: absolute;
     top: 20%;
-    left: 40%;
+    left: 42%;
     transform: translateX(-50%);
 }
 
 .login-logo-container-back {
     background-color: rgba(255, 255, 255, 0.4);
     width: 40%;
-    max-width: 460px;
+    max-width: 30vw;
     height: auto;
     aspect-ratio: 460 / 540;
     position: absolute;
     top: 18%;
-    left: 41%;
+    left: 43%;
     transform: translateX(-50%);
 }
 
@@ -53,13 +53,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 32%;
+    margin-top: 34%;
     margin-right: 10%;
   }
 
 .login-logo img {
     width: 100%;
-    max-width: 280px;
+    max-width: 18vw;
     height: auto;
 }
   
@@ -70,21 +70,21 @@
     justify-content: center;
     background-color: #eaeaea;
     width: 30%;
-    max-width: 360px;
+    max-width: 24vw;
     aspect-ratio: 360 / 440;
     height: auto;
     position: absolute;
-    top: 26%;
-    left: 60%;
+    top: 24%;
+    left: 62%;
     transform: translate(-50%);
   }
   
 .input-field {
     width: 80%;
-    max-width: 260px;
-    height: 40px;
-    padding: 10px;
-    margin: 10px 0;
+    max-width: 18vw;
+    height: 3vw;
+    padding: 1vw;
+    margin: 0.6vw 0;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #dcdcdc;
@@ -93,19 +93,21 @@
 .input-field::placeholder{
   color: #5c5c5c;
   font-family: 'Arial', sans-serif;
+  font-size: 1vw;
 }
 
   
 .login-button {
     width: 80%;
-    max-width: 260px;
-    height: 40px;
-    padding: 10px;
+    max-width: 18vw;
+    height: 3vw;
+    padding: 1vw;
     background-color: #74BDA1;
     color: white;
+    font-size: 1vw;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 0.8vw;
   }

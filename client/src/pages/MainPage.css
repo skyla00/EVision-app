@@ -1,35 +1,132 @@
+.mainpage-container {
+    /* padding-left: 140px;
+    padding-right: 140px; */
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 0.6%;
+}
+
 .main-page-navicontainer {
-
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+    font-size: 1.4vw;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    margin: 6vw auto;
 }
 
-.order-search {
-
+.order-search, .product-search, .customer-search,
+.order-post, .price-search, .management-go {
+    width: 10vw;
+    height: 10vw;
 }
 
-.order-post {
-
+.order-search, .product-search, .customer-search {
+    border: 5px solid #74BDA1;
+    color: #74BDA1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 10vw;
+    height: 10vw;
+    gap: 10px;
 }
 
-.product-search {
-    
+.order-post, .price-search, .management-go {
+    background-color: #74BDA1;
+    border: 5px solid #74BDA1;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 10vw;
+    height: 10vw;
+    gap: 10px;
 }
 
-.price-search {
-
-}
-
-.customer-search {
-
-}
-
-.management-go {
-
-}
-
-.favorite-title {
-
+.order-search img, .product-search img, .customer-search img, .order-post img, .price-search img, .management-go img {
+    width: 3vw;
+    height: 3vw;
 }
 
 .favorite-section {
+    width: 100%;
+    height: auto;
+    margin-top: 5vw;
+    margin-bottom: 2vw;
+}
 
+.favorite-title {
+    font-size: 2vw;
+    font-weight: 1000;
+    color: #2F6952;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vw;
+    position: relative;
+    left: 8%;
+    transform: translateX();
+}
+
+.favorite-img {
+    width: 3vw;
+    height: 3vw;
+}
+
+.favorite-img img {
+    width: 3vw;
+    height: 3vw;
+    margin-left: 1vw;
+}
+
+.favorite-content {
+    width: 87.6%;
+    height: auto;
+    background-color: #CEE2DA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    margin: 0px auto;
+    padding : 2vw 0;
+    color: #41856a;
+    font-size: 1.4vw;
+    font-weight: 1000;
+}
+
+.favorite-content-1, .favorite-content-2, .favorite-content-3 {
+    width: 95%;
+    height: auto;
+    background-color: #ffffff;
+    border: 2.5px solid #63ad8f;
+    display: flex;
+    flex-direction: column;
+} 
+
+.favorite-content-firstline, .favorite-content-secondline {
+    display: flex;
+    align-items: center;
+}
+
+.order-number, .customer-code, .order-date, .delivery-request-date, .order-status {
+    width: 22vw;
+    height: 3.5vw;
+    display: flex;
+    align-items: center;
+    padding-left: 2.4vw;
+}
+
+.favorite-icon {
+    width: 3vw;
+    height: 3vw;
+    margin-right: 2vw;
+    position: relative;
+    left: 0;
 }
