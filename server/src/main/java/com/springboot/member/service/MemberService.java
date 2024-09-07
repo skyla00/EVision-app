@@ -1,6 +1,7 @@
 package com.springboot.member.service;
 
 import com.springboot.member.entity.Member;
+import com.springboot.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,10 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
     }
-    // controller post.
+
+
     // memberId 는 회사에서 부여 받음.
     // password 도 부여받으나, 시큐리티 적용 하면서 passwordEncoder 는 함.
-
     public Member createMember (Member member) {
         // password 암호화
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
