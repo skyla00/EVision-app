@@ -1,5 +1,6 @@
 package com.springboot.member.entity;
 
+import com.springboot.order.entity.OrderHeader;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +32,25 @@ public class Member {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "PERMISSION_CODE")
     private Permission permission;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus memberStatus = MemberStatus.ACTIVE;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Favorite> favoriteList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<OrderHeader> orderHeaderList = new ArrayList<>();
+
+
+    public void setOrderHeaderList (OrderHeader orderHeader) {
+        this.orderHeaderList.add(orderHeader);
+        if(orderHeader.getMember() != this) {
+            orderHeader.setMember(this);
+        }
+    }
+
     public void setPermission (Permission permission) {
         this.permission = permission;
         if(!permission.getMemberList().contains(this)) {
@@ -38,12 +58,7 @@ public class Member {
         }
     }
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    List<Favorite> favoriteList = new ArrayList<>();
     public void setFavoriteList (Favorite favorite) {
         this.favoriteList.add(favorite);
         if(favorite.getMember() != this) {
