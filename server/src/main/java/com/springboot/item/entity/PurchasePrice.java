@@ -26,6 +26,11 @@ public class PurchasePrice {
     @Column(nullable = false)
     private int stockQuantity;
 
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CODE")
+    @JsonBackReference
+    private Item item;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SUPPLIER_CODE")
     @JsonBackReference

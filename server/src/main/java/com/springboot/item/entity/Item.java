@@ -1,5 +1,6 @@
 package com.springboot.item.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.orderhistory.entity.OrderItemHistory;
 import com.springboot.salesprice.entity.SalesPrice;
@@ -40,16 +41,16 @@ public class Item {
     private ItemStatus  itemStatus = ItemStatus.ON_SALE;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<PurchasePrice> purchasePrices = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<SalesPrice> salesPrices = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderItem> orderItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<OrderItemHistory> orderItemHistories = new ArrayList<>();
 
     public enum ItemStatus {
         ON_SALE("판매중"),

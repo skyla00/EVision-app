@@ -1,5 +1,6 @@
 package com.springboot.customer.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.orderhistory.entity.OrderHeaderHistory;
 import com.springboot.salesprice.entity.SalesPrice;
@@ -46,13 +47,13 @@ public class Customer {
     private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<SalesPrice> salesPrices = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderHeader> orderHeaders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<OrderHeaderHistory> orderHeaderHistories = new ArrayList<>();
     public enum CustomerStatus {
         ACTIVE("이용가능"),
         INACTIVE("이용불가능");

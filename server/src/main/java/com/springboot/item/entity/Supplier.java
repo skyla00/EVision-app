@@ -1,5 +1,6 @@
 package com.springboot.item.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class Supplier {
     private SupplierStatus supplierStatus = SupplierStatus.ACTIVE;
 
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<PurchasePrice> purchasePrices = new ArrayList<>();
 
     public enum SupplierStatus {

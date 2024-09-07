@@ -1,6 +1,8 @@
 package com.springboot.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.order.entity.OrderHeader;
+import com.springboot.orderhistory.entity.OrderHeaderHistory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,10 +11,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
 public class Member {
     @Id
     private String memberId;
@@ -34,6 +36,7 @@ public class Member {
     private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Favorite> favorites = new ArrayList<>();
 //    public void setFavoriteList (Favorite favorite) {
 //        this.favoriteList.add(favorite);
@@ -43,6 +46,7 @@ public class Member {
 //
 //    }
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderHeader> orderHeaders = new ArrayList<>();
 //    public void setOrderHeaderList (OrderHeader orderHeader) {
 //        this.orderHeaderList.add(orderHeader);

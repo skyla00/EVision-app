@@ -1,5 +1,6 @@
 package com.springboot.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.springboot.item.entity.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +9,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
 public class OrderItem {
 
     @Id
@@ -44,6 +45,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "ORDER_HEADER_ID")
+    @JsonBackReference
     private OrderHeader orderHeader;
     //    public void setOrderHeader(OrderHeader orderHeader) {
 //        this.orderHeader = orderHeader;
@@ -53,5 +55,6 @@ public class OrderItem {
 //    }
     @ManyToOne
     @JoinColumn(name = "ITEM_CODE")
+    @JsonBackReference
     private Item item;
 }
