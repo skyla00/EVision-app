@@ -30,7 +30,7 @@ public class Item {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
