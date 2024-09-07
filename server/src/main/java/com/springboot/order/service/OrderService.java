@@ -1,6 +1,7 @@
 package com.springboot.order.service;
 
 import com.springboot.member.entity.Member;
+import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
@@ -25,11 +26,13 @@ public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderNumberService orderNumberService;
+    private final MemberService memberService;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, OrderNumber orderItem, OrderNumber orderNumber, OrderNumberService orderNumberService) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, OrderNumber orderItem, OrderNumber orderNumber, OrderNumberService orderNumberService, MemberService memberService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.orderNumberService = orderNumberService;
+        this.memberService = memberService;
     }
 
     @Transactional
@@ -78,7 +81,7 @@ public class OrderService {
     // 주문관리에서 본인 주문만 조회
 
     @Transactional
-    public Page<OrderHeader> findOrders(int page, int size, String orderHeaderId, Authentication authentication) {
+    public Page<OrderHeader> findOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
         return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
@@ -86,7 +89,7 @@ public class OrderService {
 
     // 관리자가 주문관리에서 모든 주문 조회
     @Transactional
-    public Page<OrderHeader> findAllOrders(int page, int size, String orderHeaderId, Authentication authentication) {
+    public Page<OrderHeader> findAllOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationAdmin(authentication);
         return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
@@ -95,7 +98,7 @@ public class OrderService {
 
     // 주문조회에서 승인완료 상태의 모든 주문 조회
     @Transactional
-    public Page<OrderItem> findAcceptedOrders(int page, int size, String orderHeaderId, Authentication authentication) {
+    public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
         return orderItemRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
