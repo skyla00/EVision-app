@@ -56,5 +56,4 @@ public class ItemController {
 
         return new ResponseEntity<>(new MultiResponseDto(itemMapper.itemsToItemResponseDtos(items), pageItems), HttpStatus.OK);
     }
-
 }
