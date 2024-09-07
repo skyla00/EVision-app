@@ -38,7 +38,7 @@ public class Customer {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private CustomerStatus customerStatus;
+    private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
 
     public enum CustomerStatus {
         ACTIVE("이용가능"),

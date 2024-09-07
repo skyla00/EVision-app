@@ -29,6 +29,7 @@ public class ItemDto {
         private String itemName;
         private String unit;
         private String specs;
+        private Item.ItemStatus itemStatus;
     }
     @Builder
     @Getter
