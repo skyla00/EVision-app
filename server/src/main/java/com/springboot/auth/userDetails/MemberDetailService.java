@@ -24,7 +24,7 @@ public class MemberDetailService implements UserDetailsService {
         this.authorityUtils = authorityUtils;
     }
 
-    //username 은 사용자를 인증하기 위한 고유 식별자. memberId 로 식별함.
+    //username 은 사용자를 인증하기 위한 고유 식별자. 우리 서비스는 memberId 로 식별함.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findById(username);

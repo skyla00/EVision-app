@@ -1,6 +1,7 @@
 package com.springboot.config;
 
 import com.springboot.auth.filter.JwtAuthenticationFilter;
+import com.springboot.auth.filter.JwtVerificationFilter;
 import com.springboot.auth.handler.MemberAccessDeniedHandler;
 import com.springboot.auth.handler.MemberAuthenticationEntryPoint;
 import com.springboot.auth.handler.MemberAuthenticationFailureHandler;
