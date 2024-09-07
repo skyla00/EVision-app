@@ -1,5 +1,8 @@
 package com.springboot.config;
 
+import com.springboot.auth.filter.JwtAuthenticationFilter;
+import com.springboot.auth.jwt.JwtTokenizer;
+import com.springboot.auth.utils.JwtAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +22,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {
+    private final JwtTokenizer jwtTokenizer;
+    private final JwtAuthorityUtils jwtAuthorityUtils;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, JwtAuthorityUtils jwtAuthorityUtils) {
+        this.jwtTokenizer = jwtTokenizer;
+        this.jwtAuthorityUtils = jwtAuthorityUtils;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -63,7 +74,7 @@ public class SecurityConfiguration {
         public void configure (HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager =
                     builder.getSharedObject(AuthenticationManager.class);
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisTemplate);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
