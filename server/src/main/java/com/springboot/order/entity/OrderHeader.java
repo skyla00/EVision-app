@@ -24,7 +24,7 @@ public class OrderHeader {
     @Column(nullable = false)
     private Date orderDate;
 
-    @Column(nullable = false)
+    @Column
     private Date acceptDate;
 
     @OneToMany (mappedBy = "orderHeader")

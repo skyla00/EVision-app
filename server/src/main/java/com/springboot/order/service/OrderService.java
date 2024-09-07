@@ -1,5 +1,6 @@
 package com.springboot.order.service;
 
+import com.springboot.member.entity.Member;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
