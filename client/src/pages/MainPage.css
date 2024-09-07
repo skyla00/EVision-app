@@ -4,6 +4,8 @@
     padding-left: 5%;
     padding-right: 5%;
     padding-bottom: 0.6%;
+    width: 1340px;
+    margin: 0 auto;
 }
 
 .main-page-navicontainer {
@@ -11,122 +13,128 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    gap: 2vw;
-    font-size: 1.4vw;
+    gap: 30px;
+    font-size: 18px;
     font-weight: bold;
-    width: 100%;
+    width: 870px;
     height: auto;
-    margin: 6vw auto;
+    margin: 20px auto;
 }
 
 .order-search, .product-search, .customer-search,
 .order-post, .price-search, .management-go {
-    width: 10vw;
-    height: 10vw;
+    width: 100px;
+    height: 100px;
 }
 
 .order-search, .product-search, .customer-search {
-    border: 5px solid #74BDA1;
-    color: #74BDA1;
+    border: 5px solid #348F6C;
+    color: #348F6C;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 10vw;
-    height: 10vw;
+    width: 120px;
+    height: 120px;
     gap: 10px;
 }
 
 .order-post, .price-search, .management-go {
-    background-color: #74BDA1;
-    border: 5px solid #74BDA1;
+    background-color: #348F6C;
+    border: 5px solid #348F6C;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 10vw;
-    height: 10vw;
+    width: 120px;
+    height: 120px;
     gap: 10px;
 }
 
 .order-search img, .product-search img, .customer-search img, .order-post img, .price-search img, .management-go img {
-    width: 3vw;
-    height: 3vw;
+    width: 36px;
+    height: 36px;
 }
 
 .favorite-section {
-    width: 100%;
+    width: 870px;
     height: auto;
-    margin-top: 5vw;
-    margin-bottom: 2vw;
+    margin: 80px auto 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 .favorite-title {
-    font-size: 2vw;
+    font-size: 24px; /* 고정된 폰트 크기 */
     font-weight: 1000;
     color: #2F6952;
     display: flex;
     align-items: center;
-    margin-bottom: 1vw;
+    margin-bottom: 10px;
+    padding-left: 10px;
     position: relative;
-    left: 8%;
-    transform: translateX();
 }
 
 .favorite-img {
-    width: 3vw;
-    height: 3vw;
+    width: 30px;
+    height: 30px;
 }
 
 .favorite-img img {
-    width: 3vw;
-    height: 3vw;
-    margin-left: 1vw;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
 }
 
 .favorite-content {
-    width: 87.6%;
+    width: 870px; /* 고정된 폭 */
     height: auto;
     background-color: #CEE2DA;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1vw;
-    margin: 0px auto;
-    padding : 2vw 0;
+    gap: 10px;
+    margin: 0 auto;
+    padding: 20px 0;
     color: #41856a;
-    font-size: 1.4vw;
+    font-size: 18px;
     font-weight: 1000;
 }
 
 .favorite-content-1, .favorite-content-2, .favorite-content-3 {
-    width: 95%;
-    height: auto;
+    width: 830px;
+    height: 100px;
     background-color: #ffffff;
     border: 2.5px solid #63ad8f;
     display: flex;
     flex-direction: column;
-} 
+    justify-content: center;
+}
 
 .favorite-content-firstline, .favorite-content-secondline {
     display: flex;
     align-items: center;
 }
 
-.order-number, .customer-code, .order-date, .delivery-request-date, .order-status {
-    width: 22vw;
-    height: 3.5vw;
+.order-number, .customer-code, .order-date, .delivery-request-date {
+    width: 260px;
+    height: 35px;
     display: flex;
     align-items: center;
-    padding-left: 2.4vw;
+    padding-left: 20px;
 }
 
+.order-status {
+    width: 230px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}   
+
 .favorite-icon {
-    width: 3vw;
-    height: 3vw;
-    margin-right: 2vw;
-    position: relative;
-    left: 0;
+    width: 30px;
+    height: 30px;
 }

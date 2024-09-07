@@ -1,0 +1,135 @@
+.detail-search-box {
+    margin-top: 16px;
+    padding-left: 9.35vw; 
+    height: 180px;
+}
+
+.detail-search-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 80vw;
+    height: 104px;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom:10px;
+    border: 1px solid #74BDA1;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 레이블과 입력 필드를 위아래로 */
+    width: 16%; /* 각 필드의 너비를 16%로 설정하여 한 줄에 6개가 맞도록 */
+  }
+  
+  .form-input::before {
+    content: attr(placeholder);
+  }
+
+  .form-input {
+    width: 100%;
+    height: 38px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #74BDA1;
+    border-radius: 4px;
+    box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
+  }
+  
+  @media (max-width: 1200px) {
+    .form-row {
+      flex-wrap: wrap; /* 화면 크기가 줄어들 때 필드가 줄바꿈되도록 */
+    }
+    .form-group {
+      width: 48%; /* 화면이 작아졌을 때 2열로 줄바꿈되도록 */
+      margin-bottom: 10px;
+    }
+  }
+
+
+  .search-button {
+    width: 110px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: 1.3%;
+    margin-top: 5px;
+    margin-bottom: auto;
+    background-color: #348F6C;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 1000;
+    border: none;
+  }
+
+  .search-button:hover {
+    background-color: #1a704d;
+  }
+
+  .drop-down {
+    width: 100%;
+    height: 38px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #74BDA1;
+    border-radius: 4px;
+    box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
+  }
+
+  .selected-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right : auto;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 4px;
+    padding-left: 20px;
+    border: 1px solid #348F6C;
+    width: 100%;
+    height: 40px;
+  }
+
+  .keyword-tag {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .keyword-tag button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  } 
+
+  .keyword-icon {
+    width: 30px;
+    height: 30px;
+  }

@@ -1,6 +1,8 @@
+
+
 .header {
     width: 100%;
-    height: 5vw;
+    height: 3vw;
     padding-left: 140px;
     padding-right: 140px;
     border-bottom: 2px solid #e0e0e0;
@@ -11,29 +13,29 @@
 .logo-img {
     position: absolute;
     left: 10%;
-    width: 14vw;
+    width: 10vw;
     cursor: pointer;
-    margin-top: 0.3vw;
 }
 
 .logo-img img {
-    max-width: 14vw;
-    height: 5vw;
+    max-width: 10vw;
+    height: 3vw;
 }
 
 .user-info {
-    width: 21vw;
-    height: 5vw;
+    width: 14vw;
+    height: 3vw;
     position: absolute;
-    right: 3.6%;
+    right: 0%;
+    margin-right: 9vw;
+    padding-top: 0.2vw;
     left: auto;
-    margin-top: 1vw;
     display: flex;
     flex-direction: row;
 }
 
 .user-img {
-    width: 3vw;
+    width: 2.5vw;
 }
 
 .user-img img {
@@ -49,18 +51,18 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding: 0.7vw 0;
+    padding: 0.3vw 0;
     padding-left: 0.5vw;
 }
 
 .logout {
-    width: 5vw;
-    height: 2vw;
+    width: 4.5vw;
+    height: 1.8vw;
     color: #ffffff;
     font-size: 0.9vw;
     font-weight: bold;
     background-color: #348F6C;
     cursor: pointer;
     border: none;
-    margin-top: 4%;
+    margin-top: 2.5%;
 }

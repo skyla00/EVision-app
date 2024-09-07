@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
-import Header from '../component/Header.js';
-import SideBar from '../component/SideBar.js';
+import Header from '../component/Header';
+import SideBar from '../component/SideBar';
+import OrderStatus from '../component/OrderStatus';
 
 const NaviContainer = () => {
+  const navigate = useNavigate();
+  
   return(
     <div className="main-page-navicontainer">
-      <div className="order-search">
+      <div className="order-search" onClick={() => navigate('/order')}>
         <span>주문 조회</span>
         <img src="/image/searchgreen.png" alt="주문 조회"/>
       </div>
@@ -35,14 +39,15 @@ const NaviContainer = () => {
 }
 
 // 즐겨찾기 로직
-const Favorite = () => {
+const Favorite = (props) => {
   const [favorites, setFavorites] = useState([
+    // 더미데이터
     {
       orderNumber: '12852',
       customerCode: 'HMKM2402',
       orderDate: '2024.09.04.',
       deliveryRequestDate: '2024.10.24.',
-      orderStatus: '',
+      orderStatus: props.orderStatus,
       isFavorite: true,
     },
     {
@@ -84,7 +89,10 @@ const Favorite = () => {
             <div className="favorite-content-firstline">
               <div className="order-number">주문번호 : {item.isFavorite ? item.orderNumber : ''}</div>
               <div className="customer-code">판매업체코드 : {item.isFavorite ? item.customerCode : ''}</div>
-              <div className="order-status">주문상태 : {item.isFavorite ? item.orderStatus : ''}</div>
+              <div className="order-status"> 주문상태 :
+                <OrderStatus status={item.isFavorite ? item.orderStatus : ''} /> 
+              </div>
+              {/* <div className="order-status" style={{OrderStatus}}> 주문상태 : {props.OrderStatus} </div> */}
               <div className="favorite-img" onClick={() => toggleFavorite(index)}>
                 <img src={item.isFavorite ? "/image/favorite.png" : "/image/favorite-grey.png"}
                 alt="즐찾" className="favorite-icon"/>
@@ -102,13 +110,14 @@ const Favorite = () => {
 }
 
 const MainPage = () => {
+  const orderStatus = '주문요청';
   return (
     <div className="app">
       <Header />
       <SideBar />
       <div className="mainpage-container">
           <NaviContainer />
-          <Favorite />
+          <Favorite OrderStatus={orderStatus}/>
       </div>
     </div>
   )
