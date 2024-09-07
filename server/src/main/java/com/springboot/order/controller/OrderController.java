@@ -1,9 +1,10 @@
 package com.springboot.order.controller;
 
-import com.springboot.dto.MultiResponseDto;g
+import com.springboot.dto.MultiResponseDto;
 import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
+import com.springboot.order.mapper.OrderMapper;
 import com.springboot.order.service.OrderService;
 import com.springboot.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -25,7 +27,7 @@ import java.util.List;
 @Slf4j
 public class OrderController {
 
-    private final static String DEFAULT_ORDER_URL = "/orders";
+    private final static String ORDER_DEFAULT_URL = "/orders";
 
     private final OrderMapper orderMapper;
     private final OrderService orderService;
@@ -45,11 +47,12 @@ public class OrderController {
 
     @PatchMapping("/{order-header-id}")
     public ResponseEntity patchOrder(@PathVariable("order-header-id") @Positive String orderHeaderId,
-                                      @Valid @RequestBody OrderDto.Patch orderPatchDto) {
+                                     @Valid @RequestBody OrderDto.Patch orderPatchDto) {
         orderPatchDto.setOrderHeaderId(orderHeaderId);
-        OrderHeader orderHeader = orderService.updateOrder(mapper.orderPatchDtoToOrder(orderPatchDto));
+        OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrder(orderPatchDto);
+        OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItemList());
 
-        return new ResponseEntity<>(mapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
+        return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
     @GetMapping
@@ -59,36 +62,39 @@ public class OrderController {
         Page<OrderItem> pageOrderItems = orderService.findAcceptedOrders(page - 1, size, authentication);
         List<OrderItem> orderItems = pageOrderItems.getContent();
 
+        // OrderItem을 OrderItemDto로 변환
+        List<OrderDto.OrderItemDto> orderItemDtos = orderItems.stream()
+                .map(orderMapper::orderItemToOrderItemDto)
+                .collect(Collectors.toList());
+
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orderItems),
-                        pageOrderItems),
+                new MultiResponseDto<>(orderItemDtos, pageOrderItems),
                 HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getAllOrders(@Positive @RequestParam int page,
-                                            @Positive @RequestParam int size,
-                                            Authentication authentication) {
+    @GetMapping("/{member-id}")
+    public ResponseEntity getAllOrders(@PathVariable("member-id")
+                                        @Positive @RequestParam int page,
+                                        @Positive @RequestParam int size,
+                                        Authentication authentication) {
         Page<OrderHeader> pageOrderHeaders = orderService.findAllOrders(page - 1, size, authentication);
         List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orderHeaders),
-                        orderHeaders),
+                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
                 HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getOrders(@Positive @RequestParam int page,
-                                            @Positive @RequestParam int size,
-                                            Authentication authentication) {
+    @GetMapping("/{member-id}")
+    public ResponseEntity getOrders(@PathVariable("member-id")
+                                    @Positive @RequestParam int page,
+                                    @Positive @RequestParam int size,
+                                    Authentication authentication) {
         Page<OrderHeader> pageOrderHeaders = orderService.findOrders(page - 1, size, authentication);
         List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orderHeaders),
-                        orderHeaders),
+                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
                 HttpStatus.OK);
     }
-
 }
