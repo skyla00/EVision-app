@@ -21,7 +21,7 @@ const SideBar = () => {
                         <img src="/image/homeicon.png" alt="home"/>
                         <span>메인</span>
                     </div>
-                    <div className="search-side" onClick={() => navigate('/main')}>
+                    <div className="search-side" onClick={() => navigate('/order')}>
                         <img src="/image/searchicon.png" alt="search"/>
                         <span>주문 조회</span>
                     </div>

@@ -1,6 +1,16 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+#App {
+  position: relative;
+}
+
 .login-page-container {
     background-size: cover;
     height: auto;
+    max-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +19,8 @@
 
 .login-page-container img {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    object-fit: cover;
   }
   
 .login-page-overlay {
@@ -25,28 +36,32 @@
     align-items: center;
   }
 
+.login-page-wrap {
+  width: 700px;
+  height: 600px;
+  margin: auto;
+  position: relative;
+}
+
 .login-logo-container {
     background-color: rgba(116, 189, 161, 0.6);
-    width: 40%;
-    max-width: 30vw;
-    height: auto;
-    aspect-ratio: 460 / 540;
+    width: 440px;
+    max-width: 600px;
+    height: 480px;
+    max-height: 680px;
+    margin-top: 50px;
     position: absolute;
-    top: 20%;
-    left: 42%;
-    transform: translateX(-50%);
 }
 
 .login-logo-container-back {
     background-color: rgba(255, 255, 255, 0.4);
-    width: 40%;
-    max-width: 30vw;
-    height: auto;
-    aspect-ratio: 460 / 540;
+    width: 440px;
+    max-width: 600px;
+    height: 480px;
+    max-height: 680px;
+    margin-top: 20px;
+    margin-left: 30px;
     position: absolute;
-    top: 18%;
-    left: 43%;
-    transform: translateX(-50%);
 }
 
 .login-logo {
@@ -59,8 +74,9 @@
 
 .login-logo img {
     width: 100%;
-    max-width: 18vw;
+    max-width: 240px;
     height: auto;
+    max-height: 300px;
 }
   
 .login-box {
@@ -69,22 +85,21 @@
     align-items: center;
     justify-content: center;
     background-color: #eaeaea;
-    width: 30%;
-    max-width: 24vw;
-    aspect-ratio: 360 / 440;
-    height: auto;
+    width: 340px;
+    max-width:400px;
+    height: 500px;
+    max-height: 400px;
     position: absolute;
-    top: 24%;
-    left: 62%;
-    transform: translate(-50%);
+    margin-left: 350px;
+    margin-top: 90px;
   }
   
 .input-field {
-    width: 80%;
-    max-width: 18vw;
-    height: 3vw;
-    padding: 1vw;
-    margin: 0.6vw 0;
+    width: 100%;
+    max-width: 260px;
+    height: 40px;
+    padding: 20px;
+    margin: 14px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #dcdcdc;
@@ -93,21 +108,20 @@
 .input-field::placeholder{
   color: #5c5c5c;
   font-family: 'Arial', sans-serif;
-  font-size: 1vw;
+  font-size: 14px;
 }
 
   
 .login-button {
-    width: 80%;
-    max-width: 18vw;
-    height: 3vw;
-    padding: 1vw;
+    width: 100%;
+    max-width: 260px;
+    height: 44px;
     background-color: #74BDA1;
     color: white;
-    font-size: 1vw;
+    font-size: 14px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 0.8vw;
+    margin-top: 14px;
   }

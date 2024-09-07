@@ -11,23 +11,23 @@
 .sidebar-container {
     display: flex;
     flex-direction: row;
-    width: 7.4vw;
+    width: 6vw;
     height: auto;
     position: absolute;
 }
 
 .sidebar-button {
     position: absolute;
-    top: 2vw;
-    left: 2.2vw;
+    top: 1vw;
+    left: 2.5vw;
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
 .sidebar-button img {
-    width: 3vw;
-    height: 3vw;
+    width: 2.8vw;
+    height: 2.8vw;
 }
 
 .sidebar {
@@ -80,5 +80,5 @@
 }
 
 .side-menu-bar-top {
-    height: 12vw;
+    height: 7vw;
 }
