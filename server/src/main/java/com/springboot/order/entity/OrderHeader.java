@@ -1,5 +1,7 @@
 package com.springboot.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.customer.entity.Customer;
 import com.springboot.member.entity.Favorite;
 import com.springboot.member.entity.Member;
@@ -13,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
 public class OrderHeader {
 
     @Id
@@ -34,6 +36,7 @@ public class OrderHeader {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonBackReference
     private Member member;
     //    public void setMember (Member member) {
 //        this.member = member;
@@ -43,9 +46,11 @@ public class OrderHeader {
 //    }
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_CODE")
+    @JsonBackReference
     private Customer customer;
 
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Favorite> favorites = new ArrayList<>();
 //    public void setFavoriteList (Favorite favorite) {
 //        this.favoriteList.add(favorite);
@@ -54,6 +59,7 @@ public class OrderHeader {
 //        }
 //    }
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    @JsonManagedReference
     List<OrderItem> orderItems = new ArrayList<>();
 //    public void setOrderItem(OrderItem orderItem) {
 //        orderItemList.add(orderItem);

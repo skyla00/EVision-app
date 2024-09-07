@@ -1,5 +1,6 @@
 package com.springboot.orderhistory.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.springboot.order.entity.OrderHeader;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,12 +48,12 @@ public class OrderItemHistory {
 
     @ManyToOne
     @JoinColumn(name = "ORDER_HEADER_HISTORY_ID")
+    @JsonBackReference
     private OrderHeaderHistory orderHeaderHistory;
-
-    public void setOrderHeaderHistory(OrderHeaderHistory orderHeaderHistory) {
-        this.orderHeaderHistory = orderHeaderHistory;
-        if (!orderHeaderHistory.getOrderItemHistoryList().contains(this)) {
-            orderHeaderHistory.setOrderItemHistory(this);
-        }
-    }
+//    public void setOrderHeaderHistory(OrderHeaderHistory orderHeaderHistory) {
+//        this.orderHeaderHistory = orderHeaderHistory;
+//        if (!orderHeaderHistory.getOrderItemHistoryList().contains(this)) {
+//            orderHeaderHistory.setOrderItemHistory(this);
+//        }
+//    }
 }
