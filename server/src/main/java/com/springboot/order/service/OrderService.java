@@ -130,17 +130,4 @@ public class OrderService {
         }
     }
 
-
-
-//        OrderHeader orderHeader = findVerifiedOrder(orderHeaderId);
-//        return orderHeaderRepository.findById(orderHeaderId)
-//                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderHeaderId));
-
-
-
-
-
-
-
-
 }

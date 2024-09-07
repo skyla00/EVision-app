@@ -64,11 +64,6 @@ public class OrderHeader {
         }
     }
 
-    @Builder
-    public OrderHeader(String orderHeaderId) {
-        this.orderHeaderId = orderHeaderId;
-    }
-
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
     List<OrderItem> orderItemList = new ArrayList<>();
 
