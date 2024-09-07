@@ -1,6 +1,7 @@
 package com.springboot.order.entity;
 
 import com.springboot.member.entity.Favorite;
+import com.springboot.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,15 @@ public class OrderHeader {
         }
     }
 
+    @ManyToOne (cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+    public void setMember (Member member) {
+        this.member = member;
+        if(!member.getOrderHeaderList().contains(this)) {
+            member.setOrderHeaderList(this);
+        }
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
