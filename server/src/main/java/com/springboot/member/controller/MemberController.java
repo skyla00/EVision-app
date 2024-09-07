@@ -1,5 +1,6 @@
 package com.springboot.member.controller;
 
+import com.springboot.dto.SingleResponseDto;
 import com.springboot.member.dto.MemberDto;
 import com.springboot.member.entity.Member;
 import com.springboot.member.mapper.MemberMapper;
