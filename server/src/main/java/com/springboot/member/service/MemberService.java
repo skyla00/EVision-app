@@ -1,5 +1,6 @@
 package com.springboot.member.service;
 
+import com.springboot.auth.utils.JwtAuthorityUtils;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.member.entity.Member;

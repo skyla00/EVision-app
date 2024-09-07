@@ -43,6 +43,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<OrderHeader> orderHeaderList = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
 
     public void setOrderHeaderList (OrderHeader orderHeader) {
         this.orderHeaderList.add(orderHeader);
