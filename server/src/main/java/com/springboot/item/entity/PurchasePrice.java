@@ -18,7 +18,7 @@ public class PurchasePrice {
     private long purchasePriceId;
 
     @Column(nullable = false)
-    private int purchasePrice;
+    private int purchaseAmount;
 
     @Column(nullable = false)
     private Date receiptDate;

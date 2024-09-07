@@ -20,7 +20,7 @@ public class SalesPrice {
     private long salesPriceId;
 
     @Column(nullable = false)
-    private int salesPrice;
+    private int salesAmount;
 
     @Column(nullable = false)
     private Date startDate;
