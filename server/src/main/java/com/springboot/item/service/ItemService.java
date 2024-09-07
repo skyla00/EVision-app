@@ -36,6 +36,8 @@ public class ItemService {
                 .ifPresent(unit -> findItem.setUnit(unit));
         Optional.ofNullable(item.getSpecs())
                 .ifPresent(specs -> findItem.setSpecs(specs));
+        Optional.ofNullable(item.getItemStatus())
+                .ifPresent(itemStatus -> findItem.setItemStatus(itemStatus));
 
         findItem.setModifiedAt(LocalDateTime.now());
 

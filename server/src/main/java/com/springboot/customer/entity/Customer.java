@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,6 +29,12 @@ public class Customer {
 
     @Column(nullable = false, length = 30)
     private String customerEmail;
+
+    @Column
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
