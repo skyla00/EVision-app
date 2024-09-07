@@ -39,7 +39,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody, Authentication authentication) {
-        OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(requestBody);
+        OrderHeader orderHeader = orderMapper.orderPostDtoToOrderHeader(requestBody);
         OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItemList(), authentication);
         URI location = UriCreator.createUri(ORDER_DEFAULT_URL, createOrder.getOrderHeaderId());
         return ResponseEntity.created(location).build();
@@ -49,10 +49,10 @@ public class OrderController {
     public ResponseEntity patchOrder(@PathVariable("order-header-id") @Positive String orderHeaderId,
                                      @Valid @RequestBody OrderDto.Patch orderPatchDto) {
         orderPatchDto.setOrderHeaderId(orderHeaderId);
-        OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrder(orderPatchDto);
+        OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrderHeader(orderPatchDto);
         OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItemList());
 
-        return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
+        return new ResponseEntity<>(orderMapper.orderHeaderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
     @GetMapping
@@ -81,7 +81,7 @@ public class OrderController {
         List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
+                new MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
                 HttpStatus.OK);
     }
 
@@ -94,7 +94,7 @@ public class OrderController {
         List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
+                new MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
                 HttpStatus.OK);
     }
 }

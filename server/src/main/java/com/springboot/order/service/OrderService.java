@@ -1,7 +1,5 @@
 package com.springboot.order.service;
 
-import com.springboot.member.entity.Member;
-import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
@@ -26,13 +24,11 @@ public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderNumberService orderNumberService;
-    private final MemberService memberService;
 
     public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, OrderNumber orderItem, OrderNumber orderNumber, OrderNumberService orderNumberService, MemberService memberService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.orderNumberService = orderNumberService;
-        this.memberService = memberService;
     }
 
     @Transactional
