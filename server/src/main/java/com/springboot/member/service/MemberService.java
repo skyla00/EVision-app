@@ -15,12 +15,13 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtAuthorityUtils authorityUtils;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, JwtAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
-
 
     // memberId 는 회사에서 부여 받음.
     // password 도 부여받으나, 시큐리티 적용 하면서 passwordEncoder 는 함.
@@ -31,12 +32,9 @@ public class MemberService {
 
         // db에 userRole 저장
         // createRoles 할 때 getMemberId 를 해야 함.
-//        List<String> roles = authorityUtils.createRoles(member.getMemberId());
-//        member.setRoles(roles);
+        List<String> roles = authorityUtils.createRoles(member.getMemberId());
+        member.setRoles(roles);
         return memberRepository.save(member);
-
     }
-
-
 
 }
