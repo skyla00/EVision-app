@@ -29,10 +29,6 @@ public class Member {
     @Column(length = 20, nullable = false )
     private String department;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "PERMISSION_CODE")
-    private Permission permission;
-
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus memberStatus = MemberStatus.ACTIVE;
@@ -44,8 +40,7 @@ public class Member {
     private List<OrderHeader> orderHeaderList = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
-
+    private List<String> permissions = new ArrayList<>();
 
     public void setOrderHeaderList (OrderHeader orderHeader) {
         this.orderHeaderList.add(orderHeader);
@@ -53,14 +48,6 @@ public class Member {
             orderHeader.setMember(this);
         }
     }
-
-    public void setPermission (Permission permission) {
-        this.permission = permission;
-        if(!permission.getMemberList().contains(this)) {
-            permission.setMemberList(this);
-        }
-    }
-
 
     public void setFavoriteList (Favorite favorite) {
         this.favoriteList.add(favorite);
