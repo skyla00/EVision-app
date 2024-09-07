@@ -11,20 +11,20 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthorityUtils {
-    @Value("${mail.address.admin}")
-    private String adminMailAddress;
+    @Value("${id.admin}")
+    private String adminMemberId;
 
     private final List<GrantedAuthority> ADMIN_ROLES =
-            AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
+            AuthorityUtils.createAuthorityList("ROLE_TL", "ROLE_TM");
     private final List<GrantedAuthority> USER_ROLES =
-            AuthorityUtils.createAuthorityList("ROLE_USER");
+            AuthorityUtils.createAuthorityList("ROLE_TM");
     private final List<String> ADMIN_ROLES_STRING =
-            List.of("ADMIN", "USER");
+            List.of("TL", "TM");
     private final List<String> USER_ROLES_STRING =
-            List.of("USER");
+            List.of("TM");
 
-    public List<GrantedAuthority> createAuthorities(String email) {
-        if(email.equals(adminMailAddress)) {
+    public List<GrantedAuthority> createAuthorities(String memberId) {
+        if(memberId.equals(adminMemberId)) {
             return ADMIN_ROLES;
         } return USER_ROLES;
     }
@@ -34,12 +34,10 @@ public class JwtAuthorityUtils {
                 .map(role -> new SimpleGrantedAuthority("ROLE_"+ role))
                 .collect(Collectors.toList());
     }
-    public List<String> createRoles (String email) {
-        if(email.equals(adminMailAddress)) {
+    public List<String> createRoles (String memberId) {
+        if(memberId.equals(adminMemberId)) {
             return ADMIN_ROLES_STRING;
         }
         return USER_ROLES_STRING;
     }
-
-
 }

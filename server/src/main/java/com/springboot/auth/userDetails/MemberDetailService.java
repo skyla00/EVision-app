@@ -38,12 +38,12 @@ public class MemberDetailService implements UserDetailsService {
         MemberDetails(Member member) {
             setMemberId(member.getMemberId());
             setPassword(member.getPassword());
-            setRoles(member.getRoles());
+            setPermissions(member.getPermissions());
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRoles());
+            return authorityUtils.createAuthorities(this.getPermissions());
         }
 
         // Username 을 memberId (사원 번호)로 함.

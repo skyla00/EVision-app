@@ -30,10 +30,6 @@ public class MemberDto {
         @NotBlank
         private String department;
 
-        // 권한 부여..Permission은 권한 테이블에서 받아서 하는 건데?
-        // String 으로 받으면 되나? 헷갈리네...ㅎ
-        // mapper 에서 엔티티로 변환 가능?
-        private String permissionCode;
     }
 
     @Getter

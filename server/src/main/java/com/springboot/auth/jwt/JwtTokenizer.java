@@ -121,9 +121,10 @@ public class JwtTokenizer {
 //                .orElse(false); // 키가 존재하지 않거나 삭제되지 않았을 때 false 반환
 //    }
 
-    public String delegateAccessToken(String username, List<String> authorities) {
+    //
+    public String delegateAccessToken(String username, List<String> permissions) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", authorities);
+        claims.put("permissions", permissions);
         claims.put("username", username);
 
         String subject = username;
