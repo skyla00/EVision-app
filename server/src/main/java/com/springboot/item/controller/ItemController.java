@@ -20,7 +20,6 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
-
     private final static String ITEM_DEFAULT_URL = "/items";
 
     public ItemController(ItemService itemService) {
