@@ -1,6 +1,10 @@
 package com.springboot.config;
 
 import com.springboot.auth.filter.JwtAuthenticationFilter;
+import com.springboot.auth.handler.MemberAccessDeniedHandler;
+import com.springboot.auth.handler.MemberAuthenticationEntryPoint;
+import com.springboot.auth.handler.MemberAuthenticationFailureHandler;
+import com.springboot.auth.handler.MemberAuthenticationSuccessHandler;
 import com.springboot.auth.jwt.JwtTokenizer;
 import com.springboot.auth.utils.JwtAuthorityUtils;
 import org.springframework.context.annotation.Bean;
@@ -78,7 +82,7 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, jwtAuthorityUtils, redisTemplate);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, jwtAuthorityUtils);
 
 
             builder.addFilter(jwtAuthenticationFilter)
