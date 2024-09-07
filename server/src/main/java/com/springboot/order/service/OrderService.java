@@ -41,7 +41,7 @@ public class OrderService {
 
         for (OrderItem orderItem : orderItemList) {
             orderItem.setOrderHeader(orderHeader);
-            orderHeader.setOrderItem(orderItem);
+            orderHeader.setOrderItems(orderItemList);
         }
 
         OrderHeader savedOrderHeader = orderHeaderRepository.save(orderHeader);
@@ -61,10 +61,10 @@ public class OrderService {
         existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
 
         // 기존 OrderItems 삭제 후 새로운 아이템으로 교체
-        existingOrderHeader.getOrderItemList().clear();
+        existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
-            existingOrderHeader.setOrderItem(updatedOrderItem);
+            existingOrderHeader.setOrderItems(updatedOrderItems);
         }
 
         // 업데이트된 OrderHeader와 OrderItems 저장

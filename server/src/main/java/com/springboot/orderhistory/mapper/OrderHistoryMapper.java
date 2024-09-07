@@ -13,6 +13,6 @@ public interface OrderHistoryMapper {
 
     OrderHeaderHistory orderHistoryPostDtoToOrderHeaderHistory(OrderHistoryDto.Post postDto);
     OrderHistoryDto.Response orderHeaderHistoryToResponseDto(OrderHeaderHistory orderHeaderHistory);
-    List<OrderHistoryDto.Response> orderHeaderHistorysToResponseDtos(List<OrderHeaderHistory> orderHeaderHistories);
+    List<OrderHistoryDto.Response> orderHeaderHistoriesToResponseDtos(List<OrderHeaderHistory> orderHeaderHistories);
 
 }
