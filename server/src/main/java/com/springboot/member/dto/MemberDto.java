@@ -1,6 +1,7 @@
 package com.springboot.member.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -10,7 +11,7 @@ import javax.validation.constraints.Pattern;
 public class MemberDto {
 
     @Getter
-    @AllArgsConstructor
+    @Builder
     public static class Post {
 
         @NotBlank
@@ -33,8 +34,17 @@ public class MemberDto {
         // String 으로 받으면 되나? 헷갈리네...ㅎ
         // mapper 에서 엔티티로 변환 가능?
         private String permissionCode;
-
     }
+
+    @Getter
+    @Builder
+    public static class Response {
+        private String memberName;
+        private String position;
+        private String department;
+    }
+
+
 
 
 }

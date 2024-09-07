@@ -1,5 +1,7 @@
 package com.springboot.member.service;
 
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
 import com.springboot.member.entity.Member;
 import com.springboot.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Transactional
@@ -35,6 +38,18 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getMemberId());
         member.setRoles(roles);
         return memberRepository.save(member);
+    }
+
+    public Member findMember (String memberId) {
+        // 있는 memberId 인지 확인하는 메서드.
+        return findVerifiedMember(memberId);
+    }
+
+    // 사원번호 memberId 로 Member 를 찾아 반환 하는 메서드.
+    public Member findVerifiedMember(String memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return findMember;
     }
 
 }

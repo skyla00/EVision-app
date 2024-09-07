@@ -13,4 +13,6 @@ public interface MemberMapper {
     @Mapping(target = "permission", source = "permissionCode")
     Member memberPostDtoToMember(MemberDto.Post requestBody);
 
+    MemberDto.Response memberToMemberResponseDto (Member member);
+
 }
