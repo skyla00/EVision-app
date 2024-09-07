@@ -1,6 +1,9 @@
 package com.springboot.salesprice.controller;
 
+import com.springboot.dto.MultiResponseDto;
+import com.springboot.salesprice.dto.SalesPriceDto;
 import com.springboot.salesprice.entity.SalesPrice;
+import com.springboot.salesprice.mapper.SalesPriceMapper;
 import com.springboot.salesprice.service.SalesPriceService;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
@@ -21,11 +24,12 @@ public class SalesPriceController {
     private final SalesPriceService salesPriceService;
     private final SalesPriceMapper salesPriceMapper;
     private final static String SALES_PRICE_DEFAULT_URL = "/sales-price";
-    public SalesPriceController(SalesPriceService salesPriceService) {
+    public SalesPriceController(SalesPriceService salesPriceService, SalesPriceMapper salesPriceMapper) {
         this.salesPriceService = salesPriceService;
+        this.salesPriceMapper = salesPriceMapper;
     }
     @PostMapping
-    public ResponseEntity createSalesPrice(@Valid @RequestBody SalesPriceDto.POST postDto) {
+    public ResponseEntity createSalesPrice(@Valid @RequestBody SalesPriceDto.Post postDto) {
 
         SalesPrice salesPrice = salesPriceService.createSalesPrice(salesPriceMapper.salesPricePostDtoToSalesPrice(postDto));
 
@@ -51,6 +55,6 @@ public class SalesPriceController {
 
         List<SalesPrice> salesPrices = pageSalesPrice.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto(salesPriceMapper.salesPriceToSalesPriceResponseDtos(salesPrices), pageSalesPrice), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto(salesPriceMapper.salesPriceToResponseDtos(salesPrices), pageSalesPrice), HttpStatus.OK);
     }
 }

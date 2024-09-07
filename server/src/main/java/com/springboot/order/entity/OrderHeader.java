@@ -1,5 +1,6 @@
 package com.springboot.order.entity;
 
+import com.springboot.customer.entity.Customer;
 import com.springboot.member.entity.Favorite;
 import com.springboot.member.entity.Member;
 import lombok.Builder;
@@ -27,29 +28,39 @@ public class OrderHeader {
     @Column
     private Date acceptDate;
 
-    @OneToMany (mappedBy = "orderHeader")
-    private List<Favorite> favoriteList = new ArrayList<>();
-    public void setFavoriteList (Favorite favorite) {
-        this.favoriteList.add(favorite);
-        if(favorite.getOrderHeader() != this) {
-            favorite.setOrderHeader(this);
-        }
-    }
-
-    @ManyToOne (cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-    public void setMember (Member member) {
-        this.member = member;
-        if(!member.getOrderHeaderList().contains(this)) {
-            member.setOrderHeaderList(this);
-        }
-    }
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.ORDER_HEADER_STATUS_WAITING;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+    //    public void setMember (Member member) {
+//        this.member = member;
+//        if(!member.getOrderHeaderList().contains(this)) {
+//            member.setOrderHeaderList(this);
+//        }
+//    }
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_CODE")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    private List<Favorite> favorites = new ArrayList<>();
+//    public void setFavoriteList (Favorite favorite) {
+//        this.favoriteList.add(favorite);
+//        if(favorite.getOrderHeader() != this) {
+//            favorite.setOrderHeader(this);
+//        }
+//    }
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    List<OrderItem> orderItems = new ArrayList<>();
+//    public void setOrderItem(OrderItem orderItem) {
+//        orderItemList.add(orderItem);
+//        if(orderItem.getOrderHeader() != this) {
+//            orderItem.setOrderHeader(this);
+//        }
+//    }
     public enum OrderHeaderStatus {
         ORDER_HEADER_STATUS_WAITING("임시 저장"),
         ORDER_HEADER_STATUS_REQUEST("승인 요청"),
@@ -63,15 +74,4 @@ public class OrderHeader {
             this.status = status;
         }
     }
-
-    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
-    List<OrderItem> orderItemList = new ArrayList<>();
-
-    public void setOrderItem(OrderItem orderItem) {
-        orderItemList.add(orderItem);
-        if(orderItem.getOrderHeader() != this) {
-            orderItem.setOrderHeader(this);
-        }
-    }
-
 }

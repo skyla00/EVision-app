@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +31,9 @@ public class Supplier {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private SupplierStatus supplierStatus = SupplierStatus.ACTIVE;
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    private List<PurchasePrice> purchasePrices = new ArrayList<>();
 
     public enum SupplierStatus {
         ACTIVE("이용가능"),

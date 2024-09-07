@@ -1,11 +1,16 @@
 package com.springboot.customer.entity;
 
+import com.springboot.order.entity.OrderHeader;
+import com.springboot.orderhistory.entity.OrderHeaderHistory;
+import com.springboot.salesprice.entity.SalesPrice;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +45,14 @@ public class Customer {
     @Column(nullable = false, length = 30)
     private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<SalesPrice> salesPrices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<OrderHeader> orderHeaders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<OrderHeaderHistory> orderHeaderHistories = new ArrayList<>();
     public enum CustomerStatus {
         ACTIVE("이용가능"),
         INACTIVE("이용불가능");

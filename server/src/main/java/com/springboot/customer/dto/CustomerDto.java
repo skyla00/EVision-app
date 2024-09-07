@@ -30,6 +30,7 @@ public class CustomerDto {
     @Getter
     @Setter
     public static class Patch {
+        private String customerCode;
         private String customerName;
         private String manager;
         private String customerAddress;
