@@ -1,6 +1,9 @@
 package com.springboot.item.controller;
 
+import com.springboot.dto.MultiResponseDto;
+import com.springboot.item.dto.ItemDto;
 import com.springboot.item.entity.Item;
+import com.springboot.item.mapper.ItemMapper;
 import com.springboot.item.service.ItemService;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
@@ -20,14 +23,16 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
+
     private final static String ITEM_DEFAULT_URL = "/items";
 
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, ItemMapper itemMapper) {
         this.itemService = itemService;
+        this.itemMapper = itemMapper;
     }
 
     @PostMapping
-    public ResponseEntity createItem(@Valid @RequestBody ItemDto.POST postDto) {
+    public ResponseEntity createItem(@Valid @RequestBody ItemDto.Post postDto) {
 
         Item item = itemService.createItem(itemMapper.itemPostDtoToItem(postDto));
 
@@ -53,6 +58,6 @@ public class ItemController {
 
         List<Item> items = pageItems.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto(itemMapper.itemsToItemResponseDtos(items), pageItems), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto(itemMapper.itemsToResponseDtos(items), pageItems), HttpStatus.OK);
     }
 }

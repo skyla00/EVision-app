@@ -1,5 +1,6 @@
 package com.springboot.order.entity;
 
+import com.springboot.item.entity.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemId;
+    private long orderItemId;
 
     @Column(nullable = false)
     private Date requestDate;
@@ -24,32 +25,33 @@ public class OrderItem {
     private String itemCode;
 
     @Column(nullable = false)
-    private Long orderItemQuantity;
+    private long orderItemQuantity;
 
     @Column(nullable = false)
-    private Long purchasePrice;
+    private long purchasePrice;
 
     @Column(nullable = false)
-    private Long salesPrice;
+    private long salesPrice;
 
     @Column(nullable = false)
-    private Long marginRate;
+    private long marginRate;
 
     @Column(nullable = false)
-    private Long marginPrice;
+    private long marginPrice;
 
     @Column(nullable = false)
-    private Long finalPrice;
+    private long finalPrice;
 
     @ManyToOne
     @JoinColumn(name = "ORDER_HEADER_ID")
     private OrderHeader orderHeader;
-
-    public void setOrderHeader(OrderHeader orderHeader) {
-        this.orderHeader = orderHeader;
-        if(!orderHeader.getOrderItemList().contains(this)) {
-            orderHeader.setOrderItem(this);
-        }
-    }
-
+    //    public void setOrderHeader(OrderHeader orderHeader) {
+//        this.orderHeader = orderHeader;
+//        if(!orderHeader.getOrderItemList().contains(this)) {
+//            orderHeader.setOrderItem(this);
+//        }
+//    }
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CODE")
+    private Item item;
 }

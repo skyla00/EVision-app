@@ -1,13 +1,16 @@
 package com.springboot.item.entity;
 
+import com.springboot.order.entity.OrderItem;
+import com.springboot.orderhistory.entity.OrderItemHistory;
+import com.springboot.salesprice.entity.SalesPrice;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +38,18 @@ public class Item {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private ItemStatus  itemStatus = ItemStatus.ON_SALE;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<PurchasePrice> purchasePrices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<SalesPrice> salesPrices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<OrderItemHistory> orderItemHistories = new ArrayList<>();
 
     public enum ItemStatus {
         ON_SALE("판매중"),

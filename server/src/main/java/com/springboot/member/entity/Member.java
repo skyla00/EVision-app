@@ -34,28 +34,24 @@ public class Member {
     private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Favorite> favoriteList = new ArrayList<>();
-
+    private List<Favorite> favorites = new ArrayList<>();
+//    public void setFavoriteList (Favorite favorite) {
+//        this.favoriteList.add(favorite);
+//        if(favorite.getMember() != this) {
+//            favorite.setMember(this);
+//        }
+//
+//    }
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<OrderHeader> orderHeaderList = new ArrayList<>();
-
+    private List<OrderHeader> orderHeaders = new ArrayList<>();
+//    public void setOrderHeaderList (OrderHeader orderHeader) {
+//        this.orderHeaderList.add(orderHeader);
+//        if(orderHeader.getMember() != this) {
+//            orderHeader.setMember(this);
+//        }
+//    }
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> permissions = new ArrayList<>();
-
-    public void setOrderHeaderList (OrderHeader orderHeader) {
-        this.orderHeaderList.add(orderHeader);
-        if(orderHeader.getMember() != this) {
-            orderHeader.setMember(this);
-        }
-    }
-
-    public void setFavoriteList (Favorite favorite) {
-        this.favoriteList.add(favorite);
-        if(favorite.getMember() != this) {
-            favorite.setMember(this);
-        }
-
-    }
 
     public enum MemberStatus {
         ACTIVE("활성화"),
@@ -68,9 +64,4 @@ public class Member {
             this.status = status;
         }
     }
-
-
-
-
-
 }

@@ -28,12 +28,12 @@ public class SalesPrice {
     @Column(nullable = false)
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "ITEM_CODE")
     @JsonBackReference
     private Item item;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "CUSTOMER_CODE")
     @JsonBackReference
     private Customer customer;
