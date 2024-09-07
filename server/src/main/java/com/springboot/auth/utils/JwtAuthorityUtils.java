@@ -29,9 +29,9 @@ public class JwtAuthorityUtils {
         } return USER_ROLES;
     }
 
-    public List<GrantedAuthority> createAuthorities (List<String> roles) {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_"+ role))
+    public List<GrantedAuthority> createAuthorities (List<String> permissions) {
+        return permissions.stream()
+                .map(permission -> new SimpleGrantedAuthority("ROLE_"+ permission))
                 .collect(Collectors.toList());
     }
     public List<String> createRoles (String memberId) {
