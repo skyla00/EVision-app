@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-rou
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import OrderPage from './pages/OrderPage';
+import ProductPage from "./pages/ProductPage";
+import CustomerPage from "./pages/CustomerPage";
+import SalePricePage from "./pages/SalePricePage";
 
 const App = () => {
   return (
@@ -11,6 +14,9 @@ const App = () => {
         <Route path="/" element={<LoginPage/>} />
         <Route path="/main" element={<MainPage/>} />
         <Route path="/order" element={<OrderPage/>} />
+        <Route path="/product" element={<ProductPage/>} />
+        <Route path="/customer" element={<CustomerPage/>} />
+        <Route path="/price" element={<SalePricePage/>} />
       </Routes>
     </BrowserRouter>
   );

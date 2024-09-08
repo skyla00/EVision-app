@@ -4,9 +4,18 @@ import './MainPage.css';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import OrderStatus from '../component/OrderStatus';
+import OrderModal from '../component/Modal/OrderModal';
 
 const NaviContainer = () => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   
   return(
     <div className="main-page-navicontainer">
@@ -14,19 +23,19 @@ const NaviContainer = () => {
         <span>주문 조회</span>
         <img src="/image/searchgreen.png" alt="주문 조회"/>
       </div>
-      <div className="order-post">
+      <div className="order-post" onClick={handleOpenModal}>
         <span>주문 등록</span>
         <img src="/image/writeicon.png" alt="주문 등록"/>
       </div>
-      <div className="product-search">
+      <div className="product-search" onClick={() => navigate('/product')}>
         <span>상품 조회</span>
         <img src="/image/productlogo.png" alt="상품 조회"/>
       </div>
-      <div className="price-search">
+      <div className="price-search" onClick={() => navigate('/price')}>
         <span>판매가 조회</span>
         <img src="/image/wonlogo.png" alt="판매가 조회"/>
       </div>
-      <div className="customer-search">
+      <div className="customer-search" onClick={() => navigate('/customer')}>
         <span>판매 업체 조회</span>
         <img src="/image/companylogo.png" alt="판매 업체 조회"/>
       </div>
@@ -34,6 +43,10 @@ const NaviContainer = () => {
         <span>관리</span>
         <img src="/image/stampicon.png" alt="판매 업체 조회"/>
       </div>
+
+      {isModalOpen && (
+        <OrderModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      )}
     </div>
   ); 
 }
@@ -111,6 +124,7 @@ const Favorite = (props) => {
 
 const MainPage = () => {
   const orderStatus = '주문요청';
+
   return (
     <div className="app">
       <Header />

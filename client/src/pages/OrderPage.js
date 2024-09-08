@@ -4,7 +4,8 @@ import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
-import SearchInfo from '../component/SearchInfo';
+import OrderSearchInfo from '../component/OrderSearchInfo';
+import OrderModal from '../component/Modal/OrderModal';
 import { headers, items } from '../component/MockData';
 
 const OrderPage = () => {
@@ -20,13 +21,31 @@ const OrderPage = () => {
         { type: 'date', placeholder: '납품확정일자' },
     ];
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [items, setItems] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    }
+    
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSubmitOrder = (newOrder) => {
+        setItems([...items, newOrder]);
+        handleCloseModal();
+    }
+
     return (
         <div className="app">
             <Header />
             <SideBar />
             <Tab />
             <DetailSearch title="주문 조회" fields={fields}/>
-            <SearchInfo title="주문 정보" headers={headers} items={items} />
+            <OrderSearchInfo title="주문 정보" headers={headers} items={items} onOpenModal={handleOpenModal}/>
+            <OrderModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleSubmitOrder}/>
         </div>
     )
   };

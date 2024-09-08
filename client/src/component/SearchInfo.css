@@ -15,7 +15,13 @@
     padding-left: 10px;
 }
 
-.order-button {
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.order-button, .modify-button {
     width: 140px;
     height: 32px;
     align-items: center;
@@ -29,7 +35,7 @@
     border: none;
 }
 
-.order-button:hover {
+.order-button:hover, .modify-button:hover {
     background-color: #2b664f;
 }
 
@@ -96,31 +102,6 @@
     text-align: center;
 }
 
-
-
-/* .search-info-subject {
-    display: flex;
-    font-weight: bold;    
-    width: 100%;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #bbbbbb;;
-}
-
-.search-info-show {
-    display: flex;
-    height: 50px;
-    border-bottom: 1px solid #bbbbbb;
-} 
-
-.cell {
-    flex: 0 0 auto;
-    width: 120px;
-    padding: 10px;
-    box-sizing: border-box;
-    word-wrap: break-word;
-} */
 
 /* 스크롤바 */
 ::-webkit-scrollbar {
