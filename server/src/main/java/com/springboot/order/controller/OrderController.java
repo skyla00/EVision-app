@@ -55,7 +55,7 @@ public class OrderController {
 //        OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItemList());
         OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItems());
 
-        return new ResponseEntity<>(orderMapper.orderHeaderToOrderResponseDto(orderHeader), HttpStatus.OK);
+        return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
     @GetMapping
