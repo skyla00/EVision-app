@@ -18,12 +18,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sales-price")
+@RequestMapping("/sales-prices")
 @Validated
 public class SalesPriceController {
     private final SalesPriceService salesPriceService;
     private final SalesPriceMapper salesPriceMapper;
-    private final static String SALES_PRICE_DEFAULT_URL = "/sales-price";
+    private final static String SALES_PRICE_DEFAULT_URL = "/sales-prices";
     public SalesPriceController(SalesPriceService salesPriceService, SalesPriceMapper salesPriceMapper) {
         this.salesPriceService = salesPriceService;
         this.salesPriceMapper = salesPriceMapper;

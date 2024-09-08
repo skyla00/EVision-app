@@ -121,13 +121,13 @@ public class OrderService {
     }
 
     public void verifiedAuthenticationUser(Authentication authentication) {
-        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("TM"))) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }
 
     public void verifiedAuthenticationAdmin(Authentication authentication) {
-        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("TL"))) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }

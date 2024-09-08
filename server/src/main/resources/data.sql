@@ -97,13 +97,13 @@ INSERT INTO MEMBER (MEMBER_ID, MEMBER_NAME, PASSWORD, POSITION, DEPARTMENT, MEMB
 ('SLS001', '은하늘', '{bcrypt}$2b$12$xj.fPghO59mXgqQHQ91WSOC2VIcNSYlx1C/aJDTbUcXEjDzWkRdJW', '팀장', '영업4팀', 'ACTIVE'),
 ('SLS002', '박원일', '{bcrypt}$2b$12$FXzdhsipwWq7SH1shJgIXuBLF2x8HrkKAHiVtBExejgwsJBp5TcFW', '사원', '영업4팀', 'ACTIVE'),
 ('SLS003', '고경범', '{bcrypt}$2b$12$rtb5g6wdJfJ64My3BdwXsecJRTVJIvEPRINgPZb2vEM.s/tN4gkbm', '사원', '영업4팀', 'ACTIVE'),
-('SLS005', '황해진', '{bcrypt}$2b$12$r6jVgPJ8nF8PjsCe.cOpIeMI5rDem.dFtboS0elja1Lkph6qASEL2', '사원', '영업4팀', 'ACTIVE'),
-('SLS006', '옥성민', '{bcrypt}$2b$12$PHIB4XXYHRFSc/ge05/VVOTZge.mx0yp6XBoYcEuUXopQQrtpEsSS', '사원', '영업4팀', 'ACTIVE');
+('SLS004', '황해진', '{bcrypt}$2b$12$r6jVgPJ8nF8PjsCe.cOpIeMI5rDem.dFtboS0elja1Lkph6qASEL2', '사원', '영업4팀', 'ACTIVE'),
+('SLS005', '옥성민', '{bcrypt}$2b$12$PHIB4XXYHRFSc/ge05/VVOTZge.mx0yp6XBoYcEuUXopQQrtpEsSS', '사원', '영업4팀', 'ACTIVE');
 
 -- t_member_permissions 테이블 데이터 삽입 (권한 정보)
 INSERT INTO MEMBER_PERMISSIONS (MEMBER_MEMBER_ID, PERMISSIONS) VALUES
 ('SLS001', 'TL'),
 ('SLS002', 'TM'),
 ('SLS003', 'TM'),
-('SLS005', 'TM'),
-('SLS006', 'TM');
+('SLS004', 'TM'),
+('SLS005', 'TM');

@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orderHistory")
+@RequestMapping("/order-historys")
 @Validated
 public class OrderHistoryController {
 

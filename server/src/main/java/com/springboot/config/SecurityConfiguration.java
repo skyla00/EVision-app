@@ -10,6 +10,7 @@ import com.springboot.auth.jwt.JwtTokenizer;
 import com.springboot.auth.utils.JwtAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -50,7 +51,28 @@ public class SecurityConfiguration {
                 .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
                 .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
+                .apply(new CustomFilterConfigurer())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
+                        // 모든 테이블 조회는 팀장, 사원 가능.
+                        .antMatchers(HttpMethod.GET,"/members").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/orders").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/items").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/sales-prices").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/customers").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/order-historys").hasAnyRole("TL", "TM")
+                        // 주문 등록은 팀장, 사원 가능.
+                        .antMatchers(HttpMethod.POST,"/orders").hasAnyRole("TL", "TM")
+                        // 마스터 테이블 등록은 팀장만 가능.
+                        .antMatchers(HttpMethod.POST,"/items").hasRole("TL")
+                        .antMatchers(HttpMethod.POST,"/sales-prices").hasRole("TL")
+                        .antMatchers(HttpMethod.POST,"/customers").hasRole("TL")
+                        // 주문 수정은 팀장, 사원 가능. 사원 > 내용 수정 가능. 팀장 > 권한 수정까지 가능.
+                        .antMatchers(HttpMethod.PATCH,"/orders/**").hasAnyRole("TL", "TM")
+                        // 마스터 테이블 수정은 팀장만 가능.
+                        .antMatchers(HttpMethod.PATCH,"/items/**").hasRole("TL")
+                        .antMatchers(HttpMethod.PATCH,"/sales-prices/**").hasRole("TL")
+                        .antMatchers(HttpMethod.PATCH,"/customers/**").hasRole("TL")
                         .anyRequest().permitAll()
                 );
         return http.build();
