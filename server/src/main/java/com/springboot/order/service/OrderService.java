@@ -7,8 +7,6 @@ import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
-import com.springboot.utils.ordernumber.entity.OrderNumber;
-import com.springboot.utils.ordernumber.service.OrderNumberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,9 +15,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -27,19 +28,19 @@ public class OrderService {
 
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final OrderNumberService orderNumberService;
+    private static final String NUMBERS = "0123456789";
+    private static final int LENGTH = 4;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, OrderNumber orderItem, OrderNumber orderNumber, OrderNumberService orderNumberService, MemberService memberService) {
+
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
-        this.orderNumberService = orderNumberService;
     }
 
-    public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList, Authentication authentication) {
+    public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList) {
 
-        verifiedAuthenticationUser(authentication);
-        String orderNumber = orderNumberService.generateOrderNumber();
-        orderHeader.setOrderHeaderId(orderNumber);
+//        verifiedAuthenticationUser(authentication);
+        String orderNumber = generateOrderNumber();orderHeader.setOrderHeaderId(orderNumber);
         verifiedOrderDate(orderHeader);
 
         for (OrderItem orderItem : orderItemList) {
@@ -129,6 +130,25 @@ public class OrderService {
         if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
+    }
+
+    private String generateOrderNumber() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String formattedDate = currentDate.format(formatter);
+
+        Random random = new Random();
+        String randomStr;
+        do {
+            StringBuilder stringBuilder = new StringBuilder(LENGTH);
+            for (int i = 0; i < LENGTH; i++) {
+                int randomIndex = random.nextInt(NUMBERS.length());
+                stringBuilder.append(NUMBERS.charAt(randomIndex));
+            }
+            randomStr = stringBuilder.toString();
+        } while (orderHeaderRepository.existsById(formattedDate + randomStr));
+
+        return formattedDate + randomStr;
     }
 
 }
