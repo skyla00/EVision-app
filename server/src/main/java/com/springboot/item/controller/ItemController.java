@@ -1,7 +1,7 @@
 package com.springboot.item.controller;
 
-import com.springboot.dto.MultiResponseDto;
-import com.springboot.dto.SingleResponseDto;
+import com.springboot.response.MultiResponseDto;
+import com.springboot.response.SingleResponseDto;
 import com.springboot.item.dto.ItemDto;
 import com.springboot.item.entity.Item;
 import com.springboot.item.mapper.ItemMapper;

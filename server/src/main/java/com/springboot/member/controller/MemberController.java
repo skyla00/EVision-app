@@ -1,6 +1,6 @@
 package com.springboot.member.controller;
 
-import com.springboot.dto.SingleResponseDto;
+import com.springboot.response.SingleResponseDto;
 import com.springboot.member.dto.MemberDto;
 import com.springboot.member.entity.Member;
 import com.springboot.member.mapper.MemberMapper;
@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @RestController

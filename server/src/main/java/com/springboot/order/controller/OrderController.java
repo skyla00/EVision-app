@@ -1,6 +1,6 @@
 package com.springboot.order.controller;
 
-import com.springboot.dto.MultiResponseDto;
+import com.springboot.response.MultiResponseDto;
 import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
