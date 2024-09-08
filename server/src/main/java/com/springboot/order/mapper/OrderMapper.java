@@ -22,5 +22,5 @@ public interface OrderMapper {
 
     OrderDto.OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
 
-    List<OrderDto.OrderResponse> ordersToOrderResponseDtos(List<OrderHeader> orderHeaders);
+    List<OrderDto.OrderResponse> orderHeadersToOrderResponseDtos(List<OrderHeader> orderHeaders);
 }
