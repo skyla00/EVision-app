@@ -16,7 +16,7 @@ public class ErrorResponse {
                 com.springboot.errorResponse.ErrorResponse.of(httpStatus, message);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(httpStatus.value());
-        response.getWriter().write(gson.toJson(errorResponse,ErrorResponse.class));
+        response.getWriter().write(gson.toJson(errorResponse, com.springboot.errorResponse.ErrorResponse.class));
     }
 }
 
