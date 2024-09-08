@@ -5,8 +5,8 @@ import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
 import SearchInfo from '../component/SearchInfo';
-import ProductPostModal from '../component/Modal/ProductPostModal';
-import ProductModifyModal from '../component/Modal/ProductModifyModal';
+import ProductPostModal from '../Modal/ProductPostModal';
+import ProductModifyModal from '../Modal/ProductModifyModal';
 import { headers, items }  from '../component/MockData';
 
 const ProductPage = () => {

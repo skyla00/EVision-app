@@ -5,8 +5,8 @@ import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
 import SearchInfo from '../component/SearchInfo';
-import SalePricePostModal from '../component/Modal/SalePricePostModal';
-import SalePriceModifyModal from '../component/Modal/SalePriceModifyModal';
+import SalePricePostModal from '../Modal/SalePricePostModal';
+import SalePriceModifyModal from '../Modal/SalePriceModifyModal';
 import { headers, items }  from '../component/MockData';
 
 const SalePricePage = () => {
