@@ -1,5 +1,8 @@
 package com.springboot.order.service;
 
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
+import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OrderService {
 
     private final OrderHeaderRepository orderHeaderRepository;
@@ -31,7 +35,6 @@ public class OrderService {
         this.orderNumberService = orderNumberService;
     }
 
-    @Transactional
     public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
@@ -41,7 +44,8 @@ public class OrderService {
 
         for (OrderItem orderItem : orderItemList) {
             orderItem.setOrderHeader(orderHeader);
-            orderHeader.setOrderItems(orderItemList);
+//            orderHeader.setOrderItem(orderItem);
+            orderHeader.getOrderItems().add(orderItem);
         }
 
         OrderHeader savedOrderHeader = orderHeaderRepository.save(orderHeader);
@@ -50,7 +54,6 @@ public class OrderService {
         return savedOrderHeader;
     }
 
-    @Transactional
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems) {
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderHeaderId));
@@ -64,7 +67,8 @@ public class OrderService {
         existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
-            existingOrderHeader.setOrderItems(updatedOrderItems);
+//            existingOrderHeader.setOrderItem(updatedOrderItem);
+            existingOrderHeader.getOrderItems().add(updatedOrderItem);
         }
 
         // 업데이트된 OrderHeader와 OrderItems 저장
@@ -76,7 +80,7 @@ public class OrderService {
 
     // 주문관리에서 본인 주문만 조회
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<OrderHeader> findOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
@@ -84,7 +88,7 @@ public class OrderService {
     }
 
     // 관리자가 주문관리에서 모든 주문 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<OrderHeader> findAllOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationAdmin(authentication);
@@ -93,7 +97,7 @@ public class OrderService {
 
 
     // 주문조회에서 승인완료 상태의 모든 주문 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
@@ -103,14 +107,15 @@ public class OrderService {
     public void verifiedOrderDate(OrderHeader orderHeader) {
         Date currentDate = new Date();
         if(orderHeader.getOrderDate().after(currentDate)) {
-            throw new InvalidOrderDateException(404, "주문 일자는 오늘 날짜 이후일 수 없습니다.");
+//            throw new InvalidOrderDateException(404, "주문 일자는 오늘 날짜 이후일 수 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND);
         }
     }
 
     public OrderHeader findVerifiedOrder(String orderHeaderId){
         Optional<OrderHeader> optionalOrderHeader = orderHeaderRepository.findById(orderHeaderId);
         OrderHeader findOrderHeader = optionalOrderHeader.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.ORDER_HEADER_ID_NOT_FOUND));
+                new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
         return findOrderHeader;
     }
 

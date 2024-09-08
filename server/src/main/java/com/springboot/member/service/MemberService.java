@@ -36,8 +36,10 @@ public class MemberService {
 
         // db에 userRole 저장
         // createRoles 할 때 getMemberId 를 해야 함.
-        List<String> roles = authorityUtils.createRoles(member.getMemberId());
-        member.setRoles(roles);
+//        List<String> roles = authorityUtils.createRoles(member.getMemberId());
+//        member.setRoles(roles);
+        List<String> permissions = authorityUtils.createRoles(member.getMemberId());
+        member.setPermissions(permissions);
         return memberRepository.save(member);
     }
 

@@ -11,14 +11,14 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
 
-    @Mapping(source = "orderHeaderId", target = "orderHeader.orderHeaderId")
-    OrderHeader orderPostDtoToOrderHeader(OrderDto.Post postDto);
+//    @Mapping(source = "orderHeaderId", target = "orderHeader.orderHeaderId")
+    OrderHeader orderPostDtoToOrder(OrderDto.Post postDto);
 
-    @Mapping(source = "orderHeaderId", target = "orderHeader.orderHeaderId")
-    OrderHeader orderPatchDtoToOrderHeader(OrderDto.Patch patchDto);
+//    @Mapping(source = "orderHeaderId", target = "orderHeader.orderHeaderId")
+    OrderHeader orderPatchDtoToOrder(OrderDto.Patch patchDto);
 
-    @Mapping(source = "orderHeader.orderHeaderId", target = "orderHeaderId")
-    OrderDto.OrderResponse orderHeaderToOrderResponseDto(OrderHeader orderHeader);
+//    @Mapping(source = "orderHeader.orderHeaderId", target = "orderHeaderId")
+    OrderDto.OrderResponse orderToOrderResponseDto(OrderHeader orderHeader);
 
     OrderDto.OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
 
