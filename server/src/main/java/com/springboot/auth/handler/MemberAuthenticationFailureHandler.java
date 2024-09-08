@@ -32,7 +32,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 
         // Exception 타입에 따라 적절한 에러 메시지 설정
         if (exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException) {
-            errorMessage = "사원번호와 비밀번호가 일치하지 않습니다. 다시 확인해주세요.";
+            errorMessage = "사원번호나 비밀번호가 일치하지 않습니다. 다시 확인해주세요.";
         }
 
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED, errorMessage);
