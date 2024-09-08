@@ -119,9 +119,8 @@ public class OrderService {
 
     public OrderHeader findVerifiedOrder(String orderHeaderId){
         Optional<OrderHeader> optionalOrderHeader = orderHeaderRepository.findById(orderHeaderId);
-        OrderHeader findOrderHeader = optionalOrderHeader.orElseThrow(() ->
+        return optionalOrderHeader.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
-        return findOrderHeader;
     }
 
     public void verifiedAuthenticationUser(Authentication authentication) {
