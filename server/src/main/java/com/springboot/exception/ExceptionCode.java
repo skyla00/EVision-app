@@ -6,6 +6,7 @@ public enum ExceptionCode {
     NO_AUTHORITY (403, "No authority"),
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409, "Member exists"),
+    ORDER_DATE_NOT_CORRECT(404, "Order Date Not Correct"),
     ITEM_NOT_FOUND(404, "Item not found"),
     ITEM_EXISTS(409, "Item exists"),
     SALES_PRICE_NOT_FOUND(404, "SalesPrice not found"),
@@ -17,7 +18,7 @@ public enum ExceptionCode {
     ORDER_ITEM_NOT_FOUND(404, "OrderItem not found"),
     ORDER_ITEM_EXISTS(409, "OrderItem exists"),
     FAVORITE_EXISTS(404, "Favorite exists");
-
+  
     @Getter
     private int status;
 
