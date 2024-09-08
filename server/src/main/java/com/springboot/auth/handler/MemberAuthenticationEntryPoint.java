@@ -18,7 +18,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Exception exception = (Exception) request.getAttribute("exception");
-        ErrorResponse.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "unAuthorized");
+        ErrorResponse.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "login first");
 
         logExceptionMessage(authException, exception);
     }
