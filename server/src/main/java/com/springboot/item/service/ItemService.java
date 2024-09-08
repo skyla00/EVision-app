@@ -49,7 +49,7 @@ public class ItemService {
     }
     @Transactional(readOnly = true)
     public Page<Item> findItems(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page -1 , size, Sort.by("createdAt").descending());
 
         return itemRepository.findAll(pageable);
     }
