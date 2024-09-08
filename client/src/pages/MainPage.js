@@ -4,7 +4,7 @@ import './MainPage.css';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import OrderStatus from '../component/OrderStatus';
-import OrderModal from '../component/Modal/OrderModal';
+import OrderModal from '../Modal/OrderModal';
 
 const NaviContainer = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const NaviContainer = () => {
         <span>판매 업체 조회</span>
         <img src="/image/companylogo.png" alt="판매 업체 조회"/>
       </div>
-      <div className="management-go">
+      <div className="management-go" onClick={() => navigate('/manage')}>
         <span>관리</span>
         <img src="/image/stampicon.png" alt="판매 업체 조회"/>
       </div>

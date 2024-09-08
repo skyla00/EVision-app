@@ -5,8 +5,8 @@ import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
 import SearchInfo from '../component/SearchInfo';
-import CustomerPostModal from '../component/Modal/CustomerPostModal';
-import CustomerModifyModal from '../component/Modal/CustomerModifyModal';
+import CustomerPostModal from '../Modal/CustomerPostModal';
+import CustomerModifyModal from '../Modal/CustomerModifyModal';
 import { headers, items }  from '../component/MockData';
 
 const CustomerPage = () => {
