@@ -1,6 +1,7 @@
 package com.springboot.item.controller;
 
 import com.springboot.dto.MultiResponseDto;
+import com.springboot.dto.SingleResponseDto;
 import com.springboot.item.dto.ItemDto;
 import com.springboot.item.entity.Item;
 import com.springboot.item.mapper.ItemMapper;
@@ -23,7 +24,6 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
-
     private final static String ITEM_DEFAULT_URL = "/items";
 
     public ItemController(ItemService itemService, ItemMapper itemMapper) {
@@ -47,9 +47,14 @@ public class ItemController {
 
         Item item = itemService.updateItem(itemMapper.itemPatchDtoToItem(patchDto));
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
+    @GetMapping("/{item-code}")
+    public ResponseEntity getItem(@PathVariable("item-code") String itemCode) {
+        Item item = itemService.findItem(itemCode);
 
+        return new ResponseEntity(new SingleResponseDto<>(itemMapper.itemToResponseDto(item)), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity getItems(@Positive @RequestParam int page,
                                    @Positive @RequestParam int size) {
@@ -58,6 +63,6 @@ public class ItemController {
 
         List<Item> items = pageItems.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto(itemMapper.itemsToResponseDtos(items), pageItems), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(itemMapper.itemsToResponseDtos(items), pageItems), HttpStatus.OK);
     }
 }
