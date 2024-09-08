@@ -38,7 +38,7 @@ public class MemberController {
 
     // get 할 때에 member id 를 받음.
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember (@PathVariable("member-id") @Positive String memberId) {
+    public ResponseEntity getMember (@PathVariable("member-id") String memberId) {
         // memberId 로 member 를 찾아라.
         Member member = memberService.findMember(memberId);
 
