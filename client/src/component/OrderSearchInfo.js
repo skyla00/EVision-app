@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SearchInfo.css';
 
-const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModifyModal }) => {
+const OrderSearchInfo = ({ title, headers, items = [],  onOpenModal }) => {
     // const [items, setItems] = useState([]);
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(null);
@@ -36,10 +36,7 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
         <div className="search-info-container">
             <div className="search-info-header"> {}
             {title && <h2 className="search-info-title">{title}</h2>}
-                <div className="button-container">
-                    <button className="order-button" onClick={onOpenPostModal}> 등록 </button> 
-                    <button className="modify-button" onClick={onOpenModifyModal}> 수정 </button> 
-                </div>
+            <button className="order-button" onClick={onOpenModal}> 등록 </button>
             </div>
             <div className="search-info-section">
                 <table className="search-info-table">
@@ -66,4 +63,4 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
 };
 
 
-export default SearchInfo;
+export default OrderSearchInfo;

@@ -1,0 +1,171 @@
+.modal {
+    display: block; /* 모달이 열릴 때 */
+    position: fixed;
+    z-index: 1000; /* 모달의 z-index 설정 */
+    left: 0; /* 화면 왼쪽 */
+    top: 0; /* 화면 위쪽 */
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+  
+  .order-modal-content {
+    background-color: #fefefe;
+    padding: 50px 150px 50px 150px;
+    width: 1000px;
+    height: 800px;
+    border: 12px solid #348F6C;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .order-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title {
+    font-size: 30px;
+    font-weight: 1000;
+    padding-left: 4px;
+  }
+
+  .modal-close {
+    color: #525252;
+    font-size: 50px;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-input-section {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-first-line, .input-second-line, .input-third-line, .input-fourth-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .modal-input-section input {
+    width: 400px;
+    height: 36px;
+    padding: 12px 20px 10px 20px;
+    border: 2px solid #74BDA1;
+    margin-bottom: 10px;
+  }
+
+  .option-button-container {
+    margin: 14px 0px 20px 10px;
+    float: right;
+    display: flex;
+    gap: 10px;
+  }
+
+  .option-button {
+    width: 90px;
+    height: 30px;
+    background-color: #348F6C;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 1000;
+    border: none;
+  }
+
+  .order-table {
+    width: 100%;
+    height: 300px;
+    max-height: 300px;
+    border-collapse: collapse;
+    border: 2px solid #74BDA1;
+  }
+  
+  .order-table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    height: 30px;
+  }
+
+  .order-table tbody {
+    display: block;
+    height: 260px;
+    max-height: 260px;
+    overflow-y: auto;
+    width: 100%;
+    table-layout: fixed;
+
+  }
+
+  .order-table tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .order-table th {
+    font-size: 14px;
+  }
+
+  .order-row {
+    height: 20px;
+    line-height: 20px;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .selected-row{
+    font-weight: bold;
+  }
+
+  .order-table th, .order-table td {
+    padding: 10px;
+    height: auto;
+    max-height: 30px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    color: #4c4c4c;
+  }
+
+  .order-table th, .order-table tbody td {
+    width: 20%;
+  }
+  
+  .submit-button {
+    width: 130px;
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 20px;
+    font-weight: 1000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+
+  .selected-row {
+    background-color: #f0f0f0; /* 선택된 행을 강조하는 배경색 */
+  }
+
+  .input-second-line input::before {
+  content: attr(placeholder);
+  }

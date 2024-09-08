@@ -1,0 +1,114 @@
+.modal {
+    display: block; /* 모달이 열릴 때 */
+    position: fixed;
+    z-index: 1000; /* 모달의 z-index 설정 */
+    left: 0; /* 화면 왼쪽 */
+    top: 0; /* 화면 위쪽 */
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+  
+  .modal-content {
+    background-color: #fefefe;
+    padding: 50px 150px 50px 150px;
+    width: 1000px;
+    height: 440px;
+    border: 12px solid #348F6C;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title {
+    font-size: 30px;
+    font-weight: 1000;
+    padding-left: 4px;
+  }
+
+  .modal-close {
+    color: #525252;
+    font-size: 50px;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-input-section {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-first-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .input-second-line {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .input-third-line {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .modal-input-section input {
+    width: 400px;
+    height: 36px;
+    padding: 12px 20px 10px 20px;
+    border: 2px solid #74BDA1;
+    margin-bottom: 10px;
+  }
+
+  .input-second-line select {
+    width: 318px;
+    height: 36px;
+    border: 2px solid #74BDA1;
+    margin-bottom: 10px;
+    padding-left: 16px;
+    color: #6e6e6e;
+  }
+
+  .input-second-line input {
+    width: 318px;
+  }
+
+  .input-third-line input {
+    width: 100%;
+  }
+
+  .post-submit-button {
+    width: 130px;
+    display: block;
+    margin: 60px auto;
+    padding: 10px 20px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 20px;
+    font-weight: 1000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .post-submit-button:hover {
+    background-color: #45a049;
+  }
