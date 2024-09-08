@@ -4,6 +4,7 @@ import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
+import com.springboot.order.entity.OrderHeader.OrderHeaderStatus;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
@@ -68,7 +69,6 @@ public class OrderService {
         existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
-//            existingOrderHeader.setOrderItem(updatedOrderItem);
             existingOrderHeader.getOrderItems().add(updatedOrderItem);
         }
 
@@ -79,37 +79,41 @@ public class OrderService {
         return existingOrderHeader;
     }
 
-    // 주문관리에서 본인 주문만 조회
-
-    @Transactional(readOnly = true)
-    public Page<OrderHeader> findOrders(int page, int size, Authentication authentication) {
-
-        verifiedAuthenticationUser(authentication);
-        return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
-    }
-
     // 관리자가 주문관리에서 모든 주문 조회
+    // TM은 본인 주문만 보여야하고 TL은 모든 주문이 나와야함.
     @Transactional(readOnly = true)
-    public Page<OrderHeader> findAllOrders(int page, int size, Authentication authentication) {
+    public Page<OrderHeader> findAllOrders(int page, int size, String memberId, Authentication authentication) {
 
-        verifiedAuthenticationAdmin(authentication);
-        return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+
+        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("TL"))) {
+            return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("TM"))) {
+            return orderHeaderRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("orderHeaderId")));
+        } else {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
     }
 
-
-    // 주문조회에서 승인완료 상태의 모든 주문 조회
+    // 주문조회에서 승인완료 상태의 모든 주문의 OrderItem 조회
     @Transactional(readOnly = true)
     public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
 
         verifiedAuthenticationUser(authentication);
-        return orderItemRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+        List<OrderHeader> acceptedOrders = orderHeaderRepository.findByOrderHeaderStatus(OrderHeaderStatus.ORDER_HEADER_STATUS_ACCEPT);
+
+        Page<OrderItem> orderItemsPage = Page.empty(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+
+        for (OrderHeader orderHeader : acceptedOrders) {
+            orderItemsPage = orderItemRepository.findByOrderHeader(orderHeader, PageRequest.of(page, size, Sort.by("orderHeaderId")));
+        }
+
+        return orderItemsPage;
     }
 
     public void verifiedOrderDate(OrderHeader orderHeader) {
         Date currentDate = new Date();
         if(orderHeader.getOrderDate().after(currentDate)) {
-//            throw new InvalidOrderDateException(404, "주문 일자는 오늘 날짜 이후일 수 없습니다.");
-            throw new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
     }
 

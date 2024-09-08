@@ -41,7 +41,6 @@ public class OrderController {
     public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody) {
 
         OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(requestBody);
-//        OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItemList(), authentication);
         OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItems());
         URI location = UriCreator.createUri(ORDER_DEFAULT_URL, createOrder.getOrderHeaderId());
         return ResponseEntity.created(location).build();
@@ -52,13 +51,12 @@ public class OrderController {
                                      @Valid @RequestBody OrderDto.Patch orderPatchDto) {
         orderPatchDto.setOrderHeaderId(orderHeaderId);
         OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrder(orderPatchDto);
-//        OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItemList());
         OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItems());
 
         return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/accept")
     public ResponseEntity getAcceptedOrders(@Positive @RequestParam int page,
                                             @Positive @RequestParam int size,
                                             Authentication authentication) {
@@ -75,18 +73,19 @@ public class OrderController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/{member-id}")
-    public ResponseEntity getAllOrders(@PathVariable("member-id")
-                                        @Positive @RequestParam int page,
-                                        @Positive @RequestParam int size,
-                                        Authentication authentication) {
-        Page<OrderHeader> pageOrderHeaders = orderService.findAllOrders(page - 1, size, authentication);
+    @GetMapping
+    public ResponseEntity getAllOrders(@RequestParam("member-id") String memberId,
+                                       @Positive @RequestParam int page,
+                                       @Positive @RequestParam int size,
+                                       Authentication authentication) {
+        Page<OrderHeader> pageOrderHeaders = orderService.findAllOrders(page - 1, size, memberId, authentication);
         List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
                 HttpStatus.OK);
     }
+}
 //    @GetMapping("/{member-id}")
 //    public ResponseEntity getOrders(@PathVariable("member-id")
 //                                    @Positive @RequestParam int page,
@@ -99,4 +98,4 @@ public class OrderController {
 //                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
 //                HttpStatus.OK);
 //    }
-}
+//}
