@@ -29,7 +29,7 @@ const SideBar = () => {
                         <img src="/image/graphicon.png" alt="graph"/>
                         <span>그래프</span>
                     </div>
-                    <div className="management-side" onClick={() => navigate('/main')}>
+                    <div className="management-side" onClick={() => navigate('/manage')}>
                         <img src="/image/stampicon.png" alt="management"/>
                         <span>관리</span>
                     </div>

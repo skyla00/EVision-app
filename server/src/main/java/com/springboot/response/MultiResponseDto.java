@@ -1,4 +1,4 @@
-package com.springboot.dto;
+package com.springboot.response;
 
 import lombok.Getter;
 import org.springframework.data.domain.Page;
