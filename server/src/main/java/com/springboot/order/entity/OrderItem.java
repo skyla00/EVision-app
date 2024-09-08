@@ -22,8 +22,8 @@ public class OrderItem {
     @Column(nullable = false)
     private Date requestDate;
 
-    @Column(nullable = false)
-    private String itemCode;
+//    @Column(nullable = false)
+//    private String itemCode;
 
     @Column(nullable = false)
     private long orderItemQuantity;

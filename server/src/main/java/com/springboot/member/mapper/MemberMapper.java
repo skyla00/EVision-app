@@ -7,10 +7,11 @@ import org.mapstruct.Mapping;
 
 // MemberDto 에서 String permissionCode 를 받는데, 이 코드를 받아서 객체로 전환 시켜줄라면
 // PermissionMapper 를 사용해서 permissionCode 를 바꿔줄 수 있음?
-@Mapper(componentModel = "spring", uses = {PermissionMapper.class})
+//@Mapper(componentModel = "spring", uses = {PermissionMapper.class})
+@Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    @Mapping(target = "permission", source = "permissionCode")
+//    @Mapping(target = "permission", source = "permissionCode")
     Member memberPostDtoToMember(MemberDto.Post requestBody);
 
     MemberDto.Response memberToMemberResponseDto (Member member);

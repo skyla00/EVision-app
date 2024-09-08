@@ -16,7 +16,6 @@ public enum ExceptionCode {
     ORDER_EXISTS(409, "order exists"),
     ORDER_ITEM_NOT_FOUND(404, "orderItem not found"),
     ORDER_ITEM_EXISTS(409, "orderItem exists"),
-
     FAVORITE_EXISTS(404, "favorite exists");
 
     @Getter
