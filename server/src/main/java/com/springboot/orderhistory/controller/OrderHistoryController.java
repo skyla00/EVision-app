@@ -1,6 +1,6 @@
 package com.springboot.orderhistory.controller;
 
-import com.springboot.dto.MultiResponseDto;
+import com.springboot.response.MultiResponseDto;
 import com.springboot.orderhistory.entity.OrderHeaderHistory;
 import com.springboot.orderhistory.mapper.OrderHistoryMapper;
 import com.springboot.orderhistory.service.OrderHistoryService;
@@ -10,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.net.URI;
 import java.util.List;
 
 @RestController

@@ -4,7 +4,7 @@ import com.springboot.customer.dto.CustomerDto;
 import com.springboot.customer.entity.Customer;
 import com.springboot.customer.mapper.CustomerMapper;
 import com.springboot.customer.service.CustomerService;
-import com.springboot.dto.MultiResponseDto;
+import com.springboot.response.MultiResponseDto;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

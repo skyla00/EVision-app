@@ -1,6 +1,6 @@
 package com.springboot.salesprice.controller;
 
-import com.springboot.dto.MultiResponseDto;
+import com.springboot.response.MultiResponseDto;
 import com.springboot.salesprice.dto.SalesPriceDto;
 import com.springboot.salesprice.entity.SalesPrice;
 import com.springboot.salesprice.mapper.SalesPriceMapper;
