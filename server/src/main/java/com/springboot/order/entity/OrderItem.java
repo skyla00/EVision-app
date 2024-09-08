@@ -22,9 +22,6 @@ public class OrderItem {
     @Column(nullable = false)
     private Date requestDate;
 
-//    @Column(nullable = false)
-//    private String itemCode;
-
     @Column(nullable = false)
     private long orderItemQuantity;
 
@@ -47,12 +44,7 @@ public class OrderItem {
     @JoinColumn(name = "ORDER_HEADER_ID")
     @JsonBackReference
     private OrderHeader orderHeader;
-    //    public void setOrderHeader(OrderHeader orderHeader) {
-//        this.orderHeader = orderHeader;
-//        if(!orderHeader.getOrderItemList().contains(this)) {
-//            orderHeader.setOrderItem(this);
-//        }
-//    }
+
     @ManyToOne
     @JoinColumn(name = "ITEM_CODE")
     @JsonBackReference

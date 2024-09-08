@@ -56,7 +56,7 @@ public class OrderController {
         return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
-    @GetMapping("/accept")
+    @GetMapping
     public ResponseEntity getAcceptedOrders(@Positive @RequestParam int page,
                                             @Positive @RequestParam int size,
                                             Authentication authentication) {
@@ -86,16 +86,3 @@ public class OrderController {
                 HttpStatus.OK);
     }
 }
-//    @GetMapping("/{member-id}")
-//    public ResponseEntity getOrders(@PathVariable("member-id")
-//                                    @Positive @RequestParam int page,
-//                                    @Positive @RequestParam int size,
-//                                    Authentication authentication) {
-//        Page<OrderHeader> pageOrderHeaders = orderService.findOrders(page - 1, size, authentication);
-//        List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(orderMapper.ordersToOrderResponseDtos(orderHeaders), pageOrderHeaders),
-//                HttpStatus.OK);
-//    }
-//}

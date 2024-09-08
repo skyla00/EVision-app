@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.customer.entity.Customer;
 import com.springboot.member.entity.Favorite;
 import com.springboot.member.entity.Member;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,12 +37,7 @@ public class OrderHeader {
     @JoinColumn(name = "MEMBER_ID")
     @JsonBackReference
     private Member member;
-    //    public void setMember (Member member) {
-//        this.member = member;
-//        if(!member.getOrderHeaderList().contains(this)) {
-//            member.setOrderHeaderList(this);
-//        }
-//    }
+
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_CODE")
     @JsonBackReference
@@ -52,21 +46,11 @@ public class OrderHeader {
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Favorite> favorites = new ArrayList<>();
-//    public void setFavoriteList (Favorite favorite) {
-//        this.favoriteList.add(favorite);
-//        if(favorite.getOrderHeader() != this) {
-//            favorite.setOrderHeader(this);
-//        }
-//    }
+
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<OrderItem> orderItems = new ArrayList<>();
-//    public void setOrderItem(OrderItem orderItem) {
-//        orderItemList.add(orderItem);
-//        if(orderItem.getOrderHeader() != this) {
-//            orderItem.setOrderHeader(this);
-//        }
-//    }
+
     public enum OrderHeaderStatus {
         ORDER_HEADER_STATUS_WAITING("임시 저장"),
         ORDER_HEADER_STATUS_REQUEST("승인 요청"),
