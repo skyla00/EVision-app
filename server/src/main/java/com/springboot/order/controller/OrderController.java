@@ -38,11 +38,11 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody, Authentication authentication) {
+    public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody) {
 
         OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(requestBody);
 //        OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItemList(), authentication);
-        OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItems(), authentication);
+        OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItems());
         URI location = UriCreator.createUri(ORDER_DEFAULT_URL, createOrder.getOrderHeaderId());
         return ResponseEntity.created(location).build();
     }
