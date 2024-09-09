@@ -48,10 +48,7 @@ public class ItemService {
     public Item findItem(String itemCode) {
         return findVerifiedItem(itemCode);
     }
-    @Transactional(readOnly = true)
-    public Optional<Item> findItemByCustomerAndOrderDate(String customerCode, LocalDate orderDate) {
-        return itemRepository.findByCustomerCodeAndOrderDate(customerCode, orderDate);
-    }
+
     @Transactional(readOnly = true)
     public Page<Item> findItems(int page, int size, String itemName) {
         Pageable pageable = PageRequest.of(page -1 , size, Sort.by("createdAt").descending());
