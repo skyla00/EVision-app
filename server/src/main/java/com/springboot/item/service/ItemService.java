@@ -56,7 +56,11 @@ public class ItemService {
     public Page<Item> findItems(int page, int size, String itemName) {
         Pageable pageable = PageRequest.of(page -1 , size, Sort.by("createdAt").descending());
 
-        return itemRepository.findByItemName(itemName,pageable);
+        if (itemName == null || itemName.isEmpty()) {
+            return itemRepository.findAll(pageable);
+        } else {
+            return itemRepository.findByItemName(itemName, pageable);
+        }
     }
     private Item findVerifiedItem(String itemCode) {
         Optional<Item> item = itemRepository.findById(itemCode);
