@@ -42,7 +42,7 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
                 </div>
             </div>
             <div className="search-info-section">
-                <SearchInfoList items={items} headerKey={headerKey} headers = {headers}/>
+                <SearchInfoList items={items} headerKey={headerKey} headers = {headers} onOpenModifyModal={onOpenModifyModal}/>
             </div>
         </div>
     );
