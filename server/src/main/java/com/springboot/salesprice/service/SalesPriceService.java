@@ -41,7 +41,7 @@ public class SalesPriceService {
     }
     @Transactional(readOnly = true)
     public Page<SalesPrice> findSalesPrices(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("startDate").descending());
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("startDate").descending());
 
         return salesPriceRepository.findAll(pageable);
     }

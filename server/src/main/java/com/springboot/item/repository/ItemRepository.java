@@ -13,10 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
-
-    @Query("SELECT i FROM Item i JOIN i.salesPrices sp WHERE sp.customer.customerCode = :customerCode AND :orderDate BETWEEN sp.startDate AND sp.endDate")
-    Optional<Item> findByCustomerCodeAndOrderDate(@Param("customerCode") String customerCode, @Param("orderDate") LocalDate orderDate);
     Page<Item> findByItemName(@Param("itemName") String itemName, Pageable pageable);
     Item findByItemCode(String itemCode);
-
 }

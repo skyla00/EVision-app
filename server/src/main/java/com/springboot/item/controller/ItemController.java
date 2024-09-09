@@ -62,20 +62,7 @@ public class ItemController {
     @GetMapping
     public ResponseEntity getItems(@Positive @RequestParam int page,
                                    @Positive @RequestParam int size,
-                                   @RequestParam(required = false) String itemName,
-                                   @RequestParam(required = false) String customerCode,
-                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate) {
-
-        if (customerCode != null && orderDate != null) {
-            Optional<Item> itemOptional = itemService.findItemByCustomerAndOrderDate(customerCode, orderDate);
-
-            if (itemOptional.isPresent()) {
-                ItemDto.DetailResponse detailResponse = itemMapper.itemToDetailResponseDto(itemOptional.get(), customerCode, orderDate);
-                return new ResponseEntity<>(new SingleResponseDto<>(detailResponse), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
+                                   @RequestParam(required = false) String itemName) {
 
         Page<Item> pageItems = itemService.findItems(page, size, itemName);
         List<Item> items = pageItems.getContent();
