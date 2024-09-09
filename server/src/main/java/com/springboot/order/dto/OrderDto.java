@@ -2,6 +2,7 @@ package com.springboot.order.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ public class OrderDto {
         private Date orderDate;
 
         @Size(min = 1, message = "최소 한 개의 주문 항목이 있어야 합니다.")
-        private List<OrderItemDto> orderItemList;
+        private List<OrderItemDto> orderItems;
     }
 
     @Getter
@@ -35,7 +36,7 @@ public class OrderDto {
         @NotNull(message = "승인 날짜는 필수입니다.")
         private Date acceptDate;
 
-        private List<OrderItemDto> orderItemList;
+        private List<OrderItemDto> orderItems;
     }
 
     @Getter
@@ -45,13 +46,13 @@ public class OrderDto {
         private String orderHeaderId;
         private Date orderDate;
         private Date acceptDate;
-        private String orderStatus;
-        private List<OrderItemDto> orderItemList;
+        private String orderHeaderStatus;
+        private List<OrderItemDto> orderItems;
     }
 
     @Getter
     @Setter
-    @AllArgsConstructor
+    @NoArgsConstructor
     public static class OrderItemDto {
 
         private Long orderItemId;

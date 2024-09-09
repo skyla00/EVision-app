@@ -43,7 +43,7 @@ public class OrderController {
     public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody, Authentication authentication) {
 
         OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(requestBody);
-        OrderHeader createOrder = orderService.createOrder(orderHeader, orderHeader.getOrderItems(), authentication);
+        OrderHeader createOrder = orderService.createOrder(orderHeader, authentication);
         URI location = UriCreator.createUri(ORDER_DEFAULT_URL, createOrder.getOrderHeaderId());
         return ResponseEntity.created(location).build();
     }
