@@ -2,6 +2,7 @@ package com.springboot.order.service;
 
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
+import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderHeader.OrderHeaderStatus;
@@ -38,10 +39,13 @@ public class OrderService {
         this.orderItemRepository = orderItemRepository;
     }
 
-    public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList) {
+    public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList, Authentication authentication) {
 
-//        verifiedAuthenticationUser(authentication);
-        String orderNumber = generateOrderNumber();orderHeader.setOrderHeaderId(orderNumber);
+        verifiedAuthenticationUser(authentication);
+        Member member = (Member) authentication.getPrincipal();
+        orderHeader.setMember(member);
+        String orderNumber = generateOrderNumber();
+        orderHeader.setOrderHeaderId(orderNumber);
         verifiedOrderDate(orderHeader);
 
         for (OrderItem orderItem : orderItemList) {
@@ -95,20 +99,20 @@ public class OrderService {
     }
 
     // 주문조회에서 승인완료 상태의 모든 주문의 OrderItem 조회
-    @Transactional(readOnly = true)
-    public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
-
-        verifiedAuthenticationUser(authentication);
-        List<OrderHeader> acceptedOrders = orderHeaderRepository.findByOrderHeaderStatus(OrderHeaderStatus.ORDER_HEADER_STATUS_ACCEPT);
-
-        Page<OrderItem> orderItemsPage = Page.empty(PageRequest.of(page, size, Sort.by("orderHeaderId")));
-
-        for (OrderHeader orderHeader : acceptedOrders) {
-            orderItemsPage = orderItemRepository.findByOrderHeader(orderHeader, PageRequest.of(page, size, Sort.by("orderHeaderId")));
-        }
-
-        return orderItemsPage;
-    }
+//    @Transactional(readOnly = true)
+//    public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
+//
+//        verifiedAuthenticationUser(authentication);
+//        List<OrderHeader> acceptedOrders = orderHeaderRepository.findByOrderHeaderStatus(OrderHeaderStatus.ORDER_HEADER_STATUS_ACCEPT);
+//
+//        Page<OrderItem> orderItemsPage = Page.empty(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+//
+//        for (OrderHeader orderHeader : acceptedOrders) {
+//            orderItemsPage = orderItemRepository.findByOrderHeader(orderHeader, PageRequest.of(page, size, Sort.by("orderHeaderId")));
+//        }
+//
+//        return orderItemsPage;
+//    }
 
     public void verifiedOrderDate(OrderHeader orderHeader) {
         Date currentDate = new Date();
