@@ -2,8 +2,8 @@ export const headers = [
     { text: '번호', value: 'id' },
     { text: '주문번호', value: 'order_header_id' },
     { text: '주문상태', value: 'status' },
-    { text: '상품코드', value: 'item_code' },
-    { text: '상품명', value: 'name' },
+    { text: '상품코드', value: 'itemCode' },
+    { text: '상품명', value: 'itemName' },
     { text: '단위', value: 'unit' },
     { text: '수량', value: 'quantity' },
     { text: '매입단가', value: 'purchase_price' },
@@ -14,6 +14,15 @@ export const headers = [
     { text: '주문일자', value: 'order_date' },
     { text: '납품요청일자', value: 'request_date' },
     { text: '납품확정일자', value: 'accept_date' },
+];
+
+export const itemheaders = [
+    { text: '번호', value: 'id' },
+    { text: '상품코드', value: 'itemCode' },
+    { text: '상품명', value: 'itemName' },
+    { text: '단위', value: 'unit' },
+    { text: '스펙', value: 'specs' },
+    { text: '상태', value: 'itemStatus' },
 ];
 
 export const items = [

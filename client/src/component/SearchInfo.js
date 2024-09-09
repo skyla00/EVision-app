@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SearchInfo.css';
+import SearchInfoList from './SearchInfoList';
 
 const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModifyModal }) => {
     // const [items, setItems] = useState([]);
@@ -31,7 +32,6 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
 
     const headerKey = headers.map((header) => header.value);
 
-
     return (
         <div className="search-info-container">
             <div className="search-info-header"> {}
@@ -42,24 +42,7 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
                 </div>
             </div>
             <div className="search-info-section">
-                <table className="search-info-table">
-                    <thead className="search-info-thead">
-                        <tr className="search-info-tr">
-                            {headers.map((header) => (
-                                <th className="search-info-th" key={header.text}>{header.text}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item, index) => (
-                            <tr className="search-info-tr" key={index}>
-                                {headerKey.map((key) => (
-                                    <td className="search-info-td" key={key + index}>{item[key]}</td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <SearchInfoList items={items} headerKey={headerKey} headers = {headers}/>
             </div>
         </div>
     );
