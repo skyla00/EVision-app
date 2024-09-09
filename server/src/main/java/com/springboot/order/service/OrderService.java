@@ -1,7 +1,11 @@
 package com.springboot.order.service;
 
+import com.springboot.customer.entity.Customer;
+import com.springboot.customer.repository.CustomerRepository;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
+import com.springboot.item.entity.Item;
+import com.springboot.item.repository.ItemRepository;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
@@ -27,42 +31,62 @@ public class OrderService {
 
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CustomerRepository customerRepository;
+    private final ItemRepository itemRepository;
     private final MemberService memberService;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, MemberService memberService1) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, CustomerRepository customerRepository, ItemRepository itemRepository, MemberService memberService1) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
+        this.customerRepository = customerRepository;
+        this.itemRepository = itemRepository;
         this.memberService = memberService1;
     }
 
     public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
 
+        // Order 생성을 위한 새로운 OrderHeader 선언
         OrderHeader createOrderHeader = new OrderHeader();
 
+        // 권한 확인해서 조회를 요청한 멤버 정보를 새로 만든 OrderHeader에 입력
         String memberId = (String) authentication.getPrincipal();
         Member member = memberService.findMember(memberId);
         createOrderHeader.setMember(member);
 
+        // 주문번호를 난수로 생성해서 입력
         String orderNumber = generateOrderNumber();
         createOrderHeader.setOrderHeaderId(orderNumber);
 
-        createOrderHeader.setCustomer(orderHeader.getCustomer());
+        // 주문일자(주문일자 유효성 검증) 입력
         createOrderHeader.setOrderDate(verifiedOrderDate(orderHeader));
 
+        // 판매처 입력
+        String newCustomerCode = orderHeader.getCustomer().getCustomerCode();
+        Customer newCustomer = customerRepository.findByCustomerCode(newCustomerCode);
+        createOrderHeader.setCustomer(newCustomer);
+
+        // OrderHeader 먼저 저장
         OrderHeader savedOrderHeader = orderHeaderRepository.save(createOrderHeader);
 
+        // OrderHeader에 List로 OrderItem 입력
         List<OrderItem> createOrderItems = new ArrayList<>();
         for (OrderItem orderItems : orderHeader.getOrderItems()) {
-            orderItems.setOrderHeader(savedOrderHeader);
-            createOrderItems.add(orderItems);
+            Item item = itemRepository.findByItemCode(orderItems.getItem().getItemCode());
+            if (item != null) {
+                orderItems.setItem(item);
+                orderItems.setOrderHeader(savedOrderHeader);
+                createOrderItems.add(orderItems);
+            } else {
+                throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_NOT_FOUND);
+            }
         }
 
+        // OrderItem 저장
         orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
-
 
         return orderHeaderRepository.save(savedOrderHeader);
     }

@@ -21,6 +21,9 @@ public class OrderDto {
         @NotNull(message = "주문 날짜는 필수입니다.")
         private Date orderDate;
 
+        @NotNull
+        private String customerCode;
+
         @Size(min = 1, message = "최소 한 개의 주문 항목이 있어야 합니다.")
         private List<OrderItemDto> orderItems;
     }
@@ -59,10 +62,10 @@ public class OrderDto {
         private Date requestDate;
         private String itemCode;
         private Long orderItemQuantity;
-        private Long purchasePrice;
-        private Long salesPrice;
+        private Long purchaseAmount;
+        private Long salesAmount;
         private Long marginRate;
-        private Long marginPrice;
-        private Long finalPrice;
+        private Long marginAmount;
+        private Long finalAmount;
     }
 }

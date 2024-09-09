@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
     Page<Item> findAll(Pageable pageable);
+    Item findByItemCode(String itemCode);
 }

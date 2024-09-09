@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
 
+    @Mapping(source = "customerCode", target = "customer.customerCode")
+    @Mapping(source = "orderItems", target = "orderItems")
     OrderHeader orderPostDtoToOrder(OrderDto.Post postDto);
 
     OrderHeader orderPatchDtoToOrder(OrderDto.Patch patchDto);
@@ -18,6 +20,9 @@ public interface OrderMapper {
     OrderDto.OrderResponse orderToOrderResponseDto(OrderHeader orderHeader);
 
     OrderDto.OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
+
+    @Mapping(source = "itemCode", target = "item.itemCode")
+    OrderItem orderItemDtoToOrderItem(OrderDto.OrderItemDto orderItemDto);
 
     List<OrderDto.OrderResponse> orderHeadersToOrderResponseDtos(List<OrderHeader> orderHeaders);
 }
