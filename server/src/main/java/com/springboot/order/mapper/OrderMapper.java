@@ -17,8 +17,11 @@ public interface OrderMapper {
 
     OrderHeader orderPatchDtoToOrder(OrderDto.Patch patchDto);
 
+    @Mapping(source = "customer.customerCode", target = "customerCode")
+    @Mapping(source = "orderItems", target = "orderItems")
     OrderDto.OrderResponse orderToOrderResponseDto(OrderHeader orderHeader);
 
+    @Mapping(source = "item.itemCode", target = "itemCode")
     OrderDto.OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
 
     @Mapping(source = "itemCode", target = "item.itemCode")

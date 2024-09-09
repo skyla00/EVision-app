@@ -49,6 +49,7 @@ public class OrderDto {
         private String orderHeaderId;
         private Date orderDate;
         private Date acceptDate;
+        private String customerCode;
         private String orderHeaderStatus;
         private List<OrderItemDto> orderItems;
     }
