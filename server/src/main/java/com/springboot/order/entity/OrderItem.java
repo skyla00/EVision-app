@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
+@Table(name = "order_item")
 @Entity
 @Getter
 @Setter
@@ -26,19 +27,19 @@ public class OrderItem {
     private long orderItemQuantity;
 
     @Column(nullable = false)
-    private long purchasePrice;
+    private long purchaseAmount;
 
     @Column(nullable = false)
-    private long salesPrice;
+    private long salesAmount;
 
     @Column(nullable = false)
     private long marginRate;
 
     @Column(nullable = false)
-    private long marginPrice;
+    private long marginAmount;
 
     @Column(nullable = false)
-    private long finalPrice;
+    private long finalAmount;
 
     @ManyToOne
     @JoinColumn(name = "ORDER_HEADER_ID")
