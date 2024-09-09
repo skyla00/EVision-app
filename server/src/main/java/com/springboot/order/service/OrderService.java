@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,34 +27,44 @@ public class OrderService {
 
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final MemberService memberService;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, MemberService memberService1) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
+        this.memberService = memberService1;
     }
 
-    public OrderHeader createOrder(OrderHeader orderHeader, List<OrderItem> orderItemList, Authentication authentication) {
+    public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
 
-        verifiedAuthenticationUser(authentication);
-        Member member = (Member) authentication.getPrincipal();
-        orderHeader.setMember(member);
+        OrderHeader createOrderHeader = new OrderHeader();
+
+        String memberId = (String) authentication.getPrincipal();
+        Member member = memberService.findMember(memberId);
+        createOrderHeader.setMember(member);
+
         String orderNumber = generateOrderNumber();
-        orderHeader.setOrderHeaderId(orderNumber);
-        verifiedOrderDate(orderHeader);
+        createOrderHeader.setOrderHeaderId(orderNumber);
 
-        for (OrderItem orderItem : orderItemList) {
-            orderItem.setOrderHeader(orderHeader);
-//            orderHeader.setOrderItem(orderItem);
-            orderHeader.getOrderItems().add(orderItem);
+        createOrderHeader.setCustomer(orderHeader.getCustomer());
+        createOrderHeader.setOrderDate(verifiedOrderDate(orderHeader));
+
+        OrderHeader savedOrderHeader = orderHeaderRepository.save(createOrderHeader);
+
+        List<OrderItem> createOrderItems = new ArrayList<>();
+        for (OrderItem orderItems : orderHeader.getOrderItems()) {
+            orderItems.setOrderHeader(savedOrderHeader);
+            createOrderItems.add(orderItems);
         }
 
-        OrderHeader savedOrderHeader = orderHeaderRepository.save(orderHeader);
-        orderItemRepository.saveAll(orderItemList);
+        orderItemRepository.saveAll(createOrderItems);
+        savedOrderHeader.setOrderItems(createOrderItems);
 
-        return savedOrderHeader;
+
+        return orderHeaderRepository.save(savedOrderHeader);
     }
 
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems) {
@@ -88,55 +95,21 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderHeader> findAllOrders(int page, int size, String memberId, Authentication authentication) {
 
-
-        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("TL"))) {
+        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
             return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
-        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("TM"))) {
+        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
             return orderHeaderRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("orderHeaderId")));
         } else {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }
 
-    // 주문조회에서 승인완료 상태의 모든 주문의 OrderItem 조회
-//    @Transactional(readOnly = true)
-//    public Page<OrderItem> findAcceptedOrders(int page, int size, Authentication authentication) {
-//
-//        verifiedAuthenticationUser(authentication);
-//        List<OrderHeader> acceptedOrders = orderHeaderRepository.findByOrderHeaderStatus(OrderHeaderStatus.ORDER_HEADER_STATUS_ACCEPT);
-//
-//        Page<OrderItem> orderItemsPage = Page.empty(PageRequest.of(page, size, Sort.by("orderHeaderId")));
-//
-//        for (OrderHeader orderHeader : acceptedOrders) {
-//            orderItemsPage = orderItemRepository.findByOrderHeader(orderHeader, PageRequest.of(page, size, Sort.by("orderHeaderId")));
-//        }
-//
-//        return orderItemsPage;
-//    }
-
-    public void verifiedOrderDate(OrderHeader orderHeader) {
+    public Date verifiedOrderDate(OrderHeader orderHeader) {
         Date currentDate = new Date();
         if(orderHeader.getOrderDate().after(currentDate)) {
             throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
-    }
-
-    public OrderHeader findVerifiedOrder(String orderHeaderId){
-        Optional<OrderHeader> optionalOrderHeader = orderHeaderRepository.findById(orderHeaderId);
-        return optionalOrderHeader.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
-    }
-
-    public void verifiedAuthenticationUser(Authentication authentication) {
-        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("TM"))) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
-    }
-
-    public void verifiedAuthenticationAdmin(Authentication authentication) {
-        if(!authentication.getAuthorities().contains(new SimpleGrantedAuthority("TL"))) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+        return currentDate;
     }
 
     private String generateOrderNumber() {
@@ -157,5 +130,4 @@ public class OrderService {
 
         return formattedDate + randomStr;
     }
-
 }
