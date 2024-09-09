@@ -8,6 +8,7 @@ import com.springboot.item.mapper.ItemMapper;
 import com.springboot.item.service.ItemService;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/items")
@@ -53,16 +57,29 @@ public class ItemController {
     public ResponseEntity getItem(@PathVariable("item-code") String itemCode) {
         Item item = itemService.findItem(itemCode);
 
-        return new ResponseEntity(new SingleResponseDto<>(itemMapper.itemToResponseDto(item)), HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(itemMapper.itemToSimplerResponseDto(item)), HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity getItems(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size) {
+                                   @Positive @RequestParam int size,
+                                   @RequestParam(required = false) String itemName,
+                                   @RequestParam(required = false) String customerCode,
+                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate) {
 
-        Page<Item> pageItems = itemService.findItems(page,size);
+        if (customerCode != null && orderDate != null) {
+            Optional<Item> itemOptional = itemService.findItemByCustomerAndOrderDate(customerCode, orderDate);
 
+            if (itemOptional.isPresent()) {
+                ItemDto.DetailResponse detailResponse = itemMapper.itemToDetailResponseDto(itemOptional.get(), customerCode, orderDate);
+                return new ResponseEntity<>(new SingleResponseDto<>(detailResponse), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+
+        Page<Item> pageItems = itemService.findItems(page, size, itemName);
         List<Item> items = pageItems.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(itemMapper.itemsToResponseDtos(items), pageItems), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(itemMapper.itemsToSimplerResponseDtos(items), pageItems), HttpStatus.OK);
     }
 }
