@@ -35,7 +35,7 @@ const HistorySearchInfo = ({ title, headers, items = [] }) => {
     return (
         <div className="search-info-container">
             <div className="search-info-header">
-                {title && <h2 className="search-info-title">{title}</h2>}
+                {title && <div className="search-info-title">{title}</div>}
             </div>
             <div className="search-info-section">
                 <table className="search-info-table">

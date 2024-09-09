@@ -11,10 +11,10 @@
   
   .order-modal-content {
     background-color: #fefefe;
-    padding: 50px 150px 50px 150px;
-    width: 1000px;
-    height: 800px;
-    border: 12px solid #348F6C;
+    padding: 20px 150px 20px 150px !important;
+    width: 700px !important;
+    height: 560px !important;
+    border: 10px solid #348F6C !important;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -28,9 +28,10 @@
   }
 
   .modal-title {
-    font-size: 30px;
+    font-size: 26px !important;
     font-weight: 1000;
     padding-left: 4px;
+    padding-top: 10px;
   }
 
   .modal-close {
@@ -51,25 +52,32 @@
     flex-direction: column;
     position: relative;
     width: 100%;
+    height: auto;
+    max-height: 190px;
+    margin-top: 22px;
+    /* overflow-y: auto; */
   }
   
-  .input-first-line, .input-second-line, .input-third-line, .input-fourth-line {
+  .input-first-line, .order-input-second-line, .input-third-line, .order-input-fourth-line {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 40px ;
+    height: 26px;
+    margin-bottom: 20px;
   }
   
   .modal-input-section input {
     width: 400px;
-    height: 36px;
+    height: 36px !important;
     padding: 12px 20px 10px 20px;
     border: 2px solid #74BDA1;
     margin-bottom: 10px;
+    box-sizing: border-box;
   }
 
   .option-button-container {
-    margin: 14px 0px 20px 10px;
+    margin: 0px 0px 20px 10px !important;
     float: right;
     display: flex;
     gap: 10px;
@@ -87,10 +95,11 @@
 
   .order-table {
     width: 100%;
-    height: 300px;
-    max-height: 300px;
+    height: 140px !important;
+    max-height: 100%;
     border-collapse: collapse;
     border: 2px solid #74BDA1;
+    table-layout: fixed;
   }
   
   .order-table thead {
@@ -102,8 +111,8 @@
 
   .order-table tbody {
     display: block;
-    height: 260px;
-    max-height: 260px;
+    height: 100px !important;
+    max-height: 100px !important;
     overflow-y: auto;
     width: 100%;
     table-layout: fixed;
@@ -166,6 +175,6 @@
     background-color: #f0f0f0; /* 선택된 행을 강조하는 배경색 */
   }
 
-  .input-second-line input::before {
+  .order-input-second-line input::before {
   content: attr(placeholder);
   }

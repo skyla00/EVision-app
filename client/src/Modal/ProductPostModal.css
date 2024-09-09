@@ -12,8 +12,8 @@
   .modal-content {
     background-color: #fefefe;
     padding: 50px 150px 50px 150px;
-    width: 1000px;
-    height: 440px;
+    width: 700px !important;
+    height: 340px !important;
     border: 12px solid #348F6C;
     position: absolute;
     top: 50%;
@@ -60,9 +60,10 @@
     gap: 40px;
   }
 
-  .input-second-line {
+  .product-input-second-line {
     align-items: center;
     justify-content: flex-start;
+    margin-bottom: 10px;
   }
 
   .input-third-line {
@@ -78,12 +79,14 @@
     margin-bottom: 10px;
   }
 
-  .input-second-line input {
-    width: 318px;
+  .product-input-second-line input {
+    width: 330px;
+    max-width: 330px;
+    margin-right: auto;
   }
 
-  .input-third-line input {
-    width: 100%;
+  .input-third-line-product input {
+    min-width: 700px;
   }
 
   .post-submit-button {

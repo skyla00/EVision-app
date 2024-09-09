@@ -35,7 +35,7 @@ const SearchInfo = ({ title, headers, items = [],  onOpenPostModal, onOpenModify
     return (
         <div className="search-info-container">
             <div className="search-info-header"> {}
-            {title && <h2 className="search-info-title">{title}</h2>}
+            {title && <div className="search-info-title">{title}</div>}
                 <div className="button-container">
                     <button className="order-button" onClick={onOpenPostModal}> 등록 </button> 
                     <button className="modify-button" onClick={onOpenModifyModal}> 수정 </button> 
