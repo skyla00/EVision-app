@@ -16,9 +16,6 @@ public interface ItemRepository extends JpaRepository<Item, String> {
 
     @Query("SELECT i FROM Item i JOIN i.salesPrices sp WHERE sp.customer.customerCode = :customerCode AND :orderDate BETWEEN sp.startDate AND sp.endDate")
     Optional<Item> findByCustomerCodeAndOrderDate(@Param("customerCode") String customerCode, @Param("orderDate") LocalDate orderDate);
-
-    @Query("SELECT DISTINCT i FROM Item i " +
-            "WHERE (:itemName IS NULL OR i.name LIKE %:itemName%)")
     Page<Item> findByItemName(@Param("itemName") String itemName, Pageable pageable);
 
 }
