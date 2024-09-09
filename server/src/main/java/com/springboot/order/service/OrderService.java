@@ -9,7 +9,6 @@ import com.springboot.item.repository.ItemRepository;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
-import com.springboot.order.entity.OrderHeader.OrderHeaderStatus;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
@@ -128,12 +127,12 @@ public class OrderService {
         }
     }
 
-    public Date verifiedOrderDate(OrderHeader orderHeader) {
-        Date currentDate = new Date();
-        if(orderHeader.getOrderDate().after(currentDate)) {
+    public LocalDate verifiedOrderDate(OrderHeader orderHeader) {
+        LocalDate currentDate = LocalDate.now();
+        if(orderHeader.getOrderDate().isAfter(currentDate)) {
             throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
-        return currentDate;
+        return orderHeader.getOrderDate();
     }
 
     private String generateOrderNumber() {

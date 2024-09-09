@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Table(name = "order_header")
@@ -25,14 +25,14 @@ public class OrderHeader {
     private String orderHeaderId;
 
     @Column(nullable = false)
-    private Date orderDate;
+    private LocalDate orderDate;
 
     @Column
-    private Date acceptDate;
+    private LocalDate acceptDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.ORDER_HEADER_STATUS_WAITING;
+    private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.WAITING;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -53,10 +53,10 @@ public class OrderHeader {
     List<OrderItem> orderItems = new ArrayList<>();
 
     public enum OrderHeaderStatus {
-        ORDER_HEADER_STATUS_WAITING("임시 저장"),
-        ORDER_HEADER_STATUS_REQUEST("승인 요청"),
-        ORDER_HEADER_STATUS_ACCEPT("승인"),
-        ORDER_HEADER_STATUS_DENY("반려");
+        WAITING("임시 저장"),
+        REQUEST("승인 요청"),
+        ACCEPT("승인"),
+        DENY("반려");
 
         @Getter
         private String status;
