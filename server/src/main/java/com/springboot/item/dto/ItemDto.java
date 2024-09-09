@@ -33,11 +33,23 @@ public class ItemDto {
     }
     @Builder
     @Getter
-    public static class Response {
+    public static class SimpleResponse {
         private String itemCode;
         private String itemName;
         private String unit;
         private String specs;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+        private Item.ItemStatus itemStatus;
+    }
+    @Builder
+    @Getter
+    public static class DetailResponse {
+        private String itemCode;
+        private String itemName;
+        private String unit;
+        private String specs;
+        private int salesAmount;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Item.ItemStatus itemStatus;
