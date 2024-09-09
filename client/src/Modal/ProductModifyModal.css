@@ -79,16 +79,17 @@
   }
 
   .input-second-line select {
-    width: 318px;
+    width: 400px;
     height: 36px;
     border: 2px solid #74BDA1;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding-left: 16px;
     color: #6e6e6e;
   }
 
   .input-second-line input {
     width: 318px;
+    margin-bottom: 20px !important;
   }
 
   .input-third-line input {

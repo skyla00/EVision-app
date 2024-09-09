@@ -3,27 +3,30 @@
     flex-direction: row;
     gap: 16px;
     margin-top: 16px;
-    padding-left: 9.4vw;  
+    padding-left: 180px !important;  
+    max-width: 100%;
+    min-width: 1200px;
 }
 
 .order-tab, .product-tab, .customer-tab, .price-tab, .history-tab {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 11vw;
-    height: 2.5vw;
+    width: 220px;
+    height: 46px;
     background-color: #348F6C;
     color: #ffffff;
-    font-size: 1vw;
+    font-size: 18px;
     font-weight: bolder;
-    padding-left: 0.9vw;
+    padding-left: 18px;
+    flex-shrink: 0;
 }
 
 .order-tab img, .product-tab img, .customer-tab img, .price-tab img, .history-tab img {
-    width: 1vw;
-    height: 1.3vw;
+    width: 20px;
+    height: 26px;
     margin-left: auto;
-    margin-right: 0.6vw;
+    margin-right: 14px;
 }
 
 .active {

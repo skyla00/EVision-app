@@ -65,7 +65,7 @@
     justify-content: flex-start;
   }
 
-  .input-third-line {
+  .cp-input-third-line {
     align-items: center;
     justify-content: flex-start;
   }
@@ -75,9 +75,8 @@
     height: 36px;
     padding: 12px 20px 10px 20px;
     border: 2px solid #74BDA1;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
- 
 
   .post-submit-button {
     width: 130px;

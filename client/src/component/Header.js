@@ -11,7 +11,7 @@ const Header = () => {
             </div>
             <div className="user-info">
                 <div className="user-img">
-                    <img src="/image/profile.png" alt="프로필"/>
+                    <img src="/image/112.png" alt="프로필"/>
                 </div>
                 <div className="user-info-detail">
                     <div className="user-info-position">영업4팀 사원{}</div>

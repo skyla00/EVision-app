@@ -11,11 +11,11 @@ import { headers, items as mockItems } from '../component/MockData';
 const ManagementPage = () => {
     const fields = [
         { type: 'search', placeholder: '주문번호' },
-        { type: 'select', placeholder: '주문상태' },
         { type: 'search', placeholder: '판매업체코드' },
         { type: 'search', placeholder: '판매사원' },
         { type: 'date', placeholder: '주문일자' },
         { type: 'date', placeholder: '출고일자' },
+        { type: 'select', placeholder: '주문상태' },
         { type: 'date', placeholder: '납품요청일자' },
         { type: 'date', placeholder: '납품확정일자' },
     ];

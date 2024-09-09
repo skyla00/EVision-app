@@ -35,7 +35,7 @@ const ManagementSearchInfo = ({ title, headers, items = [], onRowSelect, onOpenM
     return (
         <div className="search-info-container">
             <div className="search-info-header"> {}
-            {title && <h2 className="search-info-title">{title}</h2>}
+            {title && <div className="search-info-title">{title}</div>}
                 <div className="button-container">
                     <button className="detail-button" onClick={onOpenModal}> 상세보기 </button> 
                 </div>
