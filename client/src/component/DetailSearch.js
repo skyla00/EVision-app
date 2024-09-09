@@ -1,6 +1,7 @@
 import axios from 'axios';
 import './DetailSearch.css';
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
     const halfIndex = Math.ceil(fields.length / 2); 
@@ -14,21 +15,25 @@ const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
         handleSearch();
       }, []);
 
+    const location = useLocation();
+
     const handleSearch = async () => {
-
         let accessToken = window.localStorage.getItem('accessToken');
-
         try {
-          const response = await axios.get(
-            // 'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 10 + '&itemCode=' + firstRowFields + '&itemName=' + secondRowFields,
-             process.env.REACT_APP_API_URL + 'items?page=' + 1 + '&size=' + 50,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-              },
+            let response;
+            if(location.pathname.indexOf('product') > -1){
+                response = await axios.get(
+                    // 'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 10 + '&itemCode=' + firstRowFields + '&itemName=' + secondRowFields,
+                     process.env.REACT_APP_API_URL + 'items?page=' + 1 + '&size=' + 50,
+                    {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                      },
+                    }
+                  );
             }
-          );
+
           if(response !== undefined){
             console.log(response);
             if(onsearchhandler !== undefined)

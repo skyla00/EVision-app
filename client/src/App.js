@@ -8,6 +8,7 @@ import CustomerPage from "./pages/CustomerPage";
 import SalePricePage from "./pages/SalePricePage";
 import ManagementPage from "./pages/ManagementPage";
 import HistoryPage from "./pages/HistoryPage";
+import GraphPage from "./pages/GraphPage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/price" element={<SalePricePage/>} />
         <Route path="/manage" element={<ManagementPage />} />
         <Route path="/history" element={<HistoryPage />} />
+        <Route path="/graph" element={<GraphPage />} />
       </Routes>
     </BrowserRouter>
   );
