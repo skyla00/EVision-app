@@ -1,0 +1,16 @@
+.graph-info-container {
+    margin-top: 40px;
+    padding-left: 9.35vw; 
+    height: 600px;
+}
+
+.graph-info-header {  
+    width: 100%;
+    max-width: 80vw;
+    height: 40px;
+    display: flex;
+}
+
+.graph-info-title {
+    padding-left: 10px;
+}

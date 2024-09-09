@@ -25,7 +25,7 @@ const SideBar = () => {
                         <img src="/image/searchicon.png" alt="search"/>
                         <span>주문 조회</span>
                     </div>
-                    <div className="graph-side" onClick={() => navigate('/main')}>
+                    <div className="graph-side" onClick={() => navigate('/graph')}>
                         <img src="/image/graphicon.png" alt="graph"/>
                         <span>그래프</span>
                     </div>
