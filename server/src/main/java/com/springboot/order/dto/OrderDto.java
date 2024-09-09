@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDto {
@@ -19,7 +19,7 @@ public class OrderDto {
         private String orderHeaderId;
 
         @NotNull(message = "주문 날짜는 필수입니다.")
-        private Date orderDate;
+        private LocalDate orderDate;
 
         @NotNull
         private String customerCode;
@@ -37,7 +37,7 @@ public class OrderDto {
         private String orderHeaderId;
 
         @NotNull(message = "승인 날짜는 필수입니다.")
-        private Date acceptDate;
+        private LocalDate acceptDate;
 
         private List<OrderItemDto> orderItems;
     }
@@ -47,8 +47,8 @@ public class OrderDto {
     public static class OrderResponse {
 
         private String orderHeaderId;
-        private Date orderDate;
-        private Date acceptDate;
+        private LocalDate orderDate;
+        private LocalDate acceptDate;
         private String customerCode;
         private String orderHeaderStatus;
         private List<OrderItemDto> orderItems;
@@ -60,7 +60,7 @@ public class OrderDto {
     public static class OrderItemDto {
 
         private Long orderItemId;
-        private Date requestDate;
+        private LocalDate requestDate;
         private String itemCode;
         private Long orderItemQuantity;
         private Long purchaseAmount;

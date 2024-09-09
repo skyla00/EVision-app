@@ -3,7 +3,6 @@ package com.springboot.order.controller;
 import com.springboot.response.MultiResponseDto;
 import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
-import com.springboot.order.entity.OrderItem;
 import com.springboot.order.mapper.OrderMapper;
 import com.springboot.order.service.OrderService;
 import com.springboot.utils.UriCreator;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,32 +57,15 @@ public class OrderController {
         return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity getAcceptedOrders(@Positive @RequestParam int page,
-//                                            @Positive @RequestParam int size,
-//                                            Authentication authentication) {
-//        Page<OrderItem> pageOrderItems = orderService.findAcceptedOrders(page - 1, size, authentication);
-//        List<OrderItem> orderItems = pageOrderItems.getContent();
-//
-//        // OrderItem을 OrderItemDto로 변환
-//        List<OrderDto.OrderItemDto> orderItemDtos = orderItems.stream()
-//                .map(orderMapper::orderItemToOrderItemDto)
-//                .collect(Collectors.toList());
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(orderItemDtos, pageOrderItems),
-//                HttpStatus.OK);
-//    }
-
     @GetMapping
     public ResponseEntity getAllOrders(@RequestParam(value = "member-id", required = false) String memberId,
                                        @RequestParam(value = "order-header-id", required = false) String orderHeaderId,
                                        @RequestParam(value = "item-code", required = false) String itemCode,
                                        @RequestParam(value = "customer-code", required = false) String customerCode,
                                        @RequestParam(value = "member-name", required = false) String memberName,
-                                       @RequestParam(value = "order-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date orderDate,
-                                       @RequestParam(value = "request-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date requestDate,
-                                       @RequestParam(value = "accept-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date acceptDate,
+                                       @RequestParam(value = "order-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate,
+                                       @RequestParam(value = "request-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate requestDate,
+                                       @RequestParam(value = "accept-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate acceptDate,
                                        @Positive @RequestParam int page,
                                        @Positive @RequestParam int size,
                                        Authentication authentication) {
