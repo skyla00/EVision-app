@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './DetailSearch.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
     const halfIndex = Math.ceil(fields.length / 2); 
@@ -10,6 +10,10 @@ const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
     const [searchResults, setSearchResults] = React.useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState([]);
 
+    useEffect(() => {
+        handleSearch();
+      }, []);
+
     const handleSearch = async () => {
 
         let accessToken = window.localStorage.getItem('accessToken');
@@ -17,7 +21,7 @@ const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
         try {
           const response = await axios.get(
             // 'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 10 + '&itemCode=' + firstRowFields + '&itemName=' + secondRowFields,
-            'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 50,
+             process.env.REACT_APP_API_URL + 'items?page=' + 1 + '&size=' + 50,
             {
               headers: {
                 'Content-Type': 'application/json',

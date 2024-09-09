@@ -21,7 +21,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         
         try {
           const response = await axios.post(
-            'http://127.0.0.1:8080/items',
+             process.env.REACT_APP_API_URL + 'items',
             {
                 "itemCode": itemCode,
                 "itemName": itemName,
@@ -35,17 +35,20 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
               },
             }
           );
-          if(response !== undefined){
-            // 새로운 아이템 생성
-            const newItem = {
-                itemName,
-                itemCode,
-                unit,
-                specs,
-            };
 
-            // 부모 컴포넌트로 데이터 전달
-            onSubmit(newItem);
+          window.location.reload();
+
+          if(response !== undefined){
+            // // 새로운 아이템 생성
+            // const newItem = {
+            //     itemName,
+            //     itemCode,
+            //     unit,
+            //     specs,
+            // };
+
+            // // 부모 컴포넌트로 데이터 전달
+            // onSubmit(newItem);
 
             // 입력 필드 초기화
             setItemName('');
