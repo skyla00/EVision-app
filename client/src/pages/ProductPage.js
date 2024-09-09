@@ -7,7 +7,7 @@ import DetailSearch from '../component/DetailSearch';
 import SearchInfo from '../component/SearchInfo';
 import ProductPostModal from '../Modal/ProductPostModal';
 import ProductModifyModal from '../Modal/ProductModifyModal';
-import { headers, items }  from '../component/MockData';
+import { headers, itemheaders, items }  from '../component/MockData';
 
 const ProductPage = () => {
     const fields = [
@@ -50,8 +50,8 @@ const ProductPage = () => {
             <Header />
             <SideBar />
             <Tab />
-            <DetailSearch title="상품 조회" fields={fields}/>
-            <SearchInfo title="상품 정보" headers={headers} items={items} 
+            <DetailSearch title="상품 조회" fields={fields} onsearchhandler={setItems}/>
+            <SearchInfo title="상품 정보" headers={itemheaders} items={items} 
             onOpenPostModal={handleOpenPostModal}
             onOpenModifyModal={handleOpenModifyModal}/>
             <ProductPostModal isOpen={isProductPostModalOpen} 

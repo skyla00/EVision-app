@@ -1,7 +1,8 @@
+import axios from 'axios';
 import './DetailSearch.css';
 import React, { useState } from 'react';
 
-const DetailSearch = ({ title, fields = [] }) => {
+const DetailSearch = ({ title, fields = [], onsearchhandler }) => {
     const halfIndex = Math.ceil(fields.length / 2); 
     const firstRowFields = fields.slice(0, 6);
     const secondRowFields = fields.slice(6, 11) || []; // 기본값을 빈 배열로 설정
@@ -9,31 +10,57 @@ const DetailSearch = ({ title, fields = [] }) => {
     const [searchResults, setSearchResults] = React.useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState([]);
 
-   // 검색 버튼 클릭 시 키워드 추가
-    const handleSearch = () => {
-        const selected = [];
+    const handleSearch = async () => {
 
-        // 각 필드에 입력된 값을 기준으로 검색 로직을 수행하고 해당 값을 키워드로 추가
-        fields.forEach(field => {
-            const fieldElement = document.querySelector(`input[placeholder="${field.placeholder}"]`);
-            if (fieldElement && fieldElement.value) {
-                selected.push(fieldElement.value);
+        let accessToken = window.localStorage.getItem('accessToken');
+
+        try {
+          const response = await axios.get(
+            // 'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 10 + '&itemCode=' + firstRowFields + '&itemName=' + secondRowFields,
+            'http://127.0.0.1:8080/items?page=' + 1 + '&size=' + 50,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+              },
             }
+          );
+          if(response !== undefined){
+            console.log(response);
+            if(onsearchhandler !== undefined)
+                onsearchhandler(response.data.data);
+        }
 
-            if (field.type === 'select') {
-                const selectElement = document.querySelector(`select[placeholder="${field.placeholder}"]`);
-                if (selectElement && selectElement.value) {
-                    selected.push(selectElement.value);
-                }
-            }
-        });
+        } catch (error) {
+          alert(JSON.stringify(error.message));
+        }
+      };
 
-        setSelectedKeywords((prevKeywords) => {
-        // 이미 선택된 키워드를 중복 없이 추가
-            const newKeywords = selected.filter((keyword) => !prevKeywords.includes(keyword));
-            return [...prevKeywords, ...newKeywords];
-        });
-    };
+//    // 검색 버튼 클릭 시 키워드 추가
+//     const handleSearch = () => {
+//         const selected = [];
+
+//         // 각 필드에 입력된 값을 기준으로 검색 로직을 수행하고 해당 값을 키워드로 추가
+//         fields.forEach(field => {
+//             const fieldElement = document.querySelector(`input[placeholder="${field.placeholder}"]`);
+//             if (fieldElement && fieldElement.value) {
+//                 selected.push(fieldElement.value);
+//             }
+
+//             if (field.type === 'select') {
+//                 const selectElement = document.querySelector(`select[placeholder="${field.placeholder}"]`);
+//                 if (selectElement && selectElement.value) {
+//                     selected.push(selectElement.value);
+//                 }
+//             }
+//         });
+
+//         setSelectedKeywords((prevKeywords) => {
+//         // 이미 선택된 키워드를 중복 없이 추가
+//             const newKeywords = selected.filter((keyword) => !prevKeywords.includes(keyword));
+//             return [...prevKeywords, ...newKeywords];
+//         });
+//     };
 
     // 키워드 삭제
     const removeKeyword = (keywordToRemove) => {
