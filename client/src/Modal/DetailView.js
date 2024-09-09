@@ -12,11 +12,39 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
     const [orderList, setOrderList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [status, setStatus] = useState('');
+    const [finalPrice, setFinalPrice] = useState(0);
 
     // 판매업체명과 판매업체코드 상태
     const [customerName, setCustomerName] = useState('');
     const [customerCode, setCustomerCode] = useState('');
     const [isCustomerInfoLocked, setIsCustomerInfoLocked] = useState(false); // 판매업체명과 판매업체코드 비활성화 여부
+
+     // 숫자에 쉼표 추가하는 함수
+    const formatPrice = (value) => {
+        if (!value) return ''; // value가 없을 때 빈 문자열 반환
+        const numberValue = value.replace(/\D/g, ''); // 숫자 외의 값 제거
+        return numberValue ? Number(numberValue).toLocaleString() : ''; // 3자리마다 쉼표 추가
+    };
+
+    // 숫자만 남겨 상태에 저장하는 함수
+    const unformatPrice = (value) => {
+        if (!value) return ''; // value가 없을 때 빈 문자열 반환
+        return String(value).replace(/\D/g, ''); // 문자열로 변환 후 쉼표 제거
+    };
+
+
+    // 입력값을 포맷하고 상태 업데이트
+    const handlePriceChange = (e) => {
+        const inputValue = e.target.value;
+        const formattedPrice = formatPrice(inputValue);
+        setPrice(formattedPrice);
+  };
+
+
+     // 수량 변경 핸들러
+    const handleQuantityChange = (e) => {
+        setQuantity(e.target.value);
+    };
 
     useEffect(() => {
         if (selectedItem) {
@@ -31,6 +59,14 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
         }
     }, [selectedItem]);
 
+    // 최종 금액 계산
+    useEffect(() => {
+        const numericPrice = unformatPrice(price); // 쉼표 제거 후 숫자만 추출
+        const calculatedPrice = numericPrice && quantity ? parseFloat(numericPrice) * parseInt(quantity, 10) : 0;
+        setFinalPrice(calculatedPrice);
+      }, [price, quantity]);
+    
+
     // 항목 추가
     const handleAddItem = () => {
         const newItem = {
@@ -43,17 +79,12 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
             customerName,
             customerCode,
             status,
+            finalPrice,
         };
 
         // 입력값이 모두 있는지 확인하는 창
         if (!itemName || !itemCode || !price || !quantity) {
             alert('모든 항목을 입력해주세요.');
-            return;
-        }
-
-        // 판매업체명과 판매업체코드가 입력되었는지 확인하고, 입력된 경우 수정 불가로 설정
-        if (!customerName || !customerCode) {
-            alert('판매업체명과 판매업체코드를 입력해주세요.');
             return;
         }
 
@@ -65,8 +96,6 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
         } else {
             setOrderList([...orderList, newItem]);
         }
-
-        setIsCustomerInfoLocked(true); // 판매업체 정보 수정 불가 상태로 변경
 
         // 입력 필드 초기화
         setItemName('');
@@ -129,7 +158,7 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
       <div className="modal">
         <div className="order-modal-content">
             <div className="order-modal-header">
-                <div className="modal-title">주문 등록</div>
+                <div className="modal-title">주문 상세</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
             </div>
 
@@ -147,16 +176,16 @@ const DetailView = ({ isOpen, onClose, onSearch, selectedItem }) => {
                     </select>
                 </div>
                 <hr className="line"/>
-                <div className="input-second-line">
+                <div className="d-input-second-line">
                     <input type="search" value={itemName} onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
                     <input type="search" value={itemCode} onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
                 </div>
-                <div className="input-third-line">
-                    <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="판매가 (원)" />
+                <div className="d-input-third-line">
+                    <input type="text" value={price} onChange={handlePriceChange} placeholder="판매가 (원)" />
                     <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="수량 (개)" />
                 </div>
-                <div className="input-fourth-line">
-                    <input type="text" value={price} readOnly onChange={(e) => setPrice(e.target.value)} placeholder="최종금액 (원)" />
+                <div className="d-input-fourth-line">
+                    <input type="text" value={finalPrice.toLocaleString()} readOnly placeholder="최종금액 (원)" />
                     <input type="datetime-local" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="납품요청일자"/>
                 </div>
             </div>

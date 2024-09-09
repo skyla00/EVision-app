@@ -1,18 +1,22 @@
 .search-info-container {
-    margin-top: 40px;
-    padding-left: 9.35vw; 
-    height: 600px;
+    margin-top: 40px !important;
+    padding-left: 180px !important; 
+    height: 400px !important;
+    width: 1600px !important;
 }
 
 .search-info-header {  
     width: 100%;
-    max-width: 80vw;
+    max-width: 1600px !important;
     height: 40px;
     display: flex;
 }
 
 .search-info-title {
     padding-left: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    padding-top: 2px;
 }
 
 .button-container {
@@ -40,8 +44,8 @@
 }
 
 .search-info-section {
-    width: 100%;
-    max-width: 80vw;
+    width: 1600px !important;
+    max-width: 1600px !important;
     height: 440px;
     border: 1px solid #74BDA1;
     display: block;

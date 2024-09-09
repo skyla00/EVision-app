@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -48,10 +49,18 @@ public class ItemService {
         return findVerifiedItem(itemCode);
     }
     @Transactional(readOnly = true)
-    public Page<Item> findItems(int page, int size) {
+    public Optional<Item> findItemByCustomerAndOrderDate(String customerCode, LocalDate orderDate) {
+        return itemRepository.findByCustomerCodeAndOrderDate(customerCode, orderDate);
+    }
+    @Transactional(readOnly = true)
+    public Page<Item> findItems(int page, int size, String itemName) {
         Pageable pageable = PageRequest.of(page -1 , size, Sort.by("createdAt").descending());
 
-        return itemRepository.findAll(pageable);
+        if (itemName == null || itemName.isEmpty()) {
+            return itemRepository.findAll(pageable);
+        } else {
+            return itemRepository.findByItemName(itemName, pageable);
+        }
     }
     private Item findVerifiedItem(String itemCode) {
         Optional<Item> item = itemRepository.findById(itemCode);

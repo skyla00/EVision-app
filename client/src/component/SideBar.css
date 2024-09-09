@@ -1,8 +1,8 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+} */
 
 .app {
     height: 100vh;
@@ -11,28 +11,28 @@
 .sidebar-container {
     display: flex;
     flex-direction: row;
-    width: 6vw;
-    height: auto;
+    width: 90px;
+    height: 550px;
     position: absolute;
 }
 
 .sidebar-button {
     position: absolute;
-    top: 1vw;
-    left: 2.5vw;
+    top: 20px;
+    left: 50px;
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
 .sidebar-button img {
-    width: 2.8vw;
-    height: 2.8vw;
+    width: 46px;
+    height: 46px;
 }
 
 .sidebar {
     position: relative;
-    width: 100%;
+    width: 90px;
     background-color: #348F6C;
     height: auto;
     transition: width 0.1s ease;
@@ -50,28 +50,28 @@
 }
 
 .side-menu-bar {
-    height: 30vw;
-    margin-top: 2vw;
+    height: 460px;
+    margin-top: 30px;
 }
 
 .home-side, .search-side, .graph-side, .management-side {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 2vw;
+    margin-bottom: 30px;
     cursor: pointer;
 }
 
 .home-side img, .search-side img, .graph-side img, .management-side img {
-    width: 3vw;
-    height: 3vw;
+    width: 50px;
+    height: 46px;
 }
 
 .home-side span, .search-side span, .graph-side span, .management-side span {
-    margin-top: 0.5vw;
+    margin-top: 4px;
     color: #ffffff;
     font-weight: bold;
-    font-size: 1.2vw;
+    font-size: 16px;
 }
 
 .side-menu-bar-top, .side-menu-bar-bottom {
@@ -80,5 +80,5 @@
 }
 
 .side-menu-bar-top {
-    height: 7vw;
+    height: 160px;
 }

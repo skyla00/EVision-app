@@ -78,7 +78,7 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit }) => {
                         <option value="품절">판매종료</option>
                     </select>
                 </div>
-                <div className="input-third-line">
+                <div className="input-third-line-product">
                     <input 
                         type="text" 
                         value={specs} 

@@ -3,7 +3,8 @@ import './OrderModal.css';
 
 const OrderModal = ({ isOpen, onClose, onSearch }) => {
 
-    const [orderDate] = useState(new Date().toISOString().split('T')[0]); // 오늘 날짜
+    // const [orderDate] = useState(new Date().toISOString().split('T')[0]); // 오늘 날짜
+    const [orderDate, setOrderDate] = useState('');
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
     const [price, setPrice] = useState('');
@@ -17,6 +18,13 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
     const [customerCode, setCustomerCode] = useState('');
     const [isCustomerInfoLocked, setIsCustomerInfoLocked] = useState(false); // 판매업체명과 판매업체코드 비활성화 여부
 
+    useEffect(() => {
+        if(!isCustomerInfoLocked) {
+            setCustomerName('');
+            setCustomerCode('');
+        }
+    }, [isCustomerInfoLocked]);
+
     // 항목 추가
     const handleAddItem = () => {
         const newItem = {
@@ -29,7 +37,7 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
         };
 
         // 입력값이 모두 있는지 확인하는 창
-        if (!itemName || !itemCode || !price || !quantity) {
+        if (!itemName || !itemCode || !price || !quantity || !orderDate || !deliveryDate) {
             alert('모든 항목을 입력해주세요.');
             return;
         }
@@ -46,6 +54,8 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
 
         // 입력 필드 초기화
         setItemName('');
+        setOrderDate('');
+        setDeliveryDate('');
         setItemCode('');
         setPrice('');
         setQuantity('');
@@ -99,30 +109,25 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
 
             <div className="modal-input-section">
                 <div className="input-first-line">
-                <input 
-                        type="search" 
-                        value={customerName} 
-                        onChange={(e) => setCustomerName(e.target.value)} 
-                        placeholder="판매업체명" 
-                        disabled={isCustomerInfoLocked} // 판매업체명 비활성화 여부
+                    <input 
+                        type="search" value={customerName} onChange={(e) => setCustomerName(e.target.value)} 
+                        placeholder="판매업체명" disabled={isCustomerInfoLocked} // 판매업체명 비활성화 여부
                     />
                     <input 
-                        type="search" 
-                        value={customerCode} 
-                        onChange={(e) => setCustomerCode(e.target.value)} 
-                        placeholder="판매업체코드" 
-                        disabled={isCustomerInfoLocked} // 판매업체코드 비활성화 여부
+                        type="search" value={customerCode} onChange={(e) => setCustomerCode(e.target.value)} 
+                        placeholder="판매업체코드" disabled={isCustomerInfoLocked} // 판매업체코드 비활성화 여부
                     />
                 </div>
-                <div className="input-second-line">
-                    <input type="date" value={orderDate} readOnly className="order-date-input-text" placeholder="주문일자"/>
+                <div className="order-input-second-line">
+                    <input type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} 
+                    className="order-date-input-text" placeholder="주문일자" max={new Date().toISOString().split("T")[0]}/>
                     <input type="datetime-local" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="납품요청일자"/>
                 </div>
                 <div className="input-third-line">
                     <input type="search" value={itemName} onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
                     <input type="search" value={itemCode} onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
                 </div>
-                <div className="input-fourth-line">
+                <div className="order-input-fourth-line">
                     <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="판매가" />
                     <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="수량" />
                 </div>
@@ -135,6 +140,7 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
             <table className="order-table">
                 <thead>
                     <tr>
+                        <th>주문일자</th>
                         <th>납품요청일자</th>
                         <th>상품명</th>
                         <th>상품코드명</th>
@@ -147,6 +153,7 @@ const OrderModal = ({ isOpen, onClose, onSearch }) => {
                     <tr key={index} onClick={() => handleRowClick(index)} 
                         className={`order-row ${index === selectedIndex ? 'selected-row' : ''}`}
                     >
+                        <td>{item.orderDate}</td>
                         <td>{item.deliveryDate}</td>
                         <td>{item.itemName}</td>
                         <td>{item.itemCode}</td>
