@@ -15,7 +15,7 @@ const LoginPage = () => {
     const handleLogin = async () => {
       try {
         const response = await axios.post(
-          'http://127.0.0.1:8080/login',
+          process.env.REACT_APP_API_URL + 'login',
           {
               username : id,
               password : password
@@ -27,7 +27,6 @@ const LoginPage = () => {
             },
           }
         );
-        //alert(response.headers.get("Authorization"));
         if(response !== undefined)
         {
           localStorage.setItem('accessToken', response.headers.get("Authorization"));
