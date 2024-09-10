@@ -15,7 +15,7 @@ import java.util.Date;
 public class PurchasePrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long purchasePriceId;
+    private Long purchasePriceId;
 
     @Column(nullable = false)
     private int purchaseAmount;

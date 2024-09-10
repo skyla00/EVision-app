@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderHeaderRepository extends JpaRepository<OrderHeader, String> {
-    Page<OrderHeader> findAll(Pageable pageable);
     Page<OrderHeader> findByMember_MemberId(String memberId, Pageable pageable);
     List<OrderHeader> findByOrderHeaderStatus(OrderHeaderStatus status);
 }
