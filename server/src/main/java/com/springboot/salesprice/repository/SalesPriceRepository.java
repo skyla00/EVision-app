@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SalesPriceRepository extends JpaRepository<SalesPrice, Long> {
-    Page<SalesPrice> findAll(Pageable pageable);
 }
