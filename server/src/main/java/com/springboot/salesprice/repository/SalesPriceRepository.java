@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SalesPriceRepository extends JpaRepository<SalesPrice, Long> {
-    Page<SalesPrice> findAll(Pageable pageable);
     @Query("SELECT sp.salesAmount FROM SalesPrice sp WHERE sp.item.itemCode = :itemCode AND sp.customer.customerCode = :customerCode")
     Integer findSalesAmountByItemCodeAndCustomerCode(@Param("itemCode") String itemCode, @Param("customerCode") String CustomerCode);
 
