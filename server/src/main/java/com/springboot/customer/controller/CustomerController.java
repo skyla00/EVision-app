@@ -5,6 +5,7 @@ import com.springboot.customer.entity.Customer;
 import com.springboot.customer.mapper.CustomerMapper;
 import com.springboot.customer.service.CustomerService;
 import com.springboot.response.MultiResponseDto;
+import com.springboot.response.SingleResponseDto;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -50,13 +51,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity getItems(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size) {
+    public ResponseEntity getItems() {
 
-        Page<Customer> pageCustomers = customerService.findCustomers(page,size);
+        List<Customer> customers = customerService.findCustomers();
 
-        List<Customer> customers = pageCustomers.getContent();
-
-        return new ResponseEntity<>(new MultiResponseDto(customerMapper.customersToResponseDtos(customers), pageCustomers), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(customerMapper.customersToResponseDtos(customers)), HttpStatus.OK);
     }
 }
