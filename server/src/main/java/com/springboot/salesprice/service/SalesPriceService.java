@@ -47,6 +47,6 @@ public class SalesPriceService {
     private SalesPrice findVerifiedCSalesPrice(long salesPriceId) {
         Optional<SalesPrice> customer = salesPriceRepository.findById(salesPriceId);
 
-        return customer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.SALES_PRICE_NOT_FOUND));
+        return customer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.SALES_AMOUNT_NOT_FOUND));
     }
 }

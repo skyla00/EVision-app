@@ -87,26 +87,24 @@ public class OrderService {
 
                 // purchaseAmount 입력
                 Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(item.getItemCode());
+                if(purchaseAmount == null) {
+                    throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
+                }
                 orderItem.setPurchaseAmount(purchaseAmount);
 
                 // salesAmount 입력
                 // orderItem의 itemCode랑 orderHeader의 customerCode를 참고해서 가져오기.
-                Integer salesAmount = salesPriceRepository.findSalesAmountByItemCodeAndCustomerCode(item.getItemCode(), createOrderHeader.getCustomer().getCustomerCode());
-                if(salesAmount == null) {
-                    salesAmount = 0;
-                }
+                int salesAmount = orderItem.getSalesAmount();
                 orderItem.setSalesAmount(salesAmount);
 
                 // marginAmount 입력
                 int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
-                if (salesAmount == 0 || purchaseAmount == 0) {
-                    marginAmount = 0;
-                }
+
                 orderItem.setMarginAmount(marginAmount);
 
                 // marginRate 입력
-                int marginRate = marginRateCalculation(marginAmount, salesAmount);
-                if(salesAmount == 0 || marginAmount == 0) {
+                int marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
+                if(orderItem.getSalesAmount() == 0 || marginAmount == 0) {
                     marginRate = 0;
                 }
                 orderItem.setMarginRate(marginRate);
@@ -200,7 +198,7 @@ public class OrderService {
         if(salesAmount == 0) {
             return 0;
         }
-        return (marginAmount / salesAmount) * 100;
+        return (marginAmount * 100) / salesAmount;
     }
 
     public long finalAmountCalculation (int salesAmount, int orderItemQuantity) {
