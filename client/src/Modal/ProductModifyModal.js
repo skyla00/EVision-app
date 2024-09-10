@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ProductModifyModal.css';
 
-const ProductModifyModal = ({ isOpen, onClose, onSubmit }) => {
+const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
     const [unit, setUnit] = useState('');
@@ -37,8 +37,18 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit }) => {
         setSpecs('');
     };
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if(isOpen && item !== undefined){
+            console.log(item);
+            setItemName(item.itemName);
+            setItemCode(item.itemCode);
+            setUnit(item.unit);
+            setStatus(item.status);
+            setSpecs(item.specs);
+        }
+      }, [item]);
 
+    if (!isOpen) return null;
 
     return (
       <div className="modal">

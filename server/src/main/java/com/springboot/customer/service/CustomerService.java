@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,10 +55,9 @@ public class CustomerService {
         return findVerifiedCustomer(customerCode);
     }
     @Transactional(readOnly = true)
-    public Page<Customer> findCustomers(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
+    public List<Customer> findCustomers() {
 
-        return customerRepository.findAll(pageable);
+        return customerRepository.findAll();
     }
     private Customer findVerifiedCustomer(String customerCode) {
         Optional<Customer> customer = customerRepository.findById(customerCode);

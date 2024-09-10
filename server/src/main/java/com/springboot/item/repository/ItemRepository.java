@@ -11,6 +11,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
-    Page<Item> findByItemName(@Param("itemName") String itemName, Pageable pageable);
     Item findByItemCode(String itemCode);
 }

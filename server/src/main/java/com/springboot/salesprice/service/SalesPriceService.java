@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,10 +41,8 @@ public class SalesPriceService {
         return findVerifiedCSalesPrice(salesPriceId);
     }
     @Transactional(readOnly = true)
-    public Page<SalesPrice> findSalesPrices(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("startDate").descending());
-
-        return salesPriceRepository.findAll(pageable);
+    public List<SalesPrice> findSalesPrices() {
+        return salesPriceRepository.findAll();
     }
     private SalesPrice findVerifiedCSalesPrice(long salesPriceId) {
         Optional<SalesPrice> customer = salesPriceRepository.findById(salesPriceId);

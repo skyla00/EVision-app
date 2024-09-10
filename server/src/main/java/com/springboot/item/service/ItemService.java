@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,14 +51,8 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Item> findItems(int page, int size, String itemName) {
-        Pageable pageable = PageRequest.of(page -1 , size, Sort.by("createdAt").descending());
-
-        if (itemName == null || itemName.isEmpty()) {
-            return itemRepository.findAll(pageable);
-        } else {
-            return itemRepository.findByItemName(itemName, pageable);
-        }
+    public List<Item> findItems() {
+        return itemRepository.findAll();
     }
     private Item findVerifiedItem(String itemCode) {
         Optional<Item> item = itemRepository.findById(itemCode);

@@ -1,6 +1,7 @@
 package com.springboot.salesprice.controller;
 
 import com.springboot.response.MultiResponseDto;
+import com.springboot.response.SingleResponseDto;
 import com.springboot.salesprice.dto.SalesPriceDto;
 import com.springboot.salesprice.entity.SalesPrice;
 import com.springboot.salesprice.mapper.SalesPriceMapper;
@@ -48,13 +49,10 @@ public class SalesPriceController {
     }
 
     @GetMapping
-    public ResponseEntity getItems(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size) {
+    public ResponseEntity getItems() {
 
-        Page<SalesPrice> pageSalesPrice = salesPriceService.findSalesPrices(page,size);
+        List<SalesPrice> salesPrices = salesPriceService.findSalesPrices();
 
-        List<SalesPrice> salesPrices = pageSalesPrice.getContent();
-
-        return new ResponseEntity<>(new MultiResponseDto(salesPriceMapper.salesPriceToResponseDtos(salesPrices), pageSalesPrice), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(salesPriceMapper.salesPriceToResponseDtos(salesPrices)), HttpStatus.OK);
     }
 }

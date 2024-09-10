@@ -1,4 +1,6 @@
-const SearchInfoList = ({ items = [], headerKey, headers }) => {
+import SearchInfoItem from "./SearchInfoItem";
+
+const SearchInfoList = ({ items = [], headerKey, headers, onOpenModifyModal }) => {
     return (
         <table className="search-info-table">
             <thead className="search-info-thead">
@@ -10,11 +12,7 @@ const SearchInfoList = ({ items = [], headerKey, headers }) => {
             </thead>
             <tbody>
                 {items.map((item, index) => (
-                    <tr className="search-info-tr" key={index}>
-                        {headerKey.map((key) => (
-                            (item[key] === undefined && key !== 'id') ? <></> : <td className="search-info-td" key={key + index}>{key === 'id' ? index + 1 : item[key]}</td>
-                        ))}
-                    </tr>
+                    <SearchInfoItem item={item} headerKey={headerKey} index={index} onOpenModifyModal={onOpenModifyModal}/>
                 ))}
             </tbody>
         </table>

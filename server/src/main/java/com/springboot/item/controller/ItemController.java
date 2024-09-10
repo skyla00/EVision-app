@@ -60,13 +60,10 @@ public class ItemController {
         return new ResponseEntity(new SingleResponseDto<>(itemMapper.itemToSimplerResponseDto(item)), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity getItems(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size,
-                                   @RequestParam(required = false) String itemName) {
+    public ResponseEntity getItems() {
 
-        Page<Item> pageItems = itemService.findItems(page, size, itemName);
-        List<Item> items = pageItems.getContent();
+        List<Item> items = itemService.findItems();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(itemMapper.itemsToSimplerResponseDtos(items), pageItems), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(itemMapper.itemsToSimplerResponseDtos(items)), HttpStatus.OK);
     }
 }
