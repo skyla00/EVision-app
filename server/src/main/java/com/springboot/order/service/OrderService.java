@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,18 +37,16 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CustomerRepository customerRepository;
     private final ItemRepository itemRepository;
-    private final SalesPriceRepository salesPriceRepository;
     private final PurchasePriceRepository purchasePriceRepository;
     private final MemberService memberService;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, CustomerRepository customerRepository, ItemRepository itemRepository, SalesPriceRepository salesPriceRepository, MemberService memberService1, PurchasePriceRepository purchasePriceRepository) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
-        this.salesPriceRepository = salesPriceRepository;
         this.purchasePriceRepository = purchasePriceRepository;
         this.memberService = memberService;
     }
@@ -152,12 +151,25 @@ public class OrderService {
     // 관리자가 주문관리에서 모든 주문 조회
     // TM은 본인 주문만 보여야하고 TL은 모든 주문이 나와야함.
     @Transactional(readOnly = true)
-    public Page<OrderHeader> findAllOrders(int page, int size, String memberId, Authentication authentication) {
+    public List<OrderHeader> findAllOrders(String memberId, Authentication authentication) {
 
-        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
-            return orderHeaderRepository.findAll(PageRequest.of(page, size, Sort.by("orderHeaderId")));
+        if(memberId == null) {
+            return orderItemRepository.findAll().stream()
+                    .filter(orderItem -> orderItem.getOrderHeader().getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
+                    .map(OrderItem::getOrderHeader)
+                    .collect(Collectors.toList());
+        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
+            if(memberId.equals((String) authentication.getPrincipal())) {
+                return orderHeaderRepository.findAll();
+            } else {
+                throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+            }
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
-            return orderHeaderRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("orderHeaderId")));
+            if(memberId.equals((String) authentication.getPrincipal())) {
+                return orderHeaderRepository.findByMember_MemberId(memberId);
+            } else {
+                throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+            }
         } else {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }

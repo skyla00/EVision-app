@@ -5,6 +5,7 @@ import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.mapper.OrderMapper;
 import com.springboot.order.service.OrderService;
+import com.springboot.response.SingleResponseDto;
 import com.springboot.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -58,32 +59,33 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getAllOrders(@RequestParam(value = "member-id", required = false) String memberId,
-                                       @RequestParam(value = "order-header-id", required = false) String orderHeaderId,
-                                       @RequestParam(value = "item-code", required = false) String itemCode,
-                                       @RequestParam(value = "customer-code", required = false) String customerCode,
-                                       @RequestParam(value = "member-name", required = false) String memberName,
-                                       @RequestParam(value = "order-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate,
-                                       @RequestParam(value = "request-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate requestDate,
-                                       @RequestParam(value = "accept-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate acceptDate,
-                                       @Positive @RequestParam int page,
-                                       @Positive @RequestParam int size,
-                                       Authentication authentication) {
-        Page<OrderHeader> pageOrderHeaders = orderService.findAllOrders(page - 1, size, memberId, authentication);
-        List<OrderHeader> orderHeaders = pageOrderHeaders.getContent();
+    public ResponseEntity getAllOrders(@RequestParam(value = "member-id", required = false) String memberId, Authentication authentication) {
 
-        List<OrderHeader> filteredOrderHeaders = orderHeaders.stream()
-                .filter(order -> orderHeaderId == null || order.getOrderHeaderId().equals(orderHeaderId))
-                .filter(order -> itemCode == null || order.getOrderItems().stream().anyMatch(item -> item.getItem().getItemCode().equals(itemCode)))
-                .filter(order -> customerCode == null || order.getCustomer().getCustomerCode().equals(customerCode))
-                .filter(order -> memberName == null || order.getMember().getMemberName().equals(memberName))
-                .filter(order -> orderDate == null || order.getOrderDate().equals(orderDate))
-                .filter(order -> requestDate == null || order.getOrderItems().stream().anyMatch(item -> item.getRequestDate().equals(requestDate)))
-                .filter(order -> acceptDate == null || order.getAcceptDate().equals(acceptDate))
-                .collect(Collectors.toList());
+        List<OrderHeader> orderHeaders = orderService.findAllOrders(memberId, authentication);
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(filteredOrderHeaders), pageOrderHeaders),
+                new OrderDto.MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders)),
                 HttpStatus.OK);
     }
 }
+
+//
+//@RequestParam(value = "order-header-id", required = false) String orderHeaderId,
+//@RequestParam(value = "item-code", required = false) String itemCode,
+//@RequestParam(value = "customer-code", required = false) String customerCode,
+//@RequestParam(value = "member-name", required = false) String memberName,
+//@RequestParam(value = "order-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate,
+//@RequestParam(value = "request-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate requestDate,
+//@RequestParam(value = "accept-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate acceptDate,
+//@Positive @RequestParam int page,
+//@Positive @RequestParam int size,
+
+//List<OrderHeader> filteredOrderHeaders = orderHeaders.stream()
+//        .filter(order -> orderHeaderId == null || order.getOrderHeaderId().equals(orderHeaderId))
+//        .filter(order -> itemCode == null || order.getOrderItems().stream().anyMatch(item -> item.getItem().getItemCode().equals(itemCode)))
+//        .filter(order -> customerCode == null || order.getCustomer().getCustomerCode().equals(customerCode))
+//        .filter(order -> memberName == null || order.getMember().getMemberName().equals(memberName))
+//        .filter(order -> orderDate == null || order.getOrderDate().equals(orderDate))
+//        .filter(order -> requestDate == null || order.getOrderItems().stream().anyMatch(item -> item.getRequestDate().equals(requestDate)))
+//        .filter(order -> acceptDate == null || order.getAcceptDate().equals(acceptDate))
+//        .collect(Collectors.toList());
