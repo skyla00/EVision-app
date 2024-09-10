@@ -1,5 +1,6 @@
 package com.springboot.order.dto;
 
+import com.springboot.item.entity.PurchasePrice;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -69,5 +70,12 @@ public class OrderDto {
         private Long marginRate;
         private Long marginAmount;
         private Long finalAmount;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class MultiResponseDto<T> {
+        private List<T> data;
     }
 }
