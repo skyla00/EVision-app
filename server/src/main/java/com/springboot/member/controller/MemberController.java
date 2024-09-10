@@ -8,6 +8,7 @@ import com.springboot.member.service.MemberService;
 import com.springboot.utils.UriCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +37,9 @@ public class MemberController {
     }
 
     // get 할 때에 member id 를 받음.
-    @GetMapping("/{member-id}")
-    public ResponseEntity getMember (@PathVariable("member-id") String memberId) {
+    @GetMapping("/me")
+    public ResponseEntity getMember (Authentication authentication) {
+        String memberId = (String) authentication.getPrincipal();
         // memberId 로 member 를 찾아라.
         Member member = memberService.findMember(memberId);
 
