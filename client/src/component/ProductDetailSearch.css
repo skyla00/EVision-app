@@ -1,0 +1,124 @@
+.detail-search-box {
+    margin-top: 16px;
+    padding-left: 180px !important; 
+    height: 180px;
+    width: 1600px;
+}
+
+.form-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1600px;
+    min-width: 1600px;
+    height: 80px !important;
+    gap: 6px !important;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #74BDA1;
+  }
+  
+  .Product-form-row {
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-left: 16px;
+  }
+
+.product-form-row-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 11px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-left: 16px;
+    height: 80px;
+    min-height: 82px;
+}
+
+.product-form-row input {
+    width: 250px !important;
+    height: 38px;
+    padding: 10px;
+    padding-top: 14px !important;
+    font-size: 14px;
+    border: 1px solid #74BDA1;
+    border-radius: 4px;
+    box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
+}
+
+
+.product-dropdown-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0px;
+    border: 1px solid #74BDA1;
+    max-height: 300px;
+    overflow-y: auto;
+    position: absolute;
+    width: 248px;
+    background-color: rgb(255, 255, 255);
+    z-index: 1000;
+}
+
+.product-dropdown-list li {
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.product-dropdown-list li:hover {
+    font-weight: bold;
+    background-color: #f1f1f1;
+}
+
+
+.selected-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right : auto;
+    align-items: center;
+    gap: 10px;
+    margin-top: 17px;
+    padding: 4px;
+    padding-left: 20px;
+    border: 1px solid #348F6C;
+    width: 1575px !important;
+    height: 40px;
+  }
+
+  .keyword-tag {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .keyword-tag button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  } 
+
+  .keyword-icon {
+    width: 30px;
+    height: 30px;
+  }

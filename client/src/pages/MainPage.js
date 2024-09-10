@@ -90,7 +90,7 @@ const Favorite = (props) => {
   }
 
   return (
-    <div className="favorite-section">
+    <div className="favorite-section"> 
       <div className="favorite-title"> 즐겨찾기
         <div className="favorite-img">
           <img src="/image/favorite.png" alt="즐찾"></img>
@@ -102,11 +102,11 @@ const Favorite = (props) => {
             <div className="favorite-content-firstline">
               <div className="order-number">주문번호 : {item.isFavorite ? item.orderNumber : ''}</div>
               <div className="customer-code">판매업체코드 : {item.isFavorite ? item.customerCode : ''}</div>
-              <div className="order-status"> 주문상태 :
+              <div className="order-status"> 주문상태 : 승인 요청
                 <OrderStatus status={item.isFavorite ? item.orderStatus : ''} /> 
               </div>
               {/* <div className="order-status" style={{OrderStatus}}> 주문상태 : {props.OrderStatus} </div> */}
-              <div className="favorite-img" onClick={() => toggleFavorite(index)}>
+              <div className="favorite-icon" onClick={() => toggleFavorite(index)}>
                 <img src={item.isFavorite ? "/image/favorite.png" : "/image/favorite-grey.png"}
                 alt="즐찾" className="favorite-icon"/>
               </div>

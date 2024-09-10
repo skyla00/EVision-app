@@ -1,16 +1,54 @@
 .graph-info-container {
-    margin-top: 40px;
-    padding-left: 9.35vw; 
+    margin-top: 20px;
+    padding-left: 180px; 
     height: 600px;
 }
 
 .graph-info-header {  
-    width: 100%;
-    max-width: 80vw;
+    width: 1300px;
     height: 40px;
     display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.graph-per {
+    font-size: 18px;
+    margin-left: auto;
+    padding-right: 80px;
 }
 
 .graph-info-title {
-    padding-left: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+.graph-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 20px;
+    width: 1300px;
+    background-color: #f4f4f4;
+}
+
+.graph1 {
+    max-width: 340px;
+    max-height: 400px;
+    font-size: 16px;
+}
+
+.recharts-wrapper {
+    max-width: 360px;
+    max-height: 400px;
+    border: 2px solid #b4dacb;
+}
+
+.recharts-surface {
+    background-color: #ffffff;
+}
+
+.recharts-legend-wrapper {
+    max-width: ;
 }
