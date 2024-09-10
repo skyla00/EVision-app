@@ -12,8 +12,8 @@
   .modal-content {
     background-color: #fefefe;
     padding: 50px 150px 50px 150px;
-    width: 1000px;
-    height: 440px;
+    width: 700px !important;
+    height: 340px !important;
     border: 12px solid #348F6C;
     position: absolute;
     top: 50%;
@@ -21,16 +21,17 @@
     transform: translate(-50%, -50%);
   }
   
-  .modal-header {
+  .pd-modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
   }
 
-  .modal-title {
+  .pd-modal-title {
     font-size: 30px;
     font-weight: 1000;
-    padding-left: 4px;
+    padding-left: 14px;
   }
 
   .modal-close {
@@ -46,60 +47,59 @@
     cursor: pointer;
   }
 
-  .modal-input-section {
+  .pm-modal-input-section {
     display: flex;
     flex-direction: column;
     position: relative;
     width: 100%;
   }
-  
-  .input-first-line {
+
+  .pm-input-first-line {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 14px;
+    margin-top: 6px;
+    margin-bottom: 20px;
   }
 
-  .input-second-line {
+  .pm-input-second-line {
+    display: flex;
     align-items: center;
     justify-content: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+
   }
 
-  .input-third-line {
+  .pm-input-third-line {
+    display: flex;
     align-items: center;
     justify-content: flex-start;
+    gap: 14px;
   }
   
-  .modal-input-section input {
-    width: 400px;
-    height: 36px;
-    padding: 12px 20px 10px 20px;
-    border: 2px solid #74BDA1;
-    margin-bottom: 10px;
-  }
 
-  .input-second-line select {
-    width: 400px;
+  .pm-input-second-line select {
+    width: 384px;
     height: 36px;
     border: 2px solid #74BDA1;
-    margin-bottom: 20px;
     padding-left: 16px;
     color: #6e6e6e;
   }
 
-  .input-second-line input {
-    width: 318px;
-    margin-bottom: 20px !important;
+  .pm-input-second-line input {
+    width: 370px !important;
   }
 
-  .input-third-line input {
-    width: 100%;
+  .pm-input-third-line input {
+    width: 600px;
   }
 
-  .post-submit-button {
+  .pd-post-submit-button {
     width: 130px;
     display: block;
-    margin: 60px auto;
+    margin: 40px auto !important;
     padding: 10px 20px;
     background-color: #348F6C;
     color: white;
@@ -110,6 +110,25 @@
     cursor: pointer;
   }
   
-  .post-submit-button:hover {
+  .pd-post-submit-button:hover {
     background-color: #45a049;
+  }
+
+  .pm-modal-input-section input {
+    width: 700px;
+    height: 34px;
+    border: 2px solid #74BDA1;
+    padding-left: 10px;
+  }
+
+  .pm-modal-input-section label {
+    width: 60px;
+    min-width: 60px;
+    height: 34px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }

@@ -1,11 +1,9 @@
 .mainpage-container {
     /* padding-left: 140px;
     padding-right: 140px; */
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 0.6%;
     width: 1340px;
     margin: 0 auto;
+    padding-top: 30px;
 }
 
 .main-page-navicontainer {
@@ -118,13 +116,22 @@
     align-items: center;
 }
 
-.order-number, .customer-code, .order-date, .delivery-request-date {
+.order-number, .customer-code, .order-date {
     width: 260px;
     height: 35px;
     display: flex;
     align-items: center;
     padding-left: 20px;
 }
+
+.delivery-request-date {
+    width: 260px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
 
 .order-status {
     width: 230px;
@@ -137,4 +144,5 @@
 .favorite-icon {
     width: 30px;
     height: 30px;
+    padding-right: 30px;
 }

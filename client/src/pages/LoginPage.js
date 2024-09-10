@@ -49,8 +49,8 @@ const LoginPage = () => {
                         </div>
                     </div>
                     <div className="login-box">
-                        <input type="text" placeholder="ID" className="input-field"  onChange={(e) => setId(e.target.value)} />
-                        <input type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}  />
+                        <input type="text" placeholder="아이디를 입력해주세요" className="input-field"  onChange={(e) => setId(e.target.value)} />
+                        <input type="password" placeholder="비밀번호를 입력해주세요" className="input-field" onChange={(e) => setPassword(e.target.value)}  />
                         <button className="login-button"  onClick={handleLogin}>LOG IN</button>
                     </div>
                 </div>

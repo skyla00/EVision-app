@@ -1,11 +1,11 @@
-#root {
+/* #root {
   width: 100vw;
   height: 100vh;
 }
 
 #App {
   position: relative;
-}
+} */
 
 .login-page-container {
     background-size: cover;
@@ -95,9 +95,9 @@
   }
   
 .input-field {
-    width: 100%;
-    max-width: 260px;
-    height: 40px;
+    width: 220px;
+    height: 4px;
+    max-width: 260px !important;
     padding: 20px;
     margin: 14px 0;
     border-radius: 5px;
@@ -105,7 +105,7 @@
     background-color: #dcdcdc;
   }
 
-.input-field::placeholder{
+.login-input-field::placeholder{
   color: #5c5c5c;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
@@ -124,4 +124,10 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 14px;
+    box-shadow: 2px 2px 2px 0 #c6c6c6;
+    
+  }
+
+  .login-button:hover {
+    background-color: #278561;
   }

@@ -1,94 +1,156 @@
 import React, { useEffect, useState } from 'react';
 import './ProductModifyModal.css';
+import axios from 'axios';
 
 const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
     const [unit, setUnit] = useState('');
-    const [status, setStatus] = useState('');
+    const [itemStatus, setItemStatus] = useState('');
     const [specs, setSpecs] = useState('');
 
-    // 항목 추가
-    const handleSubmit = () => {
-    
-        // 입력값이 모두 있는지 확인
-        if (!itemName || !itemCode || !unit || !status || !specs) {
-            alert('모든 항목을 입력해주세요.');
-            return;
-        }
-        
-        // 새로운 아이템 생성
-        const newItem = {
-            itemName,
-            itemCode,
-            unit,
-            status,
-            specs,
-        };
-
-        // 부모 컴포넌트로 데이터 전달
-        onSubmit(newItem);
-
-        // 입력 필드 초기화
-        setItemName('');
-        setItemCode('');
-        setUnit('');
-        setStatus('');
-        setSpecs('');
-    };
-
+    // 모달이 열릴 때 선택된 아이템 정보를 입력 필드에 채움
     useEffect(() => {
-        if(isOpen && item !== undefined){
+        if (isOpen && item !== undefined) {
             console.log(item);
             setItemName(item.itemName);
             setItemCode(item.itemCode);
             setUnit(item.unit);
-            setStatus(item.status);
+            setItemStatus(item.status);
             setSpecs(item.specs);
         }
-      }, [item]);
+    }, [isOpen, item]);
+
+    // // 수정한 데이터를 서버로 PATCH 요청
+    // const handlePatchRequest = async (updatedItem) => {
+    //     try {
+    //         const accessToken = window.localStorage.getItem('accessToken'); // 토큰 가져오기
+    //         const response = await axios.patch(
+    //             `${process.env.REACT_APP_API_URL}items/${updatedItem.itemCode}`,
+    //             updatedItem,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${accessToken}`,
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //             }
+    //         );
+    //         alert('수정되었습니다.');
+    //         // onSubmit(response.data); // 수정된 데이터를 부모 컴포넌트로 전달
+    //         onClose(); // 모달 닫기
+    //     } catch (error) {
+    //         alert('수정 실패: ' + error.message);
+    //     }
+    // };
+
+    // // 항목 수정 제출 처리
+    // const handleSubmit = () => {
+    
+    //     // 입력값이 모두 있는지 확인
+    //     if (!itemName || !itemCode || !unit || !status || !specs) {
+    //         alert('모든 항목을 입력해주세요.');
+    //         return;
+    //     }
+        
+    //     // 새로운 아이템 생성
+    //     const updatedItem = {
+    //         itemName,
+    //         itemCode,
+    //         unit,
+    //         itemStatus,
+    //         specs,
+    //     };
+
+    //     handlePatchRequest(updatedItem);
+
+    //     // 입력 필드 초기화
+    //     setItemName('');
+    //     setItemCode('');
+    //     setUnit('');
+    //     setStatus('');
+    //     setSpecs('');
+    // };
+
+    const handleSubmit = async () => {
+        try {
+            let accessToken = window.localStorage.getItem('accessToken');
+            console.log('Access Token:', accessToken);
+
+            const updatedItem = {
+                itemName,
+                itemCode,
+                unit,
+                itemStatus,
+                specs,
+            };
+
+            const response = await axios.patch(process.env.REACT_APP_API_URL + 'items' + '/' + updatedItem.itemCode,
+                updatedItem, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+            onSubmit(response.data);
+            setItemName('');
+            setItemCode('');
+            setUnit('');
+            setItemStatus('');
+            setSpecs('');
+            onClose();
+        } catch (error) {
+            console.error('상품 등록 실패: ', error);
+        }
+    };
+                    
 
     if (!isOpen) return null;
 
     return (
       <div className="modal">
         <div className="modal-content">
-            <div className="modal-header">
-                <div className="modal-title">상품 정보 수정</div>
+            <div className="pd-modal-header">
+                <div className="pd-modal-title">상품 정보 수정</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
             </div>
 
-            <div className="modal-input-section">
-                <div className="input-first-line">
+            <div className="pm-modal-input-section">
+                <div className="pm-input-first-line">
+                    <label>상품명</label>
                     <input 
                         type="text" 
                         value={itemName} 
                         onChange={(e) => setItemName(e.target.value)} 
                         placeholder="상품명" 
                     />
+                    <label>상품코드</label>
                     <input 
                         type="text" 
                         value={itemCode} 
                         onChange={(e) => setItemCode(e.target.value)} 
                         placeholder="상품코드" 
+                        readOnly
                     />
                 </div>
-                <div className="input-second-line">
+                <div className="pm-input-second-line">
+                    <label>단위</label>
                     <input 
                         type="text" 
                         value={unit} 
                         onChange={(e) => setUnit(e.target.value)} 
                         placeholder="단위" 
                     />
+                    <label>상태</label>
                     <select 
-                        value={status} 
-                        onChange={(e) => setStatus(e.target.value)}>
+                        value={itemStatus} 
+                        onChange={(e) => setItemStatus(e.target.value)}>
                         <option value="" disabled hidden>상태</option>
-                        <option value="판매중">판매중</option>
-                        <option value="품절">판매종료</option>
+                        <option value="ON_SALE">ON_SALE</option>
+                        <option value="NOT_FOR_SALE">NOT_FOR_SALE</option>
                     </select>
                 </div>
-                <div className="input-third-line-product">
+                <div className="pm-input-third-line">
+                <label>정보</label>
                     <input 
                         type="text" 
                         value={specs} 
@@ -97,7 +159,7 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
                     />
                 </div>
             </div>
-            <button className="post-submit-button" onClick={handleSubmit}>수정</button>
+            <button className="pd-post-submit-button" onClick={handleSubmit}>수정</button>
         </div>
       </div>
     );
