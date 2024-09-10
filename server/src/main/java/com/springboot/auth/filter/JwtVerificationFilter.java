@@ -4,6 +4,7 @@ import com.springboot.auth.jwt.JwtTokenizer;
 import com.springboot.auth.utils.JwtAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,20 +18,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final JwtAuthorityUtils jwtAuthorityUtils;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, JwtAuthorityUtils jwtAuthorityUtils) {
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, JwtAuthorityUtils jwtAuthorityUtils, RedisTemplate<String, Object> redisTemplate) {
         this.jwtTokenizer = jwtTokenizer;
         this.jwtAuthorityUtils = jwtAuthorityUtils;
+        this.redisTemplate = redisTemplate;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try {
             Map<String, Object> claims = verifyJws(request);
+            isTokenValidInRedis(claims);
             setAuthenticationToContext(claims);
         } catch (SignatureException se) {
             request.setAttribute("exception", se);
@@ -64,6 +70,18 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    // Redis에서 토큰을 검증하는 메서드 추가
+    private void isTokenValidInRedis(Map<String, Object> claims) {
+//      우리의 로직에서는 클레임이 생성될 때 username이 null일 수 없으나 명시적으로 나타내줌
+        String username = Optional.ofNullable((String) claims.get("username")).orElseThrow(()-> new NullPointerException("Username is null"));
+//      레디스에 username으로 키가 있는지 여부판단
+        Boolean hasKey = redisTemplate.hasKey(username);
+//      키가 없다면 예외를 던져줌
+        if(Boolean.FALSE.equals(hasKey)){
+            throw new IllegalThreadStateException("Redis key does not exist for username");
+        }
     }
 
 }
