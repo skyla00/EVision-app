@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class SalesPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long salesPriceId;
+    private Long salesPriceId;
 
     @Column(nullable = false)
     private int salesAmount;

@@ -5,13 +5,17 @@ import com.springboot.customer.repository.CustomerRepository;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.item.entity.Item;
+import com.springboot.item.entity.PurchasePrice;
+import com.springboot.item.entity.Supplier;
 import com.springboot.item.repository.ItemRepository;
+import com.springboot.item.repository.PurchasePriceRepository;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
+import com.springboot.salesprice.repository.SalesPriceRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -32,17 +36,20 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CustomerRepository customerRepository;
     private final ItemRepository itemRepository;
+    private final SalesPriceRepository salesPriceRepository;
+    private final PurchasePriceRepository purchasePriceRepository;
     private final MemberService memberService;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
-
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, CustomerRepository customerRepository, ItemRepository itemRepository, MemberService memberService1) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, MemberService memberService, CustomerRepository customerRepository, ItemRepository itemRepository, SalesPriceRepository salesPriceRepository, MemberService memberService1, PurchasePriceRepository purchasePriceRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
-        this.memberService = memberService1;
+        this.salesPriceRepository = salesPriceRepository;
+        this.purchasePriceRepository = purchasePriceRepository;
+        this.memberService = memberService;
     }
 
     public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
@@ -72,12 +79,43 @@ public class OrderService {
 
         // OrderHeader에 List로 OrderItem 입력
         List<OrderItem> createOrderItems = new ArrayList<>();
-        for (OrderItem orderItems : orderHeader.getOrderItems()) {
-            Item item = itemRepository.findByItemCode(orderItems.getItem().getItemCode());
+        for (OrderItem orderItem : orderHeader.getOrderItems()) {
+            Item item = itemRepository.findByItemCode(orderItem.getItem().getItemCode());
             if (item != null) {
-                orderItems.setItem(item);
-                orderItems.setOrderHeader(savedOrderHeader);
-                createOrderItems.add(orderItems);
+                orderItem.setItem(item);
+                orderItem.setOrderHeader(savedOrderHeader);
+
+                // purchaseAmount 입력
+                Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(item.getItemCode());
+                orderItem.setPurchaseAmount(purchaseAmount);
+
+                // salesAmount 입력
+                // orderItem의 itemCode랑 orderHeader의 customerCode를 참고해서 가져오기.
+                Integer salesAmount = salesPriceRepository.findSalesAmountByItemCodeAndCustomerCode(item.getItemCode(), createOrderHeader.getCustomer().getCustomerCode());
+                if(salesAmount == null) {
+                    salesAmount = 0;
+                }
+                orderItem.setSalesAmount(salesAmount);
+
+                // marginAmount 입력
+                int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
+                if (salesAmount == 0 || purchaseAmount == 0) {
+                    marginAmount = 0;
+                }
+                orderItem.setMarginAmount(marginAmount);
+
+                // marginRate 입력
+                int marginRate = marginRateCalculation(marginAmount, salesAmount);
+                if(salesAmount == 0 || marginAmount == 0) {
+                    marginRate = 0;
+                }
+                orderItem.setMarginRate(marginRate);
+
+                // finalAmount 입력
+                long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(),orderItem.getOrderItemQuantity());
+                orderItem.setFinalAmount(finalAmount);
+
+                createOrderItems.add(orderItem);
             } else {
                 throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_NOT_FOUND);
             }
@@ -135,7 +173,7 @@ public class OrderService {
         return orderHeader.getOrderDate();
     }
 
-    private String generateOrderNumber() {
+    public String generateOrderNumber() {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
         String formattedDate = currentDate.format(formatter);
@@ -152,5 +190,20 @@ public class OrderService {
         } while (orderHeaderRepository.existsById(formattedDate + randomStr));
 
         return formattedDate + randomStr;
+    }
+
+    public int marginAmountCalculation (int salesAmount, int purchaseAmount) {
+        return salesAmount - purchaseAmount;
+    }
+
+    public int marginRateCalculation (int marginAmount, int salesAmount) {
+        if(salesAmount == 0) {
+            return 0;
+        }
+        return (marginAmount / salesAmount) * 100;
+    }
+
+    public long finalAmountCalculation (int salesAmount, int orderItemQuantity) {
+        return (long) salesAmount * orderItemQuantity;
     }
 }

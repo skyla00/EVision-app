@@ -24,19 +24,19 @@ public class OrderItem {
     private LocalDate requestDate;
 
     @Column(nullable = false)
-    private long orderItemQuantity;
+    private int orderItemQuantity;
 
     @Column(nullable = false)
-    private long purchaseAmount;
+    private int purchaseAmount;
 
     @Column(nullable = false)
-    private long salesAmount;
+    private int salesAmount;
 
     @Column(nullable = false)
-    private long marginRate;
+    private int marginRate;
 
     @Column(nullable = false)
-    private long marginAmount;
+    private int marginAmount;
 
     @Column(nullable = false)
     private long finalAmount;
