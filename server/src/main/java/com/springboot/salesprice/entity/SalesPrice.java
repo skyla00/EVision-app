@@ -26,7 +26,7 @@ public class SalesPrice {
     private LocalDate startDate;
 
     @Column(nullable = false)
-    private LocalDate endDate;
+    private LocalDate endDate = LocalDate.of(9999,12,31);
 
     @ManyToOne
     @JoinColumn(name = "ITEM_CODE")

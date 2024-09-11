@@ -10,6 +10,8 @@ public enum ExceptionCode {
     ITEM_NOT_FOUND(404, "Item Not Found"),
     ITEM_EXISTS(409, "Item Exists"),
     SALES_AMOUNT_NOT_FOUND(404, "SalesAmount Not Found"),
+    NEW_SALES_PRICE_EXISTS(409, "new SalesPrices Exists"),
+    INVALID_START_DATE(404, "start date cannot be same or earlier than current start date."),
     PURCHASE_AMOUNT_NOT_FOUND(404, "PurchaseAmount Not Found"),
     SALES_AMOUNT_EXISTS(409, "SalesAmount Exists"),
     CUSTOMER_NOT_FOUND(404, "Customer Not Found"),
