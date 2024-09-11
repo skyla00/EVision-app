@@ -59,18 +59,19 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getAllOrders(@RequestParam(value = "member-id", required = false) String memberId, Authentication authentication) {
+    public ResponseEntity getAllOrders(@RequestParam(value = "member-id", required = false) String memberId,
+                                       @RequestParam(value = "order-header-id", required = false) String orderHeaderId,
+                                       Authentication authentication) {
 
-        List<OrderHeader> orderHeaders = orderService.findAllOrders(memberId, authentication);
+        if (orderHeaderId != null) {
+            OrderHeader orderHeader = orderService.findOrder(orderHeaderId);
+            return new ResponseEntity<>(new SingleResponseDto<>(orderMapper.orderToOrderResponseDto(orderHeader)), HttpStatus.OK);
+        } else {
+            List<OrderHeader> orderHeaders = orderService.findAllOrders(memberId, authentication);
 
-        return new ResponseEntity<>(
-                new OrderDto.MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders)),
-                HttpStatus.OK);
-    }
-
-    @GetMapping("/{order-header-id}")
-    public ResponseEntity getOrder(@PathVariable("order-header-id") String orderHeaderId) {
-        OrderHeader orderHeader = orderService.findOrder(orderHeaderId);
-        return new ResponseEntity<>(new SingleResponseDto<>(orderMapper.orderToOrderResponseDto(orderHeader)), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new OrderDto.MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders)),
+                    HttpStatus.OK);
+        }
     }
 }
