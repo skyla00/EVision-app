@@ -20,6 +20,8 @@ public interface OrderMapper {
 
     @Mapping(source = "customer.customerCode", target = "customerCode")
     @Mapping(source = "orderItems", target = "orderItems")
+    @Mapping(source = "member.memberName", target = "memberName")
+    @Mapping(source = "customer.customerName", target = "customerName")
     OrderDto.OrderResponse orderToOrderResponseDto(OrderHeader orderHeader);
 
     @Mapping(source = "item.itemCode", target = "itemCode")
