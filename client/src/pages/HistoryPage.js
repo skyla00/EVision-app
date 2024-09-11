@@ -5,7 +5,6 @@ import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
 import HistorySearchInfo from '../component/HistorySearchInfo';
-import { headers, items } from '../component/MockData';
 
 const HistoryPage = () => {
     const fields = [ 
@@ -29,7 +28,7 @@ const HistoryPage = () => {
             <SideBar />
             <Tab />
             <DetailSearch title="주문 내역 히스토리" fields={fields}/>
-            <HistorySearchInfo title="전체 주문 정보" headers={headers} items={items}/>
+            {/* <HistorySearchInfo title="전체 주문 정보" headers={headers} items={items}/> */}
         </div>
     )
   };

@@ -6,7 +6,6 @@ import Tab from '../component/Tab';
 import DetailSearch from '../component/DetailSearch';
 import ManagementSearchInfo from '../component/ManagementSearchInfo';
 import DetailView from '../Modal/DetailView';
-import { headers, items as mockItems } from '../component/MockData';
 
 const ManagementPage = () => {
     const fields = [
@@ -21,7 +20,6 @@ const ManagementPage = () => {
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [items, setItems] = useState(mockItems);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
     // const [searchResults, setSearchResults] = useState([]);
@@ -46,7 +44,6 @@ const ManagementPage = () => {
     };
 
     const handleSubmitOrder = (newOrder) => {
-        setItems([...items, newOrder]);
         handleCloseModal();
     }
 
@@ -56,7 +53,7 @@ const ManagementPage = () => {
             <SideBar />
             <Tab />
             <DetailSearch title="주문 관리" fields={fields}/>
-            <ManagementSearchInfo title=" 주문 정보" headers={headers} items={items} 
+            {/* <ManagementSearchInfo title=" 주문 정보" headers={headers} items={items}  */}
                 onRowSelect={handleRowSelect} onOpenModal={handleOpenModal} selectedIndex={selectedIndex}/>
             <DetailView isOpen={isModalOpen} onClose={handleCloseModal} 
                 onSubmit={handleSubmitOrder} selectedItem={selectedItem}/>

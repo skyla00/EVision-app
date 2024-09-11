@@ -111,68 +111,50 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
         <div className="detail-search-title"> {}
             {title && <div className="form-title">{title}</div>}
         </div>
-        <div className="form-container">
-            <div className="order-form-row-container">
-                <div className="order-form-row">
-                    <input type="search" placeholder="주문번호" value={orderHeaderId}
+        <div className="order-form-container">
+            <div className="order-form-row">
+                <input type="search" placeholder="주문번호" value={orderHeaderId}
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
                         onKeyPress={handleKeyPress}
                      />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="상품명" value={itemName}
+                <input type="search" placeholder="상품명" value={itemName}
                         onChange={(e) => setItemName(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="상품코드" value={itemCode}
+                />
+                <input type="search" placeholder="상품코드" value={itemCode}
                         onChange={(e) => setItemCode(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="판매처명" value={customerName}
+                />
+                 <input type="search" placeholder="판매처명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="판매처 코드" value={customerCode}
+                />
+                <input type="search" placeholder="판매처 코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="주문상태" value={orderHeaderStatus}
+                />
+                <input type="search" placeholder="주문상태" value={orderHeaderStatus}
                         onChange={(e) => setOrderHeaderStatus(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="판매사원 이름" value={memberName}
+                />
+            </div>
+            <div className="order-form-row">
+                <input type="search" placeholder="판매사원 이름" value={memberName}
                         onChange={(e) => setMemberName(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="주문일자" value={orderDate}
+                />
+                <input type="search" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="납품요청일자" value={requestDate}
+                />
+                <input type="search" placeholder="납품요청일자" value={requestDate}
                         onChange={(e) => setRequestDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
-                <div className="order-form-row">
-                    <input type="search" placeholder="납품확정일자" value={acceptDate}
+                />
+                <input type="search" placeholder="납품확정일자" value={acceptDate}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                     />
-                </div>
+                />
                 <button className="order-search-button" onClick={handleSearch}>조회</button>
             </div>
             <div className="selected-keywords">

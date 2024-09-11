@@ -18,7 +18,7 @@ const OrderSearchInfo = ({ title, headers, orders = [], onOpenOrderModal }) => {
             </div>
             <div className="search-info-section">
                 <OrderSearchInfoList 
-                    customers={orders.length > 0 ? orders : []}
+                    orders={orders.length > 0 ? orders : []}
                     headerKey={headerKey} 
                     headers={headers} 
                 />

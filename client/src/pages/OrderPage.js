@@ -30,21 +30,30 @@ const OrderPage = () => {
         const fetchOrders = async () => {
             try {
                 let accessToken = window.localStorage.getItem('accessToken');
+                if (!accessToken) {
+                    console.error("Access token is missing");
+                    return;
+                }
                 const response = await axios.get(process.env.REACT_APP_API_URL + 'orders', {
                     headers: {
-                        Authorization: `${accessToken}`
+                        Authorization: `Bearer ${accessToken}`
                     }
                 });
-                console.log(response.data.data);
+
+                console.log("API Response: ", response.data); // 응답 데이터를 확인
+            if (response.data && response.data.data) {
                 setOrderList(response.data.data);
                 setSearchResults(response.data.data);
-            } catch (error) {
-                console.error(error);
+            } else {
+                console.log('No data available');
             }
-        };
+        } catch (error) {
+            console.error('Error fetching orders:', error.response ? error.response.data : error.message);
+        }
+    };
 
-        fetchOrders();
-    }, []);
+    fetchOrders();
+}, []);
 
     const handleSearch = useCallback(( orderHeaderId, itemName, itemCode, customerName, customerCode, 
         orderHeaderStatus, memberName, orderDate, requestDate, acceptDate ) => {
@@ -126,7 +135,7 @@ const OrderPage = () => {
     const handleCloseOrderModal = () => setIsModalOpen(false);
 
     const handleSelectOrder = (order) => {
-        selectedOrder(order);
+        setSelectedOrder(order);
     };
 
     const handleOrderPostSuccess = (newOrder) => {
