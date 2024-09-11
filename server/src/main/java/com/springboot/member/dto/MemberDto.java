@@ -1,11 +1,12 @@
 package com.springboot.member.dto;
 
-import lombok.AllArgsConstructor;
+import com.springboot.order.dto.OrderDto;
 import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 
 public class MemberDto {
@@ -38,6 +39,7 @@ public class MemberDto {
         private String memberName;
         private String position;
         private String department;
+        private List<OrderDto.OrderResponse> favorites;
     }
 
 
