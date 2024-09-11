@@ -52,7 +52,7 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public List<Item> findItems() {
-        return itemRepository.findAll();
+        return itemRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
     private Item findVerifiedItem(String itemCode) {
         Optional<Item> item = itemRepository.findById(itemCode);

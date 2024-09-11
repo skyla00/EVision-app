@@ -1,0 +1,123 @@
+.modal {
+    display: block; /* 모달이 열릴 때 */
+    position: fixed;
+    z-index: 1000; /* 모달의 z-index 설정 */
+    left: 0; /* 화면 왼쪽 */
+    top: 0; /* 화면 위쪽 */
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+  
+  .modal-content {
+    background-color: #fefefe;
+    padding: 50px 150px 50px 150px;
+    width: 1000px;
+    height: 440px;
+    border: 12px solid #348F6C;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .cm-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .cm-modal-title {
+    font-size: 30px;
+    font-weight: 1000;
+    padding-left: 4px;
+  }
+
+  .cm-modal-input-section {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+  
+  .cm-input-first-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 6px;
+    margin-bottom: 20px;
+  }
+
+  .cm-input-second-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .cm-input-third-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .cm-input-first-line input {
+    width: 370px;
+  }
+
+  .cm-input-second-line input {
+    width: 370px;
+  }
+
+  .cm-input-third-line input {
+    width: 600px;
+  }
+
+  .cm-modal-input-section input {
+    width: 700px;
+    height: 34px;
+    border: 2px solid #74BDA1;
+    padding-left: 10px;
+  }
+
+  .cm-post-submit-button {
+    width: 130px;
+    display: block;
+    margin: 40px auto;
+    padding: 10px 20px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 20px;
+    font-weight: 1000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .post-submit-button:hover {
+    background-color: #45a049;
+  }
+
+  .cm-modal-input-section input {
+    width: 700px;
+    height: 34px;
+    border: 2px solid #74BDA1;
+    padding-left: 10px;
+  }
+
+
+  .cm-modal-input-section label {
+    width: 60px;
+    min-width: 61px;
+    height: 34px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

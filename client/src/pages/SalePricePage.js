@@ -3,8 +3,8 @@ import './CustomerPage.css';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
-import DetailSearch from '../component/DetailSearch';
-import SearchInfo from '../component/SearchInfo';
+import ProductDetailSearch from '../component/ProductDetailSearch';
+import ProductSearchInfo from '../component/ProductSearchInfo';
 import SalePricePostModal from '../Modal/SalePricePostModal';
 import SalePriceModifyModal from '../Modal/SalePriceModifyModal';
 import { headers, items }  from '../component/MockData';
@@ -53,8 +53,8 @@ const SalePricePage = () => {
             <Header />
             <SideBar />
             <Tab />
-            <DetailSearch title="판매가 조회" fields={fields}/>
-            <SearchInfo 
+            <ProductDetailSearch title="판매가 조회" fields={fields}/>
+            <ProductSearchInfo 
                 title="판매가 정보" headers={headers} items={items} 
                 onOpenPostModal={handleOpenPostModal}
                 onOpenModifyModal={handleOpenModifyModal} />

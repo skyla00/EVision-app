@@ -84,27 +84,6 @@
     background-color: #f1f1f1;
 }
 
-.pd-search-button {
-    width: 130px;
-    height: 32px;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: 36px;
-    margin-top: 45px;
-    margin-bottom: auto;
-    background-color: #348F6C;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 1000;
-    border: none;
-  }
-
-  .pd-search-button:hover {
-    background-color: #1a704d;
-  }
-
-
 
 .selected-keywords {
     display: flex;
@@ -142,4 +121,21 @@
   .keyword-icon {
     width: 30px;
     height: 30px;
+  }
+
+  .cd-search-button {
+    width: 130px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-top: 7px;
+    margin-right: 46px;
+    margin-bottom: auto;
+    background-color: #348F6C;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 1000;
+    border: none;
+    float: right;
   }

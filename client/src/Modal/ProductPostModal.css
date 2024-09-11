@@ -123,9 +123,9 @@
 
 .pp-modal-input-section label {
   width: 60px;
-  min-width: 60px;
+  min-width: 61px;
   height: 34px;
-  text-align: left;
+  text-align: center;
   font-size: 14px;
   font-weight: bold;
   display: flex;

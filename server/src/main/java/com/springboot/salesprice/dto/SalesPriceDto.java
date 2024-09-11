@@ -3,8 +3,10 @@ package com.springboot.salesprice.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Date;
 
 public class SalesPriceDto {
@@ -16,6 +18,7 @@ public class SalesPriceDto {
         @NotBlank
         private String customerCode;
         @NotBlank
+        @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
         @NotBlank
         private Date startDate;
@@ -25,6 +28,7 @@ public class SalesPriceDto {
     @Setter
     public static class Patch {
         private long salesPriceId;
+        @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
         private Date startDate;
         private Date endDate;
