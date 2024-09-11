@@ -1,5 +1,6 @@
 package com.springboot.member.controller;
 
+import com.springboot.order.mapper.OrderMapper;
 import com.springboot.response.SingleResponseDto;
 import com.springboot.member.dto.MemberDto;
 import com.springboot.member.entity.Member;
@@ -22,10 +23,12 @@ public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberService memberService;
     private final MemberMapper memberMapper;
+    private final OrderMapper orderMapper;
 
-    public MemberController(MemberService memberService, MemberMapper mapperMapper) {
+    public MemberController(MemberService memberService, MemberMapper mapperMapper, OrderMapper orderMapper) {
         this.memberService = memberService;
         this.memberMapper = mapperMapper;
+        this.orderMapper = orderMapper;
     }
 
     @PostMapping
@@ -44,7 +47,7 @@ public class MemberController {
         Member member = memberService.findMember(memberId);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(memberMapper.memberToMemberResponseDto(member)), HttpStatus.OK);
+                new SingleResponseDto<>(memberMapper.memberToMemberResponseDto(member, orderMapper)), HttpStatus.OK);
 
     }
 }
