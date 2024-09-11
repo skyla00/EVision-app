@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import './ProductPage.css';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
 import ProductDetailSearch from '../component/ProductDetailSearch';
-import SearchInfo from '../component/SearchInfo';
+import ProductSearchInfo from '../component/ProductSearchInfo';
 import ProductPostModal from '../Modal/ProductPostModal';
 import ProductModifyModal from '../Modal/ProductModifyModal';
 import axios from 'axios';
@@ -27,13 +27,14 @@ const ProductPage = () => {
         const fetchProducts = async () => {
             try {
                 let accessToken = window.localStorage.getItem('accessToken'); // 로컬 스토리지에서 accessToken을 가져옵니다.
-                const response = await axios.get(process.env.REACT_APP_API_URL + 'items?page=1&size=50', { // 서버로부터 데이터를 요청 (page=1, size=50으로 지정)
+                const response = await axios.get(process.env.REACT_APP_API_URL + 'items', {
                     headers: {
-                        Authorization: `Bearer ${accessToken}` // 인증 토큰을 헤더에 포함시켜 요청
+                        Authorization: `${accessToken}` // 인증 토큰을 헤더에 포함시켜 요청
                     }
                 });
                 setProductList(response.data.data); // 받아온 데이터를 productList에 저장
                 setSearchResults(response.data.data); // 페이지 로드 시 전체 상품을 searchResults에 저장
+                console.log(response.data.data);
             } catch (error) {
                 console.error(error);
             }
@@ -44,29 +45,34 @@ const ProductPage = () => {
    
 
     // 검색이 수행될 때 호출되는 함수
-    const handleSearch = (itemName, itemCode) => {
+    const handleSearch = useCallback((itemName, itemCode, itemSpecs) => {
+        let filteredResults = productList;
 
-        if (!itemName && !itemCode) {
+        if (!itemName && !itemCode && !itemSpecs) {
             setSearchResults(productList); // 검색 조건이 없으면 전체 상품 리스트를 보여줌
             return;
         }
-
-        // 상품명 또는 상품코드로 필터링
-        let filteredResults =productList;
-
+    
         if (itemName) {
             filteredResults = filteredResults.filter((item) => 
-                item.itemName.toLowerCase().includes(itemName.toLowerCase())
+                item.itemName && item.itemName.toLowerCase().includes(itemName.toLowerCase())
             );
         }
-
+    
         if (itemCode) {
             filteredResults = filteredResults.filter((item) => 
-                item.itemCode.toLowerCase().includes(itemCode.toLowerCase())
+                item.itemCode && item.itemCode.toLowerCase().includes(itemCode.toLowerCase())
             );
         }
+    
+        if (itemSpecs) {
+            filteredResults = filteredResults.filter((item) => 
+                item.specs && item.specs.toLowerCase().includes(itemSpecs.toLowerCase())
+            );
+        }
+    
         setSearchResults(filteredResults); // 검색된 결과 저장
-    };
+    }, [productList]);
     
 
     const [isProductPostModalOpen, setIsProductPostModalOpen] = useState(false);
@@ -116,7 +122,7 @@ const ProductPage = () => {
             <SideBar />
             <Tab />
             <ProductDetailSearch title="상품 조회" list={productList} onSearch={handleSearch} />
-            <SearchInfo
+            <ProductSearchInfo
                 title="상품 정보"
                 headers={headers}
                 items={searchResults}
@@ -125,13 +131,6 @@ const ProductPage = () => {
                 onOpenPostModal={handleOpenPostModal} // 등록 모달 열기 함수 전달
                 onOpenModifyModal={handleOpenModifyModal} // 수정 모달 열기 함수 전달
             />
-            {/* <SearchInfo title="상품 정보" headers={itemheaders} items={items}
-                onOpenPostModal={handleOpenPostModal}
-                onOpenModifyModal={
-                    (item) => {
-                        handleOpenModifyModal();
-                        setItem(item);
-                    }} /> */}
             <ProductPostModal
                 isOpen={isProductPostModalOpen}
                 onClose={handleCloseProductPostModal}

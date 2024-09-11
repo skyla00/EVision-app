@@ -21,56 +21,6 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
         }
     }, [isOpen, item]);
 
-    // // 수정한 데이터를 서버로 PATCH 요청
-    // const handlePatchRequest = async (updatedItem) => {
-    //     try {
-    //         const accessToken = window.localStorage.getItem('accessToken'); // 토큰 가져오기
-    //         const response = await axios.patch(
-    //             `${process.env.REACT_APP_API_URL}items/${updatedItem.itemCode}`,
-    //             updatedItem,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${accessToken}`,
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //             }
-    //         );
-    //         alert('수정되었습니다.');
-    //         // onSubmit(response.data); // 수정된 데이터를 부모 컴포넌트로 전달
-    //         onClose(); // 모달 닫기
-    //     } catch (error) {
-    //         alert('수정 실패: ' + error.message);
-    //     }
-    // };
-
-    // // 항목 수정 제출 처리
-    // const handleSubmit = () => {
-    
-    //     // 입력값이 모두 있는지 확인
-    //     if (!itemName || !itemCode || !unit || !status || !specs) {
-    //         alert('모든 항목을 입력해주세요.');
-    //         return;
-    //     }
-        
-    //     // 새로운 아이템 생성
-    //     const updatedItem = {
-    //         itemName,
-    //         itemCode,
-    //         unit,
-    //         itemStatus,
-    //         specs,
-    //     };
-
-    //     handlePatchRequest(updatedItem);
-
-    //     // 입력 필드 초기화
-    //     setItemName('');
-    //     setItemCode('');
-    //     setUnit('');
-    //     setStatus('');
-    //     setSpecs('');
-    // };
-
     const handleSubmit = async () => {
         try {
             let accessToken = window.localStorage.getItem('accessToken');
