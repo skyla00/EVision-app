@@ -34,13 +34,13 @@ public class OrderHeader {
     @Column(nullable = false)
     private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.WAITING;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MEMBER_ID", nullable = false)
     @JsonBackReference
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "CUSTOMER_CODE")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CUSTOMER_CODE", nullable = false)
     @JsonBackReference
     private Customer customer;
 
