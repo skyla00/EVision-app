@@ -67,4 +67,10 @@ public class OrderController {
                 new OrderDto.MultiResponseDto<>(orderMapper.orderHeadersToOrderResponseDtos(orderHeaders)),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/{order-header-id}")
+    public ResponseEntity getOrder(@PathVariable("order-header-id") String orderHeaderId) {
+        OrderHeader orderHeader = orderService.findOrder(orderHeaderId);
+        return new ResponseEntity<>(new SingleResponseDto<>(orderMapper.orderToOrderResponseDto(orderHeader)), HttpStatus.OK);
+    }
 }

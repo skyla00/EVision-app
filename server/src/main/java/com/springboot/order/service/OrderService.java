@@ -183,12 +183,22 @@ public class OrderService {
         }
     }
 
+    public OrderHeader findOrder (String orderHeaderId) {
+        return findVerifiedOrder(orderHeaderId);
+    }
+
     public LocalDate verifiedOrderDate(OrderHeader orderHeader) {
         LocalDate currentDate = LocalDate.now();
         if(orderHeader.getOrderDate().isAfter(currentDate)) {
             throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
         return orderHeader.getOrderDate();
+    }
+
+    public OrderHeader findVerifiedOrder(String orderHeaderId) {
+        Optional<OrderHeader> orderHeader = orderHeaderRepository.findById(orderHeaderId);
+
+        return orderHeader.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
     }
 
     public String generateOrderNumber() {

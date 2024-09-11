@@ -30,6 +30,9 @@ public class OrderHeader {
     @Column
     private LocalDate acceptDate;
 
+    @Column
+    private String comment;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.WAITING;
