@@ -1,5 +1,7 @@
 package com.springboot.member.controller;
 
+import com.springboot.member.dto.FavoriteDto;
+import com.springboot.member.mapper.FavoriteMapper;
 import com.springboot.order.mapper.OrderMapper;
 import com.springboot.response.SingleResponseDto;
 import com.springboot.member.dto.MemberDto;
@@ -22,11 +24,13 @@ import java.net.URI;
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberService memberService;
+    private final FavoriteMapper favoriteMapper;
     private final MemberMapper memberMapper;
     private final OrderMapper orderMapper;
 
-    public MemberController(MemberService memberService, MemberMapper mapperMapper, OrderMapper orderMapper) {
+    public MemberController(MemberService memberService, FavoriteMapper favoriteMapper, MemberMapper mapperMapper, OrderMapper orderMapper) {
         this.memberService = memberService;
+        this.favoriteMapper = favoriteMapper;
         this.memberMapper = mapperMapper;
         this.orderMapper = orderMapper;
     }

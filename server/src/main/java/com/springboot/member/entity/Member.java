@@ -38,22 +38,11 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Favorite> favorites = new ArrayList<>();
-//    public void setFavoriteList (Favorite favorite) {
-//        this.favoriteList.add(favorite);
-//        if(favorite.getMember() != this) {
-//            favorite.setMember(this);
-//        }
-//
-//    }
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderHeader> orderHeaders = new ArrayList<>();
-//    public void setOrderHeaderList (OrderHeader orderHeader) {
-//        this.orderHeaderList.add(orderHeader);
-//        if(orderHeader.getMember() != this) {
-//            orderHeader.setMember(this);
-//        }
-//    }
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> permissions = new ArrayList<>();
 

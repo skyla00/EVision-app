@@ -30,7 +30,6 @@ public class MemberDto {
 
         @NotBlank
         private String department;
-
     }
 
     @Getter
@@ -41,8 +40,4 @@ public class MemberDto {
         private String department;
         private List<OrderDto.OrderResponse> favorites;
     }
-
-
-
-
 }
