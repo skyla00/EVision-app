@@ -48,7 +48,7 @@ public class OrderHeader {
     @JsonManagedReference
     private List<Favorite> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     List<OrderItem> orderItems = new ArrayList<>();
 

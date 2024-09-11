@@ -40,9 +40,9 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post requestBody, Authentication authentication) {
+    public ResponseEntity postOrder(@Valid @RequestBody OrderDto.Post orderPostDto, Authentication authentication) {
 
-        OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(requestBody);
+        OrderHeader orderHeader = orderMapper.orderPostDtoToOrder(orderPostDto);
         OrderHeader createOrder = orderService.createOrder(orderHeader, authentication);
         URI location = UriCreator.createUri(ORDER_DEFAULT_URL, createOrder.getOrderHeaderId());
         return ResponseEntity.created(location).build();
@@ -50,10 +50,10 @@ public class OrderController {
 
     @PatchMapping("/{order-header-id}")
     public ResponseEntity patchOrder(@PathVariable("order-header-id") @Positive String orderHeaderId,
-                                     @Valid @RequestBody OrderDto.Patch orderPatchDto) {
+                                     @Valid @RequestBody OrderDto.Patch orderPatchDto, Authentication authentication) {
         orderPatchDto.setOrderHeaderId(orderHeaderId);
         OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrder(orderPatchDto);
-        OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItems());
+        OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItems(), authentication);
 
         return new ResponseEntity<>(orderMapper.orderToOrderResponseDto(orderHeader), HttpStatus.OK);
     }

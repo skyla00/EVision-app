@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderHeaderRepository extends JpaRepository<OrderHeader, String> {
-    List<OrderHeader> findByMember_MemberId(String memberId);
+    List<OrderHeader> findByMemberMemberId(String memberId);
 }
