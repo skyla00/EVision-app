@@ -1,0 +1,25 @@
+.search-info-table thead {
+    height: 60px;
+    text-align: center;
+    border-bottom: 1px solid #d5d5d5;
+    color: #3f3f3f;
+    background-color: #f2f2f2;
+    font-size: 16px;
+}
+
+.search-info-table tbody {
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.search-info-tr {
+    font-size: 15px;
+}
+
+/* .search-info-td.itemName, .search-info-td.itemCode {
+    max-width: 240px;
+} */
+
+.search-info-td.unit {
+    width: 50px;
+}
