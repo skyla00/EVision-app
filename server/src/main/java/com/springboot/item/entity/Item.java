@@ -25,6 +25,7 @@ public class Item {
     @Column(nullable = false,length = 30)
     private String itemName;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 5)
     private Unit unit;
 
