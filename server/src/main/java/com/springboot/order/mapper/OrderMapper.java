@@ -15,6 +15,7 @@ public interface OrderMapper {
     @Mapping(source = "orderItems", target = "orderItems")
     OrderHeader orderPostDtoToOrder(OrderDto.Post postDto);
 
+    @Mapping(source = "acceptDate", target = "acceptDate")
     OrderHeader orderPatchDtoToOrder(OrderDto.Patch patchDto);
 
     @Mapping(source = "customer.customerCode", target = "customerCode")

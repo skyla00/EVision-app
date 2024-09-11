@@ -98,14 +98,11 @@ public class OrderService {
 
                 // marginAmount 입력
                 int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
-
                 orderItem.setMarginAmount(marginAmount);
 
                 // marginRate 입력
                 int marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
-                if(orderItem.getSalesAmount() == 0 || marginAmount == 0) {
-                    marginRate = 0;
-                }
+                if(orderItem.getSalesAmount() == 0 || marginAmount == 0) { marginRate = 0; }
                 orderItem.setMarginRate(marginRate);
 
                 // finalAmount 입력
@@ -125,25 +122,36 @@ public class OrderService {
         return orderHeaderRepository.save(savedOrderHeader);
     }
 
-    public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems) {
+    public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems, Authentication authentication) {
+
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderHeaderId));
+        if(!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
 
-        // 기존 데이터 업데이트 (OrderHeader 필드 업데이트)
-        existingOrderHeader.setOrderDate(updatedOrderHeader.getOrderDate());
-        existingOrderHeader.setAcceptDate(updatedOrderHeader.getAcceptDate());
-        existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
+        String existingStatus = existingOrderHeader.getOrderHeaderStatus().getStatus();
+        String updatedStatus = updatedOrderHeader.getOrderHeaderStatus().getStatus();
+
+        if (updatedStatus.equals("승인") && !existingStatus.equals("승인")) {
+            // OrderHeaderStatus가 ACCEPT로 변경될 때만 acceptDate 설정
+            existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
+            existingOrderHeader.setAcceptDate(LocalDate.now()); // 현재 날짜로 acceptDate 설정
+        } else if (!existingStatus.equals("승인") && !existingStatus.equals(updatedStatus)) {
+            // 다른 상태로 업데이트될 경우
+            existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
+        }
 
         // 기존 OrderItems 삭제 후 새로운 아이템으로 교체
         existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
+            calculateOrderItemDetails(updatedOrderItem);
             existingOrderHeader.getOrderItems().add(updatedOrderItem);
         }
 
         // 업데이트된 OrderHeader와 OrderItems 저장
         orderHeaderRepository.save(existingOrderHeader);
-        orderItemRepository.saveAll(updatedOrderItems);
 
         return existingOrderHeader;
     }
@@ -166,7 +174,7 @@ public class OrderService {
             }
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
             if(memberId.equals((String) authentication.getPrincipal())) {
-                return orderHeaderRepository.findByMember_MemberId(memberId);
+                return orderHeaderRepository.findByMemberMemberId(memberId);
             } else {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
             }
@@ -215,5 +223,34 @@ public class OrderService {
 
     public long finalAmountCalculation (int salesAmount, int orderItemQuantity) {
         return (long) salesAmount * orderItemQuantity;
+    }
+
+    private void calculateOrderItemDetails(OrderItem orderItem) {
+
+        // purchaseAmount 입력
+        Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(orderItem.getItem().getItemCode());
+        if (purchaseAmount == null) {
+            throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
+        }
+        orderItem.setPurchaseAmount(purchaseAmount);
+
+        // salesAmount 입력
+        int salesAmount = orderItem.getSalesAmount();
+        orderItem.setSalesAmount(salesAmount);
+
+        // marginAmount 입력
+        int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
+        orderItem.setMarginAmount(marginAmount);
+
+        // marginRate 입력
+        int marginRate = marginRateCalculation(marginAmount, salesAmount);
+        if (salesAmount == 0 || marginAmount == 0) {
+            marginRate = 0;
+        }
+        orderItem.setMarginRate(marginRate);
+
+        // finalAmount 입력
+        long finalAmount = finalAmountCalculation(salesAmount, orderItem.getOrderItemQuantity());
+        orderItem.setFinalAmount(finalAmount);
     }
 }

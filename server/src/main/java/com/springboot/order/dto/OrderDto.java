@@ -38,9 +38,12 @@ public class OrderDto {
         @NotNull(message = "주문 헤더 ID는 필수입니다.")
         private String orderHeaderId;
 
-        @NotNull(message = "승인 날짜는 필수입니다.")
+        @NotNull
+        private String orderHeaderStatus;
+
         private LocalDate acceptDate;
 
+        @NotNull
         private List<OrderItemDto> orderItems;
     }
 
@@ -48,11 +51,21 @@ public class OrderDto {
     @AllArgsConstructor
     public static class OrderResponse {
 
+        @NotNull
         private String orderHeaderId;
+        @NotNull
+        private String memberName;
+        @NotNull
         private LocalDate orderDate;
         private LocalDate acceptDate;
+        @NotNull
         private String customerCode;
+        @NotNull
+        private String customerName;
+        @NotNull
         private String orderHeaderStatus;
+        @NotNull
+        @Size(min = 1, message = "최소 한 개의 주문 항목이 있어야 합니다.")
         private List<OrderItemDto> orderItems;
     }
 
