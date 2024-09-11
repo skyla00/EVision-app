@@ -1,7 +1,7 @@
 import './CustomerSearchInfo.css';
-import CustomerSearchInfoList from './CustomerSearchInfoList';
+import SalesPriceSearchInfoList from './SalesPriceSearchInfoList';
 
-const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, onOpenModifyModal, onSelectCustomer, selectedCustomer }) => {
+const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModal, onOpenModifyModal, onSelectSalesPrice, selectedSalesPrice }) => {
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`);
     }
@@ -9,12 +9,12 @@ const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, o
     //headers 배열에서 'value' 값 추출
     const headerKey = headers.map(header => header.value);
 
-    // 수정 버튼을 클릭했을 때 선택된 판매업체가 있는지 확인
+    // 수정 버튼을 클릭했을 때 선택된 판매가가 있는지 확인
     const handleModifyClick = () => {
-        if (selectedCustomer) {
-            onOpenModifyModal(selectedCustomer); // 선택된 판매업체가 있을 때만 수정 모달 열기
+        if (selectedSalesPrice) {
+            onOpenModifyModal(selectedSalesPrice); // 선택된 판매가가 있을 때만 수정 모달 열기
         } else {
-            alert('수정할 판매업체를 선택하세요.'); // 선택된 판매업체가 없을 때 경고
+            alert('수정할 판매가를 선택하세요.'); // 선택된 판매가가 없을 때 경고
         }
     };
 
@@ -28,17 +28,17 @@ const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, o
                 </div>
             </div>
             <div className="search-info-section">
-                <CustomerSearchInfoList 
-                    customers={customers.length > 0 ? customers : []}
+                <SalesPriceSearchInfoList 
+                    salesPirces={salesPrices.length > 0 ? salesPrices : []}
                     headerKey={headerKey} 
                     headers={headers} 
                     onOpenModifyModal={onOpenModifyModal} 
-                    onSelectCustomer={onSelectCustomer} 
-                    selectedCustomer={selectedCustomer}
+                    onSelectSalesPrice={onSelectSalesPrice} 
+                    selectedSalesPrice={selectedSalesPrice}
                 />
             </div>
         </div>
     );
 };
 
-export default CustomerSearchInfo;
+export default SalesPriceSearchInfo;
