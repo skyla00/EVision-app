@@ -38,7 +38,9 @@ public class SalesPriceDto {
     public static class Response {
         private long salesPriceId;
         private String itemCode;
+        private String itemName;
         private String customerCode;
+        private String customerName;
         private int salesAmount;
         private Date startDate;
         private Date endDate;
