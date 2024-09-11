@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
+import axios from 'axios';
 
-const OrderModal = ({ isOpen, onClose, onSearch }) => {
+const OrderModal = ({ isOpen, onClose, onSubmit }) => {
 
     // const [orderDate] = useState(new Date().toISOString().split('T')[0]); // 오늘 날짜
     const [orderDate, setOrderDate] = useState('');

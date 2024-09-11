@@ -16,7 +16,7 @@ const OrderSearchInfoList = ({ orders, headerKey, headers}) => {
                 {orders.map((order, index) => (
                     <OrderSearchInfoItem 
                     key={index} 
-                    customer={order} 
+                    order={order} 
                     index={index} 
                     headerKey={headerKey} 
                 />
