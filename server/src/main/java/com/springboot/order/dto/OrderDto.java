@@ -41,8 +41,6 @@ public class OrderDto {
 
         private LocalDate acceptDate;
 
-        private String comment;
-
         @NotNull
         private List<OrderItemDto> orderItems;
     }
@@ -58,7 +56,6 @@ public class OrderDto {
         @NotNull
         private LocalDate orderDate;
         private LocalDate acceptDate;
-        private String comment;
         @NotNull
         private String customerCode;
         @NotNull

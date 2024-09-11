@@ -1,6 +1,7 @@
 package com.springboot.member.controller;
 
 import com.springboot.member.dto.FavoriteDto;
+import com.springboot.member.entity.Favorite;
 import com.springboot.member.mapper.FavoriteMapper;
 import com.springboot.order.mapper.OrderMapper;
 import com.springboot.response.SingleResponseDto;
@@ -24,14 +25,14 @@ import java.net.URI;
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberService memberService;
-    private final FavoriteMapper favoriteMapper;
     private final MemberMapper memberMapper;
+    private final FavoriteMapper favoriteMapper;
     private final OrderMapper orderMapper;
 
-    public MemberController(MemberService memberService, FavoriteMapper favoriteMapper, MemberMapper mapperMapper, OrderMapper orderMapper) {
+    public MemberController(MemberService memberService, MemberMapper mapperMapper, FavoriteMapper favoriteMapper, OrderMapper orderMapper) {
         this.memberService = memberService;
-        this.favoriteMapper = favoriteMapper;
         this.memberMapper = mapperMapper;
+        this.favoriteMapper = favoriteMapper;
         this.orderMapper = orderMapper;
     }
 
@@ -52,6 +53,14 @@ public class MemberController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(memberMapper.memberToMemberResponseDto(member, orderMapper)), HttpStatus.OK);
+    }
 
+    @DeleteMapping("/favorites")
+    public ResponseEntity deleteFavorite(@RequestBody FavoriteDto.Request request, Authentication authentication) {
+
+        FavoriteDto.Response response = memberService.favoriteOrder(request, authentication);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.NO_CONTENT);
     }
 }
