@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.orderhistory.entity.OrderItemHistory;
 import com.springboot.salesprice.entity.SalesPrice;
+import io.lettuce.core.GeoArgs;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,9 +26,9 @@ public class Item {
     private String itemName;
 
     @Column(nullable = false,length = 5)
-    private String unit;
+    private Unit unit;
 
-    @Column(nullable = false,length = 255)
+    @Column(nullable = false, length = 255)
     private String specs;
 
     @Column
@@ -51,6 +52,17 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    public enum Unit {
+        EA("개"),
+        SET("세트");
+
+        @Getter
+        @Setter
+        private String unitName;
+
+        Unit(String unitName) {this.unitName = unitName;}
+    }
 
     public enum ItemStatus {
         ON_SALE("판매중"),
