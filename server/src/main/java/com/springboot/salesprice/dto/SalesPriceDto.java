@@ -6,7 +6,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SalesPriceDto {
@@ -21,17 +23,20 @@ public class SalesPriceDto {
         @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
         @NotBlank
-        private Date startDate;
+        private LocalDate startDate;
+        private LocalDate endDate = LocalDate.of(9999,12,31);
     }
     @Builder
     @Getter
     @Setter
     public static class Patch {
         private long salesPriceId;
+        @NotBlank
         @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
-        private Date startDate;
-        private Date endDate;
+        @NotBlank
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
     @Builder
     @Getter
@@ -42,7 +47,7 @@ public class SalesPriceDto {
         private String customerCode;
         private String customerName;
         private int salesAmount;
-        private Date startDate;
-        private Date endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 }
