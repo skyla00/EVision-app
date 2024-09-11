@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './SearchInfo.css';
+import './ProductSearchInfo.css';
 
 const OrderSearchInfo = ({ title, headers, items = [],  onOpenModal }) => {
     // const [items, setItems] = useState([]);

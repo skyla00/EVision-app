@@ -9,51 +9,6 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [itemStatus, setItemStatus] = useState('');
     const [specs, setSpecs] = useState('');
 
-    // // 서버에 POST 요청을 보내는 함수
-    // const handleSubmit = async () => {
-    //     // 입력값이 모두 있는지 확인
-    //     if (!itemName || !itemCode || !unit || !specs) {
-    //         alert('모든 항목을 입력해주세요.');
-    //         return;
-    //     }
-        
-    //     // 새로운 아이템 데이터 생성
-    //     const newItem = {
-    //         itemName,
-    //         itemCode,
-    //         unit,
-    //         specs,
-    //     };
-
-    //     try {
-    //         // 로컬 스토리지에서 토큰을 가져옴
-    //         let accessToken = window.localStorage.getItem('accessToken');
-            
-    //         // 서버에 POST 요청
-    //         const response = await axios.post(`${process.env.REACT_APP_API_URL}items`, newItem, {
-    //             headers: {
-    //                 Authorization: `Bearer ${accessToken}`,
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //         console.log('Access Token:', accessToken);
-    //         onsubmit(response.data); //newItem 대신 API로부터 받은 실제 데이터를 전달 
-            
-    //         // 성공적으로 등록되었을 때
-    //         alert('상품 등록 성공');
-    //         onClose();
-    //     } catch (error) {
-    //         console.error('상품 등록 실패: ', error);
-    //         alert('상품 등록 실패');
-    //     }
-
-    //     // 입력 필드 초기화
-    //     setItemName('');
-    //     setItemCode('');
-    //     setUnit('');
-    //     setSpecs('');
-    // };
-
     // 항목 추가
     const handleSubmit = async () => {
         try {

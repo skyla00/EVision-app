@@ -1,7 +1,7 @@
-import './SearchInfo.css';
-import SearchInfoList from './SearchInfoList';
+import './CustomerSearchInfo.css';
+import CustomerSearchInfoList from './CustomerSearchInfoList';
 
-const SearchInfo = ({ title, headers, items = [], onOpenPostModal, onOpenModifyModal, onSelectItem, selectedItem }) => {
+const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, onOpenModifyModal, onSelectCustomer, selectedCustomer }) => {
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`);
     }
@@ -11,8 +11,8 @@ const SearchInfo = ({ title, headers, items = [], onOpenPostModal, onOpenModifyM
 
     // 수정 버튼을 클릭했을 때 선택된 상품이 있는지 확인
     const handleModifyClick = () => {
-        if (selectedItem) {
-            onOpenModifyModal(selectedItem); // 선택된 상품이 있을 때만 수정 모달 열기
+        if (selectedCustomer) {
+            onOpenModifyModal(selectedCustomer); // 선택된 상품이 있을 때만 수정 모달 열기
         } else {
             alert('수정할 상품을 선택하세요.'); // 선택된 상품이 없을 때 경고
         }
@@ -28,15 +28,17 @@ const SearchInfo = ({ title, headers, items = [], onOpenPostModal, onOpenModifyM
                 </div>
             </div>
             <div className="search-info-section">
-                <SearchInfoList 
-                    items={items} headerKey={headerKey} headers={headers} 
+                <CustomerSearchInfoList 
+                    customers={customers.length > 0 ? customers : []}
+                    headerKey={headerKey} 
+                    headers={headers} 
                     onOpenModifyModal={onOpenModifyModal} 
-                    onSelectItem={onSelectItem} 
-                    selectedItem={selectedItem} // 선택된 상품 전달
+                    onSelectCustomer={onSelectCustomer} 
+                    selectedCustomer={selectedCustomer}
                 />
             </div>
         </div>
     );
 };
 
-export default SearchInfo;
+export default CustomerSearchInfo;
