@@ -23,3 +23,7 @@
 .search-info-table th, .search-info-table td {
     width: 70px;
 }
+
+.sp-form-row input::before {
+    content: attr(placeholder);
+  }

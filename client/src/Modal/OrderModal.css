@@ -47,7 +47,7 @@
     cursor: pointer;
   }
 
-  .modal-input-section {
+  .om-modal-input-section {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -59,16 +59,17 @@
     /* overflow-y: auto; */
   }
 
-  .modal-input-section input {
+  .om-modal-input-section input {
     max-width: 300px;
     height: 36px !important;
     padding: 12px 20px 10px 20px;
     border: 2px solid #74BDA1;
     margin-bottom: 10px;
     box-sizing: border-box;
+    justify-content: flex-start;
   }
   
-  .om-input-first-line, .order-input-second-line, .input-third-line, .order-input-fourth-line {
+  .om-input-first-line, .order-input-second-line, .od-input-third-line, .order-input-fourth-line {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,7 +90,16 @@
     margin-bottom: 11px;
   }
 
-  .input-first-line input {
+  .om-input-first-line input {
+    width: 420px !important;
+  }
+  .order-input-second-line input {
+    width: 420px !important;
+  }
+  .od-input-third-line input {
+    width: 420px !important;
+  }
+  .order-input-fourth-line input {
     width: 420px !important;
   }
 

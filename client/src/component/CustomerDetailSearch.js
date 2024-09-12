@@ -33,24 +33,24 @@ const CustomerDetailSearch = ({ title, list = [], onSearch}) => {
     const handleSearch = () => {
         // 필터링에 사용할 순수한 값을 저장
         setSelectedKeywords(prevKeywords => ({
-            customerCode: customerCode || prevKeywords.customerCode,
-            customerName: customerName || prevKeywords.customerName,
-            manager: manager || prevKeywords.manager,
-            customerAddress: customerAddress || prevKeywords.customerAddress,
-            customerPhone: customerPhone || prevKeywords.customerPhone,
-            customerEmail: customerEmail || prevKeywords.customerEmail,
+            customerCode: customerCode ? `판매업체코드 : ${customerCode}` :  prevKeywords.customerCode,
+            customerName: customerName ? `판매업체명 : ${customerName}` :  prevKeywords.customerName,
+            manager: manager ? `담당자 : ${manager}` : prevKeywords.manager,
+            customerAddress: customerAddress ? `판매업체주소 : ${customerAddress}` : prevKeywords.customerAddress,
+            customerPhone: customerPhone ? `판매업체연락처 : ${customerPhone}` : prevKeywords.customerPhone,
+            customerEmail: customerEmail ? `판매업체이메일 : ${customerEmail}` : prevKeywords.customerEmail,
         }));
     
         // 화면에 표시할 포맷된 키워드를 저장
-        setDisplayKeywords(prevKeywords => [
-            ...prevKeywords,
-            ...(customerCode ? [`판매업체 코드: ${customerCode}`] : []),
-            ...(customerName ? [`판매업체명: ${customerName}`] : []),
-            ...(manager ? [`담당자: ${manager}`] : []),
-            ...(customerAddress ? [`판매업체 주소: ${customerAddress}`] : []),
-            ...(customerPhone ? [`판매업체 연락처: ${customerPhone}`] : []),
-            ...(customerEmail ? [`판매업체 이메일: ${customerEmail}`] : []),
-        ]);
+        // setDisplayKeywords(prevKeywords => [
+        //     ...prevKeywords,
+        //     ...(customerCode ? [`판매업체 코드: ${customerCode}`] : []),
+        //     ...(customerName ? [`판매업체명: ${customerName}`] : []),
+        //     ...(manager ? [`담당자: ${manager}`] : []),
+        //     ...(customerAddress ? [`판매업체 주소: ${customerAddress}`] : []),
+        //     ...(customerPhone ? [`판매업체 연락처: ${customerPhone}`] : []),
+        //     ...(customerEmail ? [`판매업체 이메일: ${customerEmail}`] : []),
+        // ]);
        
         // 검색 후 입력 필드 초기화
         setCustomerCode('');

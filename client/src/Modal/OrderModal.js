@@ -197,7 +197,7 @@ const OrderModal = ({ isOpen, onClose }) => {
                 <div className="modal-close" onClick={onClose}>&times;</div>
             </div>
 
-            <div className="modal-input-section">
+            <div className="om-modal-input-section">
                 <div className="om-input-first-line">
                     <input 
                         type="search" value={customerName} onChange={(e) => setCustomerName(e.target.value)} 
@@ -216,7 +216,7 @@ const OrderModal = ({ isOpen, onClose }) => {
                     <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} 
                         placeholder="납품요청일자" min={new Date().toISOString().split("T")[0]}/>
                 </div>
-                <div className="input-third-line">
+                <div className="od-input-third-line">
                     <input type="search" value={itemName} readOnly onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
                     <input type="search" value={itemCode} readOnly onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
                     <button className="order-modal-button" onClick={openProductSearch}>검색</button> 
