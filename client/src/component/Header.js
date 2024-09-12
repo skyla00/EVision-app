@@ -38,9 +38,12 @@ const Header = () => {
                 setLoading(false);  // 로딩 완료
             }
         };
-
-        fetchUserInfo();
-    }, []);
+        if (!userInfo) {  // 기존에 저장된 정보가 없을 때만 서버 호출
+            fetchUserInfo();
+        } else {
+            setLoading(false);
+        }
+    }, [userInfo, login]);
 
     const handleLogout = async () => {
         try {
@@ -83,6 +86,7 @@ const Header = () => {
                 )}
                 <button className="logout" onClick={handleLogout}>로그아웃</button>
             </div>
+            
         </div>
     );
 };
