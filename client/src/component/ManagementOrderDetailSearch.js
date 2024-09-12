@@ -1,4 +1,4 @@
-import './MyOrderDetailSearch.css'
+import './ManagementOrderDetailSearch.css'
 import React, { useState, useEffect } from 'react';
 
 const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
