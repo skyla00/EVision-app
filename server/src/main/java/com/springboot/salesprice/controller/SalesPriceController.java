@@ -8,6 +8,7 @@ import com.springboot.salesprice.mapper.SalesPriceMapper;
 import com.springboot.salesprice.service.SalesPriceService;
 import com.springboot.utils.UriCreator;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,6 +40,7 @@ public class SalesPriceController {
 
         return ResponseEntity.created(location).build();
     }
+
     @PatchMapping("/{sales-price-id}")
     public ResponseEntity updateSalesPrice(@PathVariable("sales-price-id") long salesPriceId,
                                      @RequestBody SalesPriceDto.Patch patchDto) {
@@ -49,10 +52,22 @@ public class SalesPriceController {
     }
 
     @GetMapping
-    public ResponseEntity getItems() {
+    public ResponseEntity getSalesPrices(@RequestParam(value = "item-code", required = false) String itemCode,
+                                         @RequestParam(value = "customer-code", required = false) String customerCode,
+                                         @RequestParam(value = "order-date", required = false)
+                                             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate orderDate) {
 
-        List<SalesPrice> salesPrices = salesPriceService.findSalesPrices();
 
-        return new ResponseEntity<>(new SingleResponseDto<>(salesPriceMapper.salesPriceToResponseDtos(salesPrices)), HttpStatus.OK);
+        if (itemCode == null && customerCode == null && orderDate == null) {
+            List<SalesPrice> salesPrices = salesPriceService.findSalesPrices(); // 모든 데이터 가져오는 메서드
+            List<SalesPriceDto.Response>  salesPriceToResponseDtos = salesPriceMapper.salesPriceToResponseDtos(salesPrices);
+            return new ResponseEntity<>(new SingleResponseDto<>(salesPriceToResponseDtos), HttpStatus.OK);
+        } else {
+            Integer findSalesAmount =
+            salesPriceService.findSalesPricesByItemCodeAndCustomerCodeAndOrderDate(itemCode, customerCode, orderDate);
+            // findSalesAmount 만 Response 에 담아주는 새로운 dto 생성.
+            SalesPriceDto.AmountResponse salesAmountResponseDto = salesPriceMapper.salesAmountToSalesAmountResponseDto(findSalesAmount);
+            return new ResponseEntity<>(new SingleResponseDto<>(salesAmountResponseDto), HttpStatus.OK);
+        }
     }
 }
