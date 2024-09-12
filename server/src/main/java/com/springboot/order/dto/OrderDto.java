@@ -67,6 +67,7 @@ public class OrderDto {
         private long orderItemId;
         private LocalDate requestDate;
         private String itemCode;
+        private String itemName;
         private long orderItemQuantity;
         private long purchaseAmount;
         private long salesAmount;
