@@ -22,7 +22,7 @@ public enum ExceptionCode {
     ORDER_ITEM_NOT_FOUND(404, "OrderItem Not Found"),
     ORDER_ITEM_EXISTS(409, "OrderItem Exists"),
     FAVORITE_EXCEEDED(404, "Favorite Exceeded"),
-    REQUEST_DATE_NOT_FOUND(404, "Request Date Not Found");
+    ORDER_STATUS_ALREADY_ACCEPT(404, "Order Status Already Accept");
 
     @Getter
     private int status;

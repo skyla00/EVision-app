@@ -112,11 +112,8 @@ public class OrderService {
                 long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(),orderItem.getOrderItemQuantity());
                 orderItem.setFinalAmount(finalAmount);
 
-//                if (orderItem.getRequestDate() == null) {
-//                    throw new BusinessLogicException(ExceptionCode.REQUEST_DATE_NOT_FOUND);
-//                }
-
-                orderHistoryService.createOrderItemHistory(orderItem);
+                // OrderItemHistory 저장
+//                orderHistoryService.createOrderItemHistory(orderItem);
 
                 createOrderItems.add(orderItem);
 
@@ -129,28 +126,42 @@ public class OrderService {
         orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
 
-        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
+        // OrderHeaderHistory 저장
+//        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
 
         return orderHeaderRepository.save(savedOrderHeader);
     }
 
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems, Authentication authentication) {
 
+        // 유효한 OrderHeader 확인
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
+
+        // 요청보낸 OrderHeaderId 와 권한을 가진 id를 비교해서 수정가능 여부 체크
         if(!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
-            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+            // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
+            if (!authentication.getAuthorities().contains("ROLE_TL")) {
+                throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+            }
         }
 
+        // 주문상태가 이미 '승인' 이면 수정 불가.
+        if(existingOrderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_ALREADY_ACCEPT);
+        }
+
+        // 기존 orderHeader의 상태와 새로 입력된 orderHeader의 상태를 비교
         String existingStatus = existingOrderHeader.getOrderHeaderStatus().getStatus();
         String updatedStatus = updatedOrderHeader.getOrderHeaderStatus().getStatus();
 
-        if (updatedStatus.equals("승인") && !existingStatus.equals("승인")) {
-            // OrderHeaderStatus가 ACCEPT로 변경될 때만 acceptDate 설정
+        // 업데이트하려는 상태가 '승인' 일 때
+        if (updatedStatus.equals("승인")) {
+            // 현재 주문의 상태를 입력받은 상태(무조건 '승인')으로 변경하면서 승인날짜에 현재 날짜 입력
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
-            existingOrderHeader.setAcceptDate(LocalDate.now()); // 현재 날짜로 acceptDate 설정
-        } else if (!existingStatus.equals("승인") && !existingStatus.equals(updatedStatus)) {
-            // 다른 상태로 업데이트될 경우
+            existingOrderHeader.setAcceptDate(LocalDate.now());
+            // 승인이 아닌 다른 상태로 업데이트될 경우 상태만 업데이트
+        } else if (!existingStatus.equals(updatedStatus)) {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
         }
 
@@ -170,16 +181,17 @@ public class OrderService {
         return existingOrderHeader;
     }
 
-    // 관리자가 주문관리에서 모든 주문 조회
-    // TM은 본인 주문만 보여야하고 TL은 모든 주문이 나와야함.
+    // 주문 조회 로직
     @Transactional(readOnly = true)
     public List<OrderHeader> findAllOrders(String memberId, Authentication authentication) {
 
+        // 입력된 memberId가 없으면 주문상태가 '승인'인 orderItem 전체목록 조회
         if(memberId == null) {
             return orderItemRepository.findAll().stream()
                     .filter(orderItem -> orderItem.getOrderHeader().getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
                     .map(OrderItem::getOrderHeader)
                     .collect(Collectors.toList());
+            // 입력된 memberId가 있고, 권한이 TL이면 모든 주문 조회
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
             if(memberId.equals((String) authentication.getPrincipal())) {
                 return orderHeaderRepository.findAll();
