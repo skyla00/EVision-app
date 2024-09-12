@@ -57,7 +57,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<Customer> findCustomers() {
 
-        return customerRepository.findAll();
+        return customerRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
     private Customer findVerifiedCustomer(String customerCode) {
         Optional<Customer> customer = customerRepository.findById(customerCode);

@@ -71,7 +71,7 @@ public class SalesPriceService {
 
     @Transactional(readOnly = true)
     public List<SalesPrice> findSalesPrices() {
-        return salesPriceRepository.findAll();
+        return salesPriceRepository.findAll(Sort.by(Sort.Direction.DESC, "startDate"));
     }
 
     @Transactional(readOnly = true)
