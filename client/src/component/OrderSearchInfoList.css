@@ -12,14 +12,14 @@
     overflow-x: auto;
 }
 
-.search-info-tr {
-    font-size: 15px;
+.search-info-table tr {
+    font-size: 12px;
 }
 
 /* .search-info-td.itemName, .search-info-td.itemCode {
     max-width: 240px;
 } */
 
-.search-info-td.unit {
-    width: 50px;
+.search-info-table th, .search-info-table td {
+    width: 70px;
 }

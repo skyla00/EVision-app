@@ -15,15 +15,20 @@ const OrderPage = () => {
 
     const headers = [
         { value: 'orderHeaderId', label: '주문번호' },
-        { value: 'itemName', label: '상품명' },
-        { value: 'itemCode', label: '상품 코드' },
-        { value: 'customerName', label: '판매업체명'},
-        { value: 'customerCode', label: '판매업체 코드' },
-        { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'memberName', label: '판매사원' },
         { value: 'orderDate', label: '주문일자' },
-        { value: 'requestDate', label: '납품요청일자' },
+        { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'acceptDate', label: '납품확정일자' },
+        { value: 'customerCode', label: '판매업체코드' },
+        { value: 'customerName', label: '판매업체명'},
+        { value: 'itemCode', label: '상품코드' },
+        { value: 'itemName', label: '상품명' },
+        { value: 'orderItemQuantity', label: '수량' },
+        { value: 'purchaseAmount', label: '매입단가' },
+        { value: 'salesAmount', label: '판매단가' },
+        { value: 'marginRate', label: '마진률' },
+        { value: 'marginAmount', label: '마진금액' },
+        { value: 'finalAmount', label: '최종판매금액' },
     ];
 
     useEffect(() => {
@@ -41,19 +46,42 @@ const OrderPage = () => {
                 });
 
                 console.log("API Response: ", response.data); // 응답 데이터를 확인
-            if (response.data && response.data.data) {
-                setOrderList(response.data.data);
-                setSearchResults(response.data.data);
-            } else {
-                console.log('No data available');
+                
+                if (response.data && response.data.data) {
+                    // 주문 데이터 : orderItems 배열을 펼쳐서 각 항목을 개별적으로 처리
+                    const expandedOrders = response.data.data.flatMap(order =>
+                        order.orderItems.map(item => ({
+                            orderHeaderId: order.orderHeaderId,
+                            memberName: order.memberName,
+                            orderDate: order.orderDate,
+                            orderHeaderStatus: order.orderHeaderStatus,
+                            acceptDate: order.acceptDate,
+                            customerCode: order.customerCode,
+                            customerName: order.customerName,
+                            itemCode: item.itemCode,
+                            itemName: item.itemName,
+                            orderItemQuantity: item.orderItemQuantity,
+                            purchaseAmount: item.purchaseAmount,
+                            salesAmount: item.salesAmount,
+                            marginRate: item.marginRate,
+                            marginAmount: item.marginAmount,
+                            finalAmount: item.finalAmount,
+                        }))
+                    );
+                    setOrderList(expandedOrders); // 펼쳐진 주문 데이터 저장
+                    setSearchResults(expandedOrders); // 검색 결과에도 동일하게 저장
+                    // setOrderList(response.data.data);
+                    // setSearchResults(response.data.data);
+                } else {
+                    console.log('No data available');
+                }
+            } catch (error) {
+                console.error('Error fetching orders:', error.response ? error.response.data : error.message);
             }
-        } catch (error) {
-            console.error('Error fetching orders:', error.response ? error.response.data : error.message);
-        }
-    };
+        };
 
-    fetchOrders();
-}, []);
+        fetchOrders();
+    }, []);
 
     const handleSearch = useCallback(( orderHeaderId, itemName, itemCode, customerName, customerCode, 
         orderHeaderStatus, memberName, orderDate, requestDate, acceptDate ) => {
@@ -127,12 +155,12 @@ const OrderPage = () => {
         setSearchResults(filteredResults);
     }, [orderList]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
+    const handleOpenOrderModal = () => {
+        setIsOrderModalOpen(true);
     };
-    const handleCloseOrderModal = () => setIsModalOpen(false);
+    const handleCloseOrderModal = () => setIsOrderModalOpen(false);
 
     const handleSelectOrder = (order) => {
         setSelectedOrder(order);
@@ -150,16 +178,16 @@ const OrderPage = () => {
             <Header />
             <SideBar />
             <Tab />
-            <OrderDetailSearch title="판매업체 조회" list={orderList} onSearch={handleSearch}/>
+            <OrderDetailSearch title="주문 조회" list={orderList} onSearch={handleSearch}/>
             <OrderSearchInfo 
                 title="주문 정보" 
                 headers={headers} 
                 orders={searchResults}
                 onSelectOrder={handleSelectOrder}
                 selectedOrder={selectedOrder}
-                onOpenModal={handleOpenModal}/>
+                onOpenOrderModal={handleOpenOrderModal}/>
             <OrderModal 
-                isOpen={isModalOpen} 
+                isOpen={isOrderModalOpen} 
                 onClose={handleCloseOrderModal}
                 onSubmit={handleOrderPostSuccess}/>
         </div>
