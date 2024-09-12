@@ -19,9 +19,9 @@ const SalesPriceSearchInfoList = ({ salesPirces, headerKey, headers, onOpenModif
                     key={index} 
                     salesPrice={salesPrice} 
                     index={index} 
-                    headerKey={headerKey} 
+                    headerKey={headerKey}  
                     onSelectSalesPrice={onSelectSalesPrice} // 판매가 선택 함수만 전달
-                    isSelected={selectedSalesPrice && selectedSalesPrice.salesPricesId === salesPrice.salesPricesId} // 선택된 판매가인지 확인
+                    isSelected={selectedSalesPrice && selectedSalesPrice.salesPriceId === salesPrice.salesPriceId}// 선택된 판매가인지 확인
                 />
                 ))}
             </tbody>

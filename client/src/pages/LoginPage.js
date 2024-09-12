@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
@@ -7,8 +7,14 @@ import './LoginPage.css';
 const LoginPage = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useContext(AuthContext);
+    const { login, isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/main');  // 메인 페이지로 리다이렉트
+        }
+    }, [isAuthenticated, navigate])
 
     const handleLogin = async () => {
         try {
