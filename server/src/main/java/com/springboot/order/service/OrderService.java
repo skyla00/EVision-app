@@ -190,6 +190,7 @@ public class OrderService {
             return orderItemRepository.findAll().stream()
                     .filter(orderItem -> orderItem.getOrderHeader().getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
                     .map(OrderItem::getOrderHeader)
+                    .distinct()
                     .collect(Collectors.toList());
             // 입력된 memberId가 있고, 권한이 TL이면 모든 주문 조회
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
