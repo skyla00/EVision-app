@@ -19,5 +19,6 @@ public interface SalesPriceMapper {
     @Mapping(source = "customer.customerCode", target = "customerCode")
     @Mapping(source = "customer.customerName", target = "customerName")
     SalesPriceDto.Response salesPriceToSalesPriceResponseDto(SalesPrice salesPrice);
+    SalesPriceDto.AmountResponse salesAmountToSalesAmountResponseDto(Integer salesAmount);
     List<SalesPriceDto.Response> salesPriceToResponseDtos(List<SalesPrice> salesPrices);
 }

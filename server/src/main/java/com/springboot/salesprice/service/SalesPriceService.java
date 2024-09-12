@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -28,12 +29,17 @@ public class SalesPriceService {
     }
 
     public SalesPrice createSalesPrice(SalesPrice salesPrice) {
+        // 입력받은 itemCode 와 customerCode 에 해당하는 salesPrice 가 이미 있으면, 수정 로직으로 실행.
+        SalesPrice findSalesPrice = findVerifiedSameItemCodeAndCustomerCodeSalesPrices(salesPrice.getItem().getItemCode(), salesPrice.getCustomer().getCustomerCode());
+        if (findSalesPrice != null) {
+            throw new BusinessLogicException(ExceptionCode.SALES_PRICE_EXISTS);
+        }
         return salesPriceRepository.save(salesPrice);
     }
 
     public SalesPrice updateSalesPrice(SalesPrice salesPrice) {
         SalesPrice findSalesPrice = findVerifiedCSalesPrice(salesPrice.getSalesPriceId());
-        // startDate 를 봐서, startDate 가 이미 있는 거면,
+        // startDate 를 봐서,
         if (!findSalesPrice.getEndDate().equals(LocalDate.of(9999,12,31))) {
             throw new BusinessLogicException(ExceptionCode.NEW_SALES_PRICE_EXISTS);
         } else {
@@ -62,10 +68,23 @@ public class SalesPriceService {
     public SalesPrice findSalesPrice(long salesPriceId) {
         return findVerifiedCSalesPrice(salesPriceId);
     }
+
     @Transactional(readOnly = true)
     public List<SalesPrice> findSalesPrices() {
         return salesPriceRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public Integer findSalesPricesByItemCodeAndCustomerCodeAndOrderDate(String itemCode, String customerCode, LocalDate orderDate) {
+        // startDate 와 EndDate 기간 안에 있는지 확인.
+        return salesPriceRepository.findSalesPriceByItemCodeAndCustomerCodeAndOrderDate(itemCode, customerCode, orderDate);
+    }
+
+    //itemCode, CustomerCode 이 같은 sales Price가 있는지 검증.
+    @Transactional(readOnly = true)
+    public SalesPrice findVerifiedSameItemCodeAndCustomerCodeSalesPrices(String itemCode, String CustomerCode) {
+        return salesPriceRepository.findSalesPriceByItemCodeAndCustomerCode(itemCode, CustomerCode);
+    }
+
     private SalesPrice findVerifiedCSalesPrice(long salesPriceId) {
         Optional<SalesPrice> salesPrice = salesPriceRepository.findById(salesPriceId);
         return salesPrice.orElseThrow(() -> new BusinessLogicException(ExceptionCode.SALES_AMOUNT_NOT_FOUND));

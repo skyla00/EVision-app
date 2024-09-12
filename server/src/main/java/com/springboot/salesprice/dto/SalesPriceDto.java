@@ -48,4 +48,10 @@ public class SalesPriceDto {
         private LocalDate startDate;
         private LocalDate endDate;
     }
+
+    @Builder
+    @Getter
+    public static class AmountResponse {
+        private int salesAmount;
+    }
 }
