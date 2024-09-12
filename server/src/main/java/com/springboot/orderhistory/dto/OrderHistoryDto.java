@@ -2,13 +2,15 @@ package com.springboot.orderhistory.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 public class OrderHistoryDto {
 
-    @Builder
+    @Setter
     @Getter
     public static class Post {
 
@@ -21,25 +23,36 @@ public class OrderHistoryDto {
         @NotBlank
         private String memberId;
         @NotBlank
-        private Date orderDate;
+        private LocalDate orderDate;
 
-        private Date acceptDate;
+        private LocalDate acceptDate;
+
+        private LocalDate requestDate;
+
         @NotBlank
         private String orderHeaderStatus;
 
         private String editorId;
     }
 
-    @Builder
+    @Setter
     @Getter
     public static class Response {
         private Long orderHeaderHistoryId;
         private String orderHeaderId;
         private String customerCode;
         private String memberId;
-        private Date orderDate;
-        private Date acceptDate;
+        private LocalDate orderDate;
+        private LocalDate acceptDate;
         private String orderHeaderStatus;
         private String editorId;
     }
+
+
+    @Getter
+    @Setter
+    public static class OrderHistoryResponse {
+        private List<Response> histories;
+    }
+
 }

@@ -1,39 +1,28 @@
 package com.springboot.orderhistory.controller;
 
-import com.springboot.response.MultiResponseDto;
-import com.springboot.orderhistory.entity.OrderHeaderHistory;
-import com.springboot.orderhistory.mapper.OrderHistoryMapper;
+import com.springboot.orderhistory.dto.OrderHistoryDto;
 import com.springboot.orderhistory.service.OrderHistoryService;
-import org.springframework.data.domain.Page;
+import com.springboot.response.SingleResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
-import java.util.List;
-
 @RestController
-@RequestMapping("/order-historys")
+@RequestMapping("/order-history")
 @Validated
 public class OrderHistoryController {
 
     private final OrderHistoryService orderHistoryService;
-    private final OrderHistoryMapper orderHistoryMapper;
 
-    public OrderHistoryController(OrderHistoryService orderHistoryService, OrderHistoryMapper orderHistoryMapper) {
+    public OrderHistoryController(OrderHistoryService orderHistoryService) {
         this.orderHistoryService = orderHistoryService;
-        this.orderHistoryMapper = orderHistoryMapper;
     }
 
-    @GetMapping
-    public ResponseEntity getOrderHistory(@Positive @RequestParam int page,
-                                          @Positive @RequestParam int size) {
-        Page<OrderHeaderHistory> pageOrderHeaderHistory = orderHistoryService.findOrderHeaderHistory(page - 1, size);
-        List<OrderHeaderHistory> orderHeaderHistoryList = pageOrderHeaderHistory.getContent();
+    @GetMapping("/{order-header-id}")
+    public ResponseEntity getOrderHistory(@RequestParam (value = "order-header-id") String orderHeaderId) {
+        OrderHistoryDto.OrderHistoryResponse response = orderHistoryService.findOrderHistory(orderHeaderId);
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(orderHistoryMapper.orderHeaderHistoriesToResponseDtos(orderHeaderHistoryList), pageOrderHeaderHistory),
-                HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 }

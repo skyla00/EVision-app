@@ -15,6 +15,7 @@ import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
+import com.springboot.orderhistory.service.OrderHistoryService;
 import com.springboot.salesprice.repository.SalesPriceRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,16 +40,18 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final PurchasePriceRepository purchasePriceRepository;
     private final MemberService memberService;
+    private final OrderHistoryService orderHistoryService;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService, OrderHistoryService orderHistoryService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
         this.purchasePriceRepository = purchasePriceRepository;
         this.memberService = memberService;
+        this.orderHistoryService = orderHistoryService;
     }
 
     public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
@@ -66,7 +69,7 @@ public class OrderService {
         createOrderHeader.setOrderHeaderId(orderNumber);
 
         // 주문일자(주문일자 유효성 검증) 입력
-        createOrderHeader.setOrderDate(verifiedOrderDate(orderHeader));
+        createOrderHeader.setOrderDate(verifiedOrderDate(orderHeader.getOrderDate()));
 
         // 판매처 입력
         String newCustomerCode = orderHeader.getCustomer().getCustomerCode();
@@ -93,15 +96,15 @@ public class OrderService {
 
                 // salesAmount 입력
                 // orderItem의 itemCode랑 orderHeader의 customerCode를 참고해서 가져오기.
-                int salesAmount = orderItem.getSalesAmount();
+                long salesAmount = orderItem.getSalesAmount();
                 orderItem.setSalesAmount(salesAmount);
 
                 // marginAmount 입력
-                int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
+                long marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
                 orderItem.setMarginAmount(marginAmount);
 
                 // marginRate 입력
-                int marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
+                long marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
                 if(orderItem.getSalesAmount() == 0 || marginAmount == 0) { marginRate = 0; }
                 orderItem.setMarginRate(marginRate);
 
@@ -109,7 +112,14 @@ public class OrderService {
                 long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(),orderItem.getOrderItemQuantity());
                 orderItem.setFinalAmount(finalAmount);
 
+//                if (orderItem.getRequestDate() == null) {
+//                    throw new BusinessLogicException(ExceptionCode.REQUEST_DATE_NOT_FOUND);
+//                }
+
+//                orderHistoryService.createOrderItemHistory(orderItem);
+
                 createOrderItems.add(orderItem);
+
             } else {
                 throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_NOT_FOUND);
             }
@@ -118,6 +128,8 @@ public class OrderService {
         // OrderItem 저장
         orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
+
+//        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
 
         return orderHeaderRepository.save(savedOrderHeader);
     }
@@ -187,12 +199,12 @@ public class OrderService {
         return findVerifiedOrder(orderHeaderId);
     }
 
-    public LocalDate verifiedOrderDate(OrderHeader orderHeader) {
+    public LocalDate verifiedOrderDate(LocalDate inputLocalDate) {
         LocalDate currentDate = LocalDate.now();
-        if(orderHeader.getOrderDate().isAfter(currentDate)) {
+        if(inputLocalDate.isAfter(currentDate)) {
             throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
-        return orderHeader.getOrderDate();
+        return inputLocalDate;
     }
 
     public OrderHeader findVerifiedOrder(String orderHeaderId) {
@@ -220,19 +232,19 @@ public class OrderService {
         return formattedDate + randomStr;
     }
 
-    public int marginAmountCalculation (int salesAmount, int purchaseAmount) {
+    public long marginAmountCalculation (long salesAmount, long purchaseAmount) {
         return salesAmount - purchaseAmount;
     }
 
-    public int marginRateCalculation (int marginAmount, int salesAmount) {
+    public long marginRateCalculation (long marginAmount, long salesAmount) {
         if(salesAmount == 0) {
             return 0;
         }
         return (marginAmount * 100) / salesAmount;
     }
 
-    public long finalAmountCalculation (int salesAmount, int orderItemQuantity) {
-        return (long) salesAmount * orderItemQuantity;
+    public long finalAmountCalculation (long salesAmount, long orderItemQuantity) {
+        return salesAmount * orderItemQuantity;
     }
 
     private void calculateOrderItemDetails(OrderItem orderItem) {
@@ -245,15 +257,15 @@ public class OrderService {
         orderItem.setPurchaseAmount(purchaseAmount);
 
         // salesAmount 입력
-        int salesAmount = orderItem.getSalesAmount();
+        long salesAmount = orderItem.getSalesAmount();
         orderItem.setSalesAmount(salesAmount);
 
         // marginAmount 입력
-        int marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
+        long marginAmount = marginAmountCalculation(salesAmount, purchaseAmount);
         orderItem.setMarginAmount(marginAmount);
 
         // marginRate 입력
-        int marginRate = marginRateCalculation(marginAmount, salesAmount);
+        long marginRate = marginRateCalculation(marginAmount, salesAmount);
         if (salesAmount == 0 || marginAmount == 0) {
             marginRate = 0;
         }

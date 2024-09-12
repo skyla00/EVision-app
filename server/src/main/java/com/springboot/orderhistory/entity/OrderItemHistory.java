@@ -1,13 +1,12 @@
 package com.springboot.orderhistory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.springboot.order.entity.OrderHeader;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -17,43 +16,37 @@ public class OrderItemHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemHistoryId;
+    private long orderItemHistoryId;
 
     @Column(nullable = false)
-    private Long orderItemId;
+    private long orderItemId;
 
     @Column(nullable = false)
     private String itemCode;
 
     @Column(nullable = false)
-    private Long orderItemQuantity;
+    private long orderItemQuantity;
 
     @Column(nullable = false)
-    private Long purchasePrice;
+    private long purchaseAmount;
 
     @Column(nullable = false)
-    private Long salesPrice;
+    private long salesAmount;
 
     @Column(nullable = false)
-    private Long marginRate;
+    private long marginRate;
 
     @Column(nullable = false)
-    private Long marginPrice;
+    private long marginAmount;
 
     @Column(nullable = false)
-    private Long finalPrice;
+    private long finalAmount;
 
     @Column(nullable = false)
-    private Date requestDate;
+    private LocalDate requestDate;
 
     @ManyToOne
     @JoinColumn(name = "ORDER_HEADER_HISTORY_ID")
     @JsonBackReference
     private OrderHeaderHistory orderHeaderHistory;
-//    public void setOrderHeaderHistory(OrderHeaderHistory orderHeaderHistory) {
-//        this.orderHeaderHistory = orderHeaderHistory;
-//        if (!orderHeaderHistory.getOrderItemHistoryList().contains(this)) {
-//            orderHeaderHistory.setOrderItemHistory(this);
-//        }
-//    }
 }
