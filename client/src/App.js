@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage';
 import OrderPage from './pages/OrderPage';
 import ProductPage from "./pages/ProductPage";
 import CustomerPage from "./pages/CustomerPage";
-import SalePricePage from "./pages/SalePricePage";
+import SalePricePage from "./pages/SalesPricePage";
 import ManagementPage from "./pages/ManagementPage";
 import HistoryPage from "./pages/HistoryPage";
 import GraphPage from "./pages/GraphPage";

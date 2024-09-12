@@ -35,7 +35,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
             startDate
         };
         
-        const response = await axios.patch(process.env.REACT_APP_API_URL + 'sales-prices' + '/' + updatedSalesPrice.customerCode,
+        const response = await axios.patch(process.env.REACT_APP_API_URL + 'sales-prices' + '/' + salesPrice.salesPriceId,
             updatedSalesPrice, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -111,7 +111,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                       />
                       <label>기준일자</label>
                       <input 
-                          type="text" 
+                          type="date" 
                           value={startDate} 
                           onChange={(e) => setstartDate(e.target.value)} 
                           placeholder="기준일자" 
