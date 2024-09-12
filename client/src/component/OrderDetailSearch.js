@@ -109,10 +109,9 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
     return (
         <div className="detail-search-box">
         <div className="detail-search-title"> {}
-            {title && <div className="form-title">{title}</div>}
+            {title && <div className="form-title"></div>}
         </div>
-        <div className="order-form-container">
-            <div className="order-form-row">
+        <div className="order-form-container">            <div className="order-form-row">
                 <input type="search" placeholder="주문번호" value={orderHeaderId}
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
                         onKeyPress={handleKeyPress}

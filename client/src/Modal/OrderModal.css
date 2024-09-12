@@ -55,29 +55,46 @@
     height: auto;
     max-height: 190px;
     margin-top: 22px;
+    align-items: flex-start;
     /* overflow-y: auto; */
   }
-  
-  .input-first-line, .order-input-second-line, .input-third-line, .order-input-fourth-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px ;
-    height: 26px;
-    margin-bottom: 20px;
-  }
-  
+
   .modal-input-section input {
-    width: 400px;
+    max-width: 300px;
     height: 36px !important;
     padding: 12px 20px 10px 20px;
     border: 2px solid #74BDA1;
     margin-bottom: 10px;
     box-sizing: border-box;
   }
+  
+  .om-input-first-line, .order-input-second-line, .input-third-line, .order-input-fourth-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px ;
+    height: 26px;
+    margin-bottom: 20px;
+  }
+
+  .order-modal-button {
+    width: 60px;
+    height: 30px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 13px;
+    font-weight: 1000;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 11px;
+  }
+
+  .input-first-line input {
+    width: 420px !important;
+  }
 
   .option-button-container {
-    margin: 0px 0px 20px 10px !important;
+    margin: 10px 0px 10px 10px !important;
     float: right;
     display: flex;
     gap: 10px;

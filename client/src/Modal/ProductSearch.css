@@ -1,0 +1,73 @@
+.ps-search-input {
+    width: 300px;
+    height: 40px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #74BDA1;
+}
+
+.ps-table {
+    height: 220px;
+    width: 700px;
+    overflow-y: auto;
+    overflow-x: auto;
+    display: block;
+    border: 2px solid #bbe1d2;
+}
+
+/* 스크롤을 위한 새로운 스타일 추가 */
+.ps-table-wrapper {
+    height: 220px; /* 테이블 높이와 동일하게 설정 */
+    width: 720px;
+    overflow-y: auto; /* 스크롤 가능하도록 설정 */
+}
+
+.ps-head {
+    position: sticky;
+    width: 700px;
+}
+
+.ps-head-cell {
+    position: sticky;
+    top: 0;
+    text-align: left;
+    font-size: 14px;
+    background-color: #348F6C;
+    color: #ffffff;
+}
+
+.ps-code {
+    width: 140px;
+}
+.ps-name {
+    width: 140px;
+}
+.ps-unit {
+    width: 40px;
+}
+.ps-info {
+    width: 340px;
+}
+
+
+.ps-body td {
+    font-size: 13px;
+}
+
+.ps-row {
+    border-bottom: 1px solid #000000;
+}
+
+.ps-button {
+    width: 100px;
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 14px;
+    font-weight: 1000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

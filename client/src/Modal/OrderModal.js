@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
 import axios from 'axios';
+import ProductSearch from '../Modal/ProductSearch';
+import CustomerSearch from '../Modal/CustomerSearch';
 
 const OrderModal = ({ isOpen, onClose }) => {
 
-    const [orderHeaderId, SetOrderHeaderId] = useState('');
-    const [orderItemId, setOrderItemId] = useState('');
     const [orderDate, setOrderDate] = useState('');
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
@@ -16,6 +16,8 @@ const OrderModal = ({ isOpen, onClose }) => {
     const [orderList, setOrderList] = useState([]);
     const [customerName, setCustomerName] = useState('');
     const [customerCode, setCustomerCode] = useState('');
+    const [isProductSearchOpen, setIsProductSearchOpen] = useState(false);  // 상품 검색 모달 열기 상태
+    const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);  // 판매업체 검색 모달 열기 상태
     const [isCustomerInfoLocked, setIsCustomerInfoLocked] = useState(false); // 판매업체명과 판매업체코드 비활성화 여부
     const [isOrderDateLocked, setIsOrderDateLocked] = useState(false); // 주문일자 비활성화 여부
 
@@ -102,6 +104,27 @@ const OrderModal = ({ isOpen, onClose }) => {
         }
     };
 
+    // 모달 열고 닫는 함수
+    const openProductSearch = () => setIsProductSearchOpen(true);
+    const closeProductSearch = () => setIsProductSearchOpen(false);
+
+    const openCustomerSearch = () => setIsCustomerSearchOpen(true);
+    const closeCustomerSearch = () => setIsCustomerSearchOpen(false);
+
+    // 상품 선택 시 호출
+    const handleProductSelect = (product) => {
+        setItemCode(product.itemCode);
+        setItemName(product.itemName);
+        closeProductSearch();
+    };
+
+    // 판매업체 선택 시 호출
+    const handleCustomerSelect = (customer) => {
+        setCustomerCode(customer.customerCode);
+        setCustomerName(customer.customerName);
+        closeCustomerSearch();
+    };
+
     // 주문 등록
     const handleSubmit = async () => {
         if (orderList.length === 0) {
@@ -175,25 +198,28 @@ const OrderModal = ({ isOpen, onClose }) => {
             </div>
 
             <div className="modal-input-section">
-                <div className="input-first-line">
+                <div className="om-input-first-line">
                     <input 
                         type="search" value={customerName} onChange={(e) => setCustomerName(e.target.value)} 
-                        placeholder="판매업체명" disabled={isCustomerInfoLocked} // 판매업체명 비활성화 여부
+                        placeholder="판매업체명" readOnly disabled={isCustomerInfoLocked} // 판매업체명 비활성화 여부
                     />
                     <input 
                         type="search" value={customerCode} onChange={(e) => setCustomerCode(e.target.value)} 
-                        placeholder="판매업체코드" disabled={isCustomerInfoLocked} // 판매업체코드 비활성화 여부
+                        placeholder="판매업체코드" readOnly disabled={isCustomerInfoLocked} // 판매업체코드 비활성화 여부
                     />
+                    <button className="order-modal-button" onClick={openCustomerSearch}>검색</button> 
                 </div>
                 <div className="order-input-second-line">
                     <input type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} 
-                    className="order-date-input-text" placeholder="주문일자" disabled={isOrderDateLocked} max={new Date().toISOString().split("T")[0]}/>
+                    className="order-date-input-text" placeholder="주문일자" disabled={isOrderDateLocked} 
+                        max={new Date().toISOString().split("T")[0]}/>
                     <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} 
                         placeholder="납품요청일자" min={new Date().toISOString().split("T")[0]}/>
                 </div>
                 <div className="input-third-line">
-                    <input type="search" value={itemName} onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
-                    <input type="search" value={itemCode} onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
+                    <input type="search" value={itemName} readOnly onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
+                    <input type="search" value={itemCode} readOnly onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
+                    <button className="order-modal-button" onClick={openProductSearch}>검색</button> 
                 </div>
                 <div className="order-input-fourth-line">
                     <input type="text" value={salesAmount} onChange={(e) => setSalesAmount(e.target.value)} placeholder="판매가" />
@@ -231,6 +257,15 @@ const OrderModal = ({ isOpen, onClose }) => {
             </table>
             <button className="submit-button" onClick={handleSubmit}>등록</button>
         </div>
+         {/* ProductSearch 모달 */}
+         {isProductSearchOpen && (
+                <ProductSearch onProductSelect={handleProductSelect} onClose={closeProductSearch} />
+            )}
+
+            {/* CustomerSearch 모달 */}
+            {isCustomerSearchOpen && (
+                <CustomerSearch onCustomerSelect={handleCustomerSelect} onClose={closeCustomerSearch} />
+            )}
       </div>
   );
 };

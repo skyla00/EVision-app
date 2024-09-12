@@ -41,7 +41,7 @@
   width: 100%;
 }
 
-.cp-input-first-line {
+.sp-input-first-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@
   margin-bottom: 20px;
 }
 
-.cp-input-second-line {
+.sp-input-second-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -58,30 +58,30 @@
   margin-bottom: 20px;
 }
 
-.cp-input-third-line {
+.sp-input-third-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 14px;
 }
 
-.cp-input-first-line input {
-  width: 370px;
+.sp-input-first-line input {
+  width: 240px;
 }
 
-.cp-input-second-line input {
-  width: 370px;
+.sp-input-second-line input {
+  width: 247px;
 }
 
-.cp-input-third-line input {
-  width: 600px;
+.sp-input-third-line input {
+  max-width: 225px;
 }
 
 .cp-modal-input-section input {
   width: 700px;
-height: 34px;
-border: 2px solid #74BDA1;
-padding-left: 10px;
+  height: 34px;
+  border: 2px solid #74BDA1;
+  padding-left: 10px;
 }
 
 .cp-post-submit-button {
@@ -109,7 +109,6 @@ padding-left: 10px;
   padding-left: 10px;
 }
 
-
 .cp-modal-input-section label {
   width: 60px;
   min-width: 61px;
@@ -120,4 +119,15 @@ padding-left: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.ps-modal-button {
+  width: 100px;
+  height: 40px;
+  background-color: #348F6C;
+  color: white;
+  font-size: 13px;
+  font-weight: 1000;
+  border: none;
+  cursor: pointer;
 }
