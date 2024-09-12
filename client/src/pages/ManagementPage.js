@@ -4,51 +4,53 @@ import axios from 'axios';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
-import MyOrderDetailSearch from './MyOrderDetailSearch'
-import DetailView from '../Modal/DetailView';
+import ManagementOrderDetailSearch from '../component/ManagementOrderDetailSearch'
+import ManagementSearchInfo from '../component/ManagementSearchInfo'
 
 const ManagementPage = () => {
-    const [myOrderList, setMyOrderList] = useState([]);
+    const [managementOrderList, setManagementOrderList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const [selectedMyOrder, setSelectedMyOrder] = useState(null);
 
-    const fields = [
-        { type: 'search', placeholder: '주문번호' },
-        { type: 'search', placeholder: '판매업체코드' },
-        { type: 'search', placeholder: '판매사원' },
-        { type: 'date', placeholder: '주문일자' },
-        { type: 'date', placeholder: '출고일자' },
-        { type: 'select', placeholder: '주문상태' },
-        { type: 'date', placeholder: '납품요청일자' },
-        { type: 'date', placeholder: '납품확정일자' },
+    const headers = [
+        { value: 'orderHeaderId', label: '주문번호' },
+        { value: 'orderHeaderStatus', label: '주문상태' },
+        { value: 'customerName', label: '판매업체명'},
+        { value: 'customerCode', label: '판매업체코드' },
+        { value: 'memberName', label: '판매사원'},
+        { value: 'orderDate', label: '주문일자' },
+        { value: 'acceptDate', label: '납품확정일자' },
     ];
 
     useEffect(() => {
         fetchMyOrders();
     }, []);
+
     const fetchMyOrders = async () => {
         let accessToken = window.localStorage.getItem('accessToken');
         let storedData = JSON.parse(window.localStorage.getItem('userInfo'));
         let memberId = storedData.data.memberId; 
         try {
-
             const response = await axios.get(
                 process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, 
                 { headers: {
                      Authorization: `${accessToken}`
                 }
             });
-            setMyOrderList(response.data.data);
+            
+            setManagementOrderList(response.data.data);
             setSearchResults(response.data.data);
+            console.log(response.data.data);
         } catch (error) {
             console.error(error);
         }
     };
 
     const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate ) => {
-        let filteredResults = myOrderList;
+        let filteredResults = managementOrderList;
 
         if(!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode && !memberName && !orderDate && !acceptDate) {
-            setSearchResults(myOrderList);
+            setSearchResults(managementOrderList);
             return;
         }
 
@@ -95,20 +97,40 @@ const ManagementPage = () => {
         }
         setSearchResults(fetchMyOrders);
 
-    }, [myOrderList]);
+    }, [managementOrderList]);
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(null);
-    // const [searchResults, setSearchResults] = useState([]);
+
+    const handleOpenMyOrderModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseOrderModal = () => setIsModalOpen(false);
+
+    const handleSelectMyOrder = (order) => {
+        setSelectedMyOrder(order);
+    };
+    const handleOrderPostSuccess = (newOrder) => {
+        setManagementOrderList((prevList) => [...prevList, newOrder]);
+        setSearchResults((prevResults) => [...prevResults, newOrder]);
+        handleCloseOrderModal();
+        window.location.reload();
+    };
 
     return (
         <div className="app">
             <Header />
             <SideBar />
             <Tab />
-            <MyOrderDetailSearch title="주문 관리" list ={myOrderList} onSearch={handleSearch}/>
+            <ManagementOrderDetailSearch title="주문 관리" list ={managementOrderList} onSearch={handleSearch}/>
+            <ManagementSearchInfo
+                    title="관리 정보"
+                    headers={headers}
+                    managementOrders={searchResults}
+                    onSelectMyOrder={handleSelectMyOrder}
+                    selectedOrder={selectedMyOrder}
+                    onOpenOrderModal={handleOpenMyOrderModal}/>
         </div>
     )
   };

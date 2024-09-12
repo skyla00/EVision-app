@@ -40,7 +40,7 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
 
         onSearch(finalOrderHeaderId, finalItemName, finalItemCode, finalCustomerName, finalCustomerCode,
             finalOrderHeaderStatus, finalMemberName, finalOrderDate, finalRequestDate, finalAcceptDate);
-        }, [orderHeaderId, itemName, itemCode, customerName, customerCode, orderHeaderStatus, memberName, orderDate, requestDate, acceptDate, setSelectedKeywords, onSearch]);
+    }, [orderHeaderId, itemName, itemCode, customerName, customerCode, orderHeaderStatus, memberName, orderDate, requestDate, acceptDate, setSelectedKeywords, onSearch]);
     
     const handleSearch = () => {
         setSelectedKeywords(prevKeywords => ({
