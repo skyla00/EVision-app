@@ -35,11 +35,9 @@ public class MemberDto {
     @Getter
     @Builder
     public static class Response {
-        @NotBlank
+        private String memberId;
         private String memberName;
-        @NotBlank
         private String position;
-        @NotBlank
         private String department;
         private List<OrderDto.OrderResponse> favorites;
     }

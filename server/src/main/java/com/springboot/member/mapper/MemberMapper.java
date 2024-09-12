@@ -25,6 +25,7 @@ public interface MemberMapper {
                 .collect(Collectors.toList());
 
         MemberDto.Response.ResponseBuilder response = MemberDto.Response.builder();
+            response.memberId(member.getMemberId());
             response.memberName(member.getMemberName());
             response.department(member.getDepartment());
             response.position(member.getPosition());

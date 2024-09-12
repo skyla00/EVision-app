@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import './ManagementPage.css';
+import axios from 'axios';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
-import DetailSearch from '../component/DetailSearch';
-import ManagementSearchInfo from '../component/ManagementSearchInfo';
+import MyOrderDetailSearch from './MyOrderDetailSearch'
 import DetailView from '../Modal/DetailView';
 
 const ManagementPage = () => {
+    const [myOrderList, setMyOrderList] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+
     const fields = [
         { type: 'search', placeholder: '주문번호' },
         { type: 'search', placeholder: '판매업체코드' },
@@ -19,44 +22,93 @@ const ManagementPage = () => {
         { type: 'date', placeholder: '납품확정일자' },
     ];
 
+    useEffect(() => {
+        fetchMyOrders();
+    }, []);
+    const fetchMyOrders = async () => {
+        let accessToken = window.localStorage.getItem('accessToken');
+        let storedData = JSON.parse(window.localStorage.getItem('userInfo'));
+        let memberId = storedData.data.memberId; 
+        try {
+
+            const response = await axios.get(
+                process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, 
+                { headers: {
+                     Authorization: `${accessToken}`
+                }
+            });
+            setMyOrderList(response.data.data);
+            setSearchResults(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate ) => {
+        let filteredResults = myOrderList;
+
+        if(!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode && !memberName && !orderDate && !acceptDate) {
+            setSearchResults(myOrderList);
+            return;
+        }
+
+        if (orderHeaderId) {
+            filteredResults = filteredResults.filter((order) =>
+                order.orderHeaderId.toLowerCase().includes(orderHeaderId.toLowerCase())
+            );
+        }
+
+        if (orderHeaderStatus) {
+            filteredResults = filteredResults.filter((order) =>
+                order.orderHeaderStatus.toLowerCase().includes(orderHeaderStatus.toLowerCase())
+            );
+        }
+
+        if (customerName) {
+            filteredResults = filteredResults.filter((order) =>
+                order.customerName.toLowerCase().includes(customerName.toLowerCase())
+            );
+        }
+
+        if (customerCode) {
+            filteredResults = filteredResults.filter((order) =>
+                order.customerCode.toLowerCase().includes(customerCode.toLowerCase())
+            );
+        }
+
+        if (memberName) {
+            filteredResults = filteredResults.filter((order) =>
+                order.memberName.toLowerCase().includes(memberName.toLowerCase())
+            );
+        }
+
+        if (orderDate) {
+            filteredResults = filteredResults.filter((order) =>
+                order.orderDate.toLowerCase().includes(orderDate.toLowerCase())
+            );
+        }
+
+        if (acceptDate) {
+            filteredResults = filteredResults.filter((order) =>
+                order.acceptDate.toLowerCase().includes(acceptDate.toLowerCase())
+            );
+        }
+        setSearchResults(fetchMyOrders);
+
+    }, [myOrderList]);
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
     // const [searchResults, setSearchResults] = useState([]);
-
-    const handleRowSelect = (item, index) => {
-        setSelectedItem(item);
-        setSelectedIndex(index);
-    };
-
-    const handleOpenModal = () => {
-        if (selectedItem) {
-            setIsModalOpen(true);
-        } else {
-            alert('항목을 선택해주세요.');
-        }
-    };
-    
-    const handleCloseModal = () => {
-        setSelectedItem(null);
-        setSelectedIndex(null);
-        setIsModalOpen(false);
-    };
-
-    const handleSubmitOrder = (newOrder) => {
-        handleCloseModal();
-    }
 
     return (
         <div className="app">
             <Header />
             <SideBar />
             <Tab />
-            <DetailSearch title="주문 관리" fields={fields}/>
-            {/* <ManagementSearchInfo title=" 주문 정보" headers={headers} items={items}  */}
-                onRowSelect={handleRowSelect} onOpenModal={handleOpenModal} selectedIndex={selectedIndex}/>
-            <DetailView isOpen={isModalOpen} onClose={handleCloseModal} 
-                onSubmit={handleSubmitOrder} selectedItem={selectedItem}/>
+            <MyOrderDetailSearch title="주문 관리" list ={myOrderList} onSearch={handleSearch}/>
         </div>
     )
   };
