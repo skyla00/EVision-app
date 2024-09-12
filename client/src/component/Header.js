@@ -40,7 +40,7 @@ const Header = () => {
         };
 
         fetchUserInfo();
-    }, [login]);
+    }, []);
 
     const handleLogout = async () => {
         try {

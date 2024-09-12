@@ -115,7 +115,6 @@ const SalePricePage = () => {
     const handleCloseSalesPriceModifyModal = () => setIsSalesPriceModifyModalOpen(false);
 
     const handleSelectSalesPrice = (salesPrice) => {
-        console.log("Selected salesPrice:", salesPrice); // 선택된 고객 출력
         setSelectedSalesPrice(salesPrice);
     };
 
