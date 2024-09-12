@@ -19,12 +19,11 @@ public class SalesPriceDto {
         private String itemCode;
         @NotBlank
         private String customerCode;
-        @NotBlank
+        @NotNull
         @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
-        @NotBlank
+        @NotNull
         private LocalDate startDate;
-        private LocalDate endDate = LocalDate.of(9999,12,31);
     }
     @Builder
     @Getter
@@ -34,9 +33,8 @@ public class SalesPriceDto {
         @NotBlank
         @Positive(message = "판매 단가는 숫자여야 합니다.")
         private int salesAmount;
-        @NotBlank
+        @NotNull
         private LocalDate startDate;
-        private LocalDate endDate;
     }
     @Builder
     @Getter
