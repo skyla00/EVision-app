@@ -73,10 +73,16 @@ public class SalesPriceService {
     public List<SalesPrice> findSalesPrices() {
         return salesPriceRepository.findAll();
     }
+
     @Transactional(readOnly = true)
     public Integer findSalesPricesByItemCodeAndCustomerCodeAndOrderDate(String itemCode, String customerCode, LocalDate orderDate) {
         // startDate 와 EndDate 기간 안에 있는지 확인.
-        return salesPriceRepository.findSalesPriceByItemCodeAndCustomerCodeAndOrderDate(itemCode, customerCode, orderDate);
+        // 등록되지 않은 판매가입니다.
+        Integer findSalesAmount = salesPriceRepository.findSalesPriceByItemCodeAndCustomerCodeAndOrderDate(itemCode, customerCode, orderDate);
+        if ( findSalesAmount == null) {
+            throw new BusinessLogicException(ExceptionCode.SALES_AMOUNT_NOT_FOUND);
+        }
+        return findSalesAmount;
     }
 
     //itemCode, CustomerCode 이 같은 sales Price가 있는지 검증.
