@@ -29,7 +29,7 @@ public class SalesPriceService {
     }
 
     public SalesPrice createSalesPrice(SalesPrice salesPrice) {
-        // 입력받은 itemCode 와 customerCode 에 해당하는 salesPrice 가 이미 있으면, 수정 로직으로 실행.
+        // 입력받은 itemCode 와 customerCode 에 해당하는 salesPrice 가 이미 있으면 예외 던지기.
         SalesPrice findSalesPrice = findVerifiedSameItemCodeAndCustomerCodeSalesPrices(salesPrice.getItem().getItemCode(), salesPrice.getCustomer().getCustomerCode());
         if (findSalesPrice != null) {
             throw new BusinessLogicException(ExceptionCode.SALES_PRICE_EXISTS);
@@ -59,7 +59,7 @@ public class SalesPriceService {
             createSalesPrice.setSalesAmount(salesPrice.getSalesAmount());
             // 날짜에 대한 처리. findStalesPrice 의 startDate 랑 입력받은 startDate 가 기존 startDate 보다 앞서먼 안됨.
             createSalesPrice.setStartDate(salesPrice.getStartDate());
-            createSalesPrice(createSalesPrice);
+            salesPriceRepository.save(createSalesPrice);
         }
         return salesPriceRepository.save(findSalesPrice);
     }
