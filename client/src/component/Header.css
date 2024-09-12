@@ -1,9 +1,10 @@
-/* .app {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 20px;
+.app {
+    /* max-width: 1400px;
+    width: 100%; */
+    /* margin: 0 auto;
+    padding: 0 20px; */
   }
-  
+/*
   @media (max-width: 1600px) {
     .app {
         max-width: 100%;
