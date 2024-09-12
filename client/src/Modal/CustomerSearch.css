@@ -1,0 +1,50 @@
+.cs-table {
+    height: 220px;
+    width: 700px;
+    overflow-y: auto;
+    overflow-x: auto;
+    display: block;
+    border: 2px solid #bbe1d2;
+}
+
+.cs-table-wrapper {
+    height: 220px;
+    width: 720px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+
+.cs-head-cell {
+    position: sticky;
+    top: 0;
+    text-align: left;
+    font-size: 14px;
+    background-color: #348F6C;
+    color: #ffffff;
+    height: 40px;
+}
+
+.cs-code {
+    width: 80px;
+}
+
+.cs-name {
+    width: 80px;
+}
+
+.cs-manager {
+    width: 60px;
+}
+
+.cs-address {
+    width: 180px;
+}
+
+.cs-phone {
+    width: 90px;
+}
+
+.cs-email {
+    width: 180px;
+}

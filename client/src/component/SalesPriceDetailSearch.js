@@ -92,75 +92,57 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
 
     return (
         <div className="detail-search-box">
-        <div className="detail-search-title"> {}
-            {title && <div className="form-title">{title}</div>}
+        <div className="detail-search-title">
+            {title && <div className="form-title"></div>}
         </div>
-        <div className="form-container">
-            <div className="product-form-row-container">
-                <div className="product-form-row">
-                    <input type="search" placeholder="상품 코드" value={itemCode}
-                        onChange={(e) => setItemCode(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                     />
-                </div>
-                
-                <div className="product-form-row">
-                    <input type="search" placeholder="상품명" value={itemName}
-                        onChange={(e) => setItemName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                     />
-                </div>
-
-                <div className="product-form-row">
-                    <input type="search" placeholder="판매업체 코드" value={customerCode}
-                        onChange={(e) => setCustomerCode(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                     />
-                </div>
-
-                <div className="product-form-row">
-                    <input 
-                        type="search" 
-                        placeholder="판매업체명" 
-                        value={customerName}
-                        onChange={(e) => setCustomerName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
+        <div className="sp-form-container">
+            <div className="sp-form-row">
+                <input type="search" placeholder="상품 코드" value={itemCode}
+                    onChange={(e) => setItemCode(e.target.value)} 
+                    onKeyPress={handleKeyPress}
                     />
-                </div>
-
-                <div className="product-form-row">
-                    <input type="search" placeholder="판매가" value={salesAmount}
-                        onChange={(e) => setSalesAmount(e.target.value)} 
-                        onKeyPress={handleKeyPress}
+                <input type="search" placeholder="상품명" value={itemName}
+                    onChange={(e) => setItemName(e.target.value)} 
+                    onKeyPress={handleKeyPress}
                     />
-                </div>
-                
-                <div className="product-form-row">
-                    <input type="date" placeholder="기준일자" value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)} 
-                        onKeyPress={handleKeyPress}
+                <input type="search" placeholder="판매업체 코드" value={customerCode}
+                    onChange={(e) => setCustomerCode(e.target.value)} 
+                    onKeyPress={handleKeyPress}
                     />
-                    <button className="cd-search-button" onClick={handleSearch}>조회</button>
-                </div>
-                
-                <div className="product-form-row">
-                    <input type="date" placeholder="만료일자" value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                     />
-                </div>
+                <input 
+                    type="search" 
+                    placeholder="판매업체명" 
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)} 
+                    onKeyPress={handleKeyPress}
+                />
+                <input type="date" placeholder="기준일자" value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)} 
+                    onKeyPress={handleKeyPress}
+                />
+                <input type="date" placeholder="만료일자" value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)} 
+                    onKeyPress={handleKeyPress}
+                    />
             </div>
-            <div className="selected-keywords">
-                <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
-                {Object.entries(selectedKeywords).map(([key, value]) => (
-                        value && (
-                            <div key={key} className="keyword-tag">
-                                {value}
-                                <button onClick={() => removeKeyword(key)}>X</button>
-                            </div>
-                        )
-                    ))}
+            <div className="sp-form-row">
+                <input type="search" placeholder="판매가" value={salesAmount}
+                    onChange={(e) => setSalesAmount(e.target.value)} 
+                    onKeyPress={handleKeyPress}
+                />
+                <button className="sp-search-button" onClick={handleSearch}>조회</button>
             </div>
+        </div>
+        <div className="sp-selected-keywords">
+            <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
+            {Object.entries(selectedKeywords).map(([key, value]) => (
+                    value && (
+                        <div key={key} className="keyword-tag">
+                            {value}
+                            <button onClick={() => removeKeyword(key)}>X</button>
+                        </div>
+                    )
+                ))}
         </div>
     </div>
   ); 

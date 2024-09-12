@@ -44,8 +44,6 @@ const OrderPage = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-
-                console.log("API Response: ", response.data); // 응답 데이터를 확인
                 
                 if (response.data && response.data.data) {
                     // 주문 데이터 : orderItems 배열을 펼쳐서 각 항목을 개별적으로 처리

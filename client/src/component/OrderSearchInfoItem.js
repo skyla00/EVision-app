@@ -1,7 +1,6 @@
 import React from 'react';
 
 const OrderSearchInfoItem = ({ order, index, headerKey }) => {
-    console.log(order);
     return (
         <tr>
             {headerKey.map((key) => (

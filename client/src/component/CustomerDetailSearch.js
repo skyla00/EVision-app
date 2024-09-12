@@ -86,7 +86,7 @@ const CustomerDetailSearch = ({ title, list = [], onSearch}) => {
     return (
         <div className="detail-search-box">
         <div className="detail-search-title"> {}
-            {title && <div className="form-title">{title}</div>}
+            {title && <div className="form-title"></div>}
         </div>
         <div className="form-container">
             <div className="product-form-row-container">
