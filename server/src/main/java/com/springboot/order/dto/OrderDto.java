@@ -49,21 +49,13 @@ public class OrderDto {
     @AllArgsConstructor
     public static class OrderResponse {
 
-        @NotNull
         private String orderHeaderId;
-        @NotNull
         private String memberName;
-        @NotNull
         private LocalDate orderDate;
         private LocalDate acceptDate;
-        @NotNull
         private String customerCode;
-        @NotNull
         private String customerName;
-        @NotNull
         private String orderHeaderStatus;
-        @NotNull
-        @Size(min = 1, message = "최소 한 개의 주문 항목이 있어야 합니다.")
         private List<OrderItemDto> orderItems;
     }
 
@@ -72,15 +64,15 @@ public class OrderDto {
     @NoArgsConstructor
     public static class OrderItemDto {
 
-        private Long orderItemId;
+        private long orderItemId;
         private LocalDate requestDate;
         private String itemCode;
-        private Long orderItemQuantity;
-        private Long purchaseAmount;
-        private Long salesAmount;
-        private Long marginRate;
-        private Long marginAmount;
-        private Long finalAmount;
+        private long orderItemQuantity;
+        private long purchaseAmount;
+        private long salesAmount;
+        private long marginRate;
+        private long marginAmount;
+        private long finalAmount;
     }
 
     @Getter

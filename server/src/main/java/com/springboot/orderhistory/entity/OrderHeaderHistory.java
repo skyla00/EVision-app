@@ -1,14 +1,13 @@
 package com.springboot.orderhistory.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.springboot.order.entity.OrderItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +18,7 @@ public class OrderHeaderHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderHeaderHistoryId;
+    private long orderHeaderHistoryId;
 
     @Column(nullable = false)
     private String orderHeaderId;
@@ -31,10 +30,10 @@ public class OrderHeaderHistory {
     private String memberId;
 
     @Column(nullable = false)
-    private Date orderDate;
+    private LocalDate orderDate;
 
     @Column(nullable = false)
-    private Date acceptDate;
+    private LocalDate acceptDate;
 
     @Column(nullable = false)
     private String orderHeaderStatus;
@@ -45,10 +44,4 @@ public class OrderHeaderHistory {
     @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<OrderItemHistory> orderItemHistories = new ArrayList<>();
-//    public void setOrderItemHistory(OrderItemHistory orderItemHistory) {
-//        orderItemHistoryList.add(orderItemHistory);
-//        if(orderItemHistory.getOrderHeaderHistory() != this) {
-//            orderItemHistory.setOrderHeaderHistory(this);
-//        }
-//    }
 }
