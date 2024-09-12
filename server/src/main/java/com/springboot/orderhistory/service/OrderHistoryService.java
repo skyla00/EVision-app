@@ -43,6 +43,7 @@ public class OrderHistoryService {
         // OrderItem 데이터를 OrderItemHistory로 변환
         OrderItemHistory orderItemHistory = new OrderItemHistory();
         orderItemHistory.setOrderItemId(orderItem.getOrderItemId());
+        orderItemHistory.setRequestDate(orderItem.getRequestDate());
         orderItemHistory.setItemCode(orderItem.getItem().getItemCode());
         orderItemHistory.setPurchaseAmount(orderItem.getPurchaseAmount());
         orderItemHistory.setSalesAmount(orderItem.getSalesAmount());

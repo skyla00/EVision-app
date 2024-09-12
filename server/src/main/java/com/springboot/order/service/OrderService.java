@@ -116,7 +116,7 @@ public class OrderService {
 //                    throw new BusinessLogicException(ExceptionCode.REQUEST_DATE_NOT_FOUND);
 //                }
 
-//                orderHistoryService.createOrderItemHistory(orderItem);
+                orderHistoryService.createOrderItemHistory(orderItem);
 
                 createOrderItems.add(orderItem);
 
@@ -129,7 +129,7 @@ public class OrderService {
         orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
 
-//        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
+        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
 
         return orderHeaderRepository.save(savedOrderHeader);
     }
@@ -137,7 +137,7 @@ public class OrderService {
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems, Authentication authentication) {
 
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderHeaderId));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         if(!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
         }
@@ -160,10 +160,12 @@ public class OrderService {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
             calculateOrderItemDetails(updatedOrderItem);
             existingOrderHeader.getOrderItems().add(updatedOrderItem);
+            orderHistoryService.createOrderItemHistory(updatedOrderItem);
         }
 
         // 업데이트된 OrderHeader와 OrderItems 저장
         orderHeaderRepository.save(existingOrderHeader);
+        orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
         return existingOrderHeader;
     }
