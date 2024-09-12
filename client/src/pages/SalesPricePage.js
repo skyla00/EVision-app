@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import './SalePricePage.css';
+import './SalesPricePage.css';
 import Header from '../component/Header';
 import SideBar from '../component/SideBar';
 import Tab from '../component/Tab';
