@@ -27,8 +27,8 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
         const finalCustomerCode = customerCode || selectedKeywords.customerCode;
         const finalCustomerName = customerName || selectedKeywords.customerName;
         const finalSalesAmount = salesAmount || selectedKeywords.salesAmount;
-        const finalStartDate = startDate || selectedKeywords.startDate;
-        const finalEndDate = endDate || selectedKeywords.endDate;
+        const finalStartDate = startDate ? new Date(startDate).toISOString().split('T')[0] : selectedKeywords.startDate;
+        const finalEndDate = endDate ? new Date(endDate).toISOString().split('T')[0] :  selectedKeywords.endDate;
 
         onSearch(finalItemCode, finalItemName, finalCustomerCode, finalCustomerName, finalSalesAmount, finalStartDate, finalEndDate);    
     }, [itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate, selectedKeywords, onSearch]);
@@ -36,26 +36,26 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
     const handleSearch = () => {
         // 필터링에 사용할 순수한 값을 저장
         setSelectedKeywords(prevKeywords => ({
-            itemCode: itemCode || prevKeywords.itemCode,
-            itemName: itemName || prevKeywords.itemName,
-            customerCode: customerCode || prevKeywords.customerCode,
-            customerName: customerName || prevKeywords.customerName,
-            salesAmount: salesAmount || prevKeywords.salesAmount,
-            startDate: startDate || prevKeywords.startDate,
-            endDate: endDate || prevKeywords.endDate,
+            itemCode: itemCode ? `상품코드 : ${itemCode}` : prevKeywords.itemCode,
+            itemName: itemName ? `상품명 : ${itemName}` : prevKeywords.itemName,
+            customerCode: customerCode ? `판매업체코드 : ${customerCode}` : prevKeywords.customerCode,
+            customerName: customerName ? `판매업체코드 : ${customerName}` : prevKeywords.customerName,
+            salesAmount: salesAmount ? `판매가 : ${salesAmount}` : prevKeywords.salesAmount,
+            startDate: startDate ? `기준일자 : ${new Date(startDate).toISOString().split('T')[0]}` : prevKeywords.startDate,
+            endDate: endDate ? `만료일자 : ${new Date(endDate).toISOString().split('T')[0]}` : prevKeywords.endDate,
         }));
     
         // 화면에 표시할 포맷된 키워드를 저장
-        setDisplayKeywords(prevKeywords => [
-            ...prevKeywords,
-            ...(itemCode ? [`상품 코드: ${itemCode}`] : []),
-            ...(itemName ? [`상품명: ${itemName}`] : []),
-            ...(customerCode ? [`판메업체 코드: ${customerCode}`] : []),
-            ...(customerName ? [`판매업체명: ${customerName}`] : []),
-            ...(salesAmount ? [`판매가: ${salesAmount}`] : []),
-            ...(startDate ? [`기준일자: ${startDate}`] : []),
-            ...(endDate ? [`만료일자: ${endDate}`] : [])
-        ]);
+        // setDisplayKeywords(prevKeywords => [
+        //     ...prevKeywords,
+        //     ...(itemCode ? [`상품 코드: ${itemCode}`] : []),
+        //     ...(itemName ? [`상품명: ${itemName}`] : []),
+        //     ...(customerCode ? [`판메업체 코드: ${customerCode}`] : []),
+        //     ...(customerName ? [`판매업체명: ${customerName}`] : []),
+        //     ...(salesAmount ? [`판매가: ${salesAmount}`] : []),
+        //     ...(startDate ? [`기준일자: ${startDate}`] : []),
+        //     ...(endDate ? [`만료일자: ${endDate}`] : [])
+        // ]);
        
         // 검색 후 입력 필드 초기화
         setItemCode('');
@@ -118,11 +118,9 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
                 />
                 <input type="date" placeholder="기준일자" value={startDate}
                     onChange={(e) => setStartDate(e.target.value)} 
-                    onKeyPress={handleKeyPress}
                 />
                 <input type="date" placeholder="만료일자" value={endDate}
                     onChange={(e) => setEndDate(e.target.value)} 
-                    onKeyPress={handleKeyPress}
                     />
             </div>
             <div className="sp-form-row">

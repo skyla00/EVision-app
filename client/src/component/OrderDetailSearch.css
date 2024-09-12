@@ -139,3 +139,7 @@
     border: none;
     float: right;
   }
+
+  .order-form-row input::before {
+    content: attr(placeholder);
+  }

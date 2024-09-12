@@ -83,13 +83,13 @@ const SalePricePage = () => {
         
         if (startDate) {
             filteredResults = filteredResults.filter((salePrice) => 
-                new Date(salePrice.startDate) >= new Date(startDate)
+                salePrice.acceptDate ? salePrice.acceptDate.includes(startDate) : false
             );
         }
     
         if (endDate) {
             filteredResults = filteredResults.filter((salePrice) => 
-                new Date(salePrice.endDate) <= new Date(endDate)
+                salePrice.acceptDate ? salePrice.acceptDate.includes(endDate) : false
             );
         }
         setSearchResults(filteredResults);

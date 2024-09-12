@@ -135,19 +135,19 @@ const OrderPage = () => {
         
         if (orderDate) {
             filteredResults = filteredResults.filter((order) =>
-                order.orderDate.toLowerCase().includes(orderDate.toLowerCase())
+                order.orderDate ? order.orderDate.includes(orderDate) : false
             );
         }
-
+    
         if (requestDate) {
             filteredResults = filteredResults.filter((order) =>
-                order.requestDate.toLowerCase().includes(requestDate.toLowerCase())
+                order.requestDate ? order.requestDate.includes(requestDate) : false
             );
         }
-
+    
         if (acceptDate) {
             filteredResults = filteredResults.filter((order) =>
-                order.acceptDate.toLowerCase().includes(acceptDate.toLowerCase())
+                order.acceptDate ? order.acceptDate.includes(acceptDate) : false
             );
         }
         setSearchResults(filteredResults);
