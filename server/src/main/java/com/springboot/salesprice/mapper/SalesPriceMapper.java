@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SalesPriceMapper {
+    @Mapping(source = "itemCode", target = "item.itemCode")
+    @Mapping(source = "customerCode", target = "customer.customerCode")
     SalesPrice salesPricePostDtoToSalesPrice(SalesPriceDto.Post postDto);
     SalesPrice salesPricePatchDtoToSalesPrice(SalesPriceDto.Patch patchDto);
 
@@ -16,6 +18,6 @@ public interface SalesPriceMapper {
     @Mapping(source = "item.itemName",target = "itemName")
     @Mapping(source = "customer.customerCode", target = "customerCode")
     @Mapping(source = "customer.customerName", target = "customerName")
-    SalesPriceDto.Response salesPriceToResponseDto(SalesPrice item);
-    List<SalesPriceDto.Response> salesPriceToResponseDtos(List<SalesPrice> items);
+    SalesPriceDto.Response salesPriceToSalesPriceResponseDto(SalesPrice salesPrice);
+    List<SalesPriceDto.Response> salesPriceToResponseDtos(List<SalesPrice> salesPrices);
 }
