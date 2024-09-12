@@ -10,10 +10,13 @@ import ManagementPage from "./pages/ManagementPage";
 import HistoryPage from "./pages/HistoryPage";
 import GraphPage from "./pages/GraphPage";
 import { AuthProvider } from './auth/AuthContext';  // AuthContext 추가
+import UseAxiosInterceptor from './auth/UseAxiosInterceptor';  // Axios 인터셉터 추가
+import ProtectedRoute from './auth/ProtectedRoute';  // 보호된 경로 추가
 
 const App = () => {
   return (
     <AuthProvider>
+      <UseAxiosInterceptor /> {/* AuthProvider 내부에서 인터셉터 호출 */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage/>} />
