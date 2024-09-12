@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import OrderPage from './pages/OrderPage';
@@ -17,19 +17,19 @@ const App = () => {
   return (
     <AuthProvider>
       <UseAxiosInterceptor /> {/* AuthProvider 내부에서 인터셉터 호출 */}
-      <BrowserRouter>
+      <Router>
         <Routes>
-          <Route path="/" element={<LoginPage/>} />
-          <Route path="/main" element={<MainPage/>} />
-          <Route path="/order" element={<OrderPage/>} />
-          <Route path="/product" element={<ProductPage/>} />
-          <Route path="/customer" element={<CustomerPage/>} />
-          <Route path="/price" element={<SalePricePage/>} />
-          <Route path="/manage" element={<ManagementPage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/graph" element={<GraphPage />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/main" element={<ProtectedRoute element={<MainPage />} />} />
+          <Route path="/order" element={<ProtectedRoute element={<OrderPage />} />} />
+          <Route path="/product" element={<ProtectedRoute element={<ProductPage />} />} />
+          <Route path="/customer" element={<ProtectedRoute element={<CustomerPage />} />} />
+          <Route path="/price" element={<ProtectedRoute element={<SalePricePage />} />} />
+          <Route path="/manage" element={<ProtectedRoute element={<ManagementPage />} />} />
+          <Route path="/history" element={<ProtectedRoute element={<HistoryPage />} />} />
+          <Route path="/graph" element={<ProtectedRoute element={<GraphPage />} />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </AuthProvider>
   );
 };
