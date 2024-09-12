@@ -15,12 +15,11 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const handleSubmit = async () => {
         try {
             let accessToken = window.localStorage.getItem('accessToken');
-            console.log('Access Token');
 
             const newSalesPrice = {
                 itemCode,
                 customerCode,
-                salesAmount,
+                salesAmount: parseInt(salesAmount),
                 startDate,
             };
 
@@ -100,15 +99,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                       />
                       <label>기준일자</label>
                       <input 
-                          type="text" 
+                          type="date" 
                           value={startDate} 
                           onChange={(e) => setstartDate(e.target.value)} 
-                          placeholder="기준일자" 
-                      /><label>만료일자</label>
-                      <input 
-                          type="text" 
-                          value={endDate} 
-                          onChange={(e) => setEndDate(e.target.value)} 
                           placeholder="기준일자" 
                       />
                   </div>

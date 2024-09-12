@@ -136,14 +136,15 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
                 </div>
                 
                 <div className="product-form-row">
-                    <input type="search" placeholder="기준일자" value={startDate}
+                    <input type="date" placeholder="기준일자" value={startDate}
                         onChange={(e) => setStartDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
                     />
+                    <button className="cd-search-button" onClick={handleSearch}>조회</button>
                 </div>
                 
                 <div className="product-form-row">
-                    <input type="search" placeholder="만료일자" value={endDate}
+                    <input type="date" placeholder="만료일자" value={endDate}
                         onChange={(e) => setEndDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
                      />

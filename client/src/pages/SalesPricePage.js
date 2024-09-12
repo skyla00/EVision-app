@@ -46,7 +46,7 @@ const SalePricePage = () => {
     const handleSearch = useCallback(( itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate) => {
         let filteredResults = salePriceList;
 
-        if (!itemCode && !customerCode && !salesAmount && !startDate && !endDate) {
+        if (!itemCode && !itemName && !customerCode && !customerName && !salesAmount && !startDate && !endDate) {
             setSearchResults(salePriceList);
             return;
         }
@@ -59,7 +59,7 @@ const SalePricePage = () => {
 
         if (itemName) {
             filteredResults = filteredResults.filter((salePrice) => 
-                salePrice.itemName.toLowerCase().includes(itemName.toLowerCase())
+                salePrice.itemName.toLowerCase().includes(itemName.trim().toLowerCase())
             );
         }
 
@@ -71,25 +71,25 @@ const SalePricePage = () => {
 
         if (customerName) {
             filteredResults = filteredResults.filter((salePrice) => 
-                salePrice.customerName.toLowerCase().includes(customerName.toLowerCase())
+                salePrice.customerName.toLowerCase().includes(customerName.trim().toLowerCase())
             );
         }
 
-        if (salesAmount) {
+        if (salesAmount && !isNaN(parseInt(salesAmount))) {
             filteredResults = filteredResults.filter((salePrice) => 
-                salePrice.salesAmount.toLowerCase().includes(salesAmount.toLowerCase())
+                salePrice.salesAmount.toString().includes(salesAmount)
             );
         }
-
+        
         if (startDate) {
             filteredResults = filteredResults.filter((salePrice) => 
-                salePrice.startDate.toLowerCase().includes(startDate.toLowerCase())
+                new Date(salePrice.startDate) >= new Date(startDate)
             );
         }
-
+    
         if (endDate) {
             filteredResults = filteredResults.filter((salePrice) => 
-                salePrice.endDate.toLowerCase().includes(endDate.toLowerCase())
+                new Date(salePrice.endDate) <= new Date(endDate)
             );
         }
         setSearchResults(filteredResults);
@@ -114,20 +114,21 @@ const SalePricePage = () => {
     
     const handleCloseSalesPriceModifyModal = () => setIsSalesPriceModifyModalOpen(false);
 
-    const handleSelectSalesPrice = (salePrice) => {
-        setSelectedSalesPrice(salePrice);
+    const handleSelectSalesPrice = (salesPrice) => {
+        console.log("Selected salesPrice:", salesPrice); // 선택된 고객 출력
+        setSelectedSalesPrice(salesPrice);
     };
 
-    const handleCustomerPostSuccess = (newSalesPrice) => {
+    const handleSalesPricePostSuccess = (newSalesPrice) => {
         setSalesPriceList((prevList) => [...prevList, newSalesPrice]);
         setSearchResults((prevResults) => [...prevResults, newSalesPrice]);
         handleCloseSalesPricePostModal();
         window.location.reload();
     }
 
-    const handleCustomerModifySuccess = (updatedSalesPrice) => {
+    const handleSalesPriceModifySuccess = (updatedSalesPrice) => {
         const updatedList = salePriceList.map(salePrice => 
-            salePrice.salesPriceId === updatedSalesPrice.customerCode ? updatedSalesPrice : salePrice
+            salePrice.salesPriceId === updatedSalesPrice.salesPriceId ? updatedSalesPrice : salePrice
         );
         setSalesPriceList(updatedList);
         setSearchResults(updatedList);
@@ -151,12 +152,12 @@ const SalePricePage = () => {
             <SalesPricePostModal 
                 isOpen={isSalesPricePostModalOpen}
                 onClose={handleCloseSalesPricePostModal} 
-                onSubmit={handleCustomerPostSuccess}/>
+                onSubmit={handleSalesPricePostSuccess}/>
             <SalesPriceModifyModal 
                 isOpen={isSalesPriceModifyModalOpen}
                 onClose={handleCloseSalesPriceModifyModal} 
-                onSubmit={handleCustomerModifySuccess}
-                customer={selectedSalesPrice}/>
+                onSubmit={handleSalesPriceModifySuccess}
+                salesPrice={selectedSalesPrice}/>
         </div>
     )
   };
