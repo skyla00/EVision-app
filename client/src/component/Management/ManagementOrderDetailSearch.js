@@ -36,6 +36,22 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
  
     const handleSearch = () => {
         // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
+        // 주문 상태 값을 한글로 변환하는 함수
+        const getOrderStatusDisplay = (status) => {
+            switch (status) {
+                case 'WAITING':
+                    return '임시저장';
+                case 'REQUEST':
+                    return '승인요청';
+                case 'ACCEPT':
+                    return '승인';
+                case 'DENY':
+                    return '반려';
+                default:
+                    return '';
+            }
+        };
+        
         setSelectedKeywords(prevKeywords => ({
             orderHeaderId: orderHeaderId || prevKeywords.orderHeaderId,
             orderHeaderStatus: orderHeaderStatus || prevKeywords.orderHeaderStatus,
@@ -45,12 +61,13 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             orderDate: orderDate || prevKeywords.orderDate,
             acceptDate: acceptDate || prevKeywords.acceptDate,
         }));
+        console.log(getOrderStatusDisplay(orderHeaderStatus));
     
         // 화면에 표시할 키워드를 저장 (UI용)
         setDisplayKeywords(prevKeywords => [
             ...prevKeywords,
             ...(orderHeaderId ? [`주문번호 : ${orderHeaderId}`] : []),
-            ...(orderHeaderStatus ? [`주문상태 : ${orderHeaderStatus}`] : []),
+            ...(orderHeaderStatus ? [`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`] : []),
             ...(customerName ? [`판매처명 : ${customerName}`] : []),
             ...(customerCode ? [`판매처코드 : ${customerCode}`] : []),
             ...(memberName ? [`판매사원이름 : ${memberName}`] : []),
@@ -112,9 +129,14 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                 <input type="search" placeholder="주문번호" value={orderHeaderId}
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
                 />
-                <input type="search" placeholder="주문상태" value={orderHeaderStatus}
-                        onChange={(e) => setOrderHeaderStatus(e.target.value)} 
-                />
+                <select placeholder="주문상태" value={orderHeaderStatus}
+                        onChange={(e) => setOrderHeaderStatus(e.target.value)} >
+                    <option value="" disabled hidden>주문상태</option>
+                    <option value="WAITING">임시저장</option>
+                    <option value="REQUEST">승인요청</option>
+                    <option value="ACCEPT">승인</option>
+                    <option value="DENY">반려</option>
+                </select>
                  <input type="search" placeholder="판매처명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)} 
                 />

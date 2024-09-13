@@ -44,6 +44,23 @@ const OrderDetailSearch = ({ title, onSearch}) => {
     }, [orderHeaderId, itemName, itemCode, customerName, customerCode, orderHeaderStatus, memberName, orderDate, requestDate, acceptDate, setSelectedKeywords, onSearch]);
     
     const handleSearch = () => {
+
+        const getOrderStatusDisplay = (status) => {
+            switch (status) {
+                case 'WAITING':
+                    return '임시저장';
+                case 'REQUEST':
+                    return '승인요청';
+                case 'ACCEPT':
+                    return '승인';
+                case 'DENY':
+                    return '반려';
+                default:
+                    return '';
+            }
+        };
+        
+
         // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
         setSelectedKeywords(prevKeywords => ({
             orderHeaderId: orderHeaderId || prevKeywords.orderHeaderId,
@@ -66,7 +83,7 @@ const OrderDetailSearch = ({ title, onSearch}) => {
             ...(itemCode ? [`상품코드: ${itemCode}`] : []),
             ...(customerName ? [`판매처명: ${customerName}`] : []),
             ...(customerCode ? [`판매처코드: ${customerCode}`] : []),
-            ...(orderHeaderStatus ? [`주문상태: ${orderHeaderStatus}`] : []),
+            ...(orderHeaderStatus ? [`주문상태: ${getOrderStatusDisplay(orderHeaderStatus)}`] : []),
             ...(memberName ? [`판매사원이름: ${memberName}`] : []),
             ...(orderDate ? [`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
             ...(requestDate ? [`납품요청일자: ${new Date(requestDate).toISOString().split('T')[0]}`] : []),
@@ -149,33 +166,31 @@ const OrderDetailSearch = ({ title, onSearch}) => {
         <div className="order-form-container">            <div className="order-form-row">
                 <input type="search" placeholder="주문번호" value={orderHeaderId}
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                      />
                 <input type="search" placeholder="상품명" value={itemName}
                         onChange={(e) => setItemName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                 />
                 <input type="search" placeholder="상품코드" value={itemCode}
                         onChange={(e) => setItemCode(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                 />
                  <input type="search" placeholder="판매처명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                 />
                 <input type="search" placeholder="판매처 코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                 />
-                <input type="search" placeholder="주문상태" value={orderHeaderStatus}
-                        onChange={(e) => setOrderHeaderStatus(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                />
+                <select placeholder="주문상태" value={orderHeaderStatus}
+                        onChange={(e) => setOrderHeaderStatus(e.target.value)} >
+                    <option value="" disabled hidden>주문상태</option>
+                    <option value="WAITING">임시저장</option>
+                    <option value="REQUEST">승인요청</option>
+                    <option value="ACCEPT">승인</option>
+                    <option value="DENY">반려</option>
+                </select>
             </div>
             <div className="order-form-row">
                 <input type="search" placeholder="판매사원 이름" value={memberName}
                         onChange={(e) => setMemberName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
                 />
                 <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
