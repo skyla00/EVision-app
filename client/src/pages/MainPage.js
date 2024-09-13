@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
 import Header from '../component/Common/Header';
 import SideBar from '../component/Common/SideBar';
-import OrderStatus from '../component/Order/OrderStatus';
+import OrderStatus from '../component/OrderStatus';
 import OrderModal from '../Modal/Order/OrderModal';
 
 const NaviContainer = () => {

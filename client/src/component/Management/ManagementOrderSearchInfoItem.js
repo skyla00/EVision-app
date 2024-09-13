@@ -1,14 +1,17 @@
 import React from 'react';
+import OrderStatus from '../OrderStatus'; // Import the OrderStatus component
 
 const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey }) => {
-    console.log(managementOrder);
-    console.log('headerKey:', headerKey, 'index:', index, 'value:', managementOrder[index]);
     return (
         <tr>
             {headerKey.map((key) => (
                 <td className={`search-info-td ${key}`} key={key + index}>
-                    {/* order가 존재하고 해당 키의 값이 정의되어 있으면 값을 출력, 그렇지 않으면 '-' 출력 */}
-                    {managementOrder && managementOrder[key] !== undefined ? managementOrder[key] : '-'}
+                    {/* If key is 'orderHeaderStatus', render the OrderStatus component */}
+                    {managementOrder && managementOrder[key] !== undefined
+                        ? key === 'orderHeaderStatus'
+                            ? <OrderStatus status={managementOrder[key]} />
+                            : managementOrder[key]
+                        : '-'}
                 </td>
             ))}
         </tr>
