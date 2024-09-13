@@ -32,8 +32,6 @@ const ItemStatus = ({ status }) => {
     const statusStyle = styles[status] || null;
     const text = statusText[status] || '';
 
-    console.log('Status:', status, 'Style:', statusStyle);
-
     return statusStyle ? <span style={statusStyle}>{text}</span> : null;
 };
 

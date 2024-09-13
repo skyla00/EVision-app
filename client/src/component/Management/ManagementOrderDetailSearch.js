@@ -99,7 +99,6 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                 <input type="date" placeholder="납품확정일자" value={acceptDate}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                 />
-           
             </div>
             <div className="my-order-form-row">
                 <input type="search" placeholder="판매사원 이름" value={memberName}
