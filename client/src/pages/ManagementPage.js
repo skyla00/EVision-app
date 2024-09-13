@@ -95,7 +95,6 @@ const ManagementPage = () => {
 
         if (acceptDate) {
             filteredResults = filteredResults.filter((order) => {
-                // `order.acceptDate`가 문자열인지 확인 후 toLowerCase() 호출
                 const orderAcceptDate = order.acceptDate ? order.acceptDate.toLowerCase() : '';
                 return orderAcceptDate.includes(acceptDate.toLowerCase());
             });
