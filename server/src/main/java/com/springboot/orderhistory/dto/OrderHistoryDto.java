@@ -4,6 +4,7 @@ import com.springboot.orderhistory.entity.OrderHeaderHistory;
 import com.springboot.orderhistory.entity.OrderItemHistory;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -17,26 +18,18 @@ public class OrderHistoryDto {
 
         @NotNull
         private Long orderHeaderHistoryId;
-
         @NotNull
         private String orderHeaderId;
-
         @NotNull
         private String customerCode;
-
         @NotNull
         private String memberId;
-
         @NotNull
         private LocalDate orderDate;
-
         private LocalDate acceptDate;
-
         private LocalDate requestDate;
-
         @NotNull
         private String orderHeaderStatus;
-
         @NotNull
         private List<OrderItemHistory> orderItemHistories;
     }
@@ -51,7 +44,7 @@ public class OrderHistoryDto {
         private LocalDate orderDate;
         private LocalDate acceptDate;
         private String orderHeaderStatus;
-        private List<OrderItemHistory> orderItemHistories;
+        private List<OrderHistoryDto.OrderItemHistoryDto> orderItemHistories;
     }
 
 
@@ -62,4 +55,25 @@ public class OrderHistoryDto {
             private List<OrderHistoryDto.Response> histories;
     }
 
+    @Getter
+    @Setter
+    public static class OrderItemHistoryDto {
+        private long orderItemHistoryId;
+        private long orderItemId;
+        private String itemCode;
+        private long orderItemQuantity;
+        private long purchaseAmount;
+        private long salesAmount;
+        private double marginRate;
+        private long marginAmount;
+        private long finalAmount;
+        private LocalDate requestDate;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class OrderItemHistoryResponse {
+        private List<OrderHistoryDto.OrderItemHistoryDto> orderItemHistories;
+    }
 }

@@ -46,7 +46,7 @@ public class OrderItemHistory {
     private LocalDate requestDate;
 
     @ManyToOne
-    @JoinColumn(name = "order_header_history_id")
+    @JoinColumn(name = "ORDER_HEADER_HISTORY_ID")
     @JsonBackReference
     private OrderHeaderHistory orderHeaderHistory;
 }
