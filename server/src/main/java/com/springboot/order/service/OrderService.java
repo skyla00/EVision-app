@@ -104,7 +104,7 @@ public class OrderService {
                 orderItem.setMarginAmount(marginAmount);
 
                 // marginRate 입력
-                long marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
+                double marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
                 if(orderItem.getSalesAmount() == 0 || marginAmount == 0) { marginRate = 0; }
                 orderItem.setMarginRate(marginRate);
 
@@ -188,20 +188,25 @@ public class OrderService {
         // 입력된 memberId가 없으면 주문상태가 '승인'인 orderItem 전체목록 조회
         if(memberId == null) {
             return orderItemRepository.findAll().stream()
-                    .filter(orderItem -> orderItem.getOrderHeader().getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
                     .map(OrderItem::getOrderHeader)
+                    .filter(orderHeader -> orderHeader.getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
                     .distinct()
+                    .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
                     .collect(Collectors.toList());
             // 입력된 memberId가 있고, 권한이 TL이면 모든 주문 조회
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
             if(memberId.equals((String) authentication.getPrincipal())) {
-                return orderHeaderRepository.findAll();
+                return orderHeaderRepository.findAll().stream()
+                        .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
+                        .collect(Collectors.toList());
             } else {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
             }
         } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
             if(memberId.equals((String) authentication.getPrincipal())) {
-                return orderHeaderRepository.findByMemberMemberId(memberId);
+                return orderHeaderRepository.findByMemberMemberId(memberId).stream()
+                        .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
+                        .collect(Collectors.toList());
             } else {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
             }
@@ -251,7 +256,7 @@ public class OrderService {
         return salesAmount - purchaseAmount;
     }
 
-    public long marginRateCalculation (long marginAmount, long salesAmount) {
+    public double marginRateCalculation (long marginAmount, long salesAmount) {
         if(salesAmount == 0) {
             return 0;
         }
@@ -280,7 +285,7 @@ public class OrderService {
         orderItem.setMarginAmount(marginAmount);
 
         // marginRate 입력
-        long marginRate = marginRateCalculation(marginAmount, salesAmount);
+        double marginRate = marginRateCalculation(marginAmount, salesAmount);
         if (salesAmount == 0 || marginAmount == 0) {
             marginRate = 0;
         }

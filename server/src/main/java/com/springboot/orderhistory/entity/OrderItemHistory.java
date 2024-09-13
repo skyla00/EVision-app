@@ -34,7 +34,7 @@ public class OrderItemHistory {
     private long salesAmount;
 
     @Column(nullable = false)
-    private long marginRate;
+    private double marginRate;
 
     @Column(nullable = false)
     private long marginAmount;

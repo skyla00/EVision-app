@@ -33,7 +33,7 @@ public class OrderItem {
     private long salesAmount;
 
     @Column(nullable = false)
-    private long marginRate;
+    private double marginRate;
 
     @Column(nullable = false)
     private long marginAmount;
