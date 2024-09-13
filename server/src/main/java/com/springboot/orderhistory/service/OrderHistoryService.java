@@ -37,17 +37,20 @@ public class OrderHistoryService {
         return orderHeaderHistoryRepository.save(orderHeaderHistory);
     }
 
-    public OrderItemHistory createOrderItemHistory(OrderItem orderItem) {
+    public OrderItemHistory createOrderItemHistory(OrderItem orderItem, OrderHeaderHistory orderHeaderHistory) {
         // OrderItem 데이터를 OrderItemHistory로 변환
         OrderItemHistory orderItemHistory = new OrderItemHistory();
         orderItemHistory.setOrderItemId(orderItem.getOrderItemId());
         orderItemHistory.setRequestDate(orderItem.getRequestDate());
         orderItemHistory.setItemCode(orderItem.getItem().getItemCode());
+        orderItemHistory.setOrderItemQuantity(orderItem.getOrderItemQuantity());
         orderItemHistory.setPurchaseAmount(orderItem.getPurchaseAmount());
         orderItemHistory.setSalesAmount(orderItem.getSalesAmount());
         orderItemHistory.setMarginAmount(orderItem.getMarginAmount());
         orderItemHistory.setMarginRate(orderItem.getMarginRate());
         orderItemHistory.setFinalAmount(orderItem.getFinalAmount());
+
+        orderItemHistory.setOrderHeaderHistory(orderHeaderHistory);
 
         return orderItemHistoryRepository.save(orderItemHistory);
     }
@@ -55,29 +58,35 @@ public class OrderHistoryService {
     @Transactional(readOnly = true)
     public OrderHistoryDto.OrderHistoryResponse findOrderHistory(String orderHeaderId) {
 
+        if (orderHeaderHistoryRepository.findByOrderHeaderId(orderHeaderId).isEmpty()) {
+            return new OrderHistoryDto.OrderHistoryResponse(new ArrayList<>());
+        }
+
+        List<OrderHeaderHistory> orderHeaderHistories = orderHeaderHistoryRepository.findByOrderHeaderId(orderHeaderId);
+
         List<OrderHistoryDto.Response> responses = new ArrayList<>();
 
-        for (OrderHeaderHistory orderHeaderHistory : orderHeaderHistoryRepository.findAll()) {
+        for (OrderHeaderHistory orderHeaderHistory : orderHeaderHistories) {
             if (orderHeaderHistory.getOrderHeaderId().equals(orderHeaderId)) {
+                List<OrderItemHistory> orderItemHistories = orderItemHistoryRepository.findByOrderHeaderHistoryOrderHeaderHistoryId(orderHeaderHistory.getOrderHeaderHistoryId());
 
-                List<OrderItemHistory> orderItemHistories = new ArrayList<>();
-
-                // orderHeaderHistoryId로 OrderItemHistory 조회 및 추가
-                for (OrderItemHistory orderItemHistory : orderItemHistoryRepository.findByOrderHeaderHistoryId(orderHeaderHistory.getOrderHeaderHistoryId())) {
-                    if (orderItemHistory.getOrderHeaderHistory().getOrderHeaderId().equals(orderHeaderId)) {
-                        orderItemHistories.add(orderItemHistory);
-                    }
+                // OrderItemHistory -> OrderItemHistoryDto 변환
+                List<OrderHistoryDto.OrderItemHistoryDto> orderItemHistoryDtos = new ArrayList<>();
+                for (OrderItemHistory orderItemHistory : orderItemHistories) {
+                    OrderHistoryDto.OrderItemHistoryDto itemHistoryDto = new OrderHistoryDto.OrderItemHistoryDto();
+                    itemHistoryDto.setOrderItemHistoryId(orderItemHistory.getOrderItemHistoryId());
+                    itemHistoryDto.setOrderItemId(orderItemHistory.getOrderItemId());
+                    itemHistoryDto.setItemCode(orderItemHistory.getItemCode());
+                    itemHistoryDto.setPurchaseAmount(orderItemHistory.getPurchaseAmount());
+                    itemHistoryDto.setSalesAmount(orderItemHistory.getSalesAmount());
+                    itemHistoryDto.setMarginAmount(orderItemHistory.getMarginAmount());
+                    itemHistoryDto.setMarginRate(orderItemHistory.getMarginRate());
+                    itemHistoryDto.setFinalAmount(orderItemHistory.getFinalAmount());
+                    itemHistoryDto.setRequestDate(orderItemHistory.getRequestDate());
+                    orderItemHistoryDtos.add(itemHistoryDto);
                 }
 
-                System.out.println("=".repeat(30));
-                System.out.println("=".repeat(30));
-                System.out.println("=".repeat(30));
-                System.out.println("=".repeat(30));
-                System.out.println("=".repeat(30));
-                System.out.println("=".repeat(30));
-                System.out.println(orderItemHistories);
-
-                // OrderHistoryDto.Response 생성 및 설정
+                // OrderHistoryDto.Response 생성
                 OrderHistoryDto.Response response = new OrderHistoryDto.Response();
                 response.setOrderHeaderHistoryId(orderHeaderHistory.getOrderHeaderHistoryId());
                 response.setOrderHeaderId(orderHeaderHistory.getOrderHeaderId());
@@ -86,14 +95,12 @@ public class OrderHistoryService {
                 response.setOrderDate(orderHeaderHistory.getOrderDate());
                 response.setAcceptDate(orderHeaderHistory.getAcceptDate());
                 response.setOrderHeaderStatus(orderHeaderHistory.getOrderHeaderStatus());
-                response.setOrderItemHistories(orderItemHistories);  // OrderItemHistories 설정
+                response.setOrderItemHistories(orderItemHistoryDtos);  // 변환된 DTO 리스트 설정
 
-                // Response 리스트에 추가
                 responses.add(response);
             }
         }
 
-        // 반환: OrderHistoryResponse에 responses 설정
-        return new OrderHistoryDto.OrderHistoryResponse(responses);  // 변경: 반환 타입 수정
+        return new OrderHistoryDto.OrderHistoryResponse(responses);
     }
 }

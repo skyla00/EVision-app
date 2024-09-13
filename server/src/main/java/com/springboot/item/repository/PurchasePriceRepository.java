@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface PurchasePriceRepository extends JpaRepository<PurchasePrice, Long> {
 
     @Query("SELECT p.purchaseAmount FROM PurchasePrice p WHERE p.item.itemCode = :itemCode")
-    Integer findPurchaseAmountByItemCode(@Param("itemCode") String itemCode);
+    Long findPurchaseAmountByItemCode(@Param("itemCode") String itemCode);
 }

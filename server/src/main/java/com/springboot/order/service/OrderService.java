@@ -14,6 +14,10 @@ import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
+import com.springboot.orderhistory.entity.OrderHeaderHistory;
+import com.springboot.orderhistory.entity.OrderItemHistory;
+import com.springboot.orderhistory.repository.OrderHeaderHistoryRepository;
+import com.springboot.orderhistory.repository.OrderItemHistoryRepository;
 import com.springboot.orderhistory.service.OrderHistoryService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,10 +40,12 @@ public class OrderService {
     private final PurchasePriceRepository purchasePriceRepository;
     private final MemberService memberService;
     private final OrderHistoryService orderHistoryService;
+    private final OrderHeaderHistoryRepository orderHeaderHistoryRepository;
+    private final OrderItemHistoryRepository orderItemHistoryRepository;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService, OrderHistoryService orderHistoryService) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService, OrderHistoryService orderHistoryService, OrderHeaderHistoryRepository orderHeaderHistoryRepository, OrderItemHistoryRepository orderItemHistoryRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.customerRepository = customerRepository;
@@ -47,6 +53,8 @@ public class OrderService {
         this.purchasePriceRepository = purchasePriceRepository;
         this.memberService = memberService;
         this.orderHistoryService = orderHistoryService;
+        this.orderHeaderHistoryRepository = orderHeaderHistoryRepository;
+        this.orderItemHistoryRepository = orderItemHistoryRepository;
     }
 
     public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
@@ -74,6 +82,8 @@ public class OrderService {
         // OrderHeader 먼저 저장
         OrderHeader savedOrderHeader = orderHeaderRepository.save(createOrderHeader);
 
+        OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(savedOrderHeader);
+
         // OrderHeader에 List로 OrderItem 입력
         List<OrderItem> createOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orderHeader.getOrderItems()) {
@@ -83,7 +93,7 @@ public class OrderService {
                 orderItem.setOrderHeader(savedOrderHeader);
 
                 // purchaseAmount 입력
-                Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(item.getItemCode());
+                Long purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(item.getItemCode());
                 if (purchaseAmount == null) {
                     throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
                 }
@@ -109,10 +119,10 @@ public class OrderService {
                 long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(), orderItem.getOrderItemQuantity());
                 orderItem.setFinalAmount(finalAmount);
 
-                // OrderItemHistory 저장
-                orderHistoryService.createOrderItemHistory(orderItem);
-
                 createOrderItems.add(orderItem);
+
+                // orderItemHistory 생성
+                orderHistoryService.createOrderItemHistory(orderItem, orderHeaderHistory);
 
             } else {
                 throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_NOT_FOUND);
@@ -122,11 +132,8 @@ public class OrderService {
         // OrderItem 저장
         orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
-
-        // OrderHeaderHistory 저장
-        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
-
-        return orderHeaderRepository.save(savedOrderHeader);
+        
+        return savedOrderHeader;
     }
 
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems, Authentication authentication) {
@@ -162,20 +169,21 @@ public class OrderService {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
         }
 
+        OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
         // 기존 OrderItems 삭제 후 새로운 아이템으로 교체
         existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
             calculateOrderItemDetails(updatedOrderItem);
             existingOrderHeader.getOrderItems().add(updatedOrderItem);
-            orderHistoryService.createOrderItemHistory(updatedOrderItem);
+            orderHistoryService.createOrderItemHistory(updatedOrderItem, orderHeaderHistory);
         }
 
         // 업데이트된 OrderHeader와 OrderItems 저장
-        orderHeaderRepository.save(existingOrderHeader);
-        orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+        orderItemRepository.saveAll(updatedOrderItems);
 
-        return existingOrderHeader;
+        return orderHeaderRepository.save(existingOrderHeader);
     }
 
     // 주문 조회 로직
@@ -267,7 +275,7 @@ public class OrderService {
     private void calculateOrderItemDetails(OrderItem orderItem) {
 
         // purchaseAmount 입력
-        Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(orderItem.getItem().getItemCode());
+        Long purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(orderItem.getItem().getItemCode());
         if (purchaseAmount == null) {
             throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
         }
