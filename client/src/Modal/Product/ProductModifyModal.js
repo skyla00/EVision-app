@@ -16,7 +16,7 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
             setItemName(item.itemName);
             setItemCode(item.itemCode);
             setUnit(item.unit);
-            setItemStatus(item.status);
+            setItemStatus(item.itemStatus);
             setSpecs(item.specs);
         }
     }, [isOpen, item]);
@@ -84,19 +84,18 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
                 </div>
                 <div className="pm-input-second-line">
                     <label>단위</label>
-                    <input 
-                        type="text" 
+                    <select 
                         value={unit} 
-                        onChange={(e) => setUnit(e.target.value)} 
-                        placeholder="단위" 
-                    />
+                        onChange={(e) => setUnit(e.target.value)} >
+                        <option value="EA">EA</option>
+                        <option value="SET">SET</option>
+                    </select>
                     <label>상태</label>
                     <select 
                         value={itemStatus} 
                         onChange={(e) => setItemStatus(e.target.value)}>
-                        <option value="" disabled hidden>상태</option>
-                        <option value="ON_SALE">ON_SALE</option>
-                        <option value="NOT_FOR_SALE">NOT_FOR_SALE</option>
+                        <option value="ON_SALE">판매중</option>
+                        <option value="NOT_FOR_SALE">판매중지</option>
                     </select>
                 </div>
                 <div className="pm-input-third-line">
