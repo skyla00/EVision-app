@@ -6,6 +6,7 @@ import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.mapper.OrderMapper;
 import com.springboot.order.service.OrderService;
+import com.springboot.response.MultiResponseDto;
 import com.springboot.response.SingleResponseDto;
 import com.springboot.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -85,5 +87,13 @@ public class OrderController {
 
             return new ResponseEntity<>(
                     new SingleResponseDto<>(response), HttpStatus.OK);
+        }
+
+        @GetMapping("/graph")
+        public ResponseEntity getOrderGraph(@RequestParam(value = "member-id", required = false) String memberId) {
+
+            OrderDto.GraphResponse graphResponse = orderService.getOrderGraph(memberId);
+
+            return new ResponseEntity<>(graphResponse, HttpStatus.OK);
         }
 }
