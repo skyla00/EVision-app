@@ -1,7 +1,7 @@
 import './GraphPage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
 import RechartsGraph from '../component/RechartsGraph';
 
 const GraphPage = () => {

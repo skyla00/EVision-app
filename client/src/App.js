@@ -7,7 +7,6 @@ import ProductPage from "./pages/ProductPage";
 import CustomerPage from "./pages/CustomerPage";
 import SalePricePage from "./pages/SalesPricePage";
 import ManagementPage from "./pages/ManagementPage";
-import HistoryPage from "./pages/HistoryPage";
 import GraphPage from "./pages/GraphPage";
 import { AuthProvider } from './auth/AuthContext';  // AuthContext 추가
 import UseAxiosInterceptor from './auth/UseAxiosInterceptor';  // Axios 인터셉터 추가
@@ -26,7 +25,6 @@ const App = () => {
           <Route path="/customer" element={<ProtectedRoute element={<CustomerPage />} />} />
           <Route path="/price" element={<ProtectedRoute element={<SalePricePage />} />} />
           <Route path="/manage" element={<ProtectedRoute element={<ManagementPage />} />} />
-          <Route path="/history" element={<ProtectedRoute element={<HistoryPage />} />} />
           <Route path="/graph" element={<ProtectedRoute element={<GraphPage />} />} />
         </Routes>
       </Router>

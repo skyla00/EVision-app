@@ -1,10 +1,10 @@
 import React, { Children, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import OrderStatus from '../component/OrderStatus';
-import OrderModal from '../Modal/OrderModal';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import OrderStatus from '../component/Order/OrderStatus';
+import OrderModal from '../Modal/Order/OrderModal';
 
 const NaviContainer = () => {
   const navigate = useNavigate();

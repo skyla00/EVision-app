@@ -23,10 +23,6 @@ const Tab = () => {
                 className={`price-tab ${location.pathname === '/price' ? 'active' : ''}`} 
                 onClick={() => navigate('/price')}> 판매가 조회 <img src="/image/go.png" alt='메인로고'/>
             </div>
-            <div 
-                className={`history-tab ${location.pathname === '/history' ? 'active' : ''}`} 
-                onClick={() => navigate('/history')}> 거래 히스토리 조회 <img src="/image/go.png" alt='메인로고'/>
-            </div>
         </div>
     );
   };

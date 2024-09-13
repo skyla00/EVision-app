@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import './ManagementPage.css';
 import axios from 'axios';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
-import ManagementOrderDetailSearch from '../component/ManagementOrderDetailSearch'
-import ManagementSearchInfo from '../component/ManagementSearchInfo'
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
+import ManagementOrderDetailSearch from '../component/Management/ManagementOrderDetailSearch'
+import ManagementSearchInfo from '../component/Management/ManagementSearchInfo'
 
 const ManagementPage = () => {
     const [managementOrderList, setManagementOrderList] = useState([]);

@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import './ProductPage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
-import ProductDetailSearch from '../component/ProductDetailSearch';
-import ProductSearchInfo from '../component/ProductSearchInfo';
-import ProductPostModal from '../Modal/ProductPostModal';
-import ProductModifyModal from '../Modal/ProductModifyModal';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
+import ProductDetailSearch from '../component/Product/ProductDetailSearch';
+import ProductSearchInfo from '../component/Product/ProductSearchInfo';
+import ProductPostModal from '../Modal/Product/ProductPostModal';
+import ProductModifyModal from '../Modal/Product/ProductModifyModal';
 import axios from 'axios';
 
 const ProductPage = () => {
