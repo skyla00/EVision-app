@@ -129,10 +129,10 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
                         onChange={(e) => setMemberName(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
-                <input type="search" placeholder="주문일자" value={orderDate}
+                <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
                 />
-                <input type="date" placeholder="납품요청일자" value={requestDate}
+                <input type="date" placeholder="납품요일자" value={requestDate}
                         onChange={(e) => setRequestDate(e.target.value)} 
                 />
                 <input type="date" placeholder="납품확정일자" value={acceptDate}

@@ -11,45 +11,48 @@ const ManagementPage = () => {
     const [managementOrderList, setManagementOrderList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [selectedMyOrder, setSelectedMyOrder] = useState(null);
+    // 주문번호, 판ㅁㅐ사원, 주문일자, 주ㄴ상태, 납품확정일자, 판매업체코드, 판매업체명. 
 
     const headers = [
         { value: 'orderHeaderId', label: '주문번호' },
-        { value: 'orderHeaderStatus', label: '주문상태' },
-        { value: 'customerName', label: '판매업체명'},
-        { value: 'customerCode', label: '판매업체코드' },
         { value: 'memberName', label: '판매사원'},
         { value: 'orderDate', label: '주문일자' },
+        { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'acceptDate', label: '납품확정일자' },
+        { value: 'customerCode', label: '판매업체코드' },
+        { value: 'customerName', label: '판매업체명'},
     ];
 
     useEffect(() => {
+        const fetchMyOrders = async () => {
+            let accessToken = window.localStorage.getItem('accessToken');
+            let storedData = JSON.parse(window.localStorage.getItem('userInfo'));
+            let memberId = storedData.data.memberId; 
+            try {
+                const response = await axios.get(
+                    process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, { 
+                        headers: {
+                         Authorization: `${accessToken}`
+                    }
+                });
+                
+                setManagementOrderList(response.data.data);
+                setSearchResults(response.data.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         fetchMyOrders();
     }, []);
 
-    const fetchMyOrders = async () => {
-        let accessToken = window.localStorage.getItem('accessToken');
-        let storedData = JSON.parse(window.localStorage.getItem('userInfo'));
-        let memberId = storedData.data.memberId; 
-        try {
-            const response = await axios.get(
-                process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, 
-                { headers: {
-                     Authorization: `${accessToken}`
-                }
-            });
-            
-            setManagementOrderList(response.data.data);
-            setSearchResults(response.data.data);
-            console.log(response.data.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+
 
     const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate ) => {
         let filteredResults = managementOrderList;
 
-        if(!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode && !memberName && !orderDate && !acceptDate) {
+        if(!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode 
+            && !memberName && !orderDate && !acceptDate) {
             setSearchResults(managementOrderList);
             return;
         }
@@ -95,7 +98,7 @@ const ManagementPage = () => {
                 order.acceptDate.toLowerCase().includes(acceptDate.toLowerCase())
             );
         }
-        setSearchResults(fetchMyOrders);
+        setSearchResults(filteredResults);
 
     }, [managementOrderList]);
 
@@ -123,7 +126,7 @@ const ManagementPage = () => {
             <Header />
             <SideBar />
             <Tab />
-            <ManagementOrderDetailSearch title="주문 관리" list ={managementOrderList} onSearch={handleSearch}/>
+            <ManagementOrderDetailSearch list ={managementOrderList} onSearch={handleSearch}/>
             <ManagementSearchInfo
                     title="관리 정보"
                     headers={headers}
