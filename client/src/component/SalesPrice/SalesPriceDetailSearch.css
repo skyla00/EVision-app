@@ -140,3 +140,7 @@
     border: none;
     float: right;
   }
+
+  .sp-form-row input[type="date"] {
+    color: rgb(110, 110, 110)
+  }
