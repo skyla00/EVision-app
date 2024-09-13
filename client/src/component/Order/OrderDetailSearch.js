@@ -1,7 +1,7 @@
 import './OrderDetailSearch.css';
 import React, { useState, useEffect } from 'react';
 
-const OrderDetailSearch = ({ title, list = [], onSearch}) => {
+const OrderDetailSearch = ({ title, onSearch}) => {
     const [orderHeaderId, setOrderHeaderId] = useState('');
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
@@ -44,18 +44,34 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
     }, [orderHeaderId, itemName, itemCode, customerName, customerCode, orderHeaderStatus, memberName, orderDate, requestDate, acceptDate, setSelectedKeywords, onSearch]);
     
     const handleSearch = () => {
+        // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
         setSelectedKeywords(prevKeywords => ({
-            orderHeaderId: orderHeaderId ? `주문번호 : ${orderHeaderId}` : prevKeywords.orderHeaderId,
-            itemName: itemName ? `상품명 : ${itemName}` : prevKeywords.itemName,
-            itemCode: itemCode ? `상품코드 : ${itemCode}` : prevKeywords.itemCode,
-            customerName: customerName ? `판매처명 : ${customerName}` : prevKeywords.customerName,
-            customerCode: customerCode ? `판매처코드 : ${customerCode}` : prevKeywords.customerCode,
-            orderHeaderStatus: orderHeaderStatus ? `주문상태 : ${orderHeaderStatus}` : prevKeywords.orderHeaderStatus,
-            memberName: memberName ? `판매사원이름 : ${memberName}` : prevKeywords.memberName,
-            orderDate: orderDate ? `주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}` : prevKeywords.orderDate,
-            requestDate: requestDate ? `납품요청일자 : ${new Date(requestDate).toISOString().split('T')[0]}` : prevKeywords.requestDate,
-            acceptDate: acceptDate ? `납품확정일자 : ${new Date(acceptDate).toISOString().split('T')[0]}` : prevKeywords.acceptDate,
+            orderHeaderId: orderHeaderId || prevKeywords.orderHeaderId,
+            itemName: itemName || prevKeywords.itemName,
+            itemCode: itemCode || prevKeywords.itemCode,
+            customerName: customerName || prevKeywords.customerName,
+            customerCode: customerCode || prevKeywords.customerCode,
+            orderHeaderStatus: orderHeaderStatus || prevKeywords.orderHeaderStatus,
+            memberName: memberName || prevKeywords.memberName,
+            orderDate: orderDate || prevKeywords.orderDate,
+            requestDate: requestDate || prevKeywords.requestDate,
+            acceptDate: acceptDate || prevKeywords.acceptDate,
         }));
+    
+        // 화면에 표시할 키워드를 저장 (UI용)
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(orderHeaderId ? [`주문번호: ${orderHeaderId}`] : []),
+            ...(itemName ? [`상품명: ${itemName}`] : []),
+            ...(itemCode ? [`상품코드: ${itemCode}`] : []),
+            ...(customerName ? [`판매처명: ${customerName}`] : []),
+            ...(customerCode ? [`판매처코드: ${customerCode}`] : []),
+            ...(orderHeaderStatus ? [`주문상태: ${orderHeaderStatus}`] : []),
+            ...(memberName ? [`판매사원이름: ${memberName}`] : []),
+            ...(orderDate ? [`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
+            ...(requestDate ? [`납품요청일자: ${new Date(requestDate).toISOString().split('T')[0]}`] : []),
+            ...(acceptDate ? [`납품확정일자: ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+        ]);
 
         setOrderHeaderId('');
         setItemName('');
@@ -76,21 +92,53 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
     };
 
     const removeKeyword = (keywordToRemove) => {
-        const updatedKeywords = { ...selectedKeywords };
-        updatedKeywords[keywordToRemove] = ''; // 해당 키워드를 빈 값으로 설정
-        setSelectedKeywords(updatedKeywords);
-        onSearch(
-            updatedKeywords.orderHeaderId,
-            updatedKeywords.itemName,
-            updatedKeywords.itemCode,
-            updatedKeywords.customerName,
-            updatedKeywords.customerCode,
-            updatedKeywords.orderHeaderStatus,
-            updatedKeywords.memberName,
-            updatedKeywords.orderDate,
-            updatedKeywords.requestDate,
-            updatedKeywords.acceptDate,
-        );
+        // 화면에 표시할 키워드에서 제거할 항목 필터링
+        setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
+    
+        // 상태 업데이트 후 실행할 콜백 함수
+        setSelectedKeywords(prev => {
+            let updatedKeywords = { ...prev };
+    
+            // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+            if (keywordToRemove.startsWith('주문번호')) {
+                updatedKeywords.orderHeaderId = '';
+            } else if (keywordToRemove.startsWith('상품명')) {
+                updatedKeywords.itemName = '';
+            } else if (keywordToRemove.startsWith('상품코드')) {
+                updatedKeywords.itemCode = '';
+            } else if (keywordToRemove.startsWith('판매처명')) {
+                updatedKeywords.customerName = '';
+            } else if (keywordToRemove.startsWith('판매처코드')) {
+                updatedKeywords.customerCode = '';
+            } else if (keywordToRemove.startsWith('주문상태')) {
+                updatedKeywords.orderHeaderStatus = '';
+            } else if (keywordToRemove.startsWith('판매사원이름')) {
+                updatedKeywords.memberName = '';
+            } else if (keywordToRemove.startsWith('주문일자')) {
+                updatedKeywords.orderDate = '';
+            } else if (keywordToRemove.startsWith('납품요청일자')) {
+                updatedKeywords.requestDate = '';
+            } else if (keywordToRemove.startsWith('납품확정일자')) {
+                updatedKeywords.acceptDate = '';
+            }
+    
+            // 업데이트된 상태로 onSearch 호출
+            onSearch(
+                updatedKeywords.orderHeaderId,
+                updatedKeywords.itemName,
+                updatedKeywords.itemCode,
+                updatedKeywords.customerName,
+                updatedKeywords.customerCode,
+                updatedKeywords.orderHeaderStatus,
+                updatedKeywords.memberName,
+                updatedKeywords.orderDate,
+                updatedKeywords.requestDate,
+                updatedKeywords.acceptDate
+            );
+    
+            // 상태 업데이트를 반환
+            return updatedKeywords;
+        });
     };
 
     return (
@@ -141,15 +189,13 @@ const OrderDetailSearch = ({ title, list = [], onSearch}) => {
                 <button className="order-search-button" onClick={handleSearch}>조회</button>
             </div>
             <div className="selected-keywords">
-                <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
-                {Object.entries(selectedKeywords).map(([key, value]) => (
-                        value && (
-                            <div key={key} className="keyword-tag">
-                                {value}
-                                <button onClick={() => removeKeyword(key)}>X</button>
-                            </div>
-                        )
-                    ))}
+            <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
+                {displayKeywords.map((value, index) => (
+                <div key={index} className="keyword-tag">
+                    {value}
+                        <button onClick={() => removeKeyword(value)}>X</button>
+                </div>
+                ))}
             </div>
         </div>
     </div>

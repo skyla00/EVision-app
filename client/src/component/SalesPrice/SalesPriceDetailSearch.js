@@ -36,26 +36,26 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
     const handleSearch = () => {
         // 필터링에 사용할 순수한 값을 저장
         setSelectedKeywords(prevKeywords => ({
-            itemCode: itemCode ? `상품코드 : ${itemCode}` : prevKeywords.itemCode,
-            itemName: itemName ? `상품명 : ${itemName}` : prevKeywords.itemName,
-            customerCode: customerCode ? `판매업체코드 : ${customerCode}` : prevKeywords.customerCode,
-            customerName: customerName ? `판매업체코드 : ${customerName}` : prevKeywords.customerName,
-            salesAmount: salesAmount ? `판매가 : ${salesAmount}` : prevKeywords.salesAmount,
-            startDate: startDate ? `기준일자 : ${new Date(startDate).toISOString().split('T')[0]}` : prevKeywords.startDate,
-            endDate: endDate ? `만료일자 : ${new Date(endDate).toISOString().split('T')[0]}` : prevKeywords.endDate,
+            itemCode: itemCode || prevKeywords.itemCode,
+            itemName: itemName || prevKeywords.itemName,
+            customerCode: customerCode || prevKeywords.customerCode,
+            customerName: customerName || prevKeywords.customerName,
+            salesAmount: salesAmount || prevKeywords.salesAmount,
+            startDate: startDate || prevKeywords.startDate,
+            endDate: endDate || prevKeywords.endDate,
         }));
     
         // 화면에 표시할 포맷된 키워드를 저장
-        // setDisplayKeywords(prevKeywords => [
-        //     ...prevKeywords,
-        //     ...(itemCode ? [`상품 코드: ${itemCode}`] : []),
-        //     ...(itemName ? [`상품명: ${itemName}`] : []),
-        //     ...(customerCode ? [`판메업체 코드: ${customerCode}`] : []),
-        //     ...(customerName ? [`판매업체명: ${customerName}`] : []),
-        //     ...(salesAmount ? [`판매가: ${salesAmount}`] : []),
-        //     ...(startDate ? [`기준일자: ${startDate}`] : []),
-        //     ...(endDate ? [`만료일자: ${endDate}`] : [])
-        // ]);
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(itemCode ? [`상품 코드: ${itemCode}`] : []),
+            ...(itemName ? [`상품명: ${itemName}`] : []),
+            ...(customerCode ? [`판메업체 코드: ${customerCode}`] : []),
+            ...(customerName ? [`판매업체명: ${customerName}`] : []),
+            ...(salesAmount ? [`판매가: ${salesAmount}`] : []),
+            ...(startDate ? [`기준일자: ${new Date(startDate).toISOString().split('T')[0]}`] : []),
+            ...(endDate ? [`만료일자: ${new Date(endDate).toISOString().split('T')[0]}`] : []),
+        ]);
        
         // 검색 후 입력 필드 초기화
         setItemCode('');
@@ -76,18 +76,44 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
 
     // 키워드를 삭제할 때 호출되는 함수
     const removeKeyword = (keywordToRemove) => {
-        const updatedKeywords = { ...selectedKeywords };
-        updatedKeywords[keywordToRemove] = ''; // 해당 키워드를 빈 값으로 설정
-        setSelectedKeywords(updatedKeywords);
-        onSearch(
-            updatedKeywords.itemCode,
-            updatedKeywords.itemName,
-            updatedKeywords.customerCode,
-            updatedKeywords.customerName,
-            updatedKeywords.salesAmount,
-            updatedKeywords.startDate,
-            updatedKeywords.endDate
-        );
+        // 화면에 표시할 키워드에서 제거할 항목 필터링
+        setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
+
+        // 상태 업데이트 후 실행할 콜백 함수
+        setSelectedKeywords(prev => {
+            let updatedKeywords = { ...prev };
+
+            // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+            if (keywordToRemove.startsWith('상품코드')) {
+                updatedKeywords.itemCode = '';
+            } else if (keywordToRemove.startsWith('상품명')) {
+                updatedKeywords.itemName = '';
+            } else if (keywordToRemove.startsWith('판매처코드')) {
+                updatedKeywords.customerCode = '';
+            } else if (keywordToRemove.startsWith('판매처명')) {
+                updatedKeywords.customerName = '';
+            } else if (keywordToRemove.startsWith('판매가')) {
+                updatedKeywords.salesAmount = '';
+            } else if (keywordToRemove.startsWith('시작일자')) {
+                updatedKeywords.startDate = '';
+            } else if (keywordToRemove.startsWith('종료일자')) {
+                updatedKeywords.endDate = '';
+            }
+
+            // 업데이트된 상태로 onSearch 호출
+            onSearch(
+                updatedKeywords.itemCode,
+                updatedKeywords.itemName,
+                updatedKeywords.customerCode,
+                updatedKeywords.customerName,
+                updatedKeywords.salesAmount,
+                updatedKeywords.startDate,
+                updatedKeywords.endDate
+            );
+
+            // 상태 업데이트를 반환
+            return updatedKeywords;
+        });
     };
 
     return (
@@ -133,13 +159,11 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch}) => {
         </div>
         <div className="sp-selected-keywords">
             <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
-            {Object.entries(selectedKeywords).map(([key, value]) => (
-                    value && (
-                        <div key={key} className="keyword-tag">
-                            {value}
-                            <button onClick={() => removeKeyword(key)}>X</button>
-                        </div>
-                    )
+                {displayKeywords.map((value, index) => (
+                <div key={index} className="keyword-tag">
+                    {value}
+                        <button onClick={() => removeKeyword(value)}>X</button>
+                </div>
                 ))}
         </div>
     </div>

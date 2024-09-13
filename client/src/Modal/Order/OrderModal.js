@@ -125,6 +125,37 @@ const OrderModal = ({ isOpen, onClose }) => {
         closeCustomerSearch();
     };
 
+    useEffect(() => {
+        const fetchSalesPrice = async () => {
+            if (!itemCode || !customerCode || !orderDate) {
+                return; // 모든 값이 입력되지 않으면 요청하지 않음
+            }
+            try {
+                // 상품코드로 Get 요청을 보내서 판매가 자동으로 가져오는 로직
+                let accessToken = window.localStorage.getItem('accessToken');
+                const response = await axios.get(process.env.REACT_APP_API_URL + 'sales-prices', {
+                    params: {
+                        'item-code': itemCode,
+                        'customer-code': customerCode,
+                        'order-date': orderDate,
+                    },
+                    headers: {
+                        Authorization: `${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+               
+                setSalesAmount(response.data.data.salesAmount)
+    
+            } catch (error) {
+                console.error('판매가 정보를 가져오는 데 실패했습니다:', error);
+                alert('해당 판매업체(또는 상품)와 일치하는 판매가가 존재하지 않습니다.');
+            }
+        };
+    
+        fetchSalesPrice();
+    }, [itemCode, customerCode, orderDate]);
+
     // 주문 등록
     const handleSubmit = async () => {
         if (orderList.length === 0) {
@@ -183,15 +214,18 @@ const OrderModal = ({ isOpen, onClose }) => {
         }
     };
 
+    // 클릭하면 선택, 한번 더 누르면 해제
     const handleRowClick = (index) => {
-        setSelectedIndex(index);
+        setSelectedIndex((prevSelectedIndex) => 
+            prevSelectedIndex === index ? null : index
+        );
     };
 
     if (!isOpen) return null;
   
     return (
-      <div className="modal">
-        <div className="order-modal-content">
+      <div className="om-modal">
+        <div className="om-order-modal-content">
             <div className="order-modal-header">
                 <div className="modal-title">주문 등록</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
@@ -207,7 +241,12 @@ const OrderModal = ({ isOpen, onClose }) => {
                         type="search" value={customerCode} onChange={(e) => setCustomerCode(e.target.value)} 
                         placeholder="판매업체코드" readOnly disabled={isCustomerInfoLocked} // 판매업체코드 비활성화 여부
                     />
-                    <button className="order-modal-button" onClick={openCustomerSearch}>검색</button> 
+                    <button className="order-modal-button" onClick={openCustomerSearch} disabled={isCustomerInfoLocked}>검색</button> 
+                </div>
+                <div className="od-input-third-line">
+                    <input type="search" value={itemName} readOnly onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
+                    <input type="search" value={itemCode} readOnly onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
+                    <button className="order-modal-button" onClick={openProductSearch}>검색</button> 
                 </div>
                 <div className="order-input-second-line">
                     <input type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} 
@@ -216,17 +255,12 @@ const OrderModal = ({ isOpen, onClose }) => {
                     <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} 
                         placeholder="납품요청일자" min={new Date().toISOString().split("T")[0]}/>
                 </div>
-                <div className="od-input-third-line">
-                    <input type="search" value={itemName} readOnly onChange={(e) => setItemName(e.target.value)} placeholder="상품명" />
-                    <input type="search" value={itemCode} readOnly onChange={(e) => setItemCode(e.target.value)} placeholder="상품코드" />
-                    <button className="order-modal-button" onClick={openProductSearch}>검색</button> 
-                </div>
                 <div className="order-input-fourth-line">
                     <input type="text" value={salesAmount} onChange={(e) => setSalesAmount(e.target.value)} placeholder="판매가" />
                     <input type="number" value={orderItemQuantity} onChange={(e) => setOrderItemQuantity(e.target.value)} placeholder="수량" />
                 </div>
             </div>
-            <div className="option-button-container">
+            <div className="om-option-button-container">
                 <button className="option-button" onClick={handleDeleteItem}> - 삭제</button>
                 <button className="option-button" onClick={handleAddItem}>+ 추가</button>
             </div>

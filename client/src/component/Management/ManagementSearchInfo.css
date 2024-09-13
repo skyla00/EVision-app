@@ -54,17 +54,6 @@
     border-radius: 4px;
     box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
   }
-  
-  @media (max-width: 1200px) {
-    .form-row {
-      flex-wrap: wrap; /* 화면 크기가 줄어들 때 필드가 줄바꿈되도록 */
-    }
-    .form-group {
-      width: 48%; /* 화면이 작아졌을 때 2열로 줄바꿈되도록 */
-      margin-bottom: 10px;
-    }
-  }
-
 
   .detail-button {
     width: 110px;
