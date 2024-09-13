@@ -25,7 +25,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
             const response = await axios.post(process.env.REACT_APP_API_URL + 'items', newItem, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `${accessToken}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -72,20 +72,21 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     />
                 </div>
                 <div className="pp-input-second-line">
-                <label>단위</label>
-                    <input 
-                        type="text" 
+                    <label>단위</label>
+                    <select 
                         value={unit} 
-                        onChange={(e) => setUnit(e.target.value)} 
-                        placeholder="단위" 
-                    />
-                    <label>상태 </label>
+                        onChange={(e) => setUnit(e.target.value)} >
+                        <option value="" disabled hidden>단위</option>
+                        <option value="EA">EA</option>
+                        <option value="SET">SET</option>
+                    </select>
+                    <label>상태</label>
                     <select 
                         value={itemStatus} 
                         onChange={(e) => setItemStatus(e.target.value)}>
                         <option value="" disabled hidden>상태</option>
-                        <option value="ON_SALE">ON_SALE</option>
-                        <option value="NOT_FOR_SALE">NOT_FOR_SALE</option>
+                        <option value="ON_SALE">판매중</option>
+                        <option value="NOT_FOR_SALE">판매중지</option>
                     </select>
                 </div>
                 <div className="pp-input-third-line">
