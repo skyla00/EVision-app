@@ -19,7 +19,7 @@ public class OrderHistoryController {
         this.orderHistoryService = orderHistoryService;
     }
 
-    @GetMapping("/{order-header-id}")
+    @GetMapping
     public ResponseEntity getOrderHistory(@RequestParam (value = "order-header-id") String orderHeaderId) {
         OrderHistoryDto.OrderHistoryResponse response = orderHistoryService.findOrderHistory(orderHeaderId);
 

@@ -33,9 +33,6 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Patch {
 
-        @NotNull(message = "주문 헤더 ID는 필수입니다.")
-        private String orderHeaderId;
-
         @NotNull
         private String orderHeaderStatus;
 

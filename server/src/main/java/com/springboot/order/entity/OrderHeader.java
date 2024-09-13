@@ -34,12 +34,12 @@ public class OrderHeader {
     @Column(nullable = false)
     private OrderHeaderStatus orderHeaderStatus = OrderHeaderStatus.WAITING;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     @JsonBackReference
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_CODE", nullable = false)
     @JsonBackReference
     private Customer customer;

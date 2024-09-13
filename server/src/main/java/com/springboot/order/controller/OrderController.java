@@ -50,7 +50,7 @@ public class OrderController {
     @PatchMapping("/{order-header-id}")
     public ResponseEntity patchOrder(@PathVariable("order-header-id") @Positive String orderHeaderId,
                                      @Valid @RequestBody OrderDto.Patch orderPatchDto, Authentication authentication) {
-        orderPatchDto.setOrderHeaderId(orderHeaderId);
+
         OrderHeader updatedOrderHeader = orderMapper.orderPatchDtoToOrder(orderPatchDto);
         OrderHeader orderHeader = orderService.updateOrder(orderHeaderId, updatedOrderHeader, updatedOrderHeader.getOrderItems(), authentication);
 

@@ -32,16 +32,13 @@ public class OrderHeaderHistory {
     @Column(nullable = false)
     private LocalDate orderDate;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate acceptDate;
 
     @Column(nullable = false)
     private String orderHeaderStatus;
 
-    @Column(nullable = false)
-    private String editorId;
-
-    @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     List<OrderItemHistory> orderItemHistories = new ArrayList<>();
 }
