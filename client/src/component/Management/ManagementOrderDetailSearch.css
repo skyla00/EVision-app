@@ -48,13 +48,15 @@
     min-height: 82px;
 }
 
-.my-order-form-row input {
+.my-order-form-row input,
+.my-order-form-row select {
     width: 250px !important;
     height: 38px;
     padding: 10px;
-    padding-top: 14px !important;
+    padding-top: 11px !important;
     font-size: 14px;
     border: 1px solid #74BDA1;
+    color: rgb(110, 110, 110);
     border-radius: 4px;
     box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
 }
@@ -140,7 +142,7 @@
     float: right;
   }
 
-  .my-order-form-row input {
+  .my-order-form-row input[type="date"] {
     appearance: none; 
     position: relative;
     color: rgb(110, 110, 110)

@@ -63,7 +63,6 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
                 <div className="pd-modal-title">상품 정보 수정</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
             </div>
-
             <div className="pm-modal-input-section">
                 <div className="pm-input-first-line">
                     <label>상품명</label>
