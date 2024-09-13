@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface OrderHeaderRepository extends JpaRepository<OrderHeader, String> {
     List<OrderHeader> findByMemberMemberId(String memberId);
-    List<OrderHeader> findByMemberAndOrderDateBetween(String memberId, LocalDate startDate, LocalDate endDate);
+    List<OrderHeader> findByMemberMemberIdAndOrderDateBetween(String memberId, LocalDate startDate, LocalDate endDate);
     List<OrderHeader> findByOrderDateBetween(LocalDate startDate, LocalDate endDate);
 }

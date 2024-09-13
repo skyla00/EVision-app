@@ -311,7 +311,7 @@ public class OrderService {
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 
-            List<OrderHeader> orderHeaders = orderHeaderRepository.findByMemberAndOrderDateBetween(memberId, date, date);
+            List<OrderHeader> orderHeaders = orderHeaderRepository.findByMemberMemberIdAndOrderDateBetween(memberId, date, date);
 
             long orderCount = 0;
             long totalSales = 0;

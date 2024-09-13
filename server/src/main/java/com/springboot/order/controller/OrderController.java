@@ -90,7 +90,7 @@ public class OrderController {
         }
 
         @GetMapping("/graph")
-        public ResponseEntity getOrderGraph(@RequestParam(value = "member-id", required = false) String memberId) {
+        public ResponseEntity getOrderGraph(@RequestParam(value = "member-id") String memberId) {
 
             OrderDto.GraphResponse graphResponse = orderService.getOrderGraph(memberId);
 
