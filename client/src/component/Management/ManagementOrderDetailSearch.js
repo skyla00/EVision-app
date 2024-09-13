@@ -38,6 +38,7 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
         // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
         // 주문 상태 값을 한글로 변환하는 함수
         const getOrderStatusDisplay = (status) => {
+            if (!status) return ''; 
             switch (status) {
                 case 'WAITING':
                     return '임시저장';
@@ -61,7 +62,6 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             orderDate: orderDate || prevKeywords.orderDate,
             acceptDate: acceptDate || prevKeywords.acceptDate,
         }));
-        console.log(getOrderStatusDisplay(orderHeaderStatus));
     
         // 화면에 표시할 키워드를 저장 (UI용)
         setDisplayKeywords(prevKeywords => [
@@ -146,7 +146,7 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                 <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
                 />
-                <input type="date" placeholder="납품확정일자" value={acceptDate}
+                <input type="date" placeholder="납품확정일자" value={acceptDate || ''}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                 />
             </div>
