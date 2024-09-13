@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import './SalesPricePage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
-import SalesPriceDetailSearch from '../component/SalesPriceDetailSearch';
-import SalesPriceSearchInfo from '../component/SalesPriceSearchInfo';
-import SalesPricePostModal from '../Modal/SalesPricePostModal';
-import SalesPriceModifyModal from '../Modal/SalesPriceModifyModal';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
+import SalesPriceDetailSearch from '../component/SalesPrice/SalesPriceDetailSearch';
+import SalesPriceSearchInfo from '../component/SalesPrice/SalesPriceSearchInfo';
+import SalesPricePostModal from '../Modal/SalesPrice/SalesPricePostModal';
+import SalesPriceModifyModal from '../Modal/SalesPrice/SalesPriceModifyModal';
 import axios from 'axios';
 
 const SalePricePage = () => {

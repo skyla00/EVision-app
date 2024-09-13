@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './SalesPricePostModal.css';
 import axios from 'axios';
-import ProductSearch from './ProductSearch';
-import CustomerSearch from './CustomerSearch';
+import ProductSearch from '../Product/ProductSearch';
+import CustomerSearch from '../Customer/CustomerSearch';
 
 const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [itemCode, setItemCode] = useState('');

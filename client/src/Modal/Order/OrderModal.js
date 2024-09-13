@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
 import axios from 'axios';
-import ProductSearch from '../Modal/ProductSearch';
-import CustomerSearch from '../Modal/CustomerSearch';
+import ProductSearch from '../Product/ProductSearch';
+import CustomerSearch from '../Customer/CustomerSearch';
 
 const OrderModal = ({ isOpen, onClose }) => {
 

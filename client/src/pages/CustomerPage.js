@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import './CustomerPage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
-import CustomerDetailSearch from '../component/CustomerDetailSearch';
-import CustomerSearchInfo from '../component/CustomerSearchInfo';
-import CustomerPostModal from '../Modal/CustomerPostModal';
-import CustomerModifyModal from '../Modal/CustomerModifyModal';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
+import CustomerDetailSearch from '../component/Customer/CustomerDetailSearch';
+import CustomerSearchInfo from '../component/Customer/CustomerSearchInfo';
+import CustomerPostModal from '../Modal/Customer/CustomerPostModal';
+import CustomerModifyModal from '../Modal/Customer/CustomerModifyModal';
 import axios from 'axios';
 
 const CustomerPage = () => {

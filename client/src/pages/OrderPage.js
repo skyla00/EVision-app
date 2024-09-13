@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import './OrderPage.css';
-import Header from '../component/Header';
-import SideBar from '../component/SideBar';
-import Tab from '../component/Tab';
-import OrderDetailSearch from '../component/OrderDetailSearch';
-import OrderSearchInfo from '../component/OrderSearchInfo';
-import OrderModal from '../Modal/OrderModal';
+import Header from '../component/Common/Header';
+import SideBar from '../component/Common/SideBar';
+import Tab from '../component/Common/Tab';
+import OrderDetailSearch from '../component/Order/OrderDetailSearch';
+import OrderSearchInfo from '../component/Order/OrderSearchInfo';
+import OrderModal from '../Modal/Order/OrderModal';
 import axios from 'axios';
 
 const OrderPage = () => {
