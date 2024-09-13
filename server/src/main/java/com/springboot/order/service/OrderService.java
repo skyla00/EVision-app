@@ -40,12 +40,10 @@ public class OrderService {
     private final PurchasePriceRepository purchasePriceRepository;
     private final MemberService memberService;
     private final OrderHistoryService orderHistoryService;
-    private final OrderHeaderHistoryRepository orderHeaderHistoryRepository;
-    private final OrderItemHistoryRepository orderItemHistoryRepository;
     private static final String NUMBERS = "0123456789";
     private static final int LENGTH = 4;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService, OrderHistoryService orderHistoryService, OrderHeaderHistoryRepository orderHeaderHistoryRepository, OrderItemHistoryRepository orderItemHistoryRepository) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, ItemRepository itemRepository, PurchasePriceRepository purchasePriceRepository, MemberService memberService, OrderHistoryService orderHistoryService) {
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.customerRepository = customerRepository;
@@ -53,8 +51,6 @@ public class OrderService {
         this.purchasePriceRepository = purchasePriceRepository;
         this.memberService = memberService;
         this.orderHistoryService = orderHistoryService;
-        this.orderHeaderHistoryRepository = orderHeaderHistoryRepository;
-        this.orderItemHistoryRepository = orderItemHistoryRepository;
     }
 
     public OrderHeader createOrder(OrderHeader orderHeader, Authentication authentication) {
@@ -119,10 +115,11 @@ public class OrderService {
                 long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(), orderItem.getOrderItemQuantity());
                 orderItem.setFinalAmount(finalAmount);
 
-                createOrderItems.add(orderItem);
+                OrderItem savedOrderItem = orderItemRepository.save(orderItem);
+                createOrderItems.add(savedOrderItem);
 
                 // orderItemHistory 생성
-                orderHistoryService.createOrderItemHistory(orderItem, orderHeaderHistory);
+                orderHistoryService.createOrderItemHistory(savedOrderItem, orderHeaderHistory);
 
             } else {
                 throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_NOT_FOUND);
@@ -130,9 +127,7 @@ public class OrderService {
         }
 
         // OrderItem 저장
-        orderItemRepository.saveAll(createOrderItems);
         savedOrderHeader.setOrderItems(createOrderItems);
-        
         return savedOrderHeader;
     }
 
@@ -175,13 +170,11 @@ public class OrderService {
         existingOrderHeader.getOrderItems().clear();
         for (OrderItem updatedOrderItem : updatedOrderItems) {
             updatedOrderItem.setOrderHeader(existingOrderHeader);
-            calculateOrderItemDetails(updatedOrderItem);
             existingOrderHeader.getOrderItems().add(updatedOrderItem);
-            orderHistoryService.createOrderItemHistory(updatedOrderItem, orderHeaderHistory);
+            calculateOrderItemDetails(updatedOrderItem);
+            OrderItem savedOrderItem = orderItemRepository.save(updatedOrderItem);
+            orderHistoryService.createOrderItemHistory(savedOrderItem, orderHeaderHistory);
         }
-
-        // 업데이트된 OrderHeader와 OrderItems 저장
-        orderItemRepository.saveAll(updatedOrderItems);
 
         return orderHeaderRepository.save(existingOrderHeader);
     }

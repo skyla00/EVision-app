@@ -77,6 +77,7 @@ public class OrderHistoryService {
                     itemHistoryDto.setOrderItemHistoryId(orderItemHistory.getOrderItemHistoryId());
                     itemHistoryDto.setOrderItemId(orderItemHistory.getOrderItemId());
                     itemHistoryDto.setItemCode(orderItemHistory.getItemCode());
+                    itemHistoryDto.setOrderItemQuantity(orderItemHistory.getOrderItemQuantity());
                     itemHistoryDto.setPurchaseAmount(orderItemHistory.getPurchaseAmount());
                     itemHistoryDto.setSalesAmount(orderItemHistory.getSalesAmount());
                     itemHistoryDto.setMarginAmount(orderItemHistory.getMarginAmount());

@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/order-history")
+@RequestMapping("/order-histories")
 @Validated
 public class OrderHistoryController {
 
@@ -20,9 +20,10 @@ public class OrderHistoryController {
     }
 
     @GetMapping
-    public ResponseEntity getOrderHistory(@RequestParam (value = "order-header-id") String orderHeaderId) {
+    public ResponseEntity getOrderHeaderHistory(@RequestParam (value = "order-header-id") String orderHeaderId) {
         OrderHistoryDto.OrderHistoryResponse response = orderHistoryService.findOrderHistory(orderHeaderId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
+
 }
