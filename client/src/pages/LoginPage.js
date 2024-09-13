@@ -16,6 +16,12 @@ const LoginPage = () => {
         }
     }, [isAuthenticated, navigate])
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin(); // 엔터키를 누르면 로그인 수행
+        }
+    };
+
     const handleLogin = async () => {
         try {
             const response = await axios.post(

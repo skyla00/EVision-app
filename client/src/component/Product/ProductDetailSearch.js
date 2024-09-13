@@ -1,10 +1,11 @@
 import './ProductDetailSearch.css';
 import React, { useState, useEffect } from 'react';
 
-const ProductDetailSearch = ({ title, list = [], onSearch }) => {
+const ProductDetailSearch = ({ title, onSearch }) => {
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
     const [itemSpecs, setItemSpecs] = useState('');
+    const [displayKeywords, setDisplayKeywords] = useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState({
         itemName: '',
         itemCode: '',
@@ -22,13 +23,22 @@ const ProductDetailSearch = ({ title, list = [], onSearch }) => {
 
     // 검색 버튼 클릭 또는 엔터키 입력 시 키워드를 추가하고 검색 수행
     const handleSearch = () => {
+        // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
         setSelectedKeywords(prevKeywords => ({
-            itemName: itemName ? `상품명 : ${itemName}` : prevKeywords.itemName,
-            itemCode: itemCode ? `상품코드 : ${itemCode}` : prevKeywords.itemCode,
-            itemSpecs: itemSpecs ? `상품 정보 : ${itemSpecs}` : prevKeywords.itemSpecs
+            itemName: itemName || prevKeywords.itemName,
+            itemCode: itemCode || prevKeywords.itemCode,
+            itemSpecs: itemSpecs || prevKeywords.itemSpecs,
         }));
-
-        // 검색 후 입력 필드를 초기화 (하지만 키워드 유지)
+    
+        // 화면에 표시할 키워드를 저장 (UI용)
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(itemName ? [`상품명: ${itemName}`] : []),
+            ...(itemCode ? [`상품코드: ${itemCode}`] : []),
+            ...(itemSpecs ? [`상품 정보: ${itemSpecs}`] : []),
+        ]);
+    
+        // 검색 후 입력 필드를 초기화
         setItemName('');
         setItemCode('');
         setItemSpecs('');
@@ -42,15 +52,34 @@ const ProductDetailSearch = ({ title, list = [], onSearch }) => {
     };
 
     // 키워드를 삭제할 때 호출되는 함수
+    // 키워드를 삭제할 때 호출되는 함수
     const removeKeyword = (keywordToRemove) => {
-        const updatedKeywords = { ...selectedKeywords };
-        updatedKeywords[keywordToRemove] = ''; // 해당 키워드를 빈 값으로 설정
-        setSelectedKeywords(updatedKeywords);
+        // 화면에 표시할 키워드에서 제거할 항목 필터링
+        setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
+
+        // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+        if (keywordToRemove.startsWith('상품명')) {
+            setSelectedKeywords(prev => ({ ...prev, itemName: '' }));
+        } else if (keywordToRemove.startsWith('상품코드')) {
+            setSelectedKeywords(prev => ({ ...prev, itemCode: '' }));
+        } else if (keywordToRemove.startsWith('상품 정보')) {
+            setSelectedKeywords(prev => ({ ...prev, itemSpecs: '' }));
+        }
 
         // 키워드를 모두 삭제했을 경우, 전체 상품 조회 실행
-        if (!updatedKeywords.itemName && !updatedKeywords.itemCode && !updatedKeywords.itemSpecs) {
-            onSearch('', '', ''); // 검색 조건이 없을 때 전체 상품 조회
-        }
+        setSelectedKeywords(prev => {
+            const updatedKeywords = { ...prev };
+            if (!updatedKeywords.itemName && !updatedKeywords.itemCode && !updatedKeywords.itemSpecs) {
+                onSearch('', '', ''); // 검색 조건이 없을 때 전체 상품 조회
+            } else {
+                onSearch(
+                    updatedKeywords.itemName,
+                    updatedKeywords.itemCode,
+                    updatedKeywords.itemSpecs
+                );
+            }
+            return updatedKeywords;
+        });
     };
 
     return (
@@ -94,13 +123,11 @@ const ProductDetailSearch = ({ title, list = [], onSearch }) => {
 
                 <div className="selected-keywords">
                     <img src="/image/keyword.png" alt="키워드" className="keyword-icon" />
-                    {Object.entries(selectedKeywords).map(([key, value]) => (
-                        value && (
-                            <div key={key} className="keyword-tag">
-                                {value}
-                                <button onClick={() => removeKeyword(key)}>X</button>
-                            </div>
-                        )
+                    {displayKeywords.map((value, index) => (
+                    <div key={index} className="keyword-tag">
+                        {value}
+                            <button onClick={() => removeKeyword(value)}>X</button>
+                    </div>
                     ))}
                 </div>
             </div>

@@ -1,5 +1,4 @@
 .order-search-info-container {
-    margin-top: 40px;
     padding-left: 180px; 
     height: 500px;
 }
@@ -120,7 +119,6 @@
     background-color: #3b8f73;
 }
 .search-info-container {
-    margin-top: 40px;
     padding-left: 9.35vw; 
     height: 600px;
 }

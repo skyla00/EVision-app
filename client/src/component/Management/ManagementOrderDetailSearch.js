@@ -29,21 +29,34 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
         const finalMemberName = memberName || selectedKeywords.memberName;
         const finalOrderDate = orderDate ? new Date(orderDate).toISOString().split('T')[0] : selectedKeywords.orderDate;
         const finalAcceptDate = acceptDate ? new Date(acceptDate).toISOString().split('T')[0] : selectedKeywords.acceptDate;
+        
         onSearch(finalOrderHeaderId, finalOrderHeaderStatus, finalCustomerName,
             finalCustomerCode, finalMemberName, finalOrderDate, finalAcceptDate);
     }, [orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate, setSelectedKeywords, onSearch]);
-
+ 
     const handleSearch = () => {
+        // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
         setSelectedKeywords(prevKeywords => ({
-            orderHeaderId: orderHeaderId ? `주문번호 : ${orderHeaderId}` : prevKeywords.orderHeaderId,
-            orderHeaderStatus: orderHeaderStatus ? `주문상태 : ${orderHeaderStatus}` : prevKeywords.orderHeaderStatus,
-            customerName: customerName ? `판매처명 : ${customerName}` : prevKeywords.customerName,
-            customerCode: customerCode ? `판매처코드 : ${customerCode}` : prevKeywords.customerCode,
-            memberName: memberName ? `판매사원이름 : ${memberName}` : prevKeywords.memberName,
-            orderDate: orderDate ? `주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}` : prevKeywords.orderDate,
-            acceptDate: acceptDate ? `납품확정일자 : ${new Date(acceptDate).toISOString().split('T')[0]}` : prevKeywords.acceptDate,
+            orderHeaderId: orderHeaderId || prevKeywords.orderHeaderId,
+            orderHeaderStatus: orderHeaderStatus || prevKeywords.orderHeaderStatus,
+            customerName: customerName || prevKeywords.customerName,
+            customerCode: customerCode || prevKeywords.customerCode,
+            memberName: memberName || prevKeywords.memberName,
+            orderDate: orderDate || prevKeywords.orderDate,
+            acceptDate: acceptDate || prevKeywords.acceptDate,
         }));
-
+    
+        // 화면에 표시할 키워드를 저장 (UI용)
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(orderHeaderId ? [`주문번호 : ${orderHeaderId}`] : []),
+            ...(orderHeaderStatus ? [`주문상태 : ${orderHeaderStatus}`] : []),
+            ...(customerName ? [`판매처명 : ${customerName}`] : []),
+            ...(customerCode ? [`판매처코드 : ${customerCode}`] : []),
+            ...(memberName ? [`판매사원이름 : ${memberName}`] : []),
+            ...(orderDate ? [`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
+            ...(acceptDate ? [`납품확정일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+        ]);
         setOrderHeaderId('');
         setOrderHeaderStatus('');
         setCustomerName('');
@@ -51,7 +64,8 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
         setMemberName('');
         setOrderDate('');
         setAcceptDate('');
-    }
+    };
+
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             handleSearch();
@@ -59,19 +73,33 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
     };
 
     const removeKeyword = (keywordToRemove) => {
-        const updatedKeywords = { ...selectedKeywords };
-        updatedKeywords[keywordToRemove] = ''; 
-        setSelectedKeywords(updatedKeywords);
+        // 화면에 표시할 키워드에서 제거할 항목 필터링
+        setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
+    
+        // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+        if (keywordToRemove.startsWith('판매업체 코드')) {
+            setSelectedKeywords(prev => ({ ...prev, customerCode: '' }));
+        } else if (keywordToRemove.startsWith('판매업체명')) {
+            setSelectedKeywords(prev => ({ ...prev, customerName: '' }));
+        } else if (keywordToRemove.startsWith('담당자')) {
+            setSelectedKeywords(prev => ({ ...prev, manager: '' }));
+        } else if (keywordToRemove.startsWith('판매업체 주소')) {
+            setSelectedKeywords(prev => ({ ...prev, customerAddress: '' }));
+        } else if (keywordToRemove.startsWith('판매업체 연락처')) {
+            setSelectedKeywords(prev => ({ ...prev, customerPhone: '' }));
+        } else if (keywordToRemove.startsWith('판매업체 이메일')) {
+            setSelectedKeywords(prev => ({ ...prev, customerEmail: '' }));
+        }
+    
+        // 상태 업데이트 후 검색 함수 호출
         onSearch(
-            updatedKeywords.orderHeaderId,
-            updatedKeywords.orderHeaderStatus,
-            updatedKeywords.customerName,
-            updatedKeywords.customerCode,
-            updatedKeywords.memberName,
-            updatedKeywords.orderDate,
-            updatedKeywords.acceptDate,
+            selectedKeywords.customerCode,
+            selectedKeywords.customerName,
+            selectedKeywords.manager,
+            selectedKeywords.customerAddress,
+            selectedKeywords.customerPhone,
+            selectedKeywords.customerEmail
         );
-
     };
 
     return (
@@ -108,19 +136,16 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                 <button className="my-order-search-button" onClick={handleSearch}>조회</button>
             </div>
             <div className="selected-keywords">
-                <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
-                {Object.entries(selectedKeywords).map(([key, value]) => (
-                        value && (
-                            <div key={key} className="keyword-tag">
-                                {value}
-                                <button onClick={() => removeKeyword(key)}>X</button>
-                            </div>
-                        )
-                    ))}
+            <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
+                {displayKeywords.map((value, index) => (
+                <div key={index} className="keyword-tag">
+                    {value}
+                        <button onClick={() => removeKeyword(value)}>X</button>
+                </div>
+                ))}
             </div>
         </div>
-        </div>
-
-    )
-}
+    </div>
+   );
+};
 export default MyOrderDetailSearch;

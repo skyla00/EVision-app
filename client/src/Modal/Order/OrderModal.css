@@ -1,4 +1,4 @@
-.modal {
+.om-modal {
     display: block; /* 모달이 열릴 때 */
     position: fixed;
     z-index: 1000; /* 모달의 z-index 설정 */
@@ -9,10 +9,10 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
   
-  .order-modal-content {
+  .om-order-modal-content {
     background-color: #fefefe;
-    padding: 20px 150px 20px 150px !important;
-    width: 700px !important;
+    padding: 20px 120px 20px 120px !important;
+    width: 760px;
     height: 560px !important;
     border: 10px solid #348F6C !important;
     position: absolute;
@@ -30,7 +30,7 @@
   .modal-title {
     font-size: 26px !important;
     font-weight: 1000;
-    padding-left: 4px;
+    padding-left: 40px;
     padding-top: 10px;
   }
 
@@ -38,6 +38,7 @@
     color: #525252;
     font-size: 50px;
     cursor: pointer;
+    padding-right: 40px;
   }
   
   .close:hover,
@@ -56,11 +57,11 @@
     max-height: 190px;
     margin-top: 22px;
     align-items: flex-start;
-    /* overflow-y: auto; */
+    margin-left: 40px;
   }
 
   .om-modal-input-section input {
-    max-width: 300px;
+    max-width: 500px;
     height: 36px !important;
     padding: 12px 20px 10px 20px;
     border: 2px solid #74BDA1;
@@ -76,18 +77,7 @@
     gap: 20px ;
     height: 26px;
     margin-bottom: 20px;
-  }
-
-  .order-modal-button {
-    width: 60px;
-    height: 30px;
-    background-color: #348F6C;
-    color: white;
-    font-size: 13px;
-    font-weight: 1000;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 11px;
+    width: 680px;
   }
 
   .om-input-first-line input {
@@ -103,11 +93,27 @@
     width: 420px !important;
   }
 
-  .option-button-container {
-    margin: 10px 0px 10px 10px !important;
+  .om-input-first-line, .od-input-third-line {
+    width: 750px;
+  }
+
+  .om-option-button-container {
+    margin: 10px 40px 10px 10px !important;
     float: right;
     display: flex;
     gap: 10px;
+  }
+
+  .order-modal-button {
+    width: 60px;
+    height: 30px;
+    background-color: #348F6C;
+    color: white;
+    font-size: 13px;
+    font-weight: 1000;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 13px;
   }
 
   .option-button {
@@ -121,7 +127,8 @@
   }
 
   .order-table {
-    width: 100%;
+    margin: 0 auto;
+    width: 680px;
     height: 140px !important;
     max-height: 100%;
     border-collapse: collapse;
