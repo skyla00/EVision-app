@@ -1,3 +1,6 @@
+import React from 'react';
+import ItemStatus from '../ItemStatus'
+
 const SearchInfoItem = ({ item, index, headerKey, onSelectItem, isSelected }) => {
     return (
         <tr
@@ -6,7 +9,11 @@ const SearchInfoItem = ({ item, index, headerKey, onSelectItem, isSelected }) =>
         >
             {headerKey.map((key) => (
                 <td className={`search-info-td ${key}`} key={key + index}>
-                    {item[key] !== undefined ? item[key] : '-'}
+                    {item && item[key] !== undefined
+                        ? key === 'itemStatus'
+                            ? <ItemStatus status={item[key]} />
+                            : item[key]
+                        : '-'}
                 </td>
             ))}
         </tr>
