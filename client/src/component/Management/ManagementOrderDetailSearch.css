@@ -143,22 +143,7 @@
   }
 
   .my-order-form-row input[type="date"] {
-    appearance: none; 
-    position: relative;
     color: rgb(110, 110, 110)
-  }
-  .my-order-form-row input[type="date"]::-webkit-inner-spin-button {
-      display: none;
-      appearance: none;
-  }
-  .my-order-form-row input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    left: 50;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background:transparent;
-    color:transparent;
   }
 
   .my-order-form-row input::before {
