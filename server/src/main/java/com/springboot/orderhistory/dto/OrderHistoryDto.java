@@ -1,10 +1,11 @@
 package com.springboot.orderhistory.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.springboot.orderhistory.entity.OrderHeaderHistory;
+import com.springboot.orderhistory.entity.OrderItemHistory;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,25 +15,30 @@ public class OrderHistoryDto {
     @Getter
     public static class Post {
 
-        @NotBlank
+        @NotNull
         private Long orderHeaderHistoryId;
-        @NotBlank
+
+        @NotNull
         private String orderHeaderId;
-        @NotBlank
+
+        @NotNull
         private String customerCode;
-        @NotBlank
+
+        @NotNull
         private String memberId;
-        @NotBlank
+
+        @NotNull
         private LocalDate orderDate;
 
         private LocalDate acceptDate;
 
         private LocalDate requestDate;
 
-        @NotBlank
+        @NotNull
         private String orderHeaderStatus;
 
-        private String editorId;
+        @NotNull
+        private List<OrderItemHistory> orderItemHistories;
     }
 
     @Setter
@@ -45,14 +51,15 @@ public class OrderHistoryDto {
         private LocalDate orderDate;
         private LocalDate acceptDate;
         private String orderHeaderStatus;
-        private String editorId;
+        private List<OrderItemHistory> orderItemHistories;
     }
 
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class OrderHistoryResponse {
-        private List<Response> histories;
+            private List<OrderHistoryDto.Response> histories;
     }
 
 }

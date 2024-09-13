@@ -113,7 +113,7 @@ public class OrderService {
                 orderItem.setFinalAmount(finalAmount);
 
                 // OrderItemHistory 저장
-//                orderHistoryService.createOrderItemHistory(orderItem);
+                orderHistoryService.createOrderItemHistory(orderItem);
 
                 createOrderItems.add(orderItem);
 
@@ -127,7 +127,7 @@ public class OrderService {
         savedOrderHeader.setOrderItems(createOrderItems);
 
         // OrderHeaderHistory 저장
-//        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
+        orderHistoryService.createOrderHeaderHistory(createOrderHeader);
 
         return orderHeaderRepository.save(savedOrderHeader);
     }
@@ -157,7 +157,7 @@ public class OrderService {
 
         // 업데이트하려는 상태가 '승인' 일 때
         if (updatedStatus.equals("승인")) {
-            // 현재 주문의 상태를 입력받은 상태(무조건 '승인')으로 변경하면서 승인날짜에 현재 날짜 입력
+            // 현재 주문의 상태를 입력받은 상태인 '승인'으로 변경하면서 승인날짜에 현재 날짜 입력
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
             existingOrderHeader.setAcceptDate(LocalDate.now());
             // 승인이 아닌 다른 상태로 업데이트될 경우 상태만 업데이트
