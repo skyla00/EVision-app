@@ -68,7 +68,7 @@ public class OrderDto {
         private long orderItemQuantity;
         private long purchaseAmount;
         private long salesAmount;
-        private long marginRate;
+        private double marginRate;
         private long marginAmount;
         private long finalAmount;
     }
@@ -78,5 +78,18 @@ public class OrderDto {
     @AllArgsConstructor
     public static class MultiResponseDto<T> {
         private List<T> data;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class GraphResponse {
+
+        private long memberOrderCount;
+        private long memberTotalSales;
+        private double memberTotalMarginRate;
+        private long companyOrderCount;
+        private long companyTotalSales;
+        private double companyTotalMarginRate;
     }
 }
