@@ -83,13 +83,18 @@ public class OrderDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class GraphResponse {
+    public static class GraphDto {
+        private LocalDate orderDate;
+        private long orderCount;
+        private long totalSales;
+        private double totalMarginRate;
+    }
 
-        private long memberOrderCount;
-        private long memberTotalSales;
-        private double memberTotalMarginRate;
-        private long companyOrderCount;
-        private long companyTotalSales;
-        private double companyTotalMarginRate;
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class GraphResponse {
+        List<GraphDto> memberGraph;
+        List<GraphDto> companyGraph;
     }
 }

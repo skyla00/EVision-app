@@ -5,21 +5,16 @@ import com.springboot.customer.repository.CustomerRepository;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.item.entity.Item;
-import com.springboot.item.entity.PurchasePrice;
-import com.springboot.item.entity.Supplier;
 import com.springboot.item.repository.ItemRepository;
 import com.springboot.item.repository.PurchasePriceRepository;
 import com.springboot.member.entity.Member;
 import com.springboot.member.service.MemberService;
+import com.springboot.order.dto.OrderDto;
 import com.springboot.order.entity.OrderHeader;
 import com.springboot.order.entity.OrderItem;
 import com.springboot.order.repository.OrderHeaderRepository;
 import com.springboot.order.repository.OrderItemRepository;
 import com.springboot.orderhistory.service.OrderHistoryService;
-import com.springboot.salesprice.repository.SalesPriceRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -89,7 +84,7 @@ public class OrderService {
 
                 // purchaseAmount 입력
                 Integer purchaseAmount = purchasePriceRepository.findPurchaseAmountByItemCode(item.getItemCode());
-                if(purchaseAmount == null) {
+                if (purchaseAmount == null) {
                     throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
                 }
                 orderItem.setPurchaseAmount(purchaseAmount);
@@ -105,11 +100,13 @@ public class OrderService {
 
                 // marginRate 입력
                 double marginRate = marginRateCalculation(marginAmount, orderItem.getSalesAmount());
-                if(orderItem.getSalesAmount() == 0 || marginAmount == 0) { marginRate = 0; }
+                if (orderItem.getSalesAmount() == 0 || marginAmount == 0) {
+                    marginRate = 0;
+                }
                 orderItem.setMarginRate(marginRate);
 
                 // finalAmount 입력
-                long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(),orderItem.getOrderItemQuantity());
+                long finalAmount = finalAmountCalculation(orderItem.getSalesAmount(), orderItem.getOrderItemQuantity());
                 orderItem.setFinalAmount(finalAmount);
 
                 // OrderItemHistory 저장
@@ -139,7 +136,7 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
 
         // 요청보낸 OrderHeaderId 와 권한을 가진 id를 비교해서 수정가능 여부 체크
-        if(!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
+        if (!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
             // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
             if (!authentication.getAuthorities().contains("ROLE_TL")) {
                 throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
@@ -147,7 +144,7 @@ public class OrderService {
         }
 
         // 주문상태가 이미 '승인' 이면 수정 불가.
-        if(existingOrderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {
+        if (existingOrderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {
             throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_ALREADY_ACCEPT);
         }
 
@@ -186,7 +183,7 @@ public class OrderService {
     public List<OrderHeader> findAllOrders(String memberId, Authentication authentication) {
 
         // 입력된 memberId가 없으면 주문상태가 '승인'인 orderItem 전체목록 조회
-        if(memberId == null) {
+        if (memberId == null) {
             return orderItemRepository.findAll().stream()
                     .map(OrderItem::getOrderHeader)
                     .filter(orderHeader -> orderHeader.getOrderHeaderStatus().equals(OrderHeader.OrderHeaderStatus.ACCEPT))
@@ -194,16 +191,16 @@ public class OrderService {
                     .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
                     .collect(Collectors.toList());
             // 입력된 memberId가 있고, 권한이 TL이면 모든 주문 조회
-        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
-            if(memberId.equals((String) authentication.getPrincipal())) {
+        } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
+            if (memberId.equals((String) authentication.getPrincipal())) {
                 return orderHeaderRepository.findAll().stream()
                         .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
                         .collect(Collectors.toList());
             } else {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
             }
-        } else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
-            if(memberId.equals((String) authentication.getPrincipal())) {
+        } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TM"))) {
+            if (memberId.equals((String) authentication.getPrincipal())) {
                 return orderHeaderRepository.findByMemberMemberId(memberId).stream()
                         .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
                         .collect(Collectors.toList());
@@ -215,13 +212,13 @@ public class OrderService {
         }
     }
 
-    public OrderHeader findOrder (String orderHeaderId) {
+    public OrderHeader findOrder(String orderHeaderId) {
         return findVerifiedOrder(orderHeaderId);
     }
 
     public LocalDate verifiedOrderDate(LocalDate inputLocalDate) {
         LocalDate currentDate = LocalDate.now();
-        if(inputLocalDate.isAfter(currentDate)) {
+        if (inputLocalDate.isAfter(currentDate)) {
             throw new BusinessLogicException(ExceptionCode.ORDER_DATE_NOT_CORRECT);
         }
         return inputLocalDate;
@@ -252,18 +249,18 @@ public class OrderService {
         return formattedDate + randomStr;
     }
 
-    public long marginAmountCalculation (long salesAmount, long purchaseAmount) {
+    public long marginAmountCalculation(long salesAmount, long purchaseAmount) {
         return salesAmount - purchaseAmount;
     }
 
-    public double marginRateCalculation (long marginAmount, long salesAmount) {
-        if(salesAmount == 0) {
+    public double marginRateCalculation(long marginAmount, long salesAmount) {
+        if (salesAmount == 0) {
             return 0;
         }
         return (marginAmount * 100) / salesAmount;
     }
 
-    public long finalAmountCalculation (long salesAmount, long orderItemQuantity) {
+    public long finalAmountCalculation(long salesAmount, long orderItemQuantity) {
         return salesAmount * orderItemQuantity;
     }
 
@@ -295,4 +292,85 @@ public class OrderService {
         long finalAmount = finalAmountCalculation(salesAmount, orderItem.getOrderItemQuantity());
         orderItem.setFinalAmount(finalAmount);
     }
+
+    public OrderDto.GraphResponse getOrderGraph(String memberId) {
+
+        LocalDate now = LocalDate.now();
+        LocalDate startDate = now.minusDays(30);
+
+        List<OrderDto.GraphDto> memberGraph = calculateMemberGraphData(startDate, now, memberId);
+
+        List<OrderDto.GraphDto> companyGraph = calculateCompanyGraphData(startDate, now);
+
+        return new OrderDto.GraphResponse(memberGraph, companyGraph);
+    }
+
+    private List<OrderDto.GraphDto> calculateMemberGraphData(LocalDate startDate, LocalDate endDate, String memberId) {
+
+        List<OrderDto.GraphDto> graphData = new ArrayList<>();
+
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+
+            List<OrderHeader> orderHeaders = orderHeaderRepository.findByMemberAndOrderDateBetween(memberId, date, date);
+
+            long orderCount = 0;
+            long totalSales = 0;
+            double totalMarginRate = 0.0;
+
+            for (OrderHeader orderHeader : orderHeaders) {
+                List<OrderItem> orderItems = orderItemRepository.findByOrderHeader(orderHeader);
+                if (orderHeader.getOrderHeaderStatus() == OrderHeader.OrderHeaderStatus.ACCEPT) {
+                    orderCount++;
+                }
+
+                for (OrderItem orderItem : orderItems) {
+                    totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
+                    totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                }
+            }
+
+            // 마진률 계산
+            totalMarginRate = totalSales > 0 ? (totalMarginRate / totalSales) * 100 : 0;
+
+            // 일별 데이터를 리스트에 추가
+            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, totalMarginRate));
+        }
+
+        return graphData;
+    }
+
+    private List<OrderDto.GraphDto> calculateCompanyGraphData(LocalDate startDate, LocalDate endDate) {
+
+        List<OrderDto.GraphDto> graphData = new ArrayList<>();
+
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+
+            List<OrderHeader> orderHeaders = orderHeaderRepository.findByOrderDateBetween(date, date);
+
+            long orderCount = 0;
+            long totalSales = 0;
+            double totalMarginRate = 0.0;
+
+            for (OrderHeader orderHeader : orderHeaders) {
+                List<OrderItem> orderItems = orderItemRepository.findByOrderHeader(orderHeader);
+                if (orderHeader.getOrderHeaderStatus() == OrderHeader.OrderHeaderStatus.ACCEPT) {
+                    orderCount++;
+                }
+
+                for (OrderItem orderItem : orderItems) {
+                    totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
+                    totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                }
+            }
+
+            // 마진률 계산
+            totalMarginRate = totalSales > 0 ? (totalMarginRate / totalSales) * 100 : 0;
+
+            // 일별 데이터를 리스트에 추가
+            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, totalMarginRate));
+        }
+
+        return graphData;
+    }
+
 }
