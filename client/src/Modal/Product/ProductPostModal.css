@@ -60,7 +60,16 @@
   justify-content: center;
   gap: 14px;
   margin-top: 6px;
-  margin-bottom: 20px;
+}
+
+.pp-error-first-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  height: 20px;
 }
 
 .pp-input-second-line {
@@ -137,4 +146,5 @@
   color: #C60000; /* 에러 메시지 색상 */
   font-size: 0.8rem; /* 에러 메시지 크기 */
   margin-top: 4px; /* 입력 필드와 에러 메시지 간격 */
+  margin-left: 80px; 
 }
