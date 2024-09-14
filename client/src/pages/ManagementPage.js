@@ -108,13 +108,15 @@ const ManagementPage = () => {
         setSelectedOrder(order);
     }
     const handleOpenDetailModal = () => {
+        console.log(selectedOrder);
+        console.log(isManagementDetailModalOpen)
         if(selectedOrder) {
             setIsManagementDetailModalOpen(true);
         } else {
-            alert('상세보 기할 상품을 선택하세요.');
+            alert('상세보기할 상품을 선택하세요.');
         }
     }
-    console.log(handleOpenDetailModal);
+
     const handleCloseManagementDetailModal = () => setIsManagementDetailModalOpen(false);
 
     const handleManagementDetailSuccess = (updatedOrder) => {

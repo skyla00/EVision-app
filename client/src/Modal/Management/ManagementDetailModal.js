@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductSearch from '../Product/ProductSearch';
-import ManagementDetailModal from './ManagementDetailModal.css'
+import './ManagementDetailModal.css'
 //주문 일자, 주문 상태. orderDate, OrderHeaderStatus.
 // 상품명, 상품코드, 판매가(원), 수량,최종금액(원), 납품요청일자
 //itemName, itemCode, salesPrice, orderitemQuantity, finalAmount, requestDate.
 // item list 에는 납품요청일자, 상품명, 상품코드, 판매가, 수량
 
 const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
-    console.log(isOpen);
     const [orderDate, setOrderDate] = useState('');
     const [orderHeaderStatus, setOrderHeaderStatus] = useState('');
     const [itemName, setItemName] = useState('');
