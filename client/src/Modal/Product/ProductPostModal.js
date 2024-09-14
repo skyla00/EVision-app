@@ -8,9 +8,46 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [unit, setUnit] = useState('');
     const [itemStatus, setItemStatus] = useState('');
     const [specs, setSpecs] = useState('');
+    const [itemNameErrors, setItemNameErrors] = useState('');
+    const [itemCodeErrors, setItemCodeErrors] = useState('');
+
+    const validateItemName = (name) => {
+        const regex = /^[A-Z0-9]+(\s[A-Z0-9]+){0,29}$/;
+        if (!regex.test(name)) {
+            return '대문자 영어, 숫자, 최대 30자, 띄어쓰기 가능';
+        }
+        return '';
+    };
+    const handleItemNameChange = (e) => {
+        const value = e.target.value;
+        setItemName(value);
+        const error = validateItemName(value);
+        setItemNameErrors(error);
+    };
+
+    const validateItemCode = (code) => {
+        const regex = /^[A-Z0-9]{1,11}$/;
+        if (!regex.test(code)) {
+            return '대문자 영어, 숫자, 최대 11자, 띄어쓰기 불가능'
+        }
+    }
+
+    const handleItemCodeChange = (e) => {
+        const value = e.target.value;
+        setItemCode(value);
+        const error = validateItemCode(value);
+        setItemCodeErrors(error);
+    };
+
 
     // 항목 추가
     const handleSubmit = async () => {
+        const nameError = validateItemName(itemName);
+        if (nameError) {
+            setItemNameErrors(nameError);
+            return;
+        }
+
         try {
             let accessToken = window.localStorage.getItem('accessToken');
             console.log('Access Token:', accessToken);
@@ -60,16 +97,24 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={itemName} 
-                        onChange={(e) => setItemName(e.target.value)} 
+                        onChange={handleItemNameChange} 
                         placeholder="상품명" 
                     />
                     <label>상품코드</label>
                     <input 
                         type="text" 
                         value={itemCode} 
-                        onChange={(e) => setItemCode(e.target.value)} 
+                        onChange={handleItemCodeChange} 
                         placeholder="상품코드" 
                     />
+                </div>
+                <div className="pp-error-first-line">
+                    <div>
+                     {itemNameErrors && <p className="error-message">{itemNameErrors}</p>}
+                    </div>
+                    <div>
+                     {itemCodeErrors && <p className="error-message">{itemCodeErrors}</p>}
+                    </div>
                 </div>
                 <div className="pp-input-second-line">
                     <label>단위</label>
