@@ -4,24 +4,24 @@ import axios from 'axios';
 import Header from '../component/Common/Header';
 import SideBar from '../component/Common/SideBar';
 import Tab from '../component/Common/Tab';
-import ManagementOrderDetailSearch from '../component/Management/ManagementOrderDetailSearch'
-import ManagementSearchInfo from '../component/Management/ManagementSearchInfo'
-import ManagementDetailModal from '../Modal/Management/ManagementDetailModal'
+import ManagementOrderDetailSearch from '../component/Management/ManagementOrderDetailSearch';
+import ManagementSearchInfo from '../component/Management/ManagementSearchInfo';
+import ManagementDetailModal from '../Modal/Management/ManagementDetailModal';
 
 const ManagementPage = () => {
     const [managementOrderList, setManagementOrderList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
-    // 주문번호, 판ㅁㅐ사원, 주문일자, 주ㄴ상태, 납품확정일자, 판매업체코드, 판매업체명. 
+    const [isManagementDetailModalOpen, setIsManagementDetailModalOpen] = useState(false);
 
     const headers = [
         { value: 'orderHeaderId', label: '주문번호' },
-        { value: 'memberName', label: '판매사원'},
+        { value: 'memberName', label: '판매사원' },
         { value: 'orderDate', label: '주문일자' },
         { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'acceptDate', label: '납품확정일자' },
         { value: 'customerCode', label: '판매업체코드' },
-        { value: 'customerName', label: '판매업체명'},
+        { value: 'customerName', label: '판매업체명' },
     ];
 
     useEffect(() => {
@@ -31,11 +31,12 @@ const ManagementPage = () => {
             let memberId = storedData.data.memberId; 
             try {
                 const response = await axios.get(
-                    process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, { 
+                    process.env.REACT_APP_API_URL + `orders?member-id=${memberId}`, {
                         headers: {
-                         Authorization: `${accessToken}`
+                            Authorization: `${accessToken}`
+                        }
                     }
-                });
+                );
                 
                 setManagementOrderList(response.data.data);
                 setSearchResults(response.data.data);
@@ -47,15 +48,15 @@ const ManagementPage = () => {
         fetchMyOrders();
     }, []);
 
-    const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate ) => {
+    const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate) => {
         let filteredResults = managementOrderList;
 
-        if(!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode 
-            && !memberName && !orderDate && !acceptDate) {
+        if (!orderHeaderId && !orderHeaderStatus && !customerName && !customerCode && !memberName && !orderDate && !acceptDate) {
             setSearchResults(managementOrderList);
             return;
         }
 
+        // Filter logic based on input fields
         if (orderHeaderId) {
             filteredResults = filteredResults.filter((order) =>
                 order.orderHeaderId.toLowerCase().includes(orderHeaderId.toLowerCase())
@@ -98,58 +99,57 @@ const ManagementPage = () => {
                 return orderAcceptDate.includes(acceptDate.toLowerCase());
             });
         }
+
         setSearchResults(filteredResults);
-
     }, [managementOrderList]);
-
-    const [isManagementDetailModalOpen, setIsManagementDetailModalOpen] = useState(false);
 
     const handleSelectOrder = (order) => {
         setSelectedOrder(order);
-    }
+    };
+
     const handleOpenDetailModal = () => {
-        console.log(selectedOrder);
-        console.log(isManagementDetailModalOpen)
-        if(selectedOrder) {
+        if (selectedOrder) {
             setIsManagementDetailModalOpen(true);
         } else {
             alert('상세보기할 상품을 선택하세요.');
         }
-    }
+    };
 
     const handleCloseManagementDetailModal = () => setIsManagementDetailModalOpen(false);
 
     const handleManagementDetailSuccess = (updatedOrder) => {
-        const updatedList = managementOrderList.map(order => 
+        const updatedList = managementOrderList.map(order =>
             order.orderHeaderId === updatedOrder.orderHeaderId ? updatedOrder : order
         );
         setManagementOrderList(updatedList);
         setSearchResults(updatedList);
-        window.location.reload();
-    }
-
+        setIsManagementDetailModalOpen(false);
+    };
 
     return (
         <div className="app">
             <Header />
             <SideBar />
             <Tab />
-            <ManagementOrderDetailSearch list ={managementOrderList} onSearch={handleSearch}/>
+            <ManagementOrderDetailSearch list={managementOrderList} onSearch={handleSearch} />
             <ManagementSearchInfo
-                    title="관리 정보"
-                    headers={headers}
-                    managementOrders={searchResults}
-                    onSelectOrder={handleSelectOrder}
-                    selectedOrder={selectedOrder}
-                    onOpenDetailModal={handleOpenDetailModal}/>
-            <ManagementDetailModal
-                isOpen = {isManagementDetailModalOpen}
-                onClose = {handleCloseManagementDetailModal}
-                onSubmit = {handleManagementDetailSuccess}
-                order = {selectedOrder} // 선택된 order 전달. 
+                title="관리 정보"
+                headers={headers}
+                managementOrders={searchResults}
+                onSelectOrder={handleSelectOrder}
+                selectedOrder={selectedOrder}
+                onOpenDetailModal={handleOpenDetailModal}
             />
+            {isManagementDetailModalOpen && (
+                <ManagementDetailModal
+                    isOpen={isManagementDetailModalOpen}
+                    onClose={handleCloseManagementDetailModal}
+                    onSubmit={handleManagementDetailSuccess}
+                    order={selectedOrder}
+                />
+            )}
         </div>
-    )
-  };
-  
-  export default ManagementPage;
+    );
+};
+
+export default ManagementPage;

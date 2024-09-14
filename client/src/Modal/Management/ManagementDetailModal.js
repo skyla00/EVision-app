@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import './ManagementDetailModal.css'
 import axios from 'axios';
 import ProductSearch from '../Product/ProductSearch';
-import './ManagementDetailModal.css'
 //주문 일자, 주문 상태. orderDate, OrderHeaderStatus.
 // 상품명, 상품코드, 판매가(원), 수량,최종금액(원), 납품요청일자
 //itemName, itemCode, salesPrice, orderitemQuantity, finalAmount, requestDate.
 // item list 에는 납품요청일자, 상품명, 상품코드, 판매가, 수량
 
-const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
+const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     const [orderDate, setOrderDate] = useState('');
     const [orderHeaderStatus, setOrderHeaderStatus] = useState('');
     const [itemName, setItemName] = useState('');
@@ -22,27 +22,22 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
 
     // orderHeader 에 있는 정보인 orderDate, orderHeaderStatus 담음. 
     useEffect(() => {
-        if(isOpen && order !== undefined) {
-            setOrderDate(order.orderDate);
-            setOrderHeaderStatus(order.OrderHeaderStatus);
+        if (isOpen && order) {
+            setOrderDate(order.orderDate || '');
+            setOrderHeaderStatus(order.orderHeaderStatus || '');
             setItemName('');
             setItemCode('');
             setSalesAmount('');
             setOrderItemQuantity('');
             setFinalAmount('');
             setRequestDate('');
-            setOrderItemList(order.orderitems);
+            setOrderItemList(order.orderItems || []);
         }
     }, [isOpen, order]);
 
     const handleSubmit = async () => {
         if (orderItemList.length === 0) {
             alert('등록할 내용이 없습니다.');
-            return;
-        }
-        const parsedOrderDate = new Date(orderDate); // 문자열을 Date 객체로 변환
-        if (isNaN(parsedOrderDate)) {
-            alert("Order Date Not Correct");
             return;
         }
 
@@ -80,6 +75,7 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
         } catch (error) {
             console.error('주문 등록 실패:', error.response ? error.response.data : error.message);
             alert('주문 등록에 실패했습니다.');
+        }
     }
 
     const handleDeleteItem = () => {
@@ -100,16 +96,23 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
             alert('수정할 항목을 선택해주세요.');
             return;
         }
-        // Get the selected order item from the list
-        const selectedOrderItem = orderItemList[selectedIndex];
+        const updatedList = orderItemList.map((item, index) =>
+            index === selectedIndex
+                ? {
+                      ...item,
+                      itemName: itemName,
+                      itemCode: itemCode,
+                      salesAmount: salesAmount,
+                      orderItemQuantity: orderItemQuantity,
+                      finalAmount: finalAmount,
+                      requestDate: requestDate,
+                  }
+                : item
+        );
     
-        // Populate the input fields with the selected order item's data
-        setItemName(selectedOrderItem.itemName);
-        setItemCode(selectedOrderItem.itemCode);
-        setSalesAmount(selectedOrderItem.salesAmount);
-        setOrderItemQuantity(selectedOrderItem.orderItemQuantity);
-        setFinalAmount(selectedOrderItem.finalAmount);
-        setRequestDate(selectedOrderItem.requestDate);
+        setOrderItemList(updatedList);
+        setSelectedIndex(null); // 선택 초기화
+        alert('아이템이 수정되었습니다.');
     };
 
     const openProductSearch = () => setIsProductSearchOpen(true);
@@ -121,22 +124,27 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
         closeProductSearch();
     };
 
-
-
-
-     
     //item 누르면 선택. 
     const handleRowClick = (index) => {
         setSelectedIndex((prevSelectedIndex) => 
             prevSelectedIndex === index ? null : index
         );
+
+        const selectedOrderItem = orderItemList[index];
+    
+        setItemName(selectedOrderItem.itemName);
+        setItemCode(selectedOrderItem.itemCode);
+        setSalesAmount(selectedOrderItem.salesAmount);
+        setOrderItemQuantity(selectedOrderItem.orderItemQuantity);
+        setFinalAmount(selectedOrderItem.finalAmount);
+        setRequestDate(selectedOrderItem.requestDate);
     };
 
     return (
         <div className="md-modal">
         <div className="md-order-modal-content">
             <div className="md-order-modal-header">
-                <div className="md-modal-title">주문 등록</div>
+                <div className="md-modal-title">주문 상세</div>
                 <div className="md-modal-close" onClick={onClose}>&times;</div>
             </div>
 
@@ -162,7 +170,7 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
                     <input type="text" value={salesAmount} onChange={(e) => setSalesAmount(e.target.value)}
                         placeholder ="판매가(원)"
                     />
-                    <input type="date" value={orderItemQuantity} onChange={(e) => setOrderItemQuantity(e.target.value)} 
+                    <input type="text" value={orderItemQuantity} onChange={(e) => setOrderItemQuantity(e.target.value)} 
                         placeholder="수량"/>
                 </div>
                 <div className="md-input-fourth-line">
@@ -210,6 +218,4 @@ const ManangementDetailModal = ({ isOpen, onClose, onSubmit, order = [] }) => {
       </div>
     )
 }
-
-}
-export default ManangementDetailModal;
+export default ManagementDetailModal;
