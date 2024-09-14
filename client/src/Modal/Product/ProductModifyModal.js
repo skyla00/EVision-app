@@ -3,6 +3,7 @@ import './ProductModifyModal.css';
 import axios from 'axios';
 
 const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
+    console.log(isOpen);
     const [itemName, setItemName] = useState('');
     const [itemCode, setItemCode] = useState('');
     const [unit, setUnit] = useState('');
