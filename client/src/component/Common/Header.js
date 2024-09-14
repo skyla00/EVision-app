@@ -57,8 +57,6 @@ const Header = () => {
             logout();  // AuthContext에서 로그아웃 처리
             navigate('/');
         } catch (error) {
-            console.log('로그아웃 실패:', error);
-            alert('로그아웃 중 오류가 발생했습니다.');
         }
     };
 

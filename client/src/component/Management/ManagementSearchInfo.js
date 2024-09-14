@@ -10,14 +10,9 @@ const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectO
     
     const headerKey = headers.map(header => header.value);
 
-        // 상세보기버튼을 클릭했을 때 선택된 상품이 있는지 확인
     const handleDetailClick = () => {
-            if (selectedOrder) {
-                onOpenDetailModal(selectedOrder); 
-            } else {
-                alert('상세보기할 상품을 선택하세요.');
-            }
-        };
+        onOpenDetailModal(selectedOrder);   
+    };
 
     return (
         <div className="search-info-container">
