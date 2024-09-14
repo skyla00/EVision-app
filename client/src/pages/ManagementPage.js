@@ -6,11 +6,12 @@ import SideBar from '../component/Common/SideBar';
 import Tab from '../component/Common/Tab';
 import ManagementOrderDetailSearch from '../component/Management/ManagementOrderDetailSearch'
 import ManagementSearchInfo from '../component/Management/ManagementSearchInfo'
+import ManagementDetailModal from '../Modal/Management/ManagementDetailModal'
 
 const ManagementPage = () => {
     const [managementOrderList, setManagementOrderList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-    const [selectedMyOrder, setSelectedMyOrder] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     // 주문번호, 판ㅁㅐ사원, 주문일자, 주ㄴ상태, 납품확정일자, 판매업체코드, 판매업체명. 
 
     const headers = [
@@ -45,8 +46,6 @@ const ManagementPage = () => {
 
         fetchMyOrders();
     }, []);
-
-
 
     const handleSearch = useCallback((orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate ) => {
         let filteredResults = managementOrderList;
@@ -103,24 +102,30 @@ const ManagementPage = () => {
 
     }, [managementOrderList]);
 
+    const [isManagementDetailModalOpen, setIsManagementDetailModalOpen] = useState(false);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleSelectOrder = (order) => {
+        setSelectedOrder(order);
+    }
+    const handleOpenDetailModal = () => {
+        if(selectedOrder) {
+            setIsManagementDetailModalOpen(true);
+        } else {
+            alert('상세보 기할 상품을 선택하세요.');
+        }
+    }
+    console.log(handleOpenDetailModal);
+    const handleCloseManagementDetailModal = () => setIsManagementDetailModalOpen(false);
 
-    const handleOpenMyOrderModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleCloseOrderModal = () => setIsModalOpen(false);
-
-    const handleSelectMyOrder = (order) => {
-        setSelectedMyOrder(order);
-    };
-    const handleOrderPostSuccess = (newOrder) => {
-        setManagementOrderList((prevList) => [...prevList, newOrder]);
-        setSearchResults((prevResults) => [...prevResults, newOrder]);
-        handleCloseOrderModal();
+    const handleManagementDetailSuccess = (updatedOrder) => {
+        const updatedList = managementOrderList.map(order => 
+            order.orderHeaderId === updatedOrder.orderHeaderId ? updatedOrder : order
+        );
+        setManagementOrderList(updatedList);
+        setSearchResults(updatedList);
         window.location.reload();
-    };
+    }
+
 
     return (
         <div className="app">
@@ -132,9 +137,15 @@ const ManagementPage = () => {
                     title="관리 정보"
                     headers={headers}
                     managementOrders={searchResults}
-                    onSelectMyOrder={handleSelectMyOrder}
-                    selectedOrder={selectedMyOrder}
-                    onOpenOrderModal={handleOpenMyOrderModal}/>
+                    onSelectOrder={handleSelectOrder}
+                    selectedOrder={selectedOrder}
+                    onOpenDetailModal={handleOpenDetailModal}/>
+            <ManagementDetailModal
+                isOpen = {isManagementDetailModalOpen}
+                onClose = {handleCloseManagementDetailModal}
+                onSubmit = {handleManagementDetailSuccess}
+                order = {selectedOrder} // 선택된 order 전달. 
+            />
         </div>
     )
   };
