@@ -18,8 +18,6 @@ const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectO
                 alert('상세보기할 상품을 선택하세요.');
             }
         };
-    console.log(onOpenDetailModal);
-    
 
     return (
         <div className="search-info-container">
