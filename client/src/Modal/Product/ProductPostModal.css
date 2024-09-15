@@ -65,11 +65,14 @@
 .pp-error-first-line {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 5px;
-  margin-bottom: 2px;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 8px;
   height: 20px;
+}
+
+.item-name-error, .item-code-error {
+  width: 400px; /* 각 에러 메시지 박스에 최소 너비를 지정 */
 }
 
 .pp-input-second-line {
@@ -77,7 +80,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 
 }
 
@@ -87,6 +90,16 @@
   justify-content: flex-start;
   gap: 14px;
 }
+
+.pp-error-second-line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 55px;
+  margin-top: 8px;
+  height: 20px;
+}
+
 
 
 .pp-input-second-line select {
@@ -108,7 +121,7 @@
 .pp-post-submit-button {
   width: 130px;
   display: block;
-  margin: 40px auto !important;
+  margin: 10px auto !important;
   padding: 10px 20px;
   background-color: #348F6C;
   color: white;

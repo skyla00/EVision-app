@@ -10,6 +10,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [specs, setSpecs] = useState('');
     const [itemNameErrors, setItemNameErrors] = useState('');
     const [itemCodeErrors, setItemCodeErrors] = useState('');
+    const [specsErrors, setSpecsErrors] = useState('');
 
     const validateItemName = (name) => {
         const regex = /^[A-Z0-9]+(\s[A-Z0-9]+){0,29}$/;
@@ -39,12 +40,30 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         setItemCodeErrors(error);
     };
 
+    const validateSpecs = (specs) => {
+        const regex = /^.{0,255}$/;
+        if (!regex.test(specs)) {
+            return '최대 255자';
+        }
+    }
+
+    const handleSpecsChange = (e) => {
+        const value = e.target.value;
+        setSpecs(value);
+        const error = validateSpecs(value);
+        setSpecsErrors(error);
+    }
 
     // 항목 추가
     const handleSubmit = async () => {
         const nameError = validateItemName(itemName);
-        if (nameError) {
+        const codeError = validateItemCode(itemCode);
+        const specsError = validateSpecs(specs);
+
+        if (nameError || codeError || specsError) {
             setItemNameErrors(nameError);
+            setItemCodeErrors(codeError);
+            setSpecsErrors(specsError);
             return;
         }
 
@@ -109,10 +128,10 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     />
                 </div>
                 <div className="pp-error-first-line">
-                    <div>
+                    <div className='item-name-error'>
                      {itemNameErrors && <p className="error-message">{itemNameErrors}</p>}
                     </div>
-                    <div>
+                    <div className='item-code-error'>
                      {itemCodeErrors && <p className="error-message">{itemCodeErrors}</p>}
                     </div>
                 </div>
@@ -139,9 +158,12 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={specs} 
-                        onChange={(e) => setSpecs(e.target.value)} 
+                        onChange={handleSpecsChange} 
                         placeholder="정보" 
                     />
+                </div>
+                <div className='pp-error-second-line'>
+                     {specsErrors && <p className="error-message">{specsErrors}</p>}
                 </div>
             </div>
             <button className="pp-post-submit-button" onClick={handleSubmit}>등록</button>
