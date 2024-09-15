@@ -62,6 +62,13 @@
   margin-top: 6px;
 }
 
+/* select 요소가 disabled 상태일 때 스타일 */
+select:disabled {
+  background-color: #f0f0f0; /* 배경색 회색 */
+  color: #a0a0a0; /* 글자 색 회색 */
+  cursor: not-allowed; /* 커서 모양도 변경 */
+}
+
 .pp-error-first-line {
   display: flex;
   align-items: center;
@@ -99,8 +106,6 @@
   margin-top: 8px;
   height: 20px;
 }
-
-
 
 .pp-input-second-line select {
   width: 384px;

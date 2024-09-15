@@ -147,8 +147,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <label>상태</label>
                     <select 
                         value={itemStatus} 
+                        disabled
                         onChange={(e) => setItemStatus(e.target.value)}>
-                        <option value="" disabled hidden>상태</option>
                         <option value="ON_SALE">판매중</option>
                         <option value="NOT_FOR_SALE">판매중지</option>
                     </select>
