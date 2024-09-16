@@ -1,18 +1,5 @@
-.app {
-    /* max-width: 1400px;
-    width: 100%; */
-    /* margin: 0 auto;
-    padding: 0 20px; */
-  }
-/*
-  @media (max-width: 1600px) {
-    .app {
-        max-width: 100%;
-    }
-  } */
-
 .header {
-    width: 1920px;
+    width: 1880px;
     height: 50px;
     border-bottom: 2px solid #e0e0e0;
     display: flex;
@@ -36,7 +23,7 @@
     height: 20px;
     padding-top: 6px;
     margin-left: auto;
-    padding-right: 44px;
+    padding-right: 0px;
     display: flex;
     flex-direction: row;
 }

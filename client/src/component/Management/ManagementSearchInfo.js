@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import './ManagementSearchInfo.css';
 import ManagementSearchInfoList from './ManagementSearchInfoList.js'
 
-const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenDetailModal, selectedOrder }) => {
+const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenDetailModal, selectedOrder, onToggleFavorite, favorites }) => {
 
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`)
     }
     
+    const extendedHeaders = [
+        ...headers,
+        { value: 'favorite', label: '즐겨찾기' }
+    ];
+
     const headerKey = headers.map(header => header.value);
 
     const handleDetailClick = () => {
@@ -28,7 +32,9 @@ const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectO
                     headerKey={headerKey}
                     onSelectOrder= {onSelectOrder}
                     selectedOrder={selectedOrder}
-                    headers={headers} 
+                    headers={headers}
+                    onToggleFavorite={onToggleFavorite}
+                    favorites={favorites} 
                 />
             </div>
         </div>

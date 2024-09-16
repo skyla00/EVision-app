@@ -1,8 +1,7 @@
 import React from "react";
-import './ManagementSearchInfoList.css'
 import ManagementOrderSearchInfoItem from './ManagementOrderSearchInfoItem.js'
 
-const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSelectOrder, selectedOrder}) => {
+const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSelectOrder, selectedOrder,  onToggleFavorite, favorites}) => {
     return (
         <table className="search-info-table">
             <thead>
@@ -21,6 +20,8 @@ const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSele
                     onSelectOrder={onSelectOrder}
                     isSelected={selectedOrder?.orderHeaderId === managementOrder.orderHeaderId}
                     headerKey={headerKey} 
+                    onToggleFavorite={onToggleFavorite}
+                    favorites={favorites}
                 />
                 ))}
             </tbody>

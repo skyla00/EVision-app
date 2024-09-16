@@ -150,3 +150,17 @@
     content: attr(placeholder);
     color: rgb(110, 110, 110)
   }
+
+  .detail-button {
+    width: 140px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-bottom: auto;
+    background-color: #348F6C;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 1000;
+    border: none;
+  }

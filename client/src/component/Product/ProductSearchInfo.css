@@ -1,21 +1,7 @@
 .search-info-container {
-    padding-left: 180px !important; 
-    height: 400px !important;
-    width: 1600px !important;
-}
-
-.search-info-header {  
-    width: 100%;
-    max-width: 1600px !important;
-    height: 40px;
-    display: flex;
-}
-
-.search-info-title {
-    padding-left: 10px;
-    font-size: 22px;
-    font-weight: bold;
-    padding-top: 2px;
+    padding-left: 180px; 
+    height: 400px;
+    width: 1600px;
 }
 
 .button-container {
@@ -42,90 +28,28 @@
     background-color: #2b664f;
 }
 
-.search-info-section {
-    width: 1600px !important;
-    max-width: 1600px !important;
-    height: 440px;
-    border: 1px solid #74BDA1;
-    display: block;
+/* 스크롤바 */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+.search-info-table thead {
+    height: 60px;
+    text-align: center;
+    border-bottom: 1px solid #d5d5d5;
+    color: #3f3f3f;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+}
+
+.search-info-table tbody {
     overflow-y: auto;
     overflow-x: auto;
 }
 
-.search-info-table {
-    min-width: 1500px;
-    width: 100%;
-    height: auto;
-    border-collapse: collapse;
-    font-size: 14px;
-    text-align: left;
-    table-layout: auto;
-}
-
-/* 테이블 헤더 스타일 */
-.search-info-thead {
-    background-color: #f4f4f4;
-    color: #333;
-    /* padding: 10px; */
-    height: 50px;
-    text-align: center;
-}
-
-/* 홀수 행 배경색 */
-.search-info-tr:nth-child(odd) {
-    background-color: #fafafa;
-}
-
-/* 짝수 행 배경색 */
-.search-info-tr:nth-child(even) {
-    background-color: #f1f1f1;
-}
-
-.search-info-th, .search-info-td {
-    width: 150px;
-    height: 50px;
-    padding: 10px;
-    text-align: center;
-    white-space: nowrap;
-    box-sizing: border-box;
-}
-
-/* 로딩 상태 스타일 */
-.loading {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-}
-
-/* 에러 메시지 스타일 */
-.error {
-    font-size: 16px;
-    color: red;
-    text-align: center;
-}
-
-
-/* 스크롤바 */
-::-webkit-scrollbar {
-    width: 16px;   /* 세로 스크롤바의 너비 */
-    height: 16px;  /* 가로 스크롤바의 높이 */
-}
-
-/* 스크롤바의 트랙 (스크롤바의 배경) */
-::-webkit-scrollbar-track {
-    background-color: #f4f4f4;
-    border-radius: 10px;
-}
-
-/* 스크롤바 핸들 (스크롤바의 움직이는 부분) */
-::-webkit-scrollbar-thumb {
-    background-color: #74BDA1;
-    border-radius: 10px;
-    border: 3px solid #f4f4f4;  /* 핸들 안쪽에 여백을 줌 */
-}
-
-/* 스크롤바 핸들:hover (마우스를 올렸을 때) */
-::-webkit-scrollbar-thumb:hover {
-    background-color: #3b8f73;
+.search-info-table th, .search-info-table td {
+    width: 70px;
 }

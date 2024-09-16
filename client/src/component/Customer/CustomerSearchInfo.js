@@ -1,4 +1,3 @@
-import './CustomerSearchInfo.css';
 import CustomerSearchInfoList from './CustomerSearchInfoList';
 
 const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, onOpenModifyModal, onSelectCustomer, selectedCustomer }) => {

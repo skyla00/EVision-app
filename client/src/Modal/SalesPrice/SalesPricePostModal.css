@@ -77,6 +77,10 @@
   max-width: 225px;
 }
 
+.sp-input-third-line input[type="date"] {
+  color: rgb(110, 110, 110);
+}
+
 .cp-modal-input-section input {
   width: 700px;
   height: 34px;

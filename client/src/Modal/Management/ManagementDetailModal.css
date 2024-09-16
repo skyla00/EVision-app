@@ -31,7 +31,7 @@
     font-size: 26px !important;
     font-weight: 1000;
     padding-left: 40px;
-    padding-top: 10px;
+    padding-top: 20px;
   }
 
   .md-modal-close {
@@ -80,8 +80,15 @@
     width: 680px;
   }
 
+  .md-input-second-line {
+    width: 748px;
+  }
+
   .md-input-first-line input {
-    width: 420px !important;
+    width: 410px !important;
+  }
+  .md-input-first-line select {
+    width: 420px;
   }
   .md-input-second-line input {
     width: 420px !important;
@@ -93,8 +100,14 @@
     width: 420px !important;
   }
 
-  .md-input-first-line, .md-input-third-line {
-    width: 750px;
+  .md-input-first-line select {
+    max-width: 500px;
+    height: 36px !important;
+    padding-left: 10px; 
+    border: 2px solid #74BDA1;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    justify-content: flex-start;
   }
 
   .md-option-button-container {
@@ -209,6 +222,10 @@
     background-color: #f0f0f0; /* 선택된 행을 강조하는 배경색 */
   }
 
-  .order-input-second-line input::before {
+  .md-modal-input-section input::before {
   content: attr(placeholder);
+  }
+
+  .md-modal-input-section input[type="date"] {
+    color: rgb(110, 110, 110);
   }
