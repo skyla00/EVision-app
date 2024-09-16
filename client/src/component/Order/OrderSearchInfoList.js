@@ -1,5 +1,4 @@
 import React from 'react';
-import './OrderSearchInfoList.css';
 import OrderSearchInfoItem from './OrderSearchInfoItem';
 
 const OrderSearchInfoList = ({ orders, headerKey, headers}) => {

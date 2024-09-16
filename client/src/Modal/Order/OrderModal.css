@@ -69,6 +69,10 @@
     box-sizing: border-box;
     justify-content: flex-start;
   }
+
+  .order-input-second-line input[type="date"] {
+    color: rgb(110, 110, 110);
+  }
   
   .om-input-first-line, .order-input-second-line, .od-input-third-line, .order-input-fourth-line {
     display: flex;

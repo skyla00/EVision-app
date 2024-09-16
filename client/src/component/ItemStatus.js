@@ -3,24 +3,32 @@ import React from 'react';
 const ItemStatus = ({ status }) => {
     const styles = {
         ON_SALE: {
-            color: '#1270B0',
+            color: '#ffffff',
             border: '1px solid #1270B0',
             width: '50px',
             height: '16px',
-            fontSize: '13px',
+            fontSize: '14px',
             display: 'inline-block',
             padding: '5px',
             borderRadius: '5px',
+            alignItems: 'center',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            backgroundColor: '#1270B0',
         },
         NOT_FOR_SALE: {
-            color: '#999999',
+            color: '#ffffff',
             border: '1px solid #999999',
             width: '50px',
             height: '16px',
-            fontSize: '13px',
+            fontSize: '14px',
             display: 'inline-block',
             padding: '5px',
             borderRadius: '5px',
+            alignItems: 'center',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            backgroundColor: '#999999',
         },
     };
     const statusText = {

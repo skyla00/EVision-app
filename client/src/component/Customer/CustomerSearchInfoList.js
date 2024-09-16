@@ -1,5 +1,4 @@
 import React from 'react';
-import './CustomerSearchInfoList.css';
 import CustomerSearchInfoItem from './CustomerSearchInfoItem';
 
 const CustomerSearchInfoList = ({ customers, headerKey, headers, onOpenModifyModal, onSelectCustomer, selectedCustomer }) => {

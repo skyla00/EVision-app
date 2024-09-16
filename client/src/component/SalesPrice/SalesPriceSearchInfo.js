@@ -1,4 +1,3 @@
-import './SalesPriceSearchInfo.css';
 import SalesPriceSearchInfoList from './SalesPriceSearchInfoList';
 
 const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModal, onOpenModifyModal, onSelectSalesPrice, selectedSalesPrice }) => {

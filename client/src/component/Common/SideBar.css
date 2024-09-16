@@ -1,25 +1,15 @@
-/* * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-} */
-
-.app {
-    height: 100vh;
-}
-
 .sidebar-container {
     display: flex;
     flex-direction: row;
-    width: 90px;
-    height: 550px;
+    width: 100px;
+    height: 650px;
     position: absolute;
 }
 
 .sidebar-button {
     position: absolute;
-    top: 20px;
-    left: 50px;
+    top: 16px;
+    left: 40px;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -58,7 +48,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     cursor: pointer;
 }
 
@@ -80,5 +70,5 @@
 }
 
 .side-menu-bar-top {
-    height: 160px;
+    height: 200px;
 }

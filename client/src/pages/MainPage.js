@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
 import Header from '../component/Common/Header';
@@ -52,75 +52,100 @@ const NaviContainer = () => {
 }
 
 // 즐겨찾기 로직
-const Favorite = (props) => {
-  const [favorites, setFavorites] = useState([
-    // 더미데이터
-    {
-      orderNumber: '12852',
-      customerCode: 'HMKM2402',
-      orderDate: '2024.09.04.',
-      deliveryRequestDate: '2024.10.24.',
-      orderStatus: props.orderStatus,
-      isFavorite: true,
-    },
-    {
-      orderNumber: '12853',
-      customerCode: 'HMKM2403',
-      orderDate: '2024.09.05.',
-      deliveryRequestDate: '2024.10.25.',
-      orderStatus: '',
-      isFavorite: true,
-    },
-    {
-      orderNumber: '12854',
-      customerCode: 'HMKM2404',
-      orderDate: '2024.09.06.',
-      deliveryRequestDate: '2024.10.26.',
-      orderStatus: '',
-      isFavorite: true,
-    },
-  ]);
+const Favorite = () => {
+  const [favorites, setFavorites] = useState([]);
+
+  // 로컬 스토리지에서 즐겨찾기 불러오기
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favoriteOrders');
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites));
+    }
+  }, []);
 
   const toggleFavorite = (index) => {
-    setFavorites((prevFavorites) => {
-      const newFavorites = [...prevFavorites];
-      newFavorites[index].isFavorite = !newFavorites[index].isFavorite;
-      return newFavorites;
-    });
-  }
+    const updatedFavorites = [...favorites];
+
+    if (!updatedFavorites[index]) {
+      return;
+   }
+
+    // 선택한 즐겨찾기 항목을 제거
+    updatedFavorites[index] = null;
+
+    // 상태 및 로컬 스토리지 업데이트
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favoriteOrders', JSON.stringify(updatedFavorites));
+  };
+
+  // 즐겨찾기를 데이터가 있는 항목이 위로, 빈 항목(null)이 아래로 정렬
+  const sortedFavorites = [...favorites].filter(fav => fav !== null).concat(
+    Array(3 - favorites.filter(fav => fav !== null).length).fill(null)
+  );
 
   return (
     <div className="favorite-section"> 
-      <div className="favorite-title"> 즐겨찾기
+      <div className="favorite-title">
+        즐겨찾기
         <div className="favorite-img">
-          <img src="/image/favorite.png" alt="즐찾"></img>
+          <img src="/image/favorite.png" alt="즐겨찾기 아이콘" />
         </div>
       </div>
       <div className="favorite-content">
-        {favorites.map((item, index) => (
-          <div key={index} className={`favorite-content-${index + 1}`}>
-            <div className="favorite-content-firstline">
-              <div className="order-number">주문번호 : {item.isFavorite ? item.orderNumber : ''}</div>
-              <div className="customer-code">판매업체코드 : {item.isFavorite ? item.customerCode : ''}</div>
-              <div className="order-status"> 주문상태 : 승인 요청
-                <OrderStatus status={item.isFavorite ? item.orderStatus : ''} /> 
+        {sortedFavorites.map((item, slotIndex) => {
+          if (!item) {
+            // 빈 슬롯
+            return (
+              <div key={slotIndex} className={`favorite-content-${slotIndex + 1}`}>
+                <div className="favorite-content-firstline">
+                  <div className="order-number">주문번호 : </div>
+                  <div className="customer-code">판매업체코드 : </div>
+                  <div className="order-status">주문상태 : </div>
+                  <div className="favorite-icon" onClick={() => toggleFavorite(slotIndex)}>
+                    <img
+                      src="/image/favorite-grey.png"
+                      alt="즐찾"
+                      className="favorite-icon"
+                    />
+                  </div>
+                </div>
+                <div className="favorite-content-secondline">
+                  <div className="order-date">주문일자 : </div>
+                  <div className="delivery-request-date">납품확정일자 : </div>
+                </div>
               </div>
-              {/* <div className="order-status" style={{OrderStatus}}> 주문상태 : {props.OrderStatus} </div> */}
-              <div className="favorite-icon" onClick={() => toggleFavorite(index)}>
-                <img src={item.isFavorite ? "/image/favorite.png" : "/image/favorite-grey.png"}
-                alt="즐찾" className="favorite-icon"/>
+            );
+          }
+
+          // 데이터가 있는 즐겨찾기 항목
+          return (
+            <div key={slotIndex} className={`favorite-content-${slotIndex + 1}`}>
+              <div className="favorite-content-firstline">
+                <div className="order-number">주문번호 : {item.orderHeaderId}</div>
+                <div className="customer-code">판매업체코드 : {item.customerCode}</div>
+                <div className="order-status">
+                  주문상태 :
+                  <OrderStatus status={item.orderStatus || item.orderHeaderStatus} />
+                </div>
+                <div className="favorite-icon" onClick={() => toggleFavorite(slotIndex)}>
+                  <img
+                    src={item ? "/image/favorite.png" : "/image/favorite-grey.png"}
+                    alt="즐찾"
+                    className="favorite-icon"
+                  />
+                </div>
+              </div>
+              <div className="favorite-content-secondline">
+                <div className="order-date">주문일자 : {item.orderDate}</div>
+                <div className="delivery-request-date">납품확정일자 : {item.acceptDate}</div>
               </div>
             </div>
-            <div className="favorite-content-secondline">
-              <div className="order-date">주문일자 : {item.isFavorite ? item.orderDate : ''}</div>
-              <div className="delivery-request-date">납품요청일자 : {item.isFavorite ? item.deliveryRequestDate : ''}</div>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
-}
+};
 
 const MainPage = () => {
   const orderStatus = '주문요청';

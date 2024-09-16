@@ -57,6 +57,8 @@
     border: 1px solid #74BDA1;
     border-radius: 4px;
     box-sizing: border-box; /* 패딩을 포함하여 박스 모델 계산 */
+    display: inline-block;
+    width: auto;
 }
 
 
@@ -91,7 +93,7 @@
     margin-right : auto;
     align-items: center;
     gap: 10px;
-    margin-top: 7px;
+    margin-top: 14px;
     margin-left: 1px;
     padding: 4px;
     padding-left: 20px;
@@ -142,5 +144,9 @@
   }
 
   .sp-form-row input[type="date"] {
-    color: rgb(110, 110, 110)
+    color: rgb(110, 110, 110);
+  }
+
+  .sp-form-row input::before {
+    content: attr(placeholder);
   }

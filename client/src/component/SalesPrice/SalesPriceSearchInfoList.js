@@ -1,5 +1,4 @@
 import React from 'react';
-import './SalesPriceSearchInfoList.css';
 import SalesPriceSearchInfoItem from './SalesPriceSearchInfoItem';
 
 const SalesPriceSearchInfoList = ({ salesPirces, headerKey, headers, onOpenModifyModal, onSelectSalesPrice, selectedSalesPrice }) => {
