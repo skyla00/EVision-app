@@ -24,6 +24,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -332,9 +334,11 @@ public class OrderService {
 
             // 마진률 계산
             totalMarginRate = totalSales > 0 ? (totalMarginRate / totalSales) * 100 : 0;
+            BigDecimal bd = new BigDecimal(totalMarginRate).setScale(2, RoundingMode.HALF_UP);
+            double changedRate =bd.doubleValue();
 
             // 일별 데이터를 리스트에 추가
-            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, totalMarginRate));
+            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, changedRate));
         }
 
         return graphData;
@@ -366,9 +370,11 @@ public class OrderService {
 
             // 마진률 계산
             totalMarginRate = totalSales > 0 ? (totalMarginRate / totalSales) * 100 : 0;
+            BigDecimal bd = new BigDecimal(totalMarginRate).setScale(2, RoundingMode.HALF_UP);
+            double changedRate =bd.doubleValue();
 
             // 일별 데이터를 리스트에 추가
-            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, totalMarginRate));
+            graphData.add(new OrderDto.GraphDto(date, orderCount, totalSales, changedRate));
         }
 
         return graphData;
