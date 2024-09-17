@@ -29,7 +29,7 @@ const RechartsGraph = ({ data, dataKey, xAxisKey = "orderDate", yAxisLabel, disp
   
   return (
     <>
-      <AreaChart width={340} height={280} data={data}>
+      <AreaChart width={480} height={280} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <Area
           type="monotone"
