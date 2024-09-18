@@ -9,9 +9,117 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [customerPhone, setCustomerPhone] = useState('');
     const [customerEmail, setCustomerEmail] = useState('');
     const [customerAddress, setCustomerAddress] = useState('');
+    const [customerNameErrors, setCustomerNameErrors] = useState('');
+    const [customerCodeErrors, setCustomerCodeErrors] = useState('');
+    const [managerErrors, setManagerErrors] = useState('');
+    const [customerPhoneErrors, setCustomerPhoneErrors] = useState('');
+    const [customerEmailErrors, setCustomerEmailErrors] = useState('');
+    const [customerAddressErrors, setCustomerAddressErrors] = useState('');
+
+    // 판매업체명 유효성 검증 0918 검증 확인 다시. 
+    const validateCustomerName = (name) => {
+        const regex = /^[가-힣a-zA-Z]+(\\s[가-힣a-zA-Z]+){0,29}$/;
+        if (!regex.test(name)) {
+            return '한글, 영어, 띄어쓰기 포함 최대 30자';
+        }
+        return '';
+    }
+    const handleCustomerNameChange = (e) => {
+        const value = e.target.value;
+        setCustomerName(value);
+        const error = validateCustomerName(value);
+        setCustomerNameErrors(error);
+    }
+    
+    // 판매업체 코드 유효성 검증 
+    const validateCustomerCode = (code) => {
+        const regex = /^[A-Z]{2}$/;
+        if(!regex.test(code)) {
+            return '대문자 영어 2자'
+        }
+    }
+    const handleCustomerCodeChange = (e) => {
+        const value = e.target.value;
+        setCustomerCode(value);
+        const error = validateCustomerCode(value);
+        setCustomerCodeErrors(error);
+    }
+
+    // 담당자 유효성 검증
+    const validateManager = (manager) => {
+        const regex = /^[가-힣]{1,10}$/;
+        if(!regex.test(manager)) {
+            return '한글 최대 10자, 띄어쓰기 불가능'
+        }
+    }
+    const handleManagerChange = (e) => {
+        const value = e.target.value;
+        setManager(value);
+        const error = validateManager(value);
+        setManagerErrors(error);
+    }
+
+    // 판매업체 전화번호 검증 0918 전화번호 검증 확인 다시. 
+    const validateCustomerPhone = (phone) => {
+        const regex = /^\\d{2,3}-\\d{4}-\\d{4}$/;
+        if(!regex.test(phone)) {
+            return '하이픈(-)포함'
+        }
+    }
+    const handleCustomerPhoneChange = (e) => {
+        const value = e.target.value;
+        setCustomerPhone(value);
+        const error = validateCustomerPhone(value);
+        setCustomerPhoneErrors(error);
+    }
+
+    // 이메일 검증
+    const validateCustomerEmail = (email) => {
+        const regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        if(!regex.test(email)) {
+            return 'example@example.com'
+        }
+    }
+    const handleCustomerEmailChange = (e) => {
+        const value = e.target.value;
+        setCustomerEmail(value);
+        const error = validateCustomerEmail(value);
+        setCustomerEmailErrors(error);
+    }
+
+    // 주소 검증. 0918 주소 검증 확인 다시. 
+    const validateCustomerAddress = (address) => {
+        const regex = /^[가-힣a-zA-Z0-9]+(\\s[가-힣a-zA-Z0-9]+){0,49}$/;
+        if(!regex.test(address)) {
+            return '한글, 영어, 숫자, 띄어쓰기 포함 50자'
+        }
+    }
+    const handleCustomerAddressChange = (e) => {
+        const value = e.target.value;
+        setCustomerAddress(value);
+        const error = validateCustomerAddress(value);
+        setCustomerAddressErrors(error);
+    }
 
     // 항목 추가
     const handleSubmit = async () => {
+        const nameError = validateCustomerName(customerName);
+        const codeError = validateCustomerCode(customerCode);
+        const managerError = validateManager(manager);
+        const phoneError = validateCustomerPhone(customerPhone);
+        const emailError = validateCustomerEmail(customerEmail);
+        const addressError = validateCustomerAddress(customerAddress);
+
+        if (nameError || codeError || managerError || phoneError || emailError || addressError) {
+            setCustomerNameErrors(nameError);
+            setCustomerCodeErrors(codeError);
+            setManagerErrors(managerError);
+            setCustomerPhoneErrors(phoneError);
+            setCustomerEmailErrors(emailError);
+            setCustomerAddressErrors(addressError);
+            return alert('올바른 형식으로 입력해주세요');
+        }
+
         try {
             let accessToken = window.localStorage.getItem('accessToken');
             console.log('Access Token');
@@ -63,48 +171,72 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={customerName} 
-                        onChange={(e) => setCustomerName(e.target.value)} 
+                        onChange={handleCustomerNameChange} 
                         placeholder="판매업체명" 
                     />
                     <label>판매업체 코드</label>
                     <input 
                         type="text" 
                         value={customerCode} 
-                        onChange={(e) => setCustomerCode(e.target.value)} 
+                        onChange={handleCustomerCodeChange} 
                         placeholder="판매업체 코드" 
                     />
+                </div>
+                <div className="cp-error-first-line">
+                    <div className='customer-name-error'>
+                     {customerNameErrors && <p className="error-message">{customerNameErrors}</p>}
+                    </div>
+                    <div className='customer-code-error'>
+                     {customerCodeErrors && <p className="error-message">{customerCodeErrors}</p>}
+                    </div>
                 </div>
                 <div className="cp-input-second-line">
                     <label>판매업체 담당자</label>
                     <input 
                         type="text" 
                         value={manager} 
-                        onChange={(e) => setManager(e.target.value)} 
+                        onChange={handleManagerChange} 
                         placeholder="판매업체 담당자" 
                     />
                     <label>판매업체 연락처</label>
                     <input 
                         type="text" 
                         value={customerPhone} 
-                        onChange={(e) => setCustomerPhone(e.target.value)} 
+                        onChange={handleCustomerPhoneChange} 
                         placeholder="판매업체 연락처" 
                     />
+                </div>
+                <div className="cp-error-second-line">
+                    <div className='manager-error'>
+                     {managerErrors && <p className="error-message">{managerErrors}</p>}
+                    </div>
+                    <div className='customer-phone-error'>
+                     {customerPhoneErrors && <p className="error-message">{customerPhoneErrors}</p>}
+                    </div>
                 </div>
                 <div className="cp-input-third-line">
                     <label>판매업체 이메일</label>
                     <input 
                         type="email" 
                         value={customerEmail} 
-                        onChange={(e) => setCustomerEmail(e.target.value)} 
+                        onChange={handleCustomerEmailChange} 
                         placeholder="판매업체 이메일" 
                     />
                     <label>판매업체 주소</label>
                     <input 
                         type="text" 
                         value={customerAddress} 
-                        onChange={(e) => setCustomerAddress(e.target.value)} 
+                        onChange={handleCustomerAddressChange} 
                         placeholder="판매업체 주소" 
                     />
+                </div>
+                <div className="cp-error-third-line">
+                    <div className='customer-email-error'>
+                     {customerEmailErrors && <p className="error-message">{customerEmailErrors}</p>}
+                    </div>
+                    <div className='customer-address-error'>
+                     {customerAddressErrors && <p className="error-message">{customerAddressErrors}</p>}
+                    </div>
                 </div>
             </div>
             <button className="cp-post-submit-button" onClick={handleSubmit}>등록</button>
