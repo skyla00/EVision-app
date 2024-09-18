@@ -128,9 +128,11 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             <div className="my-order-form-row">
                 <input type="search" placeholder="주문번호" value={orderHeaderId}
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
+                        onKeyPress={handleKeyPress}
                 />
                 <select placeholder="주문상태" value={orderHeaderStatus}
-                        onChange={(e) => setOrderHeaderStatus(e.target.value)} >
+                        onChange={(e) => setOrderHeaderStatus(e.target.value)} 
+                        onKeyPress={handleKeyPress} >
                     <option value="" disabled hidden>주문상태</option>
                     <option value="WAITING">임시저장</option>
                     <option value="REQUEST">승인요청</option>
@@ -139,15 +141,19 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                 </select>
                  <input type="search" placeholder="판매처명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)} 
+                        onKeyPress={handleKeyPress}
                 />
                 <input type="search" placeholder="판매처 코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)} 
+                        onKeyPress={handleKeyPress}
                 />
                 <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
+                        onKeyPress={handleKeyPress}
                 />
                 <input type="date" placeholder="납품확정일자" value={acceptDate || ''}
                         onChange={(e) => setAcceptDate(e.target.value)} 
+                        onKeyPress={handleKeyPress}
                 />
             </div>
             <div className="my-order-form-row">
