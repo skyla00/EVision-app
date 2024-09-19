@@ -1,6 +1,10 @@
+import React, { useContext } from 'react';
 import SalesPriceSearchInfoList from './SalesPriceSearchInfoList';
+import { AuthContext } from '../../auth/AuthContext'; // AuthContext import
 
 const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModal, onOpenModifyModal, onSelectSalesPrice, selectedSalesPrice }) => {
+    const { permissions } = useContext(AuthContext); // AuthContext에서 권한 가져오기
+
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`);
     }
@@ -22,8 +26,12 @@ const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModa
             <div className="search-info-header">
                 {title && <div className="search-info-title">{title}</div>}
                 <div className="button-container">
-                    <button className="order-button" onClick={onOpenPostModal}> 등록 </button> 
-                    <button className="modify-button" onClick={handleModifyClick}> 수정 </button> 
+                    {permissions.includes('TL') && (
+                        <>
+                            <button className="order-button" onClick={onOpenPostModal}> 등록 </button>
+                            <button className="modify-button" onClick={handleModifyClick}> 수정 </button>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="search-info-section">
