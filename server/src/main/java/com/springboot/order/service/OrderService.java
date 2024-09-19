@@ -139,7 +139,6 @@ public class OrderService {
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
 
-
         // 기존 orderHeader의 상태와 새로 입력된 orderHeader의 상태를 비교
         String existingStatus = existingOrderHeader.getOrderHeaderStatus().getStatus();
         String updatedStatus = updatedOrderHeader.getOrderHeaderStatus().getStatus();
@@ -154,6 +153,14 @@ public class OrderService {
             // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
             if (!authentication.getAuthorities().contains("ROLE_TL")) {
                 throw new BusinessLogicException(ExceptionCode.ORDER_UPDATE_NOT_ALLOWED);
+            }
+        }
+
+        // 상태가 '승인 요청' 또는 '반려'일 경우, 상태 외 다른 필드 변경을 막기 위한 로직 추가
+        if ((existingStatus.equals("승인 요청") || existingStatus.equals("반려"))) {
+            // OrderItems가 변경되었는지 확인
+            if (!areOrderItemsEqual(existingOrderHeader.getOrderItems(), updatedOrderItems)) {
+                throw new BusinessLogicException(ExceptionCode.ORDER_ITEM_UPDATE_NOT_ALLOWED);
             }
         }
 
@@ -172,11 +179,17 @@ public class OrderService {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
             orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
             return orderHeaderRepository.save(existingOrderHeader);
-        // 현재 상태가 '반려' 이거나 '승인 요청' 이면 상태만 되돌리기 가능.
-        } else if ((existingStatus.equals("반려") || existingStatus.equals("승인 요청")) && updatedStatus.equals("임시 저장")) {
-            existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
-            orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
-            return orderHeaderRepository.save(existingOrderHeader);
+        // 현재 상태가 '반려' 이거나 '승인 요청' 이면 상태만 변경 가능.
+        } else if ((existingStatus.equals("반려") || existingStatus.equals("승인 요청"))) {
+
+            if (updatedStatus.equals("임시 저장")) {
+                existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
+                orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+                return orderHeaderRepository.save(existingOrderHeader);
+            } else {
+                throw new BusinessLogicException(ExceptionCode.NO_CHANGED);
+            }
+
         // 현재 상태가 '임시 저장' 일 때만 주문날짜 및 주문아이템 내용들 수정 가능.
         } else if (existingStatus.equals("임시 저장")) {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
@@ -394,6 +407,28 @@ public class OrderService {
         }
 
         return graphData;
+    }
+
+    public boolean areOrderItemsEqual(List<OrderItem> existingItems, List<OrderItem> updatedItems) {
+        // 아이템 개수 비교
+        if (existingItems.size() != updatedItems.size()) {
+            return false;  // 아이템 수가 다르면 변경된 것으로 판단
+        }
+
+        // 각 OrderItem의 필드 값 직접 비교
+        for (int i = 0; i < existingItems.size(); i++) {
+            OrderItem existingItem = existingItems.get(i);
+            OrderItem updatedItem = updatedItems.get(i);
+
+            // 필드 값 비교 (여기서는 itemId, quantity, price로 비교)
+            if (!existingItem.getItem().getItemCode().equals(updatedItem.getItem().getItemCode()) ||
+                    existingItem.getOrderItemQuantity() != updatedItem.getOrderItemQuantity() ||
+                    existingItem.getSalesAmount() != updatedItem.getSalesAmount()) {
+                return false;  // 필드 값이 다르면 변경된 것으로 판단
+            }
+        }
+
+        return true;  // 모든 필드가 같으면 변경되지 않은 것으로 판단
     }
 
 }
