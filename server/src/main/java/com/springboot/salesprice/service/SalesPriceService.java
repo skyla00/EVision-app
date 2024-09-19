@@ -14,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -39,6 +36,10 @@ public class SalesPriceService {
 
     public SalesPrice updateSalesPrice(SalesPrice salesPrice) {
         SalesPrice findSalesPrice = findVerifiedCSalesPrice(salesPrice.getSalesPriceId());
+        // salesPrice 를 비교해서 같은 값이면 업데이트 예외처리
+        if(salesPrice.getSalesAmount() == findSalesPrice.getSalesAmount()) {
+            throw new BusinessLogicException(ExceptionCode.SALES_PRICE_SAME);
+        }
         // startDate 를 봐서,
         if (!findSalesPrice.getEndDate().equals(LocalDate.of(9999,12,31))) {
             throw new BusinessLogicException(ExceptionCode.NEW_SALES_PRICE_EXISTS);
@@ -62,6 +63,32 @@ public class SalesPriceService {
             salesPriceRepository.save(createSalesPrice);
         }
         return salesPriceRepository.save(findSalesPrice);
+    }
+
+    @Transactional
+    public void deleteSalesPrice(Long salesPriceId) {
+        // 삭제할 SalesPrice 찾기
+        SalesPrice salesPriceToDelete = salesPriceRepository.findById(salesPriceId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SALES_PRICE_NOT_FOUND));
+
+        // 삭제하려는 salesPrice의 endDate가 9999-12-31이 아니라면 예외 발생
+        if (!salesPriceToDelete.getEndDate().equals(LocalDate.of(9999, 12, 31))) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_DELETE_REQUEST);
+        }
+
+        List<SalesPrice> previousSalesPrices = salesPriceRepository.findPreviousSalesPrices(
+                salesPriceToDelete.getItem().getItemCode(),
+                salesPriceToDelete.getCustomer().getCustomerCode(),
+                salesPriceToDelete.getStartDate()
+        );
+
+        salesPriceRepository.delete(salesPriceToDelete);
+
+        if (!previousSalesPrices.isEmpty()) {
+            SalesPrice mostRecentSalesPrice = previousSalesPrices.get(0); // 최신 값 선택
+            mostRecentSalesPrice.setEndDate(LocalDate.of(9999, 12, 31)); // EndDate 업데이트
+            salesPriceRepository.save(mostRecentSalesPrice);
+        }
     }
 
     @Transactional(readOnly = true)

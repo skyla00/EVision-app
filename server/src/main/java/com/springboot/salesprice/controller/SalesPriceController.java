@@ -70,4 +70,12 @@ public class SalesPriceController {
             return new ResponseEntity<>(new SingleResponseDto<>(salesAmountResponseDto), HttpStatus.OK);
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity deleteSalesPrice(@RequestParam(value = "sales-price-id") long salesPriceId) {
+
+        salesPriceService.deleteSalesPrice(salesPriceId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

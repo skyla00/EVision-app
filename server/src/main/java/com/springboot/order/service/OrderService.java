@@ -180,7 +180,6 @@ public class OrderService {
         // 현재 상태가 '임시 저장' 일 때만 주문날짜 및 주문아이템 내용들 수정 가능.
         } else if (existingStatus.equals("임시 저장")) {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
-            existingOrderHeader.setOrderDate(updatedOrderHeader.getOrderDate());
 
             OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
