@@ -18,7 +18,7 @@ const OrderPage = () => {
         { value: 'memberName', label: '판매사원' },
         { value: 'orderDate', label: '주문일자' },
         { value: 'orderHeaderStatus', label: '주문상태' },
-        { value: 'acceptDate', label: '납품확정일자' },
+        { value: 'acceptDate', label: '승인일자' },
         { value: 'customerCode', label: '판매업체코드' },
         { value: 'customerName', label: '판매업체명'},
         { value: 'itemCode', label: '상품코드' },

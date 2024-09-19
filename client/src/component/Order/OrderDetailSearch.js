@@ -184,29 +184,21 @@ const OrderDetailSearch = ({ title, onSearch}) => {
                         onChange={(e) => setCustomerCode(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
-                <select placeholder="주문상태" value={orderHeaderStatus}
-                        onChange={(e) => setOrderHeaderStatus(e.target.value)} 
-                        onKeyPress={handleKeyPress}>
-                    <option value="" disabled hidden>주문상태</option>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                    <option value="ACCEPT">승인</option>
-                    <option value="DENY">반려</option>
-                </select>
-            </div>
-            <div className="order-form-row">
                 <input type="search" placeholder="판매사원 이름" value={memberName}
                         onChange={(e) => setMemberName(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
+            </div>
+            <div className="order-form-row">
+
                 <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
                         onKeyPress={handleKeyPress}
                 />
-                <input type="date" placeholder="납품요청일자" value={requestDate}
+                {/* <input type="date" placeholder="납품요청일자" value={requestDate}
                         onChange={(e) => setRequestDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
-                />
+                /> */}
                 <input type="date" placeholder="납품확정일자" value={acceptDate}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                         onKeyPress={handleKeyPress}

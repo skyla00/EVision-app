@@ -67,7 +67,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-page-container">
+        <div className="login-page-container" onKeyPress={handleKeyPress}>
             <img src="/image/loginback.jpeg" alt="Background" />
             <div className="login-page-overlay">
                 <div className="login-page-wrap">
@@ -89,6 +89,7 @@ const LoginPage = () => {
                             placeholder="비밀번호를 입력해주세요"
                             className="input-field"
                             onChange={(e) => setPassword(e.target.value)}
+                            onKeyPress={handleKeyPress}
                         />
                         <button className="login-button" onClick={handleLogin}>
                             LOG IN

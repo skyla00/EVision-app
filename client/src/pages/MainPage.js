@@ -111,7 +111,7 @@ const Favorite = () => {
                 </div>
                 <div className="favorite-content-secondline">
                   <div className="order-date">주문일자 : </div>
-                  <div className="delivery-request-date">납품확정일자 : </div>
+                  <div className="delivery-request-date">승인일자 : </div>
                 </div>
               </div>
             );
@@ -137,7 +137,7 @@ const Favorite = () => {
               </div>
               <div className="favorite-content-secondline">
                 <div className="order-date">주문일자 : {item.orderDate}</div>
-                <div className="delivery-request-date">납품확정일자 : {item.acceptDate}</div>
+                <div className="delivery-request-date">승인일자 : {item.acceptDate}</div>
               </div>
             </div>
           );
