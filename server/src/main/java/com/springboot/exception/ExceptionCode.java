@@ -23,7 +23,10 @@ public enum ExceptionCode {
     ORDER_ITEM_EXISTS(409, "OrderItem Exists"),
     FAVORITE_EXCEEDED(404, "Favorite Exceeded"),
     ORDER_STATUS_ALREADY_ACCEPT(404, "Order Status Already Accept"),
-    ORDER_UPDATE_NOT_ALLOWED(404, "Order Update Not Allowed"),;
+    ORDER_UPDATE_NOT_ALLOWED(404, "Order Update Not Allowed"),
+    SALES_PRICE_NOT_FOUND(404, "Sales Price Not Found"),
+    SALES_PRICE_SAME(404, "Sales Price Same"),
+    INVALID_DELETE_REQUEST(404, "Invalid Delete Request");
 
     @Getter
     private int status;
