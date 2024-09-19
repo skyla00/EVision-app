@@ -1,8 +1,7 @@
-import './ManagementOrderDetailSearch.css'
+import './ManagementOrderDetailSearch.css';
 import React, { useState, useEffect } from 'react';
 
-const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
-//orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate 
+const MyOrderDetailSearch = ({ title, list = [], onSearch }) => {
     const [orderHeaderId, setOrderHeaderId] = useState('');
     const [orderHeaderStatus, setOrderHeaderStatus] = useState('');
     const [customerName, setCustomerName] = useState('');
@@ -22,21 +21,18 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
     });
 
     useEffect(() => {
-        const finalOrderHeaderId = orderHeaderId || selectedKeywords.orderHeaderId;
-        const finalOrderHeaderStatus = orderHeaderStatus || selectedKeywords.orderHeaderStatus;
-        const finalCustomerName = customerName || selectedKeywords.customerName;
-        const finalCustomerCode = customerCode || selectedKeywords.customerCode;
-        const finalMemberName = memberName || selectedKeywords.memberName;
-        const finalOrderDate = orderDate ? new Date(orderDate).toISOString().split('T')[0] : selectedKeywords.orderDate;
-        const finalAcceptDate = acceptDate ? new Date(acceptDate).toISOString().split('T')[0] : selectedKeywords.acceptDate;
+        const finalOrderHeaderId = selectedKeywords.orderHeaderId;
+        const finalOrderHeaderStatus = selectedKeywords.orderHeaderStatus;
+        const finalCustomerName = selectedKeywords.customerName;
+        const finalCustomerCode = selectedKeywords.customerCode;
+        const finalMemberName = selectedKeywords.memberName;
+        const finalOrderDate = selectedKeywords.orderDate;
+        const finalAcceptDate = selectedKeywords.acceptDate;
         
-        onSearch(finalOrderHeaderId, finalOrderHeaderStatus, finalCustomerName,
-            finalCustomerCode, finalMemberName, finalOrderDate, finalAcceptDate);
-    }, [orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate, setSelectedKeywords, onSearch]);
- 
+        onSearch(finalOrderHeaderId, finalOrderHeaderStatus, finalCustomerName, finalCustomerCode, finalMemberName, finalOrderDate, finalAcceptDate);
+    }, [selectedKeywords, onSearch]);
+
     const handleSearch = () => {
-        // 필터링에 사용할 순수한 값을 저장. 입력된 값이 있으면 selectedKeywords 상태에 저장
-        // 주문 상태 값을 한글로 변환하는 함수
         const getOrderStatusDisplay = (status) => {
             if (!status) return ''; 
             switch (status) {
@@ -52,7 +48,7 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                     return '';
             }
         };
-        
+
         setSelectedKeywords(prevKeywords => ({
             orderHeaderId: orderHeaderId || prevKeywords.orderHeaderId,
             orderHeaderStatus: orderHeaderStatus || prevKeywords.orderHeaderStatus,
@@ -62,18 +58,18 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             orderDate: orderDate || prevKeywords.orderDate,
             acceptDate: acceptDate || prevKeywords.acceptDate,
         }));
-    
-        // 화면에 표시할 키워드를 저장 (UI용)
+
         setDisplayKeywords(prevKeywords => [
             ...prevKeywords,
-            ...(orderHeaderId ? [`주문번호 : ${orderHeaderId}`] : []),
-            ...(orderHeaderStatus ? [`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`] : []),
-            ...(customerName ? [`판매처명 : ${customerName}`] : []),
-            ...(customerCode ? [`판매처코드 : ${customerCode}`] : []),
-            ...(memberName ? [`판매사원이름 : ${memberName}`] : []),
-            ...(orderDate ? [`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
-            ...(acceptDate ? [`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+            ...(orderHeaderId && !prevKeywords.includes(`주문번호 : ${orderHeaderId}`) ? [`주문번호 : ${orderHeaderId}`] : []),
+            ...(orderHeaderStatus && !prevKeywords.includes(`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`) ? [`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`] : []),
+            ...(customerName && !prevKeywords.includes(`판매처명 : ${customerName}`) ? [`판매처명 : ${customerName}`] : []),
+            ...(customerCode && !prevKeywords.includes(`판매처코드 : ${customerCode}`) ? [`판매처코드 : ${customerCode}`] : []),
+            ...(memberName && !prevKeywords.includes(`판매사원이름 : ${memberName}`) ? [`판매사원이름 : ${memberName}`] : []),
+            ...(orderDate && !prevKeywords.includes(`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`) ? [`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
+            ...(acceptDate && !prevKeywords.includes(`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`) ? [`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
         ]);
+
         setOrderHeaderId('');
         setOrderHeaderStatus('');
         setCustomerName('');
@@ -90,15 +86,11 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
     };
 
     const removeKeyword = (keywordToRemove) => {
-        // orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate 
-        // 화면에 표시할 키워드에서 제거할 항목 필터링
         setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
         
-        // 상태 업데이트 후 실행할 콜백 함수
         setSelectedKeywords(prev => {
             let updatedKeywords = { ...prev };
-    
-            // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+
             if (keywordToRemove.startsWith('주문번호')) {
                 updatedKeywords.orderHeaderId = '';
             } else if (keywordToRemove.startsWith('주문상태')) {
@@ -114,82 +106,75 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             } else if (keywordToRemove.startsWith('승인일자')) {
                 updatedKeywords.acceptDate = '';
             }
-    
-            // 업데이트된 상태로 onSearch 호출
+
             onSearch(
                 updatedKeywords.orderHeaderId,
-                updatedKeywords.itemName,
-                updatedKeywords.itemCode,
+                updatedKeywords.orderHeaderStatus,
                 updatedKeywords.customerName,
                 updatedKeywords.customerCode,
-                updatedKeywords.orderHeaderStatus,
                 updatedKeywords.memberName,
                 updatedKeywords.orderDate,
-                updatedKeywords.requestDate,
                 updatedKeywords.acceptDate
             );
-    
-            // 상태 업데이트를 반환
+
             return updatedKeywords;
         });
-        
     };
 
     return (
         <div className="detail-search-box">
-        <div className="detail-search-title"> {}
-            {title && <div className="form-title"></div>}
-        </div>
-        <div className="my-order-form-container">
-            <div className="my-order-form-row">
-                <input type="search" placeholder="주문번호" value={orderHeaderId}
-                        onChange={(e) => setOrderHeaderId(e.target.value)} 
+            <div className="detail-search-title">
+                {title && <div className="form-title"></div>}
+            </div>
+            <div className="my-order-form-container">
+                <div className="my-order-form-row">
+                    <input type="search" placeholder="주문번호" value={orderHeaderId}
+                        onChange={(e) => setOrderHeaderId(e.target.value)}
                         onKeyPress={handleKeyPress}
-                />
-                <select placeholder="주문상태" value={orderHeaderStatus}
-                        onChange={(e) => setOrderHeaderStatus(e.target.value)} 
-                        onKeyPress={handleKeyPress} >
-                    <option value="" disabled hidden>주문상태</option>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                    <option value="ACCEPT">승인</option>
-                    <option value="DENY">반려</option>
-                </select>
-                 <input type="search" placeholder="판매처명" value={customerName}
-                        onChange={(e) => setCustomerName(e.target.value)} 
+                    />
+                    <select placeholder="주문상태" value={orderHeaderStatus}
+                        onChange={(e) => setOrderHeaderStatus(e.target.value)}
+                        onKeyPress={handleKeyPress}>
+                        <option value="" disabled hidden>주문상태</option>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                        <option value="ACCEPT">승인</option>
+                        <option value="DENY">반려</option>
+                    </select>
+                    <input type="search" placeholder="판매처명" value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
                         onKeyPress={handleKeyPress}
-                />
-                <input type="search" placeholder="판매처 코드" value={customerCode}
-                        onChange={(e) => setCustomerCode(e.target.value)} 
+                    />
+                    <input type="search" placeholder="판매처 코드" value={customerCode}
+                        onChange={(e) => setCustomerCode(e.target.value)}
                         onKeyPress={handleKeyPress}
-                />
-                <input type="date" placeholder="주문일자" value={orderDate}
+                    />
+                    <input type="date" placeholder="주문일자" value={orderDate}
                         onChange={(e) => setOrderDate(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                />
-                <input type="date" placeholder="승인일자" value={acceptDate || ''}
-                        onChange={(e) => setAcceptDate(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                />
-            </div>
-            <div className="my-order-form-row">
-                <input type="search" placeholder="판매사원 이름" value={memberName}
-                        onChange={(e) => setMemberName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                />     
-                <button className="my-order-search-button" onClick={handleSearch}>조회</button>
-            </div>
-            <div className="selected-keywords">
-            <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
-                {displayKeywords.map((value, index) => (
-                <div key={index} className="keyword-tag">
-                    {value}
-                        <button onClick={() => removeKeyword(value)}>X</button>
+                    />
+                    <input type="date" placeholder="승인일자" value={acceptDate || ''}
+                        onChange={(e) => setAcceptDate(e.target.value)}
+                    />
                 </div>
-                ))}
+                <div className="my-order-form-row">
+                    <input type="search" placeholder="판매사원 이름" value={memberName}
+                        onChange={(e) => setMemberName(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                    />     
+                    <button className="my-order-search-button" onClick={handleSearch}>조회</button>
+                </div>
+                <div className="selected-keywords">
+                    <img src="/image/keyword.png" alt="키워드" className="keyword-icon"></img>
+                    {displayKeywords.map((value, index) => (
+                        <div key={index} className="keyword-tag">
+                            {value}
+                            <button onClick={() => removeKeyword(value)}>X</button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
-   );
+    );
 };
+
 export default MyOrderDetailSearch;
