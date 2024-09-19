@@ -4,17 +4,14 @@ import com.springboot.customer.dto.CustomerDto;
 import com.springboot.customer.entity.Customer;
 import com.springboot.customer.mapper.CustomerMapper;
 import com.springboot.customer.service.CustomerService;
-import com.springboot.response.MultiResponseDto;
 import com.springboot.response.SingleResponseDto;
 import com.springboot.utils.UriCreator;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
@@ -41,7 +38,7 @@ public class CustomerController {
         return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{customer-code}")
-    public ResponseEntity updateItem(@PathVariable("customer-code") String customerCode,
+    public ResponseEntity updateCustomer(@PathVariable("customer-code") String customerCode,
                                      @RequestBody CustomerDto.Patch patchDto) {
         patchDto.setCustomerCode(customerCode);
 
@@ -50,11 +47,18 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getItems() {
+    @GetMapping()
+    public ResponseEntity getCustomers() {
 
         List<Customer> customers = customerService.findCustomers();
 
         return new ResponseEntity<>(new SingleResponseDto<>(customerMapper.customersToResponseDtos(customers)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{customer-code}")
+    public ResponseEntity deleteCustomer(@PathVariable("customer-code") String customerCode){
+        customerService.deleteCustomer(customerCode);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

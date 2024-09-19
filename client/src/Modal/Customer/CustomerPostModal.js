@@ -167,7 +167,13 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             onClose();
 
         } catch (error) {
-            console.error('상품 등록 실패: ', error);
+            const errorMessage = error.response.data.message;
+
+            if (errorMessage === "Customer Exists") {
+                alert("이미 해당 판매업체가 존재합니다. 판매업체명과 판매업체 코드를 확인해주세요.");
+              } else if (errorMessage === ""){
+                alert(errorMessage); // Default alert for other errors
+              }
         }
     };
 

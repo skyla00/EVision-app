@@ -27,6 +27,11 @@ public class CustomerService {
     }
 
     public Customer createCustomer(Customer customer) {
+        Customer findCodeCustomer = customerRepository.findByCustomerCode(customer.getCustomerCode());
+        Customer findNameCustomer = customerRepository.findByCustomerName(customer.getCustomerName());
+        if(findCodeCustomer != null || findNameCustomer != null) {
+            throw new BusinessLogicException(ExceptionCode.CUSTOMER_EXISTS);
+        }
         return customerRepository.save(customer);
     }
 
@@ -59,9 +64,12 @@ public class CustomerService {
 
         return customerRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
+    public void deleteCustomer(String customerCode) {
+        Customer findCustomer = findVerifiedCustomer(customerCode);
+        customerRepository.delete(findCustomer);
+    }
     private Customer findVerifiedCustomer(String customerCode) {
         Optional<Customer> customer = customerRepository.findById(customerCode);
-
         return customer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CUSTOMER_NOT_FOUND));
     }
 }
