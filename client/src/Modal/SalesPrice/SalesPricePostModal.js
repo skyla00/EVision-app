@@ -67,6 +67,13 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
         } catch (error) {
             console.error('상품 등록 실패: ', error);
+            const errorMessage = error.response.data.message;
+
+            if (errorMessage === "SalesPrices Exists") {
+              alert("이미 해당 상품과 판매업체의 판매가가 존재합니다.");
+            } else if (errorMessage === ""){
+              alert(errorMessage); // Default alert for other errors
+            }
         }
     };
 
