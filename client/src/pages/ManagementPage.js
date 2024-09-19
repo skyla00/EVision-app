@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import './ManagementPage.css';
 import axios from 'axios';
 import Header from '../component/Common/Header';
 import SideBar from '../component/Common/SideBar';
@@ -54,7 +53,7 @@ const ManagementPage = () => {
                         return; // 중복 추가 방지 위해 return
                     }
                 }
-    
+                
                 // 배열에 새로운 즐겨찾기 추가 (슬롯이 남아있을 경우)
                 if (newFavorites.length < 3) {
                     newFavorites.push({
@@ -168,12 +167,10 @@ const ManagementPage = () => {
     const handleCloseManagementDetailModal = () => setIsManagementDetailModalOpen(false);
 
     const handleManagementDetailSuccess = (updatedOrder) => {
-        const updatedList = managementOrderList.map(order =>
-            order.orderHeaderId === updatedOrder.orderHeaderId ? updatedOrder : order
-        );
-        setManagementOrderList(updatedList);
-        setSearchResults(updatedList);
-        setIsManagementDetailModalOpen(false);
+        setManagementOrderList((prevList) => [...prevList, updatedOrder]);
+        setSearchResults((prevResults) => [...prevResults, updatedOrder]);
+        handleCloseManagementDetailModal();
+        window.location.reload();
     };
 
     return (
@@ -190,7 +187,7 @@ const ManagementPage = () => {
                     { value: 'memberName', label: '판매사원' },
                     { value: 'orderDate', label: '주문일자' },
                     { value: 'orderHeaderStatus', label: '주문상태' },
-                    { value: 'acceptDate', label: '납품확정일자' },
+                    { value: 'acceptDate', label: '승인일자' },
                     { value: 'customerCode', label: '판매업체코드' },
                     { value: 'customerName', label: '판매업체명' }
                 ]}

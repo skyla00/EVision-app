@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './SalesPricePostModal.css';
+import './SalesPriceModifyModal.css';
 import axios from 'axios';
 
 const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
@@ -13,7 +13,6 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     // 모달이 열릴 때 선택된 아이템 정보를 입력 필드에 채움
     useEffect(() => {
         if(isOpen && salesPrice !== undefined ) {
-            console.log(salesPrice);
             setItemCode(salesPrice.itemCode);
             setItemName(salesPrice.itemName);
             setCustomerCode(salesPrice.customerCode);
@@ -23,10 +22,26 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
         }
     }, [isOpen, salesPrice]);
 
+        // 기준일자 검증
+    const validateStartDate = (newStartDate) => {
+        const currentStartDate = new Date(salesPrice.startDate);
+        const newStart = new Date(newStartDate);
+    
+        if (newStart <= currentStartDate) {
+            return '기준일자는 기존 기준일자보다 더 나중이어야 합니다';
+        }
+        return '';
+    };
+
     const handleSubmit = async () => {
+        const startDateError = validateStartDate(startDate);
+
+        if (startDateError) {
+            return alert(startDateError);
+        }
+
         try {
             let accessToken = window.localStorage.getItem('accessToken');
-            console.log('Access Token:', accessToken);
         
             const updatedSalesPrice = {
             itemCode,
@@ -53,7 +68,8 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
         setstartDate('');
         onClose();
         } catch (error) {
-            console.error('판매업체 정보 등록 실패: ', error);
+            // console.error('판매업체 정보 등록 실패: ', error);
+            alert(error.response.data.message);
         }
     };
 
@@ -63,13 +79,13 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     return (
         <div className="modal">
           <div className="modal-content">
-              <div className="cm-modal-header">
-                  <div className="cm-modal-title">판매가 수정</div>
+              <div className="sp-modal-header">
+                  <div className="sp-modal-title">판매가 수정</div>
                   <div className="modal-close" onClick={onClose}>&times;</div>
               </div>
   
-              <div className="cm-modal-input-section">
-                  <div className="cm-input-first-line">
+              <div className="sp-modal-input-section">
+                  <div className="sp-input-first-line">
                       <label>상품 코드</label>
                       <input 
                           type="text" 
@@ -85,7 +101,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                           readOnly
                       />
                   </div>
-                  <div className="cm-input-second-line">
+                  <div className="sp-input-second-line">
                       <label>판매업체 코드</label>
                       <input 
                           type="text" 
@@ -101,7 +117,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                           readOnly
                       />
                   </div>
-                  <div className="cm-input-third-line">
+                  <div className="sp-input-third-line">
                       <label>판매가</label>
                       <input 
                           type="text" 
@@ -118,7 +134,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                       />
                   </div>
               </div>
-              <button className="cm-post-submit-button" onClick={handleSubmit}>수정</button>
+              <button className="sp-post-submit-button" onClick={handleSubmit}>수정</button>
           </div>
         </div>
       );

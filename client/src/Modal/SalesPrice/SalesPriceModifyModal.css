@@ -21,27 +21,27 @@
   transform: translate(-50%, -50%);
 }
 
-.cm-modal-header {
+.sp-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.cm-modal-title {
+.sp-modal-title {
   font-size: 30px;
   font-weight: 1000;
   padding-left: 4px;
 }
 
-.cm-modal-input-section {
+.sp-modal-input-section {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
 }
 
-.cm-input-first-line {
+.sp-input-first-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@
   margin-bottom: 20px;
 }
 
-.cm-input-second-line {
+.sp-input-second-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -58,33 +58,33 @@
   margin-bottom: 20px;
 }
 
-.cm-input-third-line {
+.sp-input-third-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 14px;
 }
 
-.cm-input-first-line input {
-  width: 370px;
+.sp-input-first-line input {
+  width: 300px;
 }
 
-.cm-input-second-line input {
-  width: 370px;
+.sp-input-second-line input {
+  width: 300px;
 }
 
-.cm-input-third-line input {
+.sp-input-third-line input {
   width: 600px;
 }
 
-.cm-modal-input-section input {
-  width: 700px;
+.sp-modal-input-section input {
+  width: 00px;
   height: 34px;
   border: 2px solid #74BDA1;
   padding-left: 10px;
 }
 
-.cm-post-submit-button {
+.sp-post-submit-button {
   width: 130px;
   display: block;
   margin: 40px auto;
@@ -102,7 +102,7 @@
   background-color: #45a049;
 }
 
-.cm-modal-input-section input {
+.sp-modal-input-section input {
   width: 700px;
   height: 34px;
   border: 2px solid #74BDA1;
@@ -110,7 +110,7 @@
 }
 
 
-.cm-modal-input-section label {
+.sp-modal-input-section label {
   width: 60px;
   min-width: 61px;
   height: 34px;

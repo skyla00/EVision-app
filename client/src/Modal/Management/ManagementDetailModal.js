@@ -65,7 +65,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
 
             console.log('서버 응답:', response);
             alert('주문이 등록되었습니다.');
-
+            onSubmit(response.data);
             onClose();  // 모달 닫기
 
         } catch (error) {
