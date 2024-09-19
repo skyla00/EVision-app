@@ -18,8 +18,8 @@ const ProductPage = () => {
         { value: 'itemCode', label: '상품코드' },
         { value: 'itemName', label: '상품명' },
         { value: 'unit', label: '단위' },
-        { value: 'specs', label: '정보'},
         { value: 'itemStatus', label: '상태' },
+        { value: 'specs', label: '정보'},
     ];
 
     // 컴포넌트가 처음 렌더링될 때 자동으로 검색을 실행하는 효과를 추가

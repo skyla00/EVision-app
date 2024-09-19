@@ -60,15 +60,34 @@
     justify-content: center;
     gap: 14px;
     margin-top: 6px;
-    margin-bottom: 20px;
   }
+
+  input[readonly] {
+    background-color: #f0f0f0; /* 회색 배경 */
+    color: #a0a0a0; /* 회색 글자 */
+    cursor: not-allowed; /* 커서도 수정 불가 상태를 시각적으로 보여줌 */
+  }
+
+  .pm-error-first-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 8px;
+    height: 20px;
+  }
+  
+  .item-name-error, .item-code-error {
+    width: 400px; /* 각 에러 메시지 박스에 최소 너비를 지정 */
+  }
+  
 
   .pm-input-second-line {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 
   }
 
@@ -78,6 +97,14 @@
     justify-content: flex-start;
     gap: 14px;
   }
+  .pp-error-second-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 55px;
+    margin-top: 8px;
+    height: 20px;
+  }  
   
 
   .pm-input-second-line select {
@@ -99,7 +126,7 @@
   .pd-post-submit-button {
     width: 130px;
     display: block;
-    margin: 40px auto !important;
+    margin: 10px auto !important;
     padding: 10px 20px;
     background-color: #348F6C;
     color: white;

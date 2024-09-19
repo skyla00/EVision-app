@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './ProductPostModal.css';
 import axios from 'axios';
 
@@ -8,9 +8,78 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [unit, setUnit] = useState('');
     const [itemStatus, setItemStatus] = useState('');
     const [specs, setSpecs] = useState('');
+    const [itemNameErrors, setItemNameErrors] = useState('');
+    const [itemCodeErrors, setItemCodeErrors] = useState('');
+    const [specsErrors, setSpecsErrors] = useState('');
 
+    const validateItemName = (name) => {
+        const regex = /^[A-Z0-9]+(\s[A-Z0-9]+){0,29}$/;
+        if (!regex.test(name)) {
+            return '대문자 영어, 숫자, 최대 30자, 띄어쓰기 가능';
+        }
+        return '';
+    };
+    const handleItemNameChange = (e) => {
+        const value = e.target.value;
+        setItemName(value);
+        const error = validateItemName(value);
+        setItemNameErrors(error);
+    };
+
+    const validateItemCode = (code) => {
+        const regex = /^[A-Z0-9]{1,11}$/;
+        if (!regex.test(code)) {
+            return '대문자 영어, 숫자, 최대 11자, 띄어쓰기 불가능'
+        }
+    }
+
+    const handleItemCodeChange = (e) => {
+        const value = e.target.value;
+        setItemCode(value);
+        const error = validateItemCode(value);
+        setItemCodeErrors(error);
+    };
+
+    const validateSpecs = (specs) => {
+        const regex = /^.{0,255}$/;
+        if (!regex.test(specs)) {
+            return '최대 255자';
+        }
+    }
+
+    const handleSpecsChange = (e) => {
+        const value = e.target.value;
+        setSpecs(value);
+        const error = validateSpecs(value);
+        setSpecsErrors(error);
+    }
+
+    useEffect(() => {
+        if(!isOpen) {
+            setItemName('');
+            setItemCode('');
+            setSpecs('');
+            setUnit('');
+            setItemNameErrors('');
+            setItemCodeErrors('');
+            setItemCodeErrors('');
+            setSpecsErrors('');
+        }
+    },[isOpen]);
+    
     // 항목 추가
     const handleSubmit = async () => {
+        const nameError = validateItemName(itemName);
+        const codeError = validateItemCode(itemCode);
+        const specsError = validateSpecs(specs);
+
+        if (nameError || codeError || specsError) {
+            setItemNameErrors(nameError);
+            setItemCodeErrors(codeError);
+            setSpecsErrors(specsError);
+            return;
+        }
+
         try {
             let accessToken = window.localStorage.getItem('accessToken');
             console.log('Access Token:', accessToken);
@@ -60,16 +129,24 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={itemName} 
-                        onChange={(e) => setItemName(e.target.value)} 
+                        onChange={handleItemNameChange} 
                         placeholder="상품명" 
                     />
                     <label>상품코드</label>
                     <input 
                         type="text" 
                         value={itemCode} 
-                        onChange={(e) => setItemCode(e.target.value)} 
+                        onChange={handleItemCodeChange} 
                         placeholder="상품코드" 
                     />
+                </div>
+                <div className="pp-error-first-line">
+                    <div className='item-name-error'>
+                     {itemNameErrors && <p className="error-message">{itemNameErrors}</p>}
+                    </div>
+                    <div className='item-code-error'>
+                     {itemCodeErrors && <p className="error-message">{itemCodeErrors}</p>}
+                    </div>
                 </div>
                 <div className="pp-input-second-line">
                     <label>단위</label>
@@ -83,8 +160,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <label>상태</label>
                     <select 
                         value={itemStatus} 
+                        disabled
                         onChange={(e) => setItemStatus(e.target.value)}>
-                        <option value="" disabled hidden>상태</option>
                         <option value="ON_SALE">판매중</option>
                         <option value="NOT_FOR_SALE">판매중지</option>
                     </select>
@@ -94,9 +171,12 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={specs} 
-                        onChange={(e) => setSpecs(e.target.value)} 
+                        onChange={handleSpecsChange} 
                         placeholder="정보" 
                     />
+                </div>
+                <div className='pp-error-second-line'>
+                     {specsErrors && <p className="error-message">{specsErrors}</p>}
                 </div>
             </div>
             <button className="pp-post-submit-button" onClick={handleSubmit}>등록</button>

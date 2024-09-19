@@ -1,4 +1,4 @@
-.om-modal {
+.md-modal {
     display: block; /* 모달이 열릴 때 */
     position: fixed;
     z-index: 1000; /* 모달의 z-index 설정 */
@@ -9,7 +9,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
   
-  .om-order-modal-content {
+  .md-order-modal-content {
     background-color: #fefefe;
     padding: 20px 120px 20px 120px !important;
     width: 760px;
@@ -21,20 +21,20 @@
     transform: translate(-50%, -50%);
   }
   
-  .order-modal-header {
+  .md-order-modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .modal-title {
+  .md-modal-title {
     font-size: 26px !important;
     font-weight: 1000;
     padding-left: 40px;
-    padding-top: 10px;
+    padding-top: 20px;
   }
 
-  .modal-close {
+  .md-modal-close {
     color: #525252;
     font-size: 50px;
     cursor: pointer;
@@ -48,7 +48,7 @@
     cursor: pointer;
   }
 
-  .om-modal-input-section {
+  .md-modal-input-section {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -60,7 +60,7 @@
     margin-left: 40px;
   }
 
-  .om-modal-input-section input {
+  .md-modal-input-section input {
     max-width: 500px;
     height: 36px !important;
     padding: 12px 20px 10px 20px;
@@ -69,12 +69,8 @@
     box-sizing: border-box;
     justify-content: flex-start;
   }
-
-  .order-input-second-line input[type="date"] {
-    color: rgb(110, 110, 110);
-  }
   
-  .om-input-first-line, .order-input-second-line, .od-input-third-line, .order-input-fourth-line {
+  .md-input-first-line, .md-input-second-line, .md-input-third-line, .md-input-fourth-line {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,31 +80,44 @@
     width: 680px;
   }
 
-  .om-input-first-line input {
+  .md-input-second-line {
+    width: 748px;
+  }
+
+  .md-input-first-line input {
+    width: 410px !important;
+  }
+  .md-input-first-line select {
+    width: 420px;
+  }
+  .md-input-second-line input {
     width: 420px !important;
   }
-  .order-input-second-line input {
+  .md-input-third-line input {
     width: 420px !important;
   }
-  .od-input-third-line input {
-    width: 420px !important;
-  }
-  .order-input-fourth-line input {
+  .md-input-fourth-line input {
     width: 420px !important;
   }
 
-  .om-input-first-line, .od-input-third-line {
-    width: 750px;
+  .md-input-first-line select {
+    max-width: 500px;
+    height: 36px !important;
+    padding-left: 10px; 
+    border: 2px solid #74BDA1;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    justify-content: flex-start;
   }
 
-  .om-option-button-container {
+  .md-option-button-container {
     margin: 10px 40px 10px 10px !important;
     float: right;
     display: flex;
     gap: 10px;
   }
 
-  .order-modal-button {
+  .md-modal-button {
     width: 60px;
     height: 30px;
     background-color: #348F6C;
@@ -120,7 +129,7 @@
     margin-bottom: 13px;
   }
 
-  .option-button {
+  .md-option-button {
     width: 90px;
     height: 30px;
     background-color: #348F6C;
@@ -213,6 +222,10 @@
     background-color: #f0f0f0; /* 선택된 행을 강조하는 배경색 */
   }
 
-  .order-input-second-line input::before {
+  .md-modal-input-section input::before {
   content: attr(placeholder);
+  }
+
+  .md-modal-input-section input[type="date"] {
+    color: rgb(110, 110, 110);
   }

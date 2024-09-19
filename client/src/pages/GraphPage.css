@@ -5,7 +5,7 @@
 }
 
 .graph-info-header {  
-    width: 1300px;
+    width: 1640px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -15,7 +15,6 @@
 .graph-per {
     font-size: 18px;
     margin-left: auto;
-    padding-right: 80px;
 }
 
 .graph-info-title {
@@ -29,26 +28,23 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     padding: 20px;
-    width: 1300px;
+    width: 1600px;
     background-color: #f4f4f4;
 }
 
 .graph1 {
-    max-width: 340px;
-    max-height: 400px;
+    max-width: 500px;
+    max-height: 400px; 
     font-size: 16px;
+    padding-bottom: 10px;
 }
 
 .recharts-wrapper {
-    max-width: 360px;
+    max-width: 500px;
     max-height: 400px;
-    border: 2px solid #b4dacb;
+    border: 2px solid #348F6C;
 }
 
 .recharts-surface {
     background-color: #ffffff;
-}
-
-.recharts-legend-wrapper {
-    max-width: ;
 }

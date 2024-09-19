@@ -116,7 +116,7 @@ const ProductDetailSearch = ({ title, onSearch }) => {
                             onKeyPress={handleKeyPress} // 엔터키로 검색 가능
                         />
                     </div>
-                    <div className="form-row">
+                    <div className="pd-form-row">
                         <button className="pd-search-button" onClick={handleSearch}>조회</button>
                     </div>
                 </div>
