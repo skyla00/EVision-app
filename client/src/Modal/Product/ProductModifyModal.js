@@ -63,6 +63,10 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
             setUnit(item.unit);
             setItemStatus(item.itemStatus);
             setSpecs(item.specs);
+            setItemNameErrors('');
+            setItemCodeErrors('');
+            setItemNameErrors('');
+            setSpecsErrors('');
         }
     }, [isOpen, item]);
 
