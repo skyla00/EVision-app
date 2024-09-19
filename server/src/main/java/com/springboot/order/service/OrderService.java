@@ -139,15 +139,6 @@ public class OrderService {
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
 
-        // 요청보낸 OrderHeaderId 와 권한을 가진 id를 비교해서 수정가능 여부 체크
-        if (!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
-            // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
-            if (!authentication.getAuthorities().contains("ROLE_TL")) {
-                throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
-            }
-        }
-
-        // 본인이거나 관리자인 경우에만 아래 코드들 실행
 
         // 기존 orderHeader의 상태와 새로 입력된 orderHeader의 상태를 비교
         String existingStatus = existingOrderHeader.getOrderHeaderStatus().getStatus();
@@ -157,6 +148,16 @@ public class OrderService {
         if (existingStatus.equals("승인")) {
             throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_ALREADY_ACCEPT);
         }
+
+        // 요청보낸 OrderHeaderId 와 권한을 가진 id를 비교해서 수정가능 여부 체크
+        if (!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
+            // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
+            if (!authentication.getAuthorities().contains("ROLE_TL")) {
+                throw new BusinessLogicException(ExceptionCode.ORDER_UPDATE_NOT_ALLOWED);
+            }
+        }
+
+        // 본인이거나 관리자인 경우에만 아래 코드들 실행
 
         // 현재 상태가 '승인 요청'이며, 업데이트 하려는 상태가 '승인' 일 때
         if (existingStatus.equals("승인 요청") && updatedStatus.equals("승인")) {
