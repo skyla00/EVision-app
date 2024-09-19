@@ -15,7 +15,7 @@ const CustomerPage = () => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
 
     const headers = [
-        { value: 'customerCode', label: '판매업체 코드' },
+        { value: 'customerCode', label: '판매업체코드' },
         { value: 'customerName', label: '판매업체명' },
         { value: 'manager', label: '담당자' },
         { value: 'customerAddress', label: '판매업체 주소' },

@@ -45,7 +45,7 @@ const CustomerDetailSearch = ({ title, onSearch }) => {
 
         setDisplayKeywords(prevKeywords => [
             ...prevKeywords,
-            ...(customerCode && !prevKeywords.includes(`판매업체 코드: ${customerCode}`) ? [`판매업체 코드: ${customerCode}`] : []),
+            ...(customerCode && !prevKeywords.includes(`판매업체코드: ${customerCode}`) ? [`판매업체코드: ${customerCode}`] : []),
             ...(customerName && !prevKeywords.includes(`판매업체명: ${customerName}`) ? [`판매업체명: ${customerName}`] : []),
             ...(manager && !prevKeywords.includes(`담당자: ${manager}`) ? [`담당자: ${manager}`] : []),
             ...(customerAddress && !prevKeywords.includes(`판매업체 주소: ${customerAddress}`) ? [`판매업체 주소: ${customerAddress}`] : []),
@@ -75,7 +75,7 @@ const CustomerDetailSearch = ({ title, onSearch }) => {
 
         setSelectedKeywords(prev => {
             const updatedKeywords = { ...prev };
-            if (keywordToRemove.startsWith('판매업체 코드')) {
+            if (keywordToRemove.startsWith('판매업체코드')) {
                 updatedKeywords.customerCode = '';
             } else if (keywordToRemove.startsWith('판매업체명')) {
                 updatedKeywords.customerName = '';
@@ -112,7 +112,7 @@ const CustomerDetailSearch = ({ title, onSearch }) => {
                     <div className="product-form-row">
                         <input
                             type="search"
-                            placeholder="판매업체 코드"
+                            placeholder="판매업체코드"
                             value={customerCode}
                             onChange={(e) => {
                                 if (!selectedKeywords.customerCode) {

@@ -45,9 +45,9 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
 
         setDisplayKeywords(prevKeywords => [
             ...prevKeywords,
-            ...(itemCode && !prevKeywords.includes(`상품 코드: ${itemCode}`) ? [`상품 코드: ${itemCode}`] : []),
+            ...(itemCode && !prevKeywords.includes(`상품코드: ${itemCode}`) ? [`상품코드: ${itemCode}`] : []),
             ...(itemName && !prevKeywords.includes(`상품명: ${itemName}`) ? [`상품명: ${itemName}`] : []),
-            ...(customerCode && !prevKeywords.includes(`판매업체 코드: ${customerCode}`) ? [`판매업체 코드: ${customerCode}`] : []),
+            ...(customerCode && !prevKeywords.includes(`판매업체코드: ${customerCode}`) ? [`판매업체코드: ${customerCode}`] : []),
             ...(customerName && !prevKeywords.includes(`판매업체명: ${customerName}`) ? [`판매업체명: ${customerName}`] : []),
             ...(salesAmount && !prevKeywords.includes(`판매가: ${salesAmount}`) ? [`판매가: ${salesAmount}`] : []),
             ...(startDate && !prevKeywords.includes(`기준일자: ${new Date(startDate).toISOString().split('T')[0]}`) ? [`기준일자: ${new Date(startDate).toISOString().split('T')[0]}`] : []),
@@ -75,11 +75,11 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
         setSelectedKeywords(prev => {
             let updatedKeywords = { ...prev };
 
-            if (keywordToRemove.startsWith('상품 코드')) {
+            if (keywordToRemove.startsWith('상품코드')) {
                 updatedKeywords.itemCode = '';
             } else if (keywordToRemove.startsWith('상품명')) {
                 updatedKeywords.itemName = '';
-            } else if (keywordToRemove.startsWith('판매업체 코드')) {
+            } else if (keywordToRemove.startsWith('판매업체코드')) {
                 updatedKeywords.customerCode = '';
             } else if (keywordToRemove.startsWith('판매업체명')) {
                 updatedKeywords.customerName = '';
@@ -112,7 +112,7 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
             </div>
             <div className="sp-form-container">
                 <div className="sp-form-row">
-                    <input type="search" placeholder="상품 코드" value={itemCode}
+                    <input type="search" placeholder="상품코드" value={itemCode}
                         onChange={(e) => {
                             if (!selectedKeywords.itemCode) {
                                 setItemCode(e.target.value);
@@ -130,7 +130,7 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
                         onKeyPress={handleKeyPress}
                         disabled={!!selectedKeywords.itemName}
                     />
-                    <input type="search" placeholder="판매업체 코드" value={customerCode}
+                    <input type="search" placeholder="판매업체코드" value={customerCode}
                         onChange={(e) => {
                             if (!selectedKeywords.customerCode) {
                                 setCustomerCode(e.target.value);

@@ -172,7 +172,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             const errorMessage = error.response.data.message;
 
             if (errorMessage === "Customer Exists") {
-                alert("이미 해당 판매업체가 존재합니다. 판매업체명과 판매업체 코드를 확인해주세요.");
+                alert("이미 해당 판매업체가 존재합니다. 판매업체명과 판매업체코드를 확인해주세요.");
               } else if (errorMessage === ""){
                 alert(errorMessage); // Default alert for other errors
               }
@@ -199,12 +199,12 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                         onChange={handleCustomerNameChange} 
                         placeholder="판매업체명" 
                     />
-                    <label>판매업체 코드</label>
+                    <label>판매업체코드</label>
                     <input 
                         type="text" 
                         value={customerCode} 
                         onChange={handleCustomerCodeChange} 
-                        placeholder="판매업체 코드" 
+                        placeholder="판매업체코드" 
                     />
                 </div>
                 <div className="cp-error-first-line">

@@ -102,13 +102,13 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
   
               <div className="cp-modal-input-section">
                   <div className="sp-input-first-line">
-                      <label>상품 코드</label>
+                      <label>상품코드</label>
                       <input 
                           type="text" 
                           value={itemCode} 
                           readOnly
                           onChange={(e) => setItemCode(e.target.value)} 
-                          placeholder="상품 코드" 
+                          placeholder="상품코드" 
                       />
                       <label>상품명</label>
                       <input 
@@ -121,13 +121,13 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                        <button className="ps-modal-button" onClick={openProductSearch}>검색</button> 
                   </div>
                   <div className="sp-input-second-line">
-                      <label>판매업체 코드</label>
+                      <label>판매업체코드</label>
                       <input 
                           type="text" 
                           value={customerCode} 
                           readOnly
                           onChange={(e) => setCustomerCode(e.target.value)} 
-                          placeholder="판매업체 코드" 
+                          placeholder="판매업체코드" 
                       />
                       <label>판매업체명</label>
                       <input 

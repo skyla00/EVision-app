@@ -115,7 +115,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             const errorMessage = error.response.data.message;
 
             if (errorMessage === "Item Exists") {
-                alert("이미 해당 상품 코드가 존재합니다");
+                alert("이미 해당 상품코드가 존재합니다");
               } else if (errorMessage === ""){
                 alert(errorMessage); // Default alert for other errors
               }
