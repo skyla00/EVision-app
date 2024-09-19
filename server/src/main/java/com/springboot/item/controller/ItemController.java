@@ -66,4 +66,11 @@ public class ItemController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(itemMapper.itemsToSimplerResponseDtos(items)), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{item-code}")
+    public ResponseEntity deleteItem (@PathVariable("item-code") String itemCode) {
+        itemService.deleteItem(itemCode);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

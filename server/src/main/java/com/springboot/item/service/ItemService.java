@@ -26,11 +26,18 @@ public class ItemService {
     }
 
     public Item createItem(Item item) {
+        // 같은 상품코드가 있을 때
+        Item findCodeItem = itemRepository.findByItemCode(item.getItemCode());
+        // 같은 상품이름이 있을 때
+        Item findNameItem = itemRepository.findByItemName(item.getItemName());
+        if(findNameItem != null || findCodeItem != null) {
+            throw new BusinessLogicException(ExceptionCode.ITEM_EXISTS);
+        }
         return itemRepository.save(item);
     }
 
     public Item updateItem(Item item) {
-        Item findItem = findVerifiedItem(item.getItemCode());
+        Item findItem = findVerifiedItemCode(item.getItemCode());
 
         Optional.ofNullable(item.getItemName())
                 .ifPresent(itemName -> findItem.setItemName(itemName));
@@ -47,16 +54,27 @@ public class ItemService {
     }
     @Transactional(readOnly = true)
     public Item findItem(String itemCode) {
-        return findVerifiedItem(itemCode);
+        return findVerifiedItemCode(itemCode);
+    }
+
+    public void deleteItem(String itemCode) {
+        Item findItem = findVerifiedItemCode(itemCode);
+        itemRepository.delete(findItem);
     }
 
     @Transactional(readOnly = true)
     public List<Item> findItems() {
         return itemRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
-    private Item findVerifiedItem(String itemCode) {
-        Optional<Item> item = itemRepository.findById(itemCode);
 
+    private Item findVerifiedItemCode(String itemCode) {
+        Optional<Item> item = itemRepository.findById(itemCode);
         return item.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND));
     }
+    // 같은 상품명이 있는지 확인
+//    private Item findVerifiedItemName(String itemName) {
+//        Optional<Item> item = itemRepository.findByItemName(itemName);
+//        return item.or
+//    }
+
 }

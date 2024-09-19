@@ -65,7 +65,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET,"/items").hasAnyRole("TL", "TM")
                         .antMatchers(HttpMethod.GET,"/sales-prices").hasAnyRole("TL", "TM")
                         .antMatchers(HttpMethod.GET,"/customers").hasAnyRole("TL", "TM")
-                        .antMatchers(HttpMethod.GET,"/order-historys").hasAnyRole("TL", "TM")
+                        .antMatchers(HttpMethod.GET,"/order-histories").hasAnyRole("TL", "TM")
                         // 주문 등록은 팀장, 사원 가능.
                         .antMatchers(HttpMethod.POST,"/orders").hasAnyRole("TL", "TM")
                         // 마스터 테이블 등록은 팀장만 가능.
@@ -78,6 +78,11 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH,"/items/**").hasRole("TL")
                         .antMatchers(HttpMethod.PATCH,"/sales-prices/**").hasRole("TL")
                         .antMatchers(HttpMethod.PATCH,"/customers/**").hasRole("TL")
+                        // 삭제는 팀장만 가능.
+                        .antMatchers(HttpMethod.DELETE,"/items/**").hasRole("TL")
+                        .antMatchers(HttpMethod.DELETE,"/sales-prices/**").hasRole("TL")
+                        .antMatchers(HttpMethod.DELETE,"/customers/**").hasRole("TL")
+                        .antMatchers(HttpMethod.DELETE,"/orders/**").hasAnyRole("TL")
                         .anyRequest().permitAll()
                 );
         return http.build();

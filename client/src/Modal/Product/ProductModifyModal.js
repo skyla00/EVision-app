@@ -27,9 +27,9 @@ const ProductModifyModal = ({ isOpen, onClose, onSubmit, item }) => {
     };
 
     const validateItemCode = (code) => {
-        const regex = /^[A-Z0-9]{1,11}$/;
+        const regex = /^[A-Z0-9]{1,20}$/;
         if (!regex.test(code)) {
-            return '대문자 영어, 숫자, 최대 11자, 띄어쓰기 불가능'
+            return '대문자 영어, 숫자, 최대 20자, 띄어쓰기 불가능'
         }
     }
 

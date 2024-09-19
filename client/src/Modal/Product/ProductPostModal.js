@@ -27,9 +27,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     };
 
     const validateItemCode = (code) => {
-        const regex = /^[A-Z0-9]{1,11}$/;
+        const regex = /^[A-Z0-9]{1,20}$/;
         if (!regex.test(code)) {
-            return '대문자 영어, 숫자, 최대 11자, 띄어쓰기 불가능'
+            return '대문자 영어, 숫자, 최대 20자, 띄어쓰기 불가능'
         }
     }
 
@@ -108,7 +108,14 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             onClose(); // 등록 후 모달을 닫음
 
         } catch (error) {
-            console.error('상품 등록 실패: ', error);
+            const errorMessage = error.response.data.message;
+
+            if (errorMessage === "Item Exists") {
+                alert("이미 해당 상품이 존재합니다. 상품명과 상품코드를 확인해주세요.");
+              } else if (errorMessage === ""){
+                alert(errorMessage); // Default alert for other errors
+              }
+
         }
     };
 

@@ -16,7 +16,7 @@ public class ItemDto {
     @Getter
     public static class Post {
         @NotBlank
-        @Pattern(regexp = "^[A-Z0-9]{1,11}$", message = "상품 코드는 대문자 영어와 숫자로 구성되며, 최대 11자까지 가능합니다. 띄어쓰기는 불가능합니다.")
+        @Pattern(regexp = "^[A-Z0-9]{1,20}$", message = "상품 코드는 대문자 영어와 숫자로 구성되며, 최대 20자까지 가능합니다. 띄어쓰기는 불가능합니다.")
         private String itemCode;
 
         @NotBlank
@@ -34,7 +34,7 @@ public class ItemDto {
     @Getter
     @Setter
     public static class Patch {
-        @Pattern(regexp = "^[A-Z0-9]{1,11}$", message = "상품 코드는 대문자 영어와 숫자로 구성되며, 최대 11자까지 가능합니다. 띄어쓰기는 불가능합니다.")
+        @Pattern(regexp = "^[A-Z0-9]{1,20}$", message = "상품 코드는 대문자 영어와 숫자로 구성되며, 최대 20자까지 가능합니다. 띄어쓰기는 불가능합니다.")
         private String itemCode;
         @Pattern(regexp = "^[A-Z0-9]+(\\s[A-Z0-9]+){0,29}$", message = "상품명은 대문자 영어, 숫자, 띄어쓰기가 포함될 수 있습니다. 최대 30자까지 가능합니다.")
         private String itemName;
