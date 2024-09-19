@@ -42,7 +42,7 @@ const CustomerPage = () => {
         fetchCustomers();
     }, []);
 
-    const handleSearch = useCallback(( customerCode, customerName, manager, customerAddress, customerPhone, customerEmail) => {
+    const handleSearch = useCallback((customerCode, customerName, manager, customerAddress, customerPhone, customerEmail) => {
         let filteredResults = customerList;
 
         if (!customerCode && !customerName && !manager && !customerAddress && !customerPhone && !customerEmail) {
@@ -101,14 +101,20 @@ const CustomerPage = () => {
         if (selectedCustomer) {
             setIsCustomerModifyModalOpen(true);
         } else {
-            alert("수정할 판매업체를 선택하세요.")
+            alert("수정할 판매업체를 선택하세요.");
         }
     };
     
     const handleCloseCustomerModifyModal = () => setIsCustomerModifyModalOpen(false);
 
     const handleSelectCustomer = (customer) => {
-        setSelectedCustomer(customer);
+        if (selectedCustomer && selectedCustomer.customerCode === customer.customerCode) {
+            // 이미 선택된 항목을 다시 클릭하면 선택을 취소
+            setSelectedCustomer(null);
+        } else {
+            // 다른 항목을 클릭하면 해당 항목을 선택
+            setSelectedCustomer(customer);
+        }
     };
 
     const handleCustomerPostSuccess = (newCustomer) => {
@@ -116,7 +122,7 @@ const CustomerPage = () => {
         setSearchResults((prevResults) => [...prevResults, newCustomer]);
         handleCloseCustomerPostModal();
         window.location.reload();
-    }
+    };
 
     const handleCustomerModifySuccess = (updatedCustomer) => {
         const updatedList = customerList.map(customer => 
@@ -152,7 +158,7 @@ const CustomerPage = () => {
                 onSubmit={handleCustomerModifySuccess}
                 customer={selectedCustomer}/>
         </div>
-    )
-  };
-  
-  export default CustomerPage;
+    );
+};
+
+export default CustomerPage;

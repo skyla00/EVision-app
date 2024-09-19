@@ -94,9 +94,15 @@ const ProductPage = () => {
 
     // 상품을 클릭하여 선택 상태로 만듦
     const handleSelectItem = (item) => {
-        setSelectedItem(item); // 선택된 상품을 저장
+        if (selectedItem && selectedItem.itemCode === item.itemCode) {
+            // 이미 선택된 항목을 다시 클릭하면 선택을 취소
+            setSelectedItem(null);
+        } else {
+            // 다른 항목을 클릭하면 해당 항목을 선택
+            setSelectedItem(item);
+        }
     };
-
+    
     // 상품 등록 후 상태 업데이트 (새로고침 없이 최신화)
     const handleProductPostSuccess = (newItem) => {
         setProductList((prevList) => [...prevList, newItem]); // 상품 목록에 새로 등록된 상품 추가

@@ -23,6 +23,7 @@ const SalePricePage = () => {
         { value: 'startDate', label: '기준일자' },
         { value: 'endDate', label: '만료일자' },
     ];
+
     useEffect(() => {
         const fetchSalesPrice = async () => {
             try {
@@ -42,7 +43,7 @@ const SalePricePage = () => {
         fetchSalesPrice();
     }, []);
 
-    const handleSearch = useCallback(( itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate) => {
+    const handleSearch = useCallback((itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate) => {
         let filteredResults = salePriceList;
 
         if (!itemCode && !itemName && !customerCode && !customerName && !salesAmount && !startDate && !endDate) {
@@ -114,7 +115,13 @@ const SalePricePage = () => {
     const handleCloseSalesPriceModifyModal = () => setIsSalesPriceModifyModalOpen(false);
 
     const handleSelectSalesPrice = (salesPrice) => {
-        setSelectedSalesPrice(salesPrice);
+        if (selectedSalesPrice && selectedSalesPrice.salesPriceId === salesPrice.salesPriceId) {
+            // 이미 선택된 항목을 다시 클릭하면 선택을 취소
+            setSelectedSalesPrice(null);
+        } else {
+            // 다른 항목을 클릭하면 해당 항목을 선택
+            setSelectedSalesPrice(salesPrice);
+        }
     };
 
     const handleSalesPricePostSuccess = (newSalesPrice) => {
@@ -132,6 +139,7 @@ const SalePricePage = () => {
         setSearchResults(updatedList);
         window.location.reload();
     };
+
     return (
         <div className="app">
             <Header />
@@ -157,7 +165,7 @@ const SalePricePage = () => {
                 onSubmit={handleSalesPriceModifySuccess}
                 salesPrice={selectedSalesPrice}/>
         </div>
-    )
-  };
+    );
+};
   
-  export default SalePricePage;
+export default SalePricePage;

@@ -154,7 +154,13 @@ const ManagementPage = () => {
     }, [managementOrderList]);
 
     const handleSelectOrder = (order) => {
-        setSelectedOrder(order);
+        if (selectedOrder && selectedOrder.orderHeaderId === order.orderHeaderId) {
+            // 이미 선택된 항목을 다시 클릭하면 선택을 취소
+            setSelectedOrder(null);
+        } else {
+            // 다른 항목을 클릭하면 해당 항목을 선택
+            setSelectedOrder(order);
+        }
     };
 
     const handleOpenDetailModal = () => {
