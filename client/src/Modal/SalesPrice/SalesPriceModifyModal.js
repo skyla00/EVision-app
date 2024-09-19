@@ -93,7 +93,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
   
               <div className="sp-modal-input-section">
                   <div className="sp-input-first-line">
-                      <label>상품 코드</label>
+                      <label>상품코드</label>
                       <input 
                           type="text" 
                           value={itemCode} 
@@ -109,7 +109,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                       />
                   </div>
                   <div className="sp-input-second-line">
-                      <label>판매업체 코드</label>
+                      <label>판매업체코드</label>
                       <input 
                           type="text" 
                           value={customerCode} 

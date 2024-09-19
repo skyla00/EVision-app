@@ -63,8 +63,8 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch }) => {
             ...prevKeywords,
             ...(orderHeaderId && !prevKeywords.includes(`주문번호 : ${orderHeaderId}`) ? [`주문번호 : ${orderHeaderId}`] : []),
             ...(orderHeaderStatus && !prevKeywords.includes(`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`) ? [`주문상태 : ${getOrderStatusDisplay(orderHeaderStatus)}`] : []),
-            ...(customerName && !prevKeywords.includes(`판매처명 : ${customerName}`) ? [`판매처명 : ${customerName}`] : []),
-            ...(customerCode && !prevKeywords.includes(`판매처코드 : ${customerCode}`) ? [`판매처코드 : ${customerCode}`] : []),
+            ...(customerName && !prevKeywords.includes(`판매업체명 : ${customerName}`) ? [`판매업체명 : ${customerName}`] : []),
+            ...(customerCode && !prevKeywords.includes(`판매업체코드 : ${customerCode}`) ? [`판매업체코드 : ${customerCode}`] : []),
             ...(memberName && !prevKeywords.includes(`판매사원이름 : ${memberName}`) ? [`판매사원이름 : ${memberName}`] : []),
             ...(orderDate && !prevKeywords.includes(`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`) ? [`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
             ...(acceptDate && !prevKeywords.includes(`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`) ? [`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
@@ -95,9 +95,9 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch }) => {
                 updatedKeywords.orderHeaderId = '';
             } else if (keywordToRemove.startsWith('주문상태')) {
                 updatedKeywords.orderHeaderStatus = '';
-            } else if (keywordToRemove.startsWith('판매처명')) {
+            } else if (keywordToRemove.startsWith('판매업체명')) {
                 updatedKeywords.customerName = '';
-            } else if (keywordToRemove.startsWith('판매처코드')) {
+            } else if (keywordToRemove.startsWith('판매업체코드')) {
                 updatedKeywords.customerCode = '';
             } else if (keywordToRemove.startsWith('판매사원이름')) {
                 updatedKeywords.memberName = '';
@@ -141,11 +141,11 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch }) => {
                         <option value="ACCEPT">승인</option>
                         <option value="DENY">반려</option>
                     </select>
-                    <input type="search" placeholder="판매처명" value={customerName}
+                    <input type="search" placeholder="판매업체명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
                         onKeyPress={handleKeyPress}
                     />
-                    <input type="search" placeholder="판매처 코드" value={customerCode}
+                    <input type="search" placeholder="판매업체코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)}
                         onKeyPress={handleKeyPress}
                     />

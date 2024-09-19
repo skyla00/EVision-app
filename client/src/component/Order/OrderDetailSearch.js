@@ -57,8 +57,8 @@ const OrderDetailSearch = ({ title, onSearch }) => {
             ...(orderHeaderId && !prevKeywords.includes(`주문번호: ${orderHeaderId}`) ? [`주문번호: ${orderHeaderId}`] : []),
             ...(itemName && !prevKeywords.includes(`상품명: ${itemName}`) ? [`상품명: ${itemName}`] : []),
             ...(itemCode && !prevKeywords.includes(`상품코드: ${itemCode}`) ? [`상품코드: ${itemCode}`] : []),
-            ...(customerName && !prevKeywords.includes(`판매처명: ${customerName}`) ? [`판매처명: ${customerName}`] : []),
-            ...(customerCode && !prevKeywords.includes(`판매처코드: ${customerCode}`) ? [`판매처코드: ${customerCode}`] : []),
+            ...(customerName && !prevKeywords.includes(`판매업체명: ${customerName}`) ? [`판매업체명: ${customerName}`] : []),
+            ...(customerCode && !prevKeywords.includes(`판매업체코드: ${customerCode}`) ? [`판매업체코드: ${customerCode}`] : []),
             ...(orderHeaderStatus && !prevKeywords.includes(`주문상태: ${orderHeaderStatus}`) ? [`주문상태: ${orderHeaderStatus}`] : []),
             ...(memberName && !prevKeywords.includes(`판매사원이름: ${memberName}`) ? [`판매사원이름: ${memberName}`] : []),
             ...(orderDate && !prevKeywords.includes(`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`) ? [`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
@@ -94,9 +94,9 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                 updatedKeywords.itemName = '';
             } else if (keywordToRemove.startsWith('상품코드')) {
                 updatedKeywords.itemCode = '';
-            } else if (keywordToRemove.startsWith('판매처명')) {
+            } else if (keywordToRemove.startsWith('판매업체명')) {
                 updatedKeywords.customerName = '';
-            } else if (keywordToRemove.startsWith('판매처코드')) {
+            } else if (keywordToRemove.startsWith('판매업체코드')) {
                 updatedKeywords.customerCode = '';
             } else if (keywordToRemove.startsWith('주문상태')) {
                 updatedKeywords.orderHeaderStatus = '';
@@ -143,11 +143,11 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                         onChange={(e) => setItemName(e.target.value)}
                         onKeyPress={handleKeyPress}
                     />
-                    <input type="search" placeholder="판매처 코드" value={customerCode}
+                    <input type="search" placeholder="판매업체코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)}
                         onKeyPress={handleKeyPress}
                     />
-                    <input type="search" placeholder="판매처명" value={customerName}
+                    <input type="search" placeholder="판매업체명" value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
                         onKeyPress={handleKeyPress}
                     />

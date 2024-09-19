@@ -15,9 +15,9 @@ const SalePricePage = () => {
     const [selectedSalesPrice, setSelectedSalesPrice] = useState(null);
 
     const headers = [
-        { value: 'itemCode', label: '상품 코드' },
+        { value: 'itemCode', label: '상품코드' },
         { value: 'itemName', label: '상품명' },
-        { value: 'customerCode', label: '판매업체 코드' },
+        { value: 'customerCode', label: '판매업체코드' },
         { value: 'customerName', label: '판매업체명' },
         { value: 'salesAmount', label: '판매가' },
         { value: 'startDate', label: '기준일자' },

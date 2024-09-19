@@ -16,10 +16,46 @@ const OrderModal = ({ isOpen, onClose }) => {
     const [orderList, setOrderList] = useState([]);
     const [customerName, setCustomerName] = useState('');
     const [customerCode, setCustomerCode] = useState('');
+    const [salesAmountErrors, setSalesAmountErrors] = useState('');
+    const [orderItemQuantityErrors, setOrderItemQuantityErrors] = useState('');
     const [isProductSearchOpen, setIsProductSearchOpen] = useState(false);  // 상품 검색 모달 열기 상태
     const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);  // 판매업체 검색 모달 열기 상태
     const [isCustomerInfoLocked, setIsCustomerInfoLocked] = useState(false); // 판매업체명과 판매업체코드 비활성화 여부
     const [isOrderDateLocked, setIsOrderDateLocked] = useState(false); // 주문일자 비활성화 여부
+    
+    // 판매가 검증
+    const validateSalesAmount = (salesAmount) => {
+        if (!salesAmount) return ''; 
+        const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
+        if (!regex.test(salesAmount)) {
+            return '0 이상 숫자'
+        }
+        return '';
+    };
+    const handleSalesAmountChange = (e) => {
+        const value = e.target.value;
+        setSalesAmount(value);
+        const error = validateSalesAmount(value);
+        setSalesAmountErrors(error);
+    }
+
+    // 수량 검증 
+    const validateOrderItemQuantity = (orderItemQuantity) => {
+        if (!orderItemQuantity) return ''; 
+        const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
+        if(!regex.test(orderItemQuantity)) {
+            return '0 이상 숫자'
+        }
+        return '';
+    }
+    const handleOrderItemQuantityChange = (e) => {
+        const value = e.target.value;
+        setOrderItemQuantity(value);
+        const error = validateOrderItemQuantity(value);
+        setOrderItemQuantityErrors(error);
+    }
+    
+    
 
     useEffect(() => {
         if (isOpen) {
@@ -33,6 +69,8 @@ const OrderModal = ({ isOpen, onClose }) => {
             setCustomerCode('');
             setIsCustomerInfoLocked(false);
             setIsOrderDateLocked(false);
+            setSalesAmountErrors('');
+            setOrderItemQuantityErrors('');
         } else {
             setOrderList([]);
         }
@@ -50,10 +88,19 @@ const OrderModal = ({ isOpen, onClose }) => {
 
     // 항목 추가
     const handleAddItem = async () => {
+        const salesAmountError = validateSalesAmount(salesAmount);
+        const orderItemQuantityError = validateOrderItemQuantity(orderItemQuantity);
+
         // 입력값이 모두 있는지 먼저 확인하는 창
         if (!itemName || !itemCode || !salesAmount || !orderItemQuantity || !deliveryDate) {
             alert('모든 항목을 입력해주세요.');
             return;
+        }
+
+        if (salesAmountError || orderItemQuantityError) {
+            setSalesAmountErrors(salesAmountError);
+            setOrderItemQuantityErrors(orderItemQuantityError);
+            return alert('올바른 형식으로 입력해주세요');
         }
     
         // 판매업체명과 판매업체코드가 입력되었는지 확인하고, 입력된 경우 수정 불가로 설정
@@ -83,7 +130,8 @@ const OrderModal = ({ isOpen, onClose }) => {
         setItemCode('');
         setSalesAmount('');
         setOrderItemQuantity('');
-    
+        setSalesAmountErrors('');
+        setOrderItemQuantityErrors('');
         // 판매업체 정보 수정 불가 상태로 변경
         setIsCustomerInfoLocked(true);
         setIsOrderDateLocked(true);
@@ -256,9 +304,18 @@ const OrderModal = ({ isOpen, onClose }) => {
                         placeholder="납품요청일자" min={new Date().toISOString().split("T")[0]}/>
                 </div>
                 <div className="order-input-fourth-line">
-                    <input type="text" value={salesAmount} onChange={(e) => setSalesAmount(e.target.value)} placeholder="판매가" />
-                    <input type="number" value={orderItemQuantity} onChange={(e) => setOrderItemQuantity(e.target.value)} placeholder="수량" />
+                    <input type="text" value={salesAmount} onChange={handleSalesAmountChange} placeholder="판매가" />
+                    <input type="text" value={orderItemQuantity} onChange={handleOrderItemQuantityChange} placeholder="수량" />
                 </div>
+                <div className="order-error-fourth-line">
+                    <div className='sales-amount-error'>
+                     {salesAmountErrors && <p className="om-error-message">{salesAmountErrors}</p>}
+                    </div>
+                    <div className='quantity-error'>
+                     {orderItemQuantityErrors && <p className="om-error-message">{orderItemQuantityErrors}</p>}
+                    </div>
+                </div>
+                
             </div>
             <div className="om-option-button-container">
                 <button className="option-button" onClick={handleDeleteItem}> - 삭제</button>
