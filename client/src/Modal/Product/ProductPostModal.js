@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './ProductPostModal.css';
 import axios from 'axios';
 
@@ -53,6 +53,19 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         const error = validateSpecs(value);
         setSpecsErrors(error);
     }
+
+    useEffect(() => {
+        if(!isOpen) {
+            setItemName('');
+            setItemCode('');
+            setSpecs('');
+            setUnit('');
+            setItemNameErrors('');
+            setItemCodeErrors('');
+            setItemCodeErrors('');
+            setSpecsErrors('');
+        }
+    },[isOpen]);
 
     // 항목 추가
     const handleSubmit = async () => {

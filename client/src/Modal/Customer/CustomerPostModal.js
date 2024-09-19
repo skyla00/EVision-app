@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CustomerPostModal.css';
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
     // 판매업체명 유효성 검증 0918 검증 확인 다시. 
     const validateCustomerName = (name) => {
-        const regex = /^[가-힣a-zA-Z]+(\\s[가-힣a-zA-Z]+){0,29}$/;
+        const regex = /^[가-힣a-zA-Z]+(\s[가-힣a-zA-Z]+){0,29}$/;
         if (!regex.test(name)) {
             return '한글, 영어, 띄어쓰기 포함 최대 30자';
         }
@@ -61,9 +61,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
     // 판매업체 전화번호 검증 0918 전화번호 검증 확인 다시. 
     const validateCustomerPhone = (phone) => {
-        const regex = /^\\d{2,3}-\\d{4}-\\d{4}$/;
+        const regex = /^(010-\d{4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
         if(!regex.test(phone)) {
-            return '하이픈(-)포함'
+            return '전화번호 형식. 하이픈(-)포함'
         }
     }
     const handleCustomerPhoneChange = (e) => {
@@ -75,7 +75,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
     // 이메일 검증
     const validateCustomerEmail = (email) => {
-        const regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if(!regex.test(email)) {
             return 'example@example.com'
         }
@@ -100,6 +100,22 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         const error = validateCustomerAddress(value);
         setCustomerAddressErrors(error);
     }
+    useEffect(() => {
+        if (!isOpen) {
+            setCustomerName('');
+            setCustomerCode('');
+            setManager('');
+            setCustomerPhone('');
+            setCustomerEmail('');
+            setCustomerAddress('');
+            setCustomerNameErrors('');
+            setCustomerCodeErrors('');
+            setManagerErrors('');
+            setCustomerPhoneErrors('');
+            setCustomerEmailErrors('');
+            setCustomerAddressErrors('');
+        }
+    }, [isOpen]);
 
     // 항목 추가
     const handleSubmit = async () => {
@@ -109,6 +125,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         const phoneError = validateCustomerPhone(customerPhone);
         const emailError = validateCustomerEmail(customerEmail);
         const addressError = validateCustomerAddress(customerAddress);
+
+
 
         if (nameError || codeError || managerError || phoneError || emailError || addressError) {
             setCustomerNameErrors(nameError);
