@@ -73,11 +73,15 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         const codeError = validateItemCode(itemCode);
         const specsError = validateSpecs(specs);
 
+        if (!itemName || !itemCode || !specs ) {
+            return alert('모든 입력 필드를 채워야 합니다');
+        }
+
         if (nameError || codeError || specsError) {
             setItemNameErrors(nameError);
             setItemCodeErrors(codeError);
             setSpecsErrors(specsError);
-            return;
+            return alert('올바른 형식으로 입력해주세요');
         }
 
         try {

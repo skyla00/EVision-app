@@ -69,7 +69,7 @@ public class CustomerService {
         customerRepository.delete(findCustomer);
     }
     private Customer findVerifiedCustomer(String customerCode) {
-        Optional<Customer> customer = customerRepository.findById(customerCode);
+        Optional<Customer> customer = Optional.ofNullable(customerRepository.findByCustomerCode(customerCode));
         return customer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CUSTOMER_NOT_FOUND));
     }
 }

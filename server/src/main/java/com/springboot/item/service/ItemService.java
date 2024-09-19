@@ -66,7 +66,7 @@ public class ItemService {
     }
 
     private Item findVerifiedItemCode(String itemCode) {
-        Optional<Item> item = itemRepository.findById(itemCode);
+        Optional<Item> item = Optional.ofNullable(itemRepository.findByItemCode(itemCode));
         return item.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND));
     }
     // 같은 상품명이 있는지 확인

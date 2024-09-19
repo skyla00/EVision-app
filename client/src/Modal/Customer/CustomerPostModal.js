@@ -125,7 +125,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         const emailError = validateCustomerEmail(customerEmail);
         const addressError = validateCustomerAddress(customerAddress);
 
-
+        if (!customerName || !manager || !customerPhone || !customerEmail || !customerAddress) {
+            return alert('모든 입력 필드를 채워야 합니다');
+        }
 
         if (nameError || codeError || managerError || phoneError || emailError || addressError) {
             setCustomerNameErrors(nameError);
