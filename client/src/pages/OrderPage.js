@@ -81,75 +81,55 @@ const OrderPage = () => {
         fetchOrders();
     }, []);
 
-    const handleSearch = useCallback(( orderHeaderId, itemName, itemCode, customerName, customerCode, 
-        orderHeaderStatus, memberName, orderDate, requestDate, acceptDate ) => {
+    const handleSearch = useCallback((
+        orderHeaderId, itemName, itemCode, customerName, customerCode, 
+        memberName, orderDate, acceptDate
+    ) => {
         let filteredResults = orderList;
-
-        if (!orderHeaderId && !itemName && !itemCode && !customerName && !customerCode &&
-            !orderHeaderStatus && !memberName && !orderDate && !requestDate && !acceptDate) {
-                setSearchResults(orderList);
-                return;
-        }
-
+    
+        // 필터링 로직 추가
         if (orderHeaderId) {
             filteredResults = filteredResults.filter((order) =>
                 order.orderHeaderId.toLowerCase().includes(orderHeaderId.toLowerCase())
             );
         }
-
         if (itemName) {
             filteredResults = filteredResults.filter((order) =>
                 order.itemName.toLowerCase().includes(itemName.toLowerCase())
             );
         }
-        
         if (itemCode) {
             filteredResults = filteredResults.filter((order) =>
                 order.itemCode.toLowerCase().includes(itemCode.toLowerCase())
             );
         }
-        
         if (customerName) {
             filteredResults = filteredResults.filter((order) =>
                 order.customerName.toLowerCase().includes(customerName.toLowerCase())
             );
         }
-
         if (customerCode) {
             filteredResults = filteredResults.filter((order) =>
                 order.customerCode.toLowerCase().includes(customerCode.toLowerCase())
             );
         }
-
-        if (orderHeaderStatus) {
-            filteredResults = filteredResults.filter((order) =>
-                order.orderHeaderStatus.toLowerCase().includes(orderHeaderStatus.toLowerCase())
-            );
-        }
-
         if (memberName) {
             filteredResults = filteredResults.filter((order) =>
                 order.memberName.toLowerCase().includes(memberName.toLowerCase())
             );
         }
-        
         if (orderDate) {
             filteredResults = filteredResults.filter((order) =>
-                order.orderDate ? order.orderDate.includes(orderDate) : false
+                order.orderDate.includes(orderDate)
             );
         }
-    
-        if (requestDate) {
-            filteredResults = filteredResults.filter((order) =>
-                order.requestDate ? order.requestDate.includes(requestDate) : false
-            );
-        }
-    
         if (acceptDate) {
             filteredResults = filteredResults.filter((order) =>
-                order.acceptDate ? order.acceptDate.includes(acceptDate) : false
+                order.acceptDate.includes(acceptDate)
             );
         }
+    
+        // 필터링된 결과를 저장
         setSearchResults(filteredResults);
     }, [orderList]);
 
@@ -176,20 +156,22 @@ const OrderPage = () => {
             <Header />
             <SideBar />
             <Tab />
-            <OrderDetailSearch title="주문 조회" list={orderList} onSearch={handleSearch}/>
-            <OrderSearchInfo 
-                title="주문 정보" 
-                headers={headers} 
+            <OrderDetailSearch title="주문 조회" onSearch={handleSearch} />
+            <OrderSearchInfo
+                title="주문 정보"
+                headers={headers}
                 orders={searchResults}
                 onSelectOrder={handleSelectOrder}
                 selectedOrder={selectedOrder}
-                onOpenOrderModal={handleOpenOrderModal}/>
-            <OrderModal 
-                isOpen={isOrderModalOpen} 
+                onOpenOrderModal={handleOpenOrderModal}
+            />
+            <OrderModal
+                isOpen={isOrderModalOpen}
                 onClose={handleCloseOrderModal}
-                onSubmit={handleOrderPostSuccess}/>
+                onSubmit={handleOrderPostSuccess}
+            />
         </div>
-    )
+    );
   };
   
   export default OrderPage;
