@@ -18,15 +18,18 @@ public enum ExceptionCode {
     CUSTOMER_NOT_FOUND(404, "Customer Not Found"),
     CUSTOMER_EXISTS(409, "Customer Exists"),
     ORDER_NOT_FOUND(404, "Order Not Found"),
+    INVALID_ORDER_UPDATE(404, "Invalid Order Update"),
     ORDER_NOT_BELONG_TO_MEMBER(409, "Order Not Belong To Member"),
     ORDER_ITEM_NOT_FOUND(404, "OrderItem Not Found"),
     ORDER_ITEM_EXISTS(409, "OrderItem Exists"),
     FAVORITE_EXCEEDED(404, "Favorite Exceeded"),
     ORDER_STATUS_ALREADY_ACCEPT(404, "Order Status Already Accept"),
     ORDER_UPDATE_NOT_ALLOWED(404, "Order Update Not Allowed"),
+    ORDER_ITEM_UPDATE_NOT_ALLOWED(404, "Order Item Update Not Allowed"),
     SALES_PRICE_NOT_FOUND(404, "Sales Price Not Found"),
     SALES_PRICE_SAME(404, "Sales Price Same"),
-    INVALID_DELETE_REQUEST(404, "Invalid Delete Request");
+    INVALID_DELETE_REQUEST(404, "Invalid Delete Request"),
+    NO_CHANGED(404, "No Changed");
 
     @Getter
     private int status;
