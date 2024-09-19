@@ -145,14 +145,16 @@ public class OrderService {
             }
         }
 
-        // 주문상태가 이미 '승인' 이면 수정 불가.
-        if (existingOrderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {
-            throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_ALREADY_ACCEPT);
-        }
+        // 본인이거나 관리자인 경우에만 아래 코드들 실행
 
         // 기존 orderHeader의 상태와 새로 입력된 orderHeader의 상태를 비교
         String existingStatus = existingOrderHeader.getOrderHeaderStatus().getStatus();
         String updatedStatus = updatedOrderHeader.getOrderHeaderStatus().getStatus();
+
+        // 주문상태가 이미 '승인' 이면 수정 불가.
+        if (existingStatus.equals("승인")) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_ALREADY_ACCEPT);
+        }
 
         // 업데이트하려는 상태가 '승인' 일 때
         if (updatedStatus.equals("승인")) {
@@ -163,6 +165,8 @@ public class OrderService {
         } else if (!existingStatus.equals(updatedStatus)) {
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
         }
+
+        // 주문상태가 '반려' 이거나 '승인요청' 상태면 주문상태만 변경가능 (임시저장으로)
 
         OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
