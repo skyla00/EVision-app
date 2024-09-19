@@ -341,11 +341,11 @@ public class OrderService {
                 List<OrderItem> orderItems = orderItemRepository.findByOrderHeader(orderHeader);
                 if (orderHeader.getOrderHeaderStatus() == OrderHeader.OrderHeaderStatus.ACCEPT) {
                     orderCount++;
-                }
 
-                for (OrderItem orderItem : orderItems) {
-                    totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
-                    totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                    for (OrderItem orderItem : orderItems) {
+                        totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
+                        totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                    }
                 }
             }
 
@@ -377,11 +377,11 @@ public class OrderService {
                 List<OrderItem> orderItems = orderItemRepository.findByOrderHeader(orderHeader);
                 if (orderHeader.getOrderHeaderStatus() == OrderHeader.OrderHeaderStatus.ACCEPT) {
                     orderCount++;
-                }
 
-                for (OrderItem orderItem : orderItems) {
-                    totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
-                    totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                    for (OrderItem orderItem : orderItems) {
+                        totalSales += orderItem.getSalesAmount() * orderItem.getOrderItemQuantity();
+                        totalMarginRate += orderItem.getMarginAmount() * orderItem.getOrderItemQuantity();
+                    }
                 }
             }
 
