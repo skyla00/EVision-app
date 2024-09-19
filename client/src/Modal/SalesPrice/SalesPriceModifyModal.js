@@ -69,7 +69,14 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
         onClose();
         } catch (error) {
             // console.error('판매업체 정보 등록 실패: ', error);
-            alert(error.response.data.message);
+            const errorMessage = error.response.data.message;
+
+            if (errorMessage === "new SalesPrices Exists") {
+              alert("이미 해당 기간의 판매가가 존재합니다.");
+            } else if (errorMessage === ""){
+              alert(errorMessage); // Default alert for other errors
+            }
+
         }
     };
 
