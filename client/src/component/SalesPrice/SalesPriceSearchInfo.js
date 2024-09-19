@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import axios from 'axios';
 import SalesPriceSearchInfoList from './SalesPriceSearchInfoList';
 import { AuthContext } from '../../auth/AuthContext'; // AuthContext import
 
@@ -20,6 +21,44 @@ const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModa
             alert('수정할 판매가를 선택하세요.'); // 선택된 판매가가 없을 때 경고
         }
     };
+    const handleDeleteClick = async () => {
+        if (selectedSalesPrice) {
+            let message = window.confirm('정말 삭제하시겠습니까?');
+            if (message) {
+                let accessToken = window.localStorage.getItem('accessToken');
+                try {
+                    const response = await axios.delete(
+                        process.env.REACT_APP_API_URL + 'sales-prices' + '/' + selectedSalesPrice.salesPriceId,
+                        {
+                            headers: {
+                                Authorization: `${accessToken}`,
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    if (response.status === 204) {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        const { status, message } = error.response.data;
+    
+                        // 상태 코드와 메시지에 따라 다른 메시지 표시
+                        if (status === 404 && message === 'Invalid Delete Request') {
+                            alert('이 판매가는 삭제할 수 없습니다. 최근 판매가를 확인해주세요.');
+                        } else {
+                            alert(`에러 발생: ${message}`);
+                        }
+                    } else {
+                        console.error('판매가 삭제 실패:', error.message);
+                        alert('판매가 삭제에 실패했습니다.');
+                    }
+                }
+            }
+        } else {
+            alert('삭제할 판매가를 선택하세요.'); // 선택된 상품이 없을 때 경고
+        }
+    };
 
     return (
         <div className="search-info-container">
@@ -30,6 +69,7 @@ const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModa
                         <>
                             <button className="order-button" onClick={onOpenPostModal}> 등록 </button>
                             <button className="modify-button" onClick={handleModifyClick}> 수정 </button>
+                            <button className="modify-button" onClick={handleDeleteClick}> 삭제 </button>
                         </>
                     )}
                 </div>
