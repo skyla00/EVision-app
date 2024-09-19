@@ -108,6 +108,10 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
         const phoneError = validateCustomerPhone(customerPhone);
         const emailError = validateCustomerEmail(customerEmail);
         const addressError = validateCustomerAddress(customerAddress);
+            // 모든 필드가 입력되었는지 검사
+        if (!customerName || !manager || !customerPhone || !customerEmail || !customerAddress) {
+            return alert('모든 입력 필드를 채워야 합니다');
+        }
 
         if (nameError || managerError || phoneError || emailError || addressError) {
             setCustomerNameErrors(nameError);
