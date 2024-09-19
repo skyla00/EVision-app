@@ -47,7 +47,17 @@
     justify-content: center;
     gap: 14px;
     margin-top: 6px;
-    margin-bottom: 20px;
+  }
+  .cm-error-first-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 8px;
+    height: 20px;
+  }
+  .customer-name-error {
+    width: 400px; /* 각 에러 메시지 박스에 최소 너비를 지정 */
   }
 
   .cm-input-second-line {
@@ -55,7 +65,17 @@
     align-items: center;
     justify-content: flex-start;
     gap: 14px;
-    margin-bottom: 20px;
+  }
+  .cm-error-second-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 8px;
+    height: 20px;
+  }
+  .manager-error, .customer-phone-error {
+    width: 400px; /* 각 에러 메시지 박스에 최소 너비를 지정 */
   }
 
   .cm-input-third-line {
@@ -63,6 +83,17 @@
     align-items: center;
     justify-content: flex-start;
     gap: 14px;
+  }
+  .cm-error-third-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 8px;
+    height: 20px;
+  }
+  .customer-email-error, .customer-address-error {
+    width: 400px; /* 각 에러 메시지 박스에 최소 너비를 지정 */
   }
 
   .cm-input-first-line input {
@@ -87,7 +118,7 @@
   .cm-post-submit-button {
     width: 130px;
     display: block;
-    margin: 40px auto;
+    margin: 10px auto;
     padding: 10px 20px;
     background-color: #348F6C;
     color: white;

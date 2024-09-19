@@ -66,7 +66,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             setSpecsErrors('');
         }
     },[isOpen]);
-
+    
     // 항목 추가
     const handleSubmit = async () => {
         const nameError = validateItemName(itemName);

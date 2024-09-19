@@ -15,8 +15,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [customerPhoneErrors, setCustomerPhoneErrors] = useState('');
     const [customerEmailErrors, setCustomerEmailErrors] = useState('');
     const [customerAddressErrors, setCustomerAddressErrors] = useState('');
-
-    // 판매업체명 유효성 검증 0918 검증 확인 다시. 
+    // 판매업체명 유효성 검증 
     const validateCustomerName = (name) => {
         const regex = /^[가-힣a-zA-Z]+(\s[가-힣a-zA-Z]+){0,29}$/;
         if (!regex.test(name)) {
@@ -59,7 +58,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         setManagerErrors(error);
     }
 
-    // 판매업체 전화번호 검증 0918 전화번호 검증 확인 다시. 
+    // 판매업체 전화번호 검증
     const validateCustomerPhone = (phone) => {
         const regex = /^(010-\d{4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
         if(!regex.test(phone)) {
@@ -87,9 +86,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         setCustomerEmailErrors(error);
     }
 
-    // 주소 검증. 0918 주소 검증 확인 다시. 
+    // 주소 검증 
     const validateCustomerAddress = (address) => {
-        const regex = /^[가-힣a-zA-Z0-9]+(\\s[가-힣a-zA-Z0-9]+){0,49}$/;
+        const regex = /^[가-힣a-zA-Z0-9][가-힣a-zA-Z0-9\s-]{0,49}$/;
         if(!regex.test(address)) {
             return '한글, 영어, 숫자, 띄어쓰기 포함 50자'
         }
@@ -140,7 +139,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
         try {
             let accessToken = window.localStorage.getItem('accessToken');
-            console.log('Access Token');
+
 
             const newCustomer = {
                 customerCode,
