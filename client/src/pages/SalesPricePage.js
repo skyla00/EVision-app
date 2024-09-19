@@ -32,7 +32,6 @@ const SalePricePage = () => {
                          Authorization: `${accessToken}`
                     }
                 });
-                console.log(response.data.data);
                 setSalesPriceList(response.data.data);
                 setSearchResults(response.data.data);
             } catch (error) {

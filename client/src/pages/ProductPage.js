@@ -34,7 +34,6 @@ const ProductPage = () => {
                 });
                 setProductList(response.data.data); // 받아온 데이터를 productList에 저장
                 setSearchResults(response.data.data); // 페이지 로드 시 전체 상품을 searchResults에 저장
-                console.log(response.data.data);
             } catch (error) {
                 console.error(error);
             }
