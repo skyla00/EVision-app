@@ -72,7 +72,7 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
             ...(customerCode ? [`판매처코드 : ${customerCode}`] : []),
             ...(memberName ? [`판매사원이름 : ${memberName}`] : []),
             ...(orderDate ? [`주문일자 : ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
-            ...(acceptDate ? [`납품확정일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+            ...(acceptDate ? [`승인일자 : ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
         ]);
         setOrderHeaderId('');
         setOrderHeaderStatus('');
@@ -90,33 +90,49 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
     };
 
     const removeKeyword = (keywordToRemove) => {
+        // orderHeaderId, orderHeaderStatus, customerName, customerCode, memberName, orderDate, acceptDate 
         // 화면에 표시할 키워드에서 제거할 항목 필터링
         setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
+        
+        // 상태 업데이트 후 실행할 콜백 함수
+        setSelectedKeywords(prev => {
+            let updatedKeywords = { ...prev };
     
-        // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
-        if (keywordToRemove.startsWith('판매업체 코드')) {
-            setSelectedKeywords(prev => ({ ...prev, customerCode: '' }));
-        } else if (keywordToRemove.startsWith('판매업체명')) {
-            setSelectedKeywords(prev => ({ ...prev, customerName: '' }));
-        } else if (keywordToRemove.startsWith('담당자')) {
-            setSelectedKeywords(prev => ({ ...prev, manager: '' }));
-        } else if (keywordToRemove.startsWith('판매업체 주소')) {
-            setSelectedKeywords(prev => ({ ...prev, customerAddress: '' }));
-        } else if (keywordToRemove.startsWith('판매업체 연락처')) {
-            setSelectedKeywords(prev => ({ ...prev, customerPhone: '' }));
-        } else if (keywordToRemove.startsWith('판매업체 이메일')) {
-            setSelectedKeywords(prev => ({ ...prev, customerEmail: '' }));
-        }
+            // 키워드에 따라 해당하는 상태값을 빈 값으로 변경
+            if (keywordToRemove.startsWith('주문번호')) {
+                updatedKeywords.orderHeaderId = '';
+            } else if (keywordToRemove.startsWith('주문상태')) {
+                updatedKeywords.orderHeaderStatus = '';
+            } else if (keywordToRemove.startsWith('판매처명')) {
+                updatedKeywords.customerName = '';
+            } else if (keywordToRemove.startsWith('판매처코드')) {
+                updatedKeywords.customerCode = '';
+            } else if (keywordToRemove.startsWith('판매사원이름')) {
+                updatedKeywords.memberName = '';
+            } else if (keywordToRemove.startsWith('주문일자')) {
+                updatedKeywords.orderDate = '';
+            } else if (keywordToRemove.startsWith('승인일자')) {
+                updatedKeywords.acceptDate = '';
+            }
     
-        // 상태 업데이트 후 검색 함수 호출
-        onSearch(
-            selectedKeywords.customerCode,
-            selectedKeywords.customerName,
-            selectedKeywords.manager,
-            selectedKeywords.customerAddress,
-            selectedKeywords.customerPhone,
-            selectedKeywords.customerEmail
-        );
+            // 업데이트된 상태로 onSearch 호출
+            onSearch(
+                updatedKeywords.orderHeaderId,
+                updatedKeywords.itemName,
+                updatedKeywords.itemCode,
+                updatedKeywords.customerName,
+                updatedKeywords.customerCode,
+                updatedKeywords.orderHeaderStatus,
+                updatedKeywords.memberName,
+                updatedKeywords.orderDate,
+                updatedKeywords.requestDate,
+                updatedKeywords.acceptDate
+            );
+    
+            // 상태 업데이트를 반환
+            return updatedKeywords;
+        });
+        
     };
 
     return (
@@ -151,7 +167,7 @@ const MyOrderDetailSearch = ({ title, list = [], onSearch}) => {
                         onChange={(e) => setOrderDate(e.target.value)}
                         onKeyPress={handleKeyPress}
                 />
-                <input type="date" placeholder="납품확정일자" value={acceptDate || ''}
+                <input type="date" placeholder="승인일자" value={acceptDate || ''}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />

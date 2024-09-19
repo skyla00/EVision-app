@@ -87,7 +87,7 @@ const OrderDetailSearch = ({ title, onSearch}) => {
             ...(memberName ? [`판매사원이름: ${memberName}`] : []),
             ...(orderDate ? [`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
             ...(requestDate ? [`납품요청일자: ${new Date(requestDate).toISOString().split('T')[0]}`] : []),
-            ...(acceptDate ? [`납품확정일자: ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+            ...(acceptDate ? [`승인일자: ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
         ]);
 
         setOrderHeaderId('');
@@ -135,7 +135,7 @@ const OrderDetailSearch = ({ title, onSearch}) => {
                 updatedKeywords.orderDate = '';
             } else if (keywordToRemove.startsWith('납품요청일자')) {
                 updatedKeywords.requestDate = '';
-            } else if (keywordToRemove.startsWith('납품확정일자')) {
+            } else if (keywordToRemove.startsWith('승인일자')) {
                 updatedKeywords.acceptDate = '';
             }
     
@@ -168,22 +168,23 @@ const OrderDetailSearch = ({ title, onSearch}) => {
                         onChange={(e) => setOrderHeaderId(e.target.value)} 
                         onKeyPress={handleKeyPress}
                      />
-                <input type="search" placeholder="상품명" value={itemName}
-                        onChange={(e) => setItemName(e.target.value)} 
-                        onKeyPress={handleKeyPress}
-                />
                 <input type="search" placeholder="상품코드" value={itemCode}
                         onChange={(e) => setItemCode(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
-                 <input type="search" placeholder="판매처명" value={customerName}
-                        onChange={(e) => setCustomerName(e.target.value)} 
+                <input type="search" placeholder="상품명" value={itemName}
+                        onChange={(e) => setItemName(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
                 <input type="search" placeholder="판매처 코드" value={customerCode}
                         onChange={(e) => setCustomerCode(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
+                 <input type="search" placeholder="판매처명" value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)} 
+                        onKeyPress={handleKeyPress}
+                />
+
                 <input type="search" placeholder="판매사원 이름" value={memberName}
                         onChange={(e) => setMemberName(e.target.value)} 
                         onKeyPress={handleKeyPress}
@@ -199,7 +200,7 @@ const OrderDetailSearch = ({ title, onSearch}) => {
                         onChange={(e) => setRequestDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 /> */}
-                <input type="date" placeholder="납품확정일자" value={acceptDate}
+                <input type="date" placeholder="승인일자" value={acceptDate}
                         onChange={(e) => setAcceptDate(e.target.value)} 
                         onKeyPress={handleKeyPress}
                 />
