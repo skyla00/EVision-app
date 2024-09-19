@@ -29,7 +29,6 @@ const ProductDetailSearch = ({ title, onSearch }) => {
             itemCode: itemCode || prevKeywords.itemCode,
             itemSpecs: itemSpecs || prevKeywords.itemSpecs,
         }));
-    
         // 화면에 표시할 키워드를 저장 (UI용)
         setDisplayKeywords(prevKeywords => [
             ...prevKeywords,
