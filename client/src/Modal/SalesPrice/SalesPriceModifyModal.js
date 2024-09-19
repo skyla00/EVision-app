@@ -8,7 +8,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     const [customerCode, setCustomerCode] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [salesAmount, setSalesAmount] = useState('');
-    const [startDate, setstartDate] = useState('');
+    const [startDate, setStartDate] = useState('');
 
     // 모달이 열릴 때 선택된 아이템 정보를 입력 필드에 채움
     useEffect(() => {
@@ -18,7 +18,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
             setCustomerCode(salesPrice.customerCode);
             setCustomerName(salesPrice.customerName);
             setSalesAmount(salesPrice.salesAmount);
-            setstartDate(salesPrice.startDate);
+            setStartDate(salesPrice.startDate);
         }
     }, [isOpen, salesPrice]);
 
@@ -34,49 +34,60 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     };
 
     const handleSubmit = async () => {
+        // 시작 날짜 유효성 검사
         const startDateError = validateStartDate(startDate);
-
         if (startDateError) {
             return alert(startDateError);
         }
-
+    
         try {
             let accessToken = window.localStorage.getItem('accessToken');
-        
+            
             const updatedSalesPrice = {
-            itemCode,
-            customerCode,
-            salesAmount,
-            startDate
-        };
-        
-        const response = await axios.patch(process.env.REACT_APP_API_URL + 'sales-prices' + '/' + salesPrice.salesPriceId,
-            updatedSalesPrice, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
+                itemCode,
+                customerCode,
+                salesAmount,
+                startDate,
+            };
+    
+            const response = await axios.patch(
+                process.env.REACT_APP_API_URL + 'sales-prices' + '/' + salesPrice.salesPriceId,
+                updatedSalesPrice, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
                 }
-            });
-
-        // 부모 컴포넌트로 데이터 전달
-        onSubmit(response.data);
-        setItemCode('');
-        setItemName('');
-        setCustomerName('');
-        setCustomerCode('');
-        setSalesAmount('');
-        setstartDate('');
-        onClose();
+            );
+    
+            // 부모 컴포넌트로 데이터 전달
+            onSubmit(response.data);
+    
+            // 상태 초기화
+            setItemCode('');
+            setItemName('');
+            setCustomerName('');
+            setCustomerCode('');
+            setSalesAmount('');
+            setStartDate('');
+            onClose();
         } catch (error) {
-            // console.error('판매업체 정보 등록 실패: ', error);
-            const errorMessage = error.response.data.message;
-
-            if (errorMessage === "new SalesPrices Exists") {
-              alert("이미 해당 기간의 판매가가 존재합니다.");
-            } else if (errorMessage === ""){
-              alert(errorMessage); // Default alert for other errors
+            if (error.response) {
+                const { status, message } = error.response.data;
+    
+                // 상태 코드와 메시지에 따라 다른 메시지 표시
+                if (status === 409 && message === "new SalesPrices Exists") {
+                    alert("이 판매가는 수정할 수 없습니다. 최근 판매가를 확인해주세요");
+                } else if (status === 404 && message === "Sales Price Same") {
+                    alert("동일한 판매가로 기준일을 변경할 수 없습니다.");
+                } else {
+                    alert(`에러 발생: ${message}`);
+                }
+            } else {
+                console.error('판매업체 정보 등록 실패: ', error.message);
+                alert('판매가 등록에 실패했습니다.');
             }
-
         }
     };
 
@@ -136,7 +147,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                       <input 
                           type="date" 
                           value={startDate} 
-                          onChange={(e) => setstartDate(e.target.value)} 
+                          onChange={(e) => setStartDate(e.target.value)} 
                           placeholder="기준일자" 
                       />
                   </div>

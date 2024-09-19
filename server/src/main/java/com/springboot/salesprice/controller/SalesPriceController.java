@@ -71,8 +71,8 @@ public class SalesPriceController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteSalesPrice(@RequestParam(value = "sales-price-id") long salesPriceId) {
+    @DeleteMapping("/{sales-price-id}")
+    public ResponseEntity deleteSalesPrice(@PathVariable("sales-price-id") long salesPriceId) {
 
         salesPriceService.deleteSalesPrice(salesPriceId);
 
