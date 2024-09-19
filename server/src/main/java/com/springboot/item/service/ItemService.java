@@ -28,9 +28,7 @@ public class ItemService {
     public Item createItem(Item item) {
         // 같은 상품코드가 있을 때
         Item findCodeItem = itemRepository.findByItemCode(item.getItemCode());
-        // 같은 상품이름이 있을 때
-        Item findNameItem = itemRepository.findByItemName(item.getItemName());
-        if(findNameItem != null || findCodeItem != null) {
+        if(findCodeItem != null) {
             throw new BusinessLogicException(ExceptionCode.ITEM_EXISTS);
         }
         return itemRepository.save(item);
