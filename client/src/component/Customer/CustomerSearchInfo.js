@@ -3,7 +3,7 @@ import CustomerSearchInfoList from './CustomerSearchInfoList';
 import { AuthContext } from '../../auth/AuthContext'; // AuthContext import
 
 const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, onOpenModifyModal, onSelectCustomer, selectedCustomer }) => {
-    const { permissions } = useContext(AuthContext); // AuthContext에서 권한 가져오기
+    const { userInfo } = useContext(AuthContext); // AuthContext에서 userInfo 가져오기
 
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`);
@@ -26,7 +26,7 @@ const CustomerSearchInfo = ({ title, headers, customers = [], onOpenPostModal, o
             <div className="search-info-header">
                 {title && <div className="search-info-title">{title}</div>}
                 <div className="button-container">
-                    {permissions.includes('TL') && (
+                    {userInfo?.data?.position === "팀장" && (
                         <>
                             <button className="order-button" onClick={onOpenPostModal}> 등록 </button>
                             <button className="modify-button" onClick={handleModifyClick}> 수정 </button>
