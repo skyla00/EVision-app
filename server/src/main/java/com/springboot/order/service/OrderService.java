@@ -180,20 +180,50 @@ public class OrderService {
             // 현재 주문의 상태를 입력받은 상태인 '승인'으로 변경하면서 승인날짜에 현재 날짜 입력
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
             existingOrderHeader.setAcceptDate(LocalDate.now());
-            orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+            OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+            for (OrderItem updatedOrderItem : updatedOrderItems) {
+                updatedOrderItem.setOrderHeader(existingOrderHeader);
+                existingOrderHeader.getOrderItems().add(updatedOrderItem);
+                calculateOrderItemDetails(updatedOrderItem);
+                OrderItem savedOrderItem = orderItemRepository.save(updatedOrderItem);
+                orderHistoryService.createOrderItemHistory(savedOrderItem, orderHeaderHistory);
+            }
+
             return orderHeaderRepository.save(existingOrderHeader);
         // 현재 상태가 '승인 요청'이며, 업데이트 하려는 상태가 '반려' 일 때
         } else if (existingStatus.equals("승인 요청") && updatedStatus.equals("반려")) {
             // 상태만 '반려'로 업데이트.
             existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
-            orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+            OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+            for (OrderItem updatedOrderItem : updatedOrderItems) {
+                updatedOrderItem.setOrderHeader(existingOrderHeader);
+                existingOrderHeader.getOrderItems().add(updatedOrderItem);
+                calculateOrderItemDetails(updatedOrderItem);
+                OrderItem savedOrderItem = orderItemRepository.save(updatedOrderItem);
+                orderHistoryService.createOrderItemHistory(savedOrderItem, orderHeaderHistory);
+            }
+
             return orderHeaderRepository.save(existingOrderHeader);
         // 현재 상태가 '반려' 이거나 '승인 요청' 이면 상태만 변경 가능.
         } else if ((existingStatus.equals("반려") || existingStatus.equals("승인 요청"))) {
 
             if (updatedStatus.equals("임시 저장")) {
                 existingOrderHeader.setOrderHeaderStatus(updatedOrderHeader.getOrderHeaderStatus());
-                orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+                OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
+
+                for (OrderItem updatedOrderItem : updatedOrderItems) {
+                    updatedOrderItem.setOrderHeader(existingOrderHeader);
+                    existingOrderHeader.getOrderItems().add(updatedOrderItem);
+                    calculateOrderItemDetails(updatedOrderItem);
+                    OrderItem savedOrderItem = orderItemRepository.save(updatedOrderItem);
+                    orderHistoryService.createOrderItemHistory(savedOrderItem, orderHeaderHistory);
+                }
+
                 return orderHeaderRepository.save(existingOrderHeader);
             } else {
                 throw new BusinessLogicException(ExceptionCode.NO_CHANGED);
