@@ -10,7 +10,7 @@ const OrderSearchInfoItem = ({ order, index, headerKey }) => {
                     {order && order[key] !== undefined
                         ? key === 'orderHeaderStatus'
                             ? <OrderStatus status={order[key]} />
-                            : order[key]
+                            : (key === 'purchaseAmount' || key === 'marginAmount' || key === 'salesAmount' || key === 'finalAmount' ? order[key].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : order[key])
                         : '-'}
                 </td>
             ))}

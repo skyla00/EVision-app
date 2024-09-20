@@ -6,7 +6,7 @@ const SalesPriceSearchInfoItem = ({ salesPrice, index, headerKey, onSelectSalesP
         >
             {headerKey.map((key) => (
                 <td className={`search-info-td ${key}`} key={key + index}>
-                    {salesPrice && salesPrice[key] !== undefined ? salesPrice[key] : '-'}
+                    {salesPrice && salesPrice[key] !== undefined ? (key === 'salesAmount' ? salesPrice[key].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : salesPrice[key]) : '-'}
                 </td>
             ))}
         </tr>

@@ -17,6 +17,7 @@ const OrderPage = () => {
         { value: 'orderHeaderId', label: '주문번호' },
         { value: 'memberName', label: '판매사원' },
         { value: 'orderDate', label: '주문일자' },
+        { value: 'requestDate', label: '납품요청일자' },
         { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'acceptDate', label: '승인일자' },
         { value: 'customerCode', label: '판매업체코드' },
@@ -44,6 +45,8 @@ const OrderPage = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
+
+                console.log(response.data);
                 
                 if (response.data && response.data.data) {
                     // 주문 데이터 : orderItems 배열을 펼쳐서 각 항목을 개별적으로 처리
@@ -64,6 +67,7 @@ const OrderPage = () => {
                             marginRate: item.marginRate,
                             marginAmount: item.marginAmount,
                             finalAmount: item.finalAmount,
+                            requestDate: item.requestDate
                         }))
                     );
                     setOrderList(expandedOrders); // 펼쳐진 주문 데이터 저장
