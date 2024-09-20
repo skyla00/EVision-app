@@ -45,8 +45,6 @@ const OrderPage = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-
-                console.log(response.data);
                 
                 if (response.data && response.data.data) {
                     // 주문 데이터 : orderItems 배열을 펼쳐서 각 항목을 개별적으로 처리
@@ -87,7 +85,7 @@ const OrderPage = () => {
 
     const handleSearch = useCallback((
         orderHeaderId, itemName, itemCode, customerName, customerCode, 
-        memberName, orderDate, acceptDate
+        memberName, orderDate, acceptDate, requestDate
     ) => {
         let filteredResults = orderList;
     
@@ -130,6 +128,11 @@ const OrderPage = () => {
         if (acceptDate) {
             filteredResults = filteredResults.filter((order) =>
                 order.acceptDate.includes(acceptDate)
+            );
+        }
+        if (requestDate) {
+            filteredResults = filteredResults.filter((order) =>
+                order.requestDate.includes(requestDate)
             );
         }
     
