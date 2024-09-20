@@ -166,6 +166,7 @@ public class OrderService {
 
         // 본인이거나 관리자인 경우에만 아래 코드들 실행
 
+//        if(existingStatus.equals("임시 저장") || )
         // 현재 상태가 '승인 요청'이며, 업데이트 하려는 상태가 '승인' 일 때
         if (existingStatus.equals("승인 요청") && updatedStatus.equals("승인")) {
             // 현재 주문의 상태를 입력받은 상태인 '승인'으로 변경하면서 승인날짜에 현재 날짜 입력
@@ -412,7 +413,7 @@ public class OrderService {
     public boolean areOrderItemsEqual(List<OrderItem> existingItems, List<OrderItem> updatedItems) {
         // 아이템 개수 비교
         if (existingItems.size() != updatedItems.size()) {
-            return false;  // 아이템 수가 다르면 변경된 것으로 판단
+            return false;
         }
 
         // 각 OrderItem의 필드 값 직접 비교
@@ -424,11 +425,24 @@ public class OrderService {
             if (!existingItem.getItem().getItemCode().equals(updatedItem.getItem().getItemCode()) ||
                     existingItem.getOrderItemQuantity() != updatedItem.getOrderItemQuantity() ||
                     existingItem.getSalesAmount() != updatedItem.getSalesAmount()) {
-                return false;  // 필드 값이 다르면 변경된 것으로 판단
+                return false;
             }
         }
-
-        return true;  // 모든 필드가 같으면 변경되지 않은 것으로 판단
+        return true;
     }
 
+    public void deleteOrder(String orderHeaderId, Authentication authentication) {
+
+        OrderHeader orderHeader = orderHeaderRepository.findById(orderHeaderId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
+        if(!orderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_DELETE_REQUEST);
+        }
+
+        if(orderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_DELETE_REQUEST);
+        }
+
+        orderHeaderRepository.deleteById(orderHeaderId);
+    }
 }
