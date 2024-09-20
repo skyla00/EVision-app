@@ -28,6 +28,10 @@ public class ErrorResponse {
         this.violationErrors = violationErrors;
     }
 
+    public ErrorResponse(HttpStatus httpStatus, String validationFailed, List<String> errors) {
+
+    }
+
     public static ErrorResponse of(BindingResult bindingResult) {
         return new ErrorResponse(FieldError.of(bindingResult), null);
     }

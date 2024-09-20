@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +29,7 @@ public class OrderDto {
         private String customerCode;
 
         @Size(min = 1, message = "최소 한 개의 주문 항목이 있어야 합니다.")
+        @Valid
         private List<OrderItemDto> orderItems;
     }
 
@@ -38,7 +43,7 @@ public class OrderDto {
 
         private LocalDate acceptDate;
 
-        @NotNull
+        @Valid
         private List<OrderItemDto> orderItems;
     }
 
@@ -65,9 +70,17 @@ public class OrderDto {
         private LocalDate requestDate;
         private String itemCode;
         private String itemName;
-        private long orderItemQuantity;
+        @NotNull(message = "주문 수량은 필수로 입력해야 합니다.")
+        @Positive(message = "주문 수량은 0보다 커야 합니다.")
+        @Range(min = 0, max = 100000000)
+        @Digits(integer = 10, fraction = 0)
+        private Long orderItemQuantity;
         private long purchaseAmount;
-        private long salesAmount;
+        @NotNull(message = "판매 단가는 필수로 입력해야 합니다.")
+        @Positive(message = "주문 수량은 0보다 커야 합니다.")
+        @Range(min = 0, max = 100000000)
+        @Digits(integer = 10, fraction = 0)
+        private Long salesAmount;
         private double marginRate;
         private long marginAmount;
         private long finalAmount;
