@@ -20,7 +20,7 @@ const OrderPage = () => {
         { value: 'requestDate', label: '납품요청일자' },
         { value: 'orderHeaderStatus', label: '주문상태' },
         { value: 'acceptDate', label: '승인일자' },
-        { value: 'customerCode', label: '판매업체코드' },
+        { value: 'customerCode', label: '판매업체 코드' },
         { value: 'customerName', label: '판매업체명'},
         { value: 'itemCode', label: '상품코드' },
         { value: 'itemName', label: '상품명' },
@@ -45,6 +45,8 @@ const OrderPage = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
+
+                console.log(response.data);
                 
                 if (response.data && response.data.data) {
                     // 주문 데이터 : orderItems 배열을 펼쳐서 각 항목을 개별적으로 처리

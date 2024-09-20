@@ -176,7 +176,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                         onChange={handleCustomerNameChange} 
                         placeholder="판매업체명" 
                     />
-                    <label>판매업체코드</label>
+                    <label>판매업체 코드</label>
                     <input 
                         type="text" 
                         value={customerCode} 

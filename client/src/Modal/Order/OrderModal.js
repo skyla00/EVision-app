@@ -28,7 +28,7 @@ const OrderModal = ({ isOpen, onClose }) => {
         if (!salesAmount) return ''; 
         const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
         if (!regex.test(salesAmount)) {
-            return '0 이상 숫자'
+            return '0 이상 숫자만 입력'
         }
         return '';
     };
@@ -44,7 +44,7 @@ const OrderModal = ({ isOpen, onClose }) => {
         if (!orderItemQuantity) return ''; 
         const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
         if(!regex.test(orderItemQuantity)) {
-            return '0 이상 숫자'
+            return '0 이상 숫자만 입력'
         }
         return '';
     }

@@ -1,20 +1,7 @@
 import React, {useState} from "react";
 import ManagementOrderSearchInfoItem from './ManagementOrderSearchInfoItem.js'
-import ManagementHistoryModal from '../../Modal/Management/ManagementHistoryModal.js'
 
-const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSelectOrder, selectedOrder,  onToggleFavorite, favorites}) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
-
-    const handleOpenModal = (orderHeaderId) => {
-        setSelectedOrderId(orderHeaderId);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedOrderId(null);
-    };
+const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSelectOrder, selectedOrder,  onToggleFavorite, favorites, onOpenHistoryModal}) => {
 
     return (
         <>
@@ -37,18 +24,11 @@ const ManagementSearchInfoList = ({ managementOrders, headerKey, headers, onSele
                         headerKey={headerKey} 
                         onToggleFavorite={onToggleFavorite}
                         favorites={favorites}
-                        onOpenModal={handleOpenModal}
+                        onOpenHistoryModal={onOpenHistoryModal}
                     />
                     ))}
                 </tbody>
             </table>
-            {isModalOpen && (
-                <ManagementHistoryModal
-                    isOpen={isModalOpen}
-                    onClose={handleCloseModal}
-                    orderId={selectedOrderId}  // Pass order ID if necessary
-                />
-            )}
         </>
         
     );
