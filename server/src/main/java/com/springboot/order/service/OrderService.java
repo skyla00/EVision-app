@@ -183,6 +183,7 @@ public class OrderService {
 
             OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
+            existingOrderHeader.getOrderItems().clear();
             for (OrderItem updatedOrderItem : updatedOrderItems) {
                 updatedOrderItem.setOrderHeader(existingOrderHeader);
                 existingOrderHeader.getOrderItems().add(updatedOrderItem);
@@ -199,6 +200,7 @@ public class OrderService {
 
             OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
+            existingOrderHeader.getOrderItems().clear();
             for (OrderItem updatedOrderItem : updatedOrderItems) {
                 updatedOrderItem.setOrderHeader(existingOrderHeader);
                 existingOrderHeader.getOrderItems().add(updatedOrderItem);
@@ -216,6 +218,7 @@ public class OrderService {
 
                 OrderHeaderHistory orderHeaderHistory = orderHistoryService.createOrderHeaderHistory(existingOrderHeader);
 
+                existingOrderHeader.getOrderItems().clear();
                 for (OrderItem updatedOrderItem : updatedOrderItems) {
                     updatedOrderItem.setOrderHeader(existingOrderHeader);
                     existingOrderHeader.getOrderItems().add(updatedOrderItem);
