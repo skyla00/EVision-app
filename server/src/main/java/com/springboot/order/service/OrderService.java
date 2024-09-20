@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -151,7 +152,7 @@ public class OrderService {
         // 요청보낸 OrderHeaderId 와 권한을 가진 id를 비교해서 수정가능 여부 체크
         if (!existingOrderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
             // 관리자는 상태 수정이 가능해야하므로 관리자도 아닐 경우에만 오류 발생.
-            if (!authentication.getAuthorities().contains("ROLE_TL")) {
+            if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
                 throw new BusinessLogicException(ExceptionCode.ORDER_UPDATE_NOT_ALLOWED);
             }
         }
@@ -226,7 +227,16 @@ public class OrderService {
             // 입력된 memberId가 있고, 권한이 TL이면 모든 주문 조회
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TL"))) {
             if (memberId.equals((String) authentication.getPrincipal())) {
-                return orderHeaderRepository.findAll().stream()
+
+                List<OrderHeader> ownOrders = orderHeaderRepository.findByMemberMemberId(memberId);
+
+                List<OrderHeader> otherOrders = orderHeaderRepository.findAll().stream()
+                        .filter(orderHeader -> !orderHeader.getMember().getMemberId().equals(memberId))
+                        .filter(orderHeader -> orderHeader.getOrderHeaderStatus().getStatus().equals("승인 요청"))
+                        .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
+                        .collect(Collectors.toList());
+
+                return Stream.concat(ownOrders.stream(), otherOrders.stream())
                         .sorted(Comparator.comparing(OrderHeader::getOrderDate).reversed())
                         .collect(Collectors.toList());
             } else {
