@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class OrderHeaderHistory {
 
     @Column(nullable = false)
     private String orderHeaderStatus;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.PERSIST)
     @JsonManagedReference
