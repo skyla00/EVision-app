@@ -76,24 +76,30 @@ public class OrderController {
         }
     }
 
-        @PostMapping("/favorite")
-        public ResponseEntity favoriteOrder(@RequestParam("order-header-id") String orderHeaderId, Authentication authentication) {
+    @PostMapping("/favorite")
+    public ResponseEntity favoriteOrder(@RequestParam("order-header-id") String orderHeaderId, Authentication authentication) {
 
-            FavoriteDto.Request favoriteRequest = new FavoriteDto.Request();
-            favoriteRequest.setOrderHeaderId(orderHeaderId);
-            favoriteRequest.setMemberId((String) authentication.getPrincipal());
+        FavoriteDto.Request favoriteRequest = new FavoriteDto.Request();
+        favoriteRequest.setOrderHeaderId(orderHeaderId);
+        favoriteRequest.setMemberId((String) authentication.getPrincipal());
 
-            FavoriteDto.Response response = memberService.favoriteOrder(favoriteRequest, authentication);
+        FavoriteDto.Response response = memberService.favoriteOrder(favoriteRequest, authentication);
 
-            return new ResponseEntity<>(
-                    new SingleResponseDto<>(response), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 
-        @GetMapping("/graph")
-        public ResponseEntity getOrderGraph(@RequestParam(value = "member-id") String memberId) {
+    @GetMapping("/graph")
+    public ResponseEntity getOrderGraph(@RequestParam(value = "member-id") String memberId) {
 
-            OrderDto.GraphResponse graphResponse = orderService.getOrderGraph(memberId);
+        OrderDto.GraphResponse graphResponse = orderService.getOrderGraph(memberId);
 
-            return new ResponseEntity<>(graphResponse, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(graphResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{order-header-id}")
+    public ResponseEntity deleteOrder(@PathVariable("order-header-id") @Positive String orderHeaderId, Authentication authentication) {
+        orderService.deleteOrder(orderHeaderId, authentication);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
