@@ -10,6 +10,7 @@ const OrderDetailSearch = ({ title, onSearch }) => {
     const [memberName, setMemberName] = useState('');
     const [orderDate, setOrderDate] = useState('');
     const [acceptDate, setAcceptDate] = useState('');
+    const [requestDate, setRequestDate] = useState('');
     const [displayKeywords, setDisplayKeywords] = useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState({
         orderHeaderId: '',
@@ -19,7 +20,8 @@ const OrderDetailSearch = ({ title, onSearch }) => {
         customerCode: '',
         memberName: '',
         orderDate: '',
-        acceptDate: ''
+        acceptDate: '',
+        requestDate: ''
     });
 
     // 실시간 검색 및 키워드 기반 필터링
@@ -32,10 +34,11 @@ const OrderDetailSearch = ({ title, onSearch }) => {
         const finalMemberName = selectedKeywords.memberName || memberName;
         const finalOrderDate = selectedKeywords.orderDate || orderDate;
         const finalAcceptDate = selectedKeywords.acceptDate || acceptDate;
+        const finalRequestDate = selectedKeywords.requestDate || requestDate;
         
         onSearch(finalOrderHeaderId, finalItemName, finalItemCode, finalCustomerName, finalCustomerCode,
-            finalMemberName, finalOrderDate, finalAcceptDate);
-    }, [orderHeaderId, itemName, itemCode, customerName, customerCode, memberName, orderDate, acceptDate, onSearch]);
+            finalMemberName, finalOrderDate, finalAcceptDate, finalRequestDate);
+    }, [orderHeaderId, itemName, itemCode, customerName, customerCode, memberName, orderDate, acceptDate, requestDate, onSearch]);
 
     // 검색 버튼 클릭 시 키워드 등록 및 필드 초기화
     const handleSearch = () => {
@@ -49,6 +52,7 @@ const OrderDetailSearch = ({ title, onSearch }) => {
             memberName: memberName || prevKeywords.memberName,
             orderDate: orderDate || prevKeywords.orderDate,
             acceptDate: acceptDate || prevKeywords.acceptDate,
+            requestDate: requestDate || prevKeywords.requestDate,
         }));
 
         // 키워드로 등록된 검색어들
@@ -62,6 +66,7 @@ const OrderDetailSearch = ({ title, onSearch }) => {
             ...(memberName && !prevKeywords.includes(`판매사원이름: ${memberName}`) ? [`판매사원이름: ${memberName}`] : []),
             ...(orderDate && !prevKeywords.includes(`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`) ? [`주문일자: ${new Date(orderDate).toISOString().split('T')[0]}`] : []),
             ...(acceptDate && !prevKeywords.includes(`승인일자: ${new Date(acceptDate).toISOString().split('T')[0]}`) ? [`승인일자: ${new Date(acceptDate).toISOString().split('T')[0]}`] : []),
+            ...(requestDate && !prevKeywords.includes(`납품요청일자: ${new Date(requestDate).toISOString().split('T')[0]}`) ? [`납품요청일자: ${new Date(requestDate).toISOString().split('T')[0]}`] : []),
         ]);
 
         // 입력 필드 초기화
@@ -73,6 +78,7 @@ const OrderDetailSearch = ({ title, onSearch }) => {
         setMemberName('');
         setOrderDate('');
         setAcceptDate('');
+        setRequestDate('');
     };
 
     // 엔터키로도 검색 가능
@@ -105,6 +111,8 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                 updatedKeywords.orderDate = '';
             } else if (keywordToRemove.startsWith('승인일자')) {
                 updatedKeywords.acceptDate = '';
+            } else if (keywordToRemove.startsWith('납품요청일자')) {
+                updatedKeywords.requestDate = '';
             }
 
             onSearch(
@@ -115,7 +123,8 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                 updatedKeywords.customerCode,
                 updatedKeywords.memberName,
                 updatedKeywords.orderDate,
-                updatedKeywords.acceptDate
+                updatedKeywords.acceptDate,
+                updatedKeywords.requestDate
             );
 
             return updatedKeywords;
@@ -168,6 +177,10 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                     <input type="date" placeholder="승인일자" value={acceptDate || ''}
                         onChange={(e) => setAcceptDate(e.target.value)}
                         disabled={!!selectedKeywords.acceptDate} // 선택된 키워드가 있으면 비활성화
+                    />
+                    <input type="date" placeholder="납품요청일자" value={requestDate || ''}
+                        onChange={(e) => setRequestDate(e.target.value)}
+                        disabled={!!selectedKeywords.requestDate} // 선택된 키워드가 있으면 비활성화
                     />
                     <button className="order-search-button" onClick={handleSearch}>조회</button>
                 </div>
