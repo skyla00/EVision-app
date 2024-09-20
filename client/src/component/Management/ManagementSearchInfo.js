@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ManagementSearchInfoList from './ManagementSearchInfoList.js'
 
-const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenDetailModal, selectedOrder, onToggleFavorite, favorites }) => {
+const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenDetailModal, onOpenHistoryModal, selectedOrder, onToggleFavorite, favorites }) => {
 
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`)
@@ -35,6 +35,7 @@ const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectO
                     headers={headers}
                     onToggleFavorite={onToggleFavorite}
                     favorites={favorites} 
+                    onOpenHistoryModal={onOpenHistoryModal}
                 />
             </div>
         </div>

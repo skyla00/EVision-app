@@ -121,7 +121,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                        <button className="ps-modal-button" onClick={openProductSearch}>검색</button> 
                   </div>
                   <div className="sp-input-second-line">
-                      <label>판매업체코드</label>
+                      <label>판매업체 코드</label>
                       <input 
                           type="text" 
                           value={customerCode} 

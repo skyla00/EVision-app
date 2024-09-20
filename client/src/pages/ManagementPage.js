@@ -8,6 +8,7 @@ import ManagementOrderDetailSearch from '../component/Management/ManagementOrder
 import ManagementSearchInfo from '../component/Management/ManagementSearchInfo';
 import ManagementDetailModal from '../Modal/Management/ManagementDetailModal';
 import { AuthContext } from '../auth/AuthContext';
+import ManagementHistoryModal from '../Modal/Management/ManagementHistoryModal'
 
 const ManagementPage = () => {
     const { userInfo, setUserInfo } = useContext(AuthContext);  // AuthContext에서 userInfo와 setUserInfo 사용
@@ -28,7 +29,7 @@ const ManagementPage = () => {
                     `${process.env.REACT_APP_API_URL}orders?member-id=${memberId}`,
                     {
                         headers: {
-                            Authorization: `Bearer ${accessToken}`
+                            Authorization: `${accessToken}`
                         }
                     }
                 );
@@ -43,6 +44,15 @@ const ManagementPage = () => {
         fetchMyOrders();
     }, [userInfo]);
 
+    const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+    const handleOpenHistoryModal = (orderHeaderId) => {
+        if (!orderHeaderId) {
+            alert('히스토리를 조회할 주문을 선택하세요.');
+            return;
+        }
+        setIsHistoryModalOpen(true);
+    };
+    const handleColseHistoryModal = () => setIsHistoryModalOpen(false);
     // 즐겨찾기 추가/삭제 함수
     const handleAddToFavorites = async (order, isFavorite) => {
         try {
@@ -178,6 +188,7 @@ const ManagementPage = () => {
                 onSelectOrder={handleSelectOrder}
                 selectedOrder={selectedOrder}
                 onOpenDetailModal={handleOpenDetailModal}
+                onOpenHistoryModal={handleOpenHistoryModal}
                 favorites={userInfo?.data?.favorites}  // userInfo에서 가져온 favorites 사용
                 onToggleFavorite={handleAddToFavorites}
             />
@@ -189,6 +200,11 @@ const ManagementPage = () => {
                     order={selectedOrder}
                 />
             )}
+            <ManagementHistoryModal
+                isOpen={isHistoryModalOpen}
+                onClose={handleColseHistoryModal}
+                orderHeaderId={selectedOrder?.orderHeaderId}
+            />
         </div>
     );
 };
