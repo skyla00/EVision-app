@@ -14,7 +14,7 @@ public interface SalesPriceRepository extends JpaRepository<SalesPrice, Long> {
 
     @Query("SELECT sp FROM SalesPrice sp " +
                     "WHERE sp.item.itemCode = :itemCode AND sp.customer.customerCode = :customerCode")
-    SalesPrice findSalesPriceByItemCodeAndCustomerCode(@Param("itemCode") String itemCode,
+    List<SalesPrice> findSalesPriceByItemCodeAndCustomerCode(@Param("itemCode") String itemCode,
                                                        @Param("customerCode") String CustomerCode);
 
     @Query("SELECT sp.salesAmount FROM SalesPrice sp " +

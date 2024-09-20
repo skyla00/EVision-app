@@ -27,8 +27,8 @@ public class SalesPriceService {
 
     public SalesPrice createSalesPrice(SalesPrice salesPrice) {
         // 입력받은 itemCode 와 customerCode 에 해당하는 salesPrice 가 이미 있으면 예외 던지기.
-        SalesPrice findSalesPrice = findVerifiedSameItemCodeAndCustomerCodeSalesPrices(salesPrice.getItem().getItemCode(), salesPrice.getCustomer().getCustomerCode());
-        if (findSalesPrice != null) {
+        List<SalesPrice> findSalesPrice = findVerifiedSameItemCodeAndCustomerCodeSalesPrices(salesPrice.getItem().getItemCode(), salesPrice.getCustomer().getCustomerCode());
+        if (!findSalesPrice.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.SALES_PRICE_EXISTS);
         }
         return salesPriceRepository.save(salesPrice);
@@ -114,7 +114,7 @@ public class SalesPriceService {
 
     //itemCode, CustomerCode 이 같은 sales Price가 있는지 검증.
     @Transactional(readOnly = true)
-    public SalesPrice findVerifiedSameItemCodeAndCustomerCodeSalesPrices(String itemCode, String CustomerCode) {
+    public List<SalesPrice> findVerifiedSameItemCodeAndCustomerCodeSalesPrices(String itemCode, String CustomerCode) {
         return salesPriceRepository.findSalesPriceByItemCodeAndCustomerCode(itemCode, CustomerCode);
     }
 
