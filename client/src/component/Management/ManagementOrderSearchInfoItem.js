@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import OrderStatus from '../OrderStatus';
+import { AuthContext } from '../../auth/AuthContext';
 
 const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSelectOrder, isSelected, onToggleFavorite, favorites, onOpenModal }) => {
+    // AuthContext에서 userInfo 가져오기
+    const { userInfo } = useContext(AuthContext);
+
     if (!managementOrder || !managementOrder.orderHeaderId) {
         return null;
     }
 
-    const isFavorite = favorites.some(fav => fav?.orderHeaderId === managementOrder?.orderHeaderId);
-    // 회색 즐겨찾기 버튼을 클릭했을 때 성공을 하면 즐겨찾기에 등록되었습니다. 하고 노란색 버튼으로 바뀌고. 
-    // favorite?order-header-id=managementOrder.orderHeaderId 
-    // 노란색 상태에서 한번 더 클릭을 했을 때에는 즐겨찾기가 해제되었습니다. 하고 회색 버튼으로 바뀜. 
+    // userInfo 또는 favorites 안에 있는 orderHeaderId와 비교하여 즐겨찾기 상태 확인
+    const isFavorite = userInfo?.data?.favorites?.some(fav => fav?.orderHeaderId === managementOrder?.orderHeaderId)
+        || favorites?.some(fav => fav?.orderHeaderId === managementOrder?.orderHeaderId);
 
     return (
         <tr
@@ -18,7 +21,7 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
         >
             {headerKey.map((key) => (
                 <td className={`search-info-td ${key}`} key={key + index}
-                        onClick={key === 'orderHeaderId' ? (e) => {
+                    onClick={key === 'orderHeaderId' ? (e) => {
                         e.stopPropagation(); // prevent row selection
                         onOpenModal(managementOrder.orderHeaderId); // trigger modal open
                     } : undefined}
@@ -26,15 +29,23 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
                     {key === 'orderHeaderStatus' ? (
                         <OrderStatus status={managementOrder[key]} />
                     ) : key === 'favorite' ? (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation(); // 버튼 클릭 시 row 선택 방지
+                                onToggleFavorite(managementOrder, isFavorite); // 즐겨찾기 추가/제거
+                            }}
+                            style={{
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer'
+                            }}
+                        >
                             <img
                                 src={isFavorite ? '/image/favorite.png' : '/image/favorite-grey.png'}
                                 alt={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
                                 style={{ width: '30px', height: '30px', padding: 'none' }}
-                                onClick={(e) => {
-                                    e.stopPropagation(); // 버튼 클릭 시 row 선택 방지
-                                    onToggleFavorite(managementOrder, isFavorite); // 선택 여부와 상관없이 즐겨찾기에 추가
-                                }}
                             />
+                        </button>
                     ) : (
                         managementOrder[key] || '-'
                     )}
