@@ -167,7 +167,9 @@ public class OrderService {
 
         // 본인이거나 관리자인 경우에만 아래 코드들 실행
 
-//        if(existingStatus.equals("임시 저장") || )
+        if(!existingStatus.equals("승인 요청") && (updatedStatus.equals("승인") || updatedStatus.equals("반려"))) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_STATUS_UPDATE_NOT_ALLOWED);
+        }
         // 현재 상태가 '승인 요청'이며, 업데이트 하려는 상태가 '승인' 일 때
         if (existingStatus.equals("승인 요청") && updatedStatus.equals("승인")) {
             // 현재 주문의 상태를 입력받은 상태인 '승인'으로 변경하면서 승인날짜에 현재 날짜 입력

@@ -18,7 +18,7 @@ public enum ExceptionCode {
     CUSTOMER_NOT_FOUND(404, "Customer Not Found"),
     CUSTOMER_EXISTS(409, "Customer Exists"),
     ORDER_NOT_FOUND(404, "Order Not Found"),
-    INVALID_ORDER_UPDATE(404, "Invalid Order Update"),
+    ORDER_STATUS_UPDATE_NOT_ALLOWED(404, "Order Status Update Not Allowed"),
     ORDER_NOT_BELONG_TO_MEMBER(409, "Order Not Belong To Member"),
     ORDER_ITEM_NOT_FOUND(404, "OrderItem Not Found"),
     ORDER_ITEM_EXISTS(409, "OrderItem Exists"),
