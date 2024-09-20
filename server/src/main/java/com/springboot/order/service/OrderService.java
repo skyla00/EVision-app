@@ -136,6 +136,11 @@ public class OrderService {
 
     public OrderHeader updateOrder(String orderHeaderId, OrderHeader updatedOrderHeader, List<OrderItem> updatedOrderItems, Authentication authentication) {
 
+        // null 체크
+        if(updatedOrderHeader == null || updatedOrderItems == null) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND);
+        }
+
         // 유효한 OrderHeader 확인
         OrderHeader existingOrderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
