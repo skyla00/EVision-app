@@ -228,7 +228,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             readOnly
                             placeholder="주문일자"
                         />
-                        {startorderHeaderStatus === "WAITING" ?
+                        {startorderHeaderStatus !== "ACCEPT" ?
                             <select
                                 placeholder="주문상태"
                                 value={orderHeaderStatus}
