@@ -5,7 +5,7 @@
 }
 
 .graph-info-header {  
-    width: 1640px;
+    width: 1540px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -22,26 +22,25 @@
     font-weight: bold;
 }
 
-
 .graph-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 20px;
     padding: 20px;
-    width: 1600px;
+    width: 1500px;
     background-color: #f4f4f4;
 }
 
 .graph1 {
-    max-width: 500px;
-    max-height: 400px; 
+    max-width: 450px;
+    max-height: 380px; 
     font-size: 16px;
     padding-bottom: 10px;
 }
 
 .recharts-wrapper {
-    max-width: 500px;
-    max-height: 400px;
+    max-width: 450px;
+    max-height: 380px;
     border: 2px solid #348F6C;
 }
 

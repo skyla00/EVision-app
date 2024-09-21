@@ -309,10 +309,10 @@ const OrderModal = ({ isOpen, onClose }) => {
                 </div>
                 <div className="order-error-fourth-line">
                     <div className='sales-amount-error'>
-                     {salesAmountErrors && <p className="om-error-message">{salesAmountErrors}</p>}
+                     {salesAmountErrors && <div className="om-error-message">{salesAmountErrors}</div>}
                     </div>
                     <div className='quantity-error'>
-                     {orderItemQuantityErrors && <p className="om-error-message">{orderItemQuantityErrors}</p>}
+                     {orderItemQuantityErrors && <div className="om-error-message">{orderItemQuantityErrors}</div>}
                     </div>
                 </div>
                 

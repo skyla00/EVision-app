@@ -12,6 +12,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [salesAmount, setSalesAmount] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [salesAmountErrors, setSalesAmountErrors] = useState('');
     const [isProductSearchOpen, setIsProductSearchOpen] = useState(false);  // 상품 검색 모달 열기 상태
     const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);  // 판매업체 검색 모달 열기 상태
 
@@ -36,8 +37,36 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
          closeCustomerSearch();
      };
 
+    // 판매가 검증
+    const validateSalesAmount = (salesAmount) => {
+        if (!salesAmount) return ''; 
+        const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
+        if (!regex.test(salesAmount)) {
+            return '0 이상 숫자만 입력 가능합니다.'
+        }
+        return '';
+    };
+    const handleSalesAmountChange = (e) => {
+        const value = e.target.value;
+        setSalesAmount(value);
+        const error = validateSalesAmount(value);
+        setSalesAmountErrors(error); // 오류를 실시간으로 업데이트
+    };
+
     // 항목 추가
     const handleSubmit = async () => {
+        const salesAmountError = validateSalesAmount(salesAmount);
+
+        if (!itemCode || !itemName || !customerCode || !customerName || !salesAmount || !startDate) {
+            alert('모든 항목을 입력해주세요.');
+            return;
+        }
+
+        if (salesAmountError) {
+            setSalesAmountErrors(salesAmountError);
+            return alert('올바른 형식으로 입력해주세요.');
+        }
+
         try {
             let accessToken = window.localStorage.getItem('accessToken');
 
@@ -144,8 +173,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                       <input 
                           type="text" 
                           value={salesAmount} 
-                          onChange={(e) => setSalesAmount(e.target.value)} 
-                          onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
+                          onChange={handleSalesAmountChange} 
                           placeholder="판매가" 
                       />
                       <label>기준일자</label>
@@ -155,6 +183,11 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                           onChange={(e) => setStartDate(e.target.value)} 
                           placeholder="기준일자" 
                       />
+                  </div>
+                  <div className="order-error-fourth-line">
+                        <div className='sales-amount-error'>
+                            {salesAmountErrors && <p className="om-error-message">{salesAmountErrors}</p>}
+                        </div>
                   </div>
               </div>
               <button className="cp-post-submit-button" onClick={handleSubmit}>등록</button>

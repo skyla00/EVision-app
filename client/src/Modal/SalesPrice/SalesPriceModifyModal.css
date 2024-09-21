@@ -34,14 +34,14 @@
   padding-left: 4px;
 }
 
-.sp-modal-input-section {
+.sp-modal-modify-input-section {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
 }
 
-.sp-input-first-line {
+.sp-modify-input-first-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@
   margin-bottom: 20px;
 }
 
-.sp-input-second-line {
+.sp-modify-input-second-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -58,26 +58,26 @@
   margin-bottom: 20px;
 }
 
-.sp-input-third-line {
+.sp-modify-input-third-line {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 14px;
 }
 
-.sp-input-first-line input {
+.sp-modify-input-first-line input {
   width: 300px;
 }
 
-.sp-input-second-line input {
+.sp-modify-input-second-line input {
   width: 300px;
 }
 
-.sp-input-third-line input {
+.sp-modify-input-third-line input {
   width: 600px;
 }
 
-.sp-modal-input-section input {
+.sp-modify-modal-input-section input {
   width: 00px;
   height: 34px;
   border: 2px solid #74BDA1;
@@ -87,7 +87,7 @@
 .sp-post-submit-button {
   width: 130px;
   display: block;
-  margin: 40px auto;
+  margin: 30px auto;
   padding: 10px 20px;
   background-color: #348F6C;
   color: white;
@@ -102,7 +102,7 @@
   background-color: #45a049;
 }
 
-.sp-modal-input-section input {
+.sp-modal-modify-input-section input {
   width: 700px;
   height: 34px;
   border: 2px solid #74BDA1;
@@ -110,7 +110,7 @@
 }
 
 
-.sp-modal-input-section label {
+.sp-modal-modify-input-section label {
   width: 60px;
   min-width: 61px;
   height: 34px;

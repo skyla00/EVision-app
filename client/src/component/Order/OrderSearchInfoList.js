@@ -3,7 +3,7 @@ import OrderSearchInfoItem from './OrderSearchInfoItem';
 
 const OrderSearchInfoList = ({ orders, headerKey, headers}) => {
     return (
-        <table className="search-info-table">
+        <table className="order-search-info-table">
             <thead>
                 <tr>
                     {headers.map((header) => (

@@ -126,7 +126,8 @@ select:disabled {
 .pp-post-submit-button {
   width: 130px;
   display: block;
-  margin: 10px auto !important;
+  margin-top: 0px !important;
+  margin: 10px auto;
   padding: 10px 20px;
   background-color: #348F6C;
   color: white;

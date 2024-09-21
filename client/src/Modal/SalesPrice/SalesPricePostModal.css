@@ -48,6 +48,7 @@
   gap: 14px;
   margin-top: 6px;
   margin-bottom: 20px;
+  width: 740px;
 }
 
 .sp-input-second-line {
@@ -56,6 +57,7 @@
   justify-content: flex-start;
   gap: 14px;
   margin-bottom: 20px;
+  width: 740px;
 }
 
 .sp-input-third-line {
@@ -66,15 +68,15 @@
 }
 
 .sp-input-first-line input {
-  width: 240px;
+  width: 420px;
 }
 
 .sp-input-second-line input {
-  width: 247px;
+  width: 420px;
 }
 
 .sp-input-third-line input {
-  max-width: 225px;
+  max-width: 245px;
 }
 
 .sp-input-third-line input[type="date"] {
@@ -91,7 +93,7 @@
 .cp-post-submit-button {
   width: 130px;
   display: block;
-  margin: 40px auto;
+  margin: 30px auto;
   padding: 10px 20px;
   background-color: #348F6C;
   color: white;
