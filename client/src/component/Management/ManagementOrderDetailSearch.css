@@ -12,6 +12,18 @@
     color: #333;
 }
 
+.md-error-fourth-line{
+  display: flex;
+  align-items:flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  height: 20px;
+}
+.sales-amount-error, .quantity-error {
+  width: 340px;
+  height: auto; /* 각 에러 메시지 박스에 최소 너비를 지정 */
+}
+
 .my-order-form-container {
     display: flex;
     flex-direction: column;
@@ -164,3 +176,6 @@
     font-weight: 1000;
     border: none;
   }
+  .detail-button:hover {
+    background-color: #2b664f;
+}

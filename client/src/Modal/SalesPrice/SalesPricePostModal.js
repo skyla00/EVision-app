@@ -42,7 +42,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
         if (!salesAmount) return ''; 
         const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
         if (!regex.test(salesAmount)) {
-            return '0 이상 숫자만 입력 가능합니다.'
+            return '0 이상 숫자만 입력 가능'
         }
         return '';
     };
@@ -99,8 +99,10 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             const errorMessage = error.response.data.message;
 
             if (errorMessage === "SalesPrices Exists") {
-              alert("이미 해당 상품과 판매업체의 판매가가 존재합니다.");
-            } else if (errorMessage === ""){
+              alert("이미 해당 상품과 판매업체의 판매단가가 존재합니다");
+            } else if (errorMessage === "PurchaseAmount Not Found") {
+                alert("매입단가가 존재하지 않는 상품이므로 판매단가 등록이 불가능합니다");
+            }else if (errorMessage === ""){
               alert(errorMessage); // Default alert for other errors
             }
         }
