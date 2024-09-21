@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OrderHeaderHistoryRepository extends JpaRepository<OrderHeaderHistory, Long> {
-    List<OrderHeaderHistory> findByOrderHeaderId (String orderHeaderId);
+    List<OrderHeaderHistory> findByOrderHeaderIdOrderByCreatedAtDesc (String orderHeaderId);
 }

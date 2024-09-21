@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import OrderStatus from '../OrderStatus';
 import { AuthContext } from '../../auth/AuthContext';
+import './ManagementOrderSearchInfoItem.css'
 
 const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSelectOrder, isSelected, onToggleFavorite, favorites, onOpenHistoryModal }) => {
     // AuthContext에서 userInfo 가져오기
     const { userInfo } = useContext(AuthContext);
+    const [isHovered, setIsHovered] = useState(false); // hover 상태 관리
 
     if (!managementOrder || !managementOrder.orderHeaderId) {
         return null;
@@ -27,11 +29,18 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
             onClick={() => onSelectOrder(managementOrder)}
         >
             {headerKey.map((key) => (
-                <td className={`search-info-td ${key}`} key={key + index}
-                    onClick={key === 'orderHeaderId' ? handleOrderIdClick // trigger modal open
-                     : undefined}
-                >
-                    {key === 'orderHeaderStatus' ? (
+                <td className={`search-info-td ${key}`} key={key + index} >
+                    {key === 'orderHeaderId' ? (
+                        <span
+                            onClick={handleOrderIdClick} // orderHeaderId 클릭 시 핸들러 호출
+                            className={isHovered ? 'bold-text' : ''} // hover 시 볼드체 적용
+                            style={{ cursor: 'pointer' }}
+                            onMouseEnter={() => setIsHovered(true)} // 마우스가 올라갔을 때
+                            onMouseLeave={() => setIsHovered(false)} // 마우스가 벗어났을 때
+                        >
+                            {managementOrder[key] || '-'}
+                        </span>
+                    ) : key === 'orderHeaderStatus' ? (
                         <OrderStatus status={managementOrder[key]} />
                     ) : key === 'favorite' ? (
                         <button
