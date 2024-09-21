@@ -295,8 +295,12 @@
   .order-input-second-line input::before {
   content: attr(placeholder);
   }
+
   .om-error-message {
     color: #C60000; /* 에러 메시지 색상 */
-    font-size: 0.8rem; /* 에러 메시지 크기 */
+    font-size: 12px; /* 에러 메시지 크기 */
+    font-weight: normal;
     margin-left: 10px; 
+    margin-top: 6px;
+    text-align: left;
   }

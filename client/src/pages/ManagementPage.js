@@ -7,8 +7,9 @@ import Tab from '../component/Common/Tab';
 import ManagementOrderDetailSearch from '../component/Management/ManagementOrderDetailSearch';
 import ManagementSearchInfo from '../component/Management/ManagementSearchInfo';
 import ManagementDetailModal from '../Modal/Management/ManagementDetailModal';
-import { AuthContext } from '../auth/AuthContext';
 import ManagementHistoryModal from '../Modal/Management/ManagementHistoryModal'
+import OrderModal from '../Modal/Order/OrderModal';
+import { AuthContext } from '../auth/AuthContext';
 
 const ManagementPage = () => {
     const { userInfo, setUserInfo } = useContext(AuthContext);  // AuthContext에서 userInfo와 setUserInfo 사용
@@ -16,6 +17,7 @@ const ManagementPage = () => {
     const [managementOrderList, setManagementOrderList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
     const [isManagementDetailModalOpen, setIsManagementDetailModalOpen] = useState(false);
 
     useEffect(() => {
@@ -53,6 +55,32 @@ const ManagementPage = () => {
         setIsHistoryModalOpen(true);
     };
     const handleColseHistoryModal = () => setIsHistoryModalOpen(false);
+
+    const handleOpenOrderModal = () => {
+        setIsOrderModalOpen(true);  // 주문 모달 열기
+    };
+    const handleCloseOrderModal = () => setIsOrderModalOpen(false);  // 주문 모달 닫기
+
+    const handleOrderPostSuccess = (newOrder) => {
+        // 필요한 필드들만 추출하여 상태 업데이트
+        const expandedOrder = newOrder.orderItems.map(item => ({
+            orderHeaderId: newOrder.orderHeaderId,
+            memberName: newOrder.memberName,
+            orderDate: newOrder.orderDate,
+            orderHeaderStatus: newOrder.orderHeaderStatus,
+            acceptDate: newOrder.acceptDate,
+            customerCode: newOrder.customerCode,
+            customerName: newOrder.customerName,
+        }));
+    
+        // 상태 업데이트
+        setManagementOrderList([...managementOrderList, ...expandedOrder]);
+        setSearchResults([...searchResults, ...expandedOrder]);
+    
+        // 모달 닫기
+        handleCloseOrderModal();
+    };
+
     // 즐겨찾기 추가/삭제 함수
     const handleAddToFavorites = async (order, isFavorite) => {
         try {
@@ -189,8 +217,14 @@ const ManagementPage = () => {
                 selectedOrder={selectedOrder}
                 onOpenDetailModal={handleOpenDetailModal}
                 onOpenHistoryModal={handleOpenHistoryModal}
+                onOpenOrderModal={handleOpenOrderModal}
                 favorites={userInfo?.data?.favorites}  // userInfo에서 가져온 favorites 사용
                 onToggleFavorite={handleAddToFavorites}
+            />
+            <OrderModal
+                isOpen={isOrderModalOpen}
+                onClose={handleCloseOrderModal}
+                onSubmit={handleOrderPostSuccess}
             />
             {isManagementDetailModalOpen && (
                 <ManagementDetailModal

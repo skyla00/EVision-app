@@ -5,7 +5,6 @@ import SideBar from '../component/Common/SideBar';
 import Tab from '../component/Common/Tab';
 import OrderDetailSearch from '../component/Order/OrderDetailSearch';
 import OrderSearchInfo from '../component/Order/OrderSearchInfo';
-import OrderModal from '../Modal/Order/OrderModal';
 import axios from 'axios';
 
 const OrderPage = () => {
@@ -142,23 +141,6 @@ const OrderPage = () => {
         setSearchResults(filteredResults);
     }, [orderList]);
 
-    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-
-    const handleOpenOrderModal = () => {
-        setIsOrderModalOpen(true);
-    };
-    const handleCloseOrderModal = () => setIsOrderModalOpen(false);
-
-    const handleSelectOrder = (order) => {
-        setSelectedOrder(order);
-    };
-
-    const handleOrderPostSuccess = (newOrder) => {
-        setOrderList((prevList) => [...prevList, newOrder]);
-        setSearchResults((prevResults) => [...prevResults, newOrder]);
-        handleCloseOrderModal();
-        window.location.reload();
-    };
     
     return (
         <div className="app">
@@ -170,14 +152,7 @@ const OrderPage = () => {
                 title="주문 정보"
                 headers={headers}
                 orders={searchResults}
-                onSelectOrder={handleSelectOrder}
                 selectedOrder={selectedOrder}
-                onOpenOrderModal={handleOpenOrderModal}
-            />
-            <OrderModal
-                isOpen={isOrderModalOpen}
-                onClose={handleCloseOrderModal}
-                onSubmit={handleOrderPostSuccess}
             />
         </div>
     );

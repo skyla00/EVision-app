@@ -24,7 +24,6 @@ const OrderDetailSearch = ({ title, onSearch }) => {
         requestDate: ''
     });
 
-    // 실시간 검색 및 키워드 기반 필터링
     useEffect(() => {
         const finalOrderHeaderId = selectedKeywords.orderHeaderId || orderHeaderId;
         const finalItemName = selectedKeywords.itemName || itemName;
@@ -39,6 +38,26 @@ const OrderDetailSearch = ({ title, onSearch }) => {
         onSearch(finalOrderHeaderId, finalItemName, finalItemCode, finalCustomerName, finalCustomerCode,
             finalMemberName, finalOrderDate, finalAcceptDate, finalRequestDate);
     }, [orderHeaderId, itemName, itemCode, customerName, customerCode, memberName, orderDate, acceptDate, requestDate, onSearch]);
+
+    const handleDateKeyword = (dateValue, setDateFunction, keywordType) => {
+        setDateFunction(dateValue);
+    
+        // 키워드로 날짜 등록
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(dateValue && !prevKeywords.includes(`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`) 
+                ? [`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`] 
+                : []
+            )
+        ]);
+    
+        // 키워드 선택 상태에도 반영
+        setSelectedKeywords(prevKeywords => ({
+            ...prevKeywords,
+            [keywordType]: dateValue
+        }));
+    };
+
 
     // 검색 버튼 클릭 시 키워드 등록 및 필드 초기화
     const handleSearch = () => {
@@ -91,10 +110,10 @@ const OrderDetailSearch = ({ title, onSearch }) => {
     // 키워드를 제거했을 때 해당 필드 다시 활성화
     const removeKeyword = (keywordToRemove) => {
         setDisplayKeywords(prevKeywords => prevKeywords.filter(keyword => keyword !== keywordToRemove));
-
+    
         setSelectedKeywords(prev => {
             let updatedKeywords = { ...prev };
-
+    
             if (keywordToRemove.startsWith('주문번호')) {
                 updatedKeywords.orderHeaderId = '';
             } else if (keywordToRemove.startsWith('상품명')) {
@@ -109,12 +128,15 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                 updatedKeywords.memberName = '';
             } else if (keywordToRemove.startsWith('주문일자')) {
                 updatedKeywords.orderDate = '';
+                setOrderDate('');
             } else if (keywordToRemove.startsWith('승인일자')) {
                 updatedKeywords.acceptDate = '';
+                setAcceptDate('');
             } else if (keywordToRemove.startsWith('납품요청일자')) {
                 updatedKeywords.requestDate = '';
+                setRequestDate('');  
             }
-
+    
             onSearch(
                 updatedKeywords.orderHeaderId,
                 updatedKeywords.itemName,
@@ -126,7 +148,7 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                 updatedKeywords.acceptDate,
                 updatedKeywords.requestDate
             );
-
+    
             return updatedKeywords;
         });
     };
@@ -170,17 +192,26 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                     />
                 </div>
                 <div className="order-form-row">
-                    <input type="date" placeholder="주문일자" value={orderDate}
-                        onChange={(e) => setOrderDate(e.target.value)}
-                        disabled={!!selectedKeywords.orderDate} // 선택된 키워드가 있으면 비활성화
+                <input 
+                        type="date" 
+                        placeholder="주문일자" 
+                        value={orderDate}
+                        onChange={(e) => handleDateKeyword(e.target.value, setOrderDate, '주문일자')}
+                        disabled={!!selectedKeywords.orderDate}
                     />
-                    <input type="date" placeholder="승인일자" value={acceptDate || ''}
-                        onChange={(e) => setAcceptDate(e.target.value)}
-                        disabled={!!selectedKeywords.acceptDate} // 선택된 키워드가 있으면 비활성화
+                    <input 
+                        type="date" 
+                        placeholder="승인일자" 
+                        value={acceptDate || ''}
+                        onChange={(e) => handleDateKeyword(e.target.value, setAcceptDate, '승인일자')}
+                        disabled={!!selectedKeywords.acceptDate}
                     />
-                    <input type="date" placeholder="납품요청일자" value={requestDate || ''}
-                        onChange={(e) => setRequestDate(e.target.value)}
-                        disabled={!!selectedKeywords.requestDate} // 선택된 키워드가 있으면 비활성화
+                    <input 
+                        type="date" 
+                        placeholder="납품요청일자" 
+                        value={requestDate || ''}
+                        onChange={(e) => handleDateKeyword(e.target.value, setRequestDate, '납품요청일자')}
+                        disabled={!!selectedKeywords.requestDate}
                     />
                     <button className="order-search-button" onClick={handleSearch}>조회</button>
                 </div>

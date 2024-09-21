@@ -1,7 +1,7 @@
 import './OrderSearchInfo.css';
 import OrderSearchInfoList from './OrderSearchInfoList';
 
-const OrderSearchInfo = ({ title, headers, orders = [], onOpenOrderModal }) => {
+const OrderSearchInfo = ({ title, headers, orders = [] }) => {
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`);
     }
@@ -12,14 +12,8 @@ const OrderSearchInfo = ({ title, headers, orders = [], onOpenOrderModal }) => {
         <div className="order-search-info-container">
             <div className="search-info-header">
                 {title && <div className="search-info-title">{title}</div>}
-                <div className="button-container">
-                    <button className="order-button" onClick= {() => {
-                        onOpenOrderModal();
-                        }}
-                    > 등록 </button> 
-                </div>
             </div>
-            <div className="search-info-section">
+            <div className="order-search-info-section">
                 <OrderSearchInfoList 
                     orders={orders.length > 0 ? orders : []}
                     headerKey={headerKey} 

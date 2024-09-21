@@ -9,6 +9,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     const [customerName, setCustomerName] = useState('');
     const [salesAmount, setSalesAmount] = useState('');
     const [startDate, setStartDate] = useState('');
+    const [salesAmountErrors, setSalesAmountErrors] = useState('');
 
     // 모달이 열릴 때 선택된 아이템 정보를 입력 필드에 채움
     useEffect(() => {
@@ -19,10 +20,27 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
             setCustomerName(salesPrice.customerName);
             setSalesAmount(salesPrice.salesAmount);
             setStartDate(salesPrice.startDate);
+            setSalesAmountErrors('');
         }
     }, [isOpen, salesPrice]);
 
-        // 기준일자 검증
+    // 판매가 검증
+    const validateSalesAmount = (salesAmount) => {
+        if (!salesAmount) return ''; 
+        const regex = /^[0-9]+$/;
+        if (!regex.test(salesAmount)) {
+            return '0 이상 숫자만 입력 가능합니다.';
+        }
+        return '';
+    };
+    const handleSalesAmountChange = (e) => {
+        const value = e.target.value;
+        setSalesAmount(value);
+        const error = validateSalesAmount(value);
+        setSalesAmountErrors(error); // 오류를 실시간으로 업데이트
+    };
+
+    // 기준일자 검증
     const validateStartDate = (newStartDate) => {
         const currentStartDate = new Date(salesPrice.startDate);
         const newStart = new Date(newStartDate);
@@ -34,7 +52,17 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
     };
 
     const handleSubmit = async () => {
-        // 시작 날짜 유효성 검사
+        const salesAmountError = validateSalesAmount(salesAmount);
+        if (!itemCode || !itemName || !customerCode || !customerName || !salesAmount || !startDate) {
+            alert('모든 항목을 입력해주세요.');
+            return;
+        }
+
+        if (salesAmountError) {
+            setSalesAmountErrors(salesAmountError);
+            return alert('올바른 형식으로 입력해주세요.');
+        }
+
         const startDateError = validateStartDate(startDate);
         if (startDateError) {
             return alert(startDateError);
@@ -102,8 +130,8 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                   <div className="modal-close" onClick={onClose}>&times;</div>
               </div>
   
-              <div className="sp-modal-input-section">
-                  <div className="sp-input-first-line">
+              <div className="sp-modal-modify-input-section">
+                  <div className="sp-modify-input-first-line">
                       <label>상품코드</label>
                       <input 
                           type="text" 
@@ -119,7 +147,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                           readOnly
                       />
                   </div>
-                  <div className="sp-input-second-line">
+                  <div className="sp-modify-input-second-line">
                       <label>판매업체코드</label>
                       <input 
                           type="text" 
@@ -135,12 +163,12 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                           readOnly
                       />
                   </div>
-                  <div className="sp-input-third-line">
+                  <div className="sp-modify-input-third-line">
                       <label>판매가</label>
                       <input 
                           type="text" 
                           value={salesAmount} 
-                          onChange={(e) => setSalesAmount(e.target.value)} 
+                          onChange={handleSalesAmountChange} 
                           placeholder="판매가" 
                       />
                       <label>기준일자</label>
@@ -150,6 +178,11 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                           onChange={(e) => setStartDate(e.target.value)} 
                           placeholder="기준일자" 
                       />
+                  </div>
+                  <div className="order-error-fourth-line">
+                        <div className='sales-amount-error'>
+                            {salesAmountErrors && <p className="om-error-message">{salesAmountErrors}</p>}
+                        </div>
                   </div>
               </div>
               <button className="sp-post-submit-button" onClick={handleSubmit}>수정</button>

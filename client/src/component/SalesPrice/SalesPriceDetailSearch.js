@@ -32,6 +32,23 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
         onSearch(finalItemCode, finalItemName, finalCustomerCode, finalCustomerName, finalSalesAmount, finalStartDate, finalEndDate);
     }, [itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate, selectedKeywords, onSearch]);
 
+    const handleDateKeyword = (dateValue, setDateFunction, keywordType) => {
+        setDateFunction(dateValue);
+
+        setDisplayKeywords(prevKeywords => [
+            ...prevKeywords,
+            ...(dateValue && !prevKeywords.includes(`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`) 
+                ? [`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`] 
+                : []
+            )
+        ]);
+
+        setSelectedKeywords(prevKeywords => ({
+            ...prevKeywords,
+            [keywordType]: dateValue
+        }));
+    };
+
     const handleSearch = () => {
         setSelectedKeywords(prevKeywords => ({
             itemCode: itemCode || prevKeywords.itemCode,
@@ -87,8 +104,10 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
                 updatedKeywords.salesAmount = '';
             } else if (keywordToRemove.startsWith('기준일자')) {
                 updatedKeywords.startDate = '';
+                setStartDate('');
             } else if (keywordToRemove.startsWith('만료일자')) {
                 updatedKeywords.endDate = '';
+                setEndDate('');
             }
 
             onSearch(
@@ -149,19 +168,11 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
                         disabled={!!selectedKeywords.customerName}
                     />
                     <input type="date" placeholder="기준일자" value={startDate}
-                        onChange={(e) => {
-                            if (!selectedKeywords.startDate) {
-                                setStartDate(e.target.value);
-                            }
-                        }}
+                        onChange={(e) => handleDateKeyword(e.target.value, setStartDate, '기준일자')}
                         disabled={!!selectedKeywords.startDate}
                     />
                     <input type="date" placeholder="만료일자" value={endDate}
-                        onChange={(e) => {
-                            if (!selectedKeywords.endDate) {
-                                setEndDate(e.target.value);
-                            }
-                        }}
+                        onChange={(e) => handleDateKeyword(e.target.value, setEndDate, '만료일자')}
                         disabled={!!selectedKeywords.endDate}
                     />
                 </div>

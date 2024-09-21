@@ -117,14 +117,15 @@
 
   .cp-modal-input-section input {
     width: 700px;
-  height: 34px;
-  border: 2px solid #74BDA1;
-  padding-left: 10px;
+    height: 34px;
+    border: 2px solid #74BDA1;
+    padding-left: 10px;
   }
 
   .cp-post-submit-button {
     width: 130px;
     display: block;
+    margin-top: 0px !important;
     margin: 10px auto;
     padding: 10px 20px;
     background-color: #348F6C;
@@ -136,7 +137,7 @@
     cursor: pointer;
   }
   
-  .post-submit-button:hover {
+  .cp-post-submit-button:hover {
     background-color: #45a049;
   }
 

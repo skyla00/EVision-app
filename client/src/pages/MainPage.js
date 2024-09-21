@@ -33,13 +33,13 @@ const NaviContainer = () => {
         <span>상품 조회</span>
         <img src="/image/productlogo.png" alt="상품 조회" />
       </div>
-      <div className="price-search" onClick={() => navigate('/price')}>
-        <span>판매가 조회</span>
-        <img src="/image/wonlogo.png" alt="판매가 조회" />
-      </div>
       <div className="customer-search" onClick={() => navigate('/customer')}>
         <span>판매 업체 조회</span>
         <img src="/image/companylogo.png" alt="판매 업체 조회" />
+      </div>
+      <div className="price-search" onClick={() => navigate('/price')}>
+        <span>판매가 조회</span>
+        <img src="/image/wonlogo.png" alt="판매가 조회" />
       </div>
       <div className="management-go" onClick={() => navigate('/manage')}>
         <span>관리</span>

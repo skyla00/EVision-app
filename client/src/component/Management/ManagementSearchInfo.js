@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ManagementSearchInfoList from './ManagementSearchInfoList.js'
 
-const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenDetailModal, onOpenHistoryModal, selectedOrder, onToggleFavorite, favorites }) => {
+const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectOrder, onOpenOrderModal, onOpenDetailModal, onOpenHistoryModal, selectedOrder, onToggleFavorite, favorites }) => {
 
     if (!headers || !headers.length) {
         throw new Error(`<SearchInfo /> headers is required.`)
@@ -23,6 +23,10 @@ const ManagementSearchInfo = ({ title, headers, managementOrders = [], onSelectO
             <div className="search-info-header"> {}
                 {title && <div className="search-info-title">{title}</div>}
                 <div className="button-container">
+                <button className="order-button" onClick= {() => {
+                        onOpenOrderModal();
+                        }}
+                    > 등록 </button> 
                     <button className="detail-button" onClick={handleDetailClick}> 상세보기 </button> 
                 </div>
             </div>
