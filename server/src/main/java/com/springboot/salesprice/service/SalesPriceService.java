@@ -31,6 +31,9 @@ public class SalesPriceService {
         if (!findSalesPrice.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.SALES_PRICE_EXISTS);
         }
+        if (salesPrice.getItem().getPurchasePrices().isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
+        }
         return salesPriceRepository.save(salesPrice);
     }
 
