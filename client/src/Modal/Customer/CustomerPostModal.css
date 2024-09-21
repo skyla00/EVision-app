@@ -9,10 +9,10 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
   
-  .modal-content {
+  .cp-modal-content {
     background-color: #fefefe;
     padding: 50px 150px 50px 150px;
-    width: 1000px;
+    max-width: 700px;
     height: 440px;
     border: 12px solid #348F6C;
     position: absolute;
@@ -88,9 +88,19 @@
     align-items: center;
     justify-content: flex-start;
     gap: 14px;
+    width: 756px;
   }
 
   .cp-error-third-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 8px;
+    height: 20px;
+  }
+
+  .cp-input-fourth-line {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -115,6 +125,10 @@
     width: 600px;
   }
 
+  .cp-input-fourth-line input{
+    width: 600px;
+  }
+
   .cp-modal-input-section input {
     width: 700px;
     height: 34px;
@@ -125,7 +139,7 @@
   .cp-post-submit-button {
     width: 130px;
     display: block;
-    margin-top: 0px !important;
+    margin-top: 50px !important;
     margin: 10px auto;
     padding: 10px 20px;
     background-color: #348F6C;
@@ -160,3 +174,15 @@
     align-items: center;
     justify-content: center;
   }
+
+.address-button {
+  width: 100px;
+  height: 36px;
+  background-color: #348F6C;
+  color: white;
+  font-size: 12px;
+  padding: 4px;
+  font-weight: 1000;
+  border: none;
+  cursor: pointer;
+}
