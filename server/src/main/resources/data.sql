@@ -59,12 +59,13 @@ INSERT INTO PURCHASE_PRICE (SUPPLIER_CODE, ITEM_CODE, PURCHASE_AMOUNT, RECEIPT_D
 ('GR', 'SPK8050B', 3590000, '2023-09-05 10:00:00', 30);
 
 -- m_customer 테이블 데이터 삽입
-INSERT INTO CUSTOMER (CUSTOMER_CODE, CUSTOMER_NAME, MANAGER, CUSTOMER_ADDRESS, CUSTOMER_PHONE, CUSTOMER_EMAIL, CUSTOMER_STATUS, CREATED_AT, MODIFIED_AT) VALUES
-('HM', '하이마트', '서준호', '서울특별시 강남구 테헤란로 12', '02-3012-4567', 'sejun.ho@himart.co.kr', 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('EM', '일렉트로마트', '이서연', '서울특별시 송파구 올림픽로 25', '02-5112-3421', 'seoyeon.lee@electromart.co.kr', 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('BS', '비케이사운드', '김지후', '서울특별시 마포구 상암동 45', '02-6789-1234', 'jihu.kim@bksound.co.kr', 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('MS', '몬스터사운드', '정하윤', '서울특별시 서초구 사임당로 23', '02-7812-2345', 'hayun.jung@monstersound.co.kr', 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('SS', '소리샵', '최민서', '서울특별시 용산구 한강대로 88', '02-9321-8765', 'minseo.choi@sorishop.co.kr', 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO CUSTOMER (CUSTOMER_CODE, CUSTOMER_NAME, MANAGER, CUSTOMER_ADDRESS, CUSTOMER_PHONE, CUSTOMER_EMAIL, CUSTOMER_STATUS, CUSTOMER_ADDRESS_NUMBER, CREATED_AT, MODIFIED_AT)
+VALUES
+('HM', '하이마트', '서준호', '서울특별시 강남구 테헤란로 12', '02-3012-4567', 'sejun.ho@himart.co.kr', 'ACTIVE', '12345', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('EM', '일렉트로마트', '이서연', '서울특별시 송파구 올림픽로 25', '02-5112-3421', 'seoyeon.lee@electromart.co.kr', 'ACTIVE', '54321', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('BS', '비케이사운드', '김지후', '서울특별시 마포구 상암동 45', '02-6789-1234', 'jihu.kim@bksound.co.kr', 'ACTIVE', '67890', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('MS', '몬스터사운드', '정하윤', '서울특별시 서초구 사임당로 23', '02-7812-2345', 'hayun.jung@monstersound.co.kr', 'ACTIVE', '78901', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('SS', '소리샵', '최민서', '서울특별시 용산구 한강대로 88', '02-9321-8765', 'minseo.choi@sorishop.co.kr', 'ACTIVE', '23456', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- m_sales_price 테이블 데이터 삽입
 INSERT INTO SALES_PRICE (ITEM_CODE, CUSTOMER_CODE, SALES_AMOUNT, START_DATE, END_DATE) VALUES

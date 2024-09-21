@@ -30,6 +30,9 @@ public class Customer {
     @Column(nullable = false, length = 50)
     private String customerAddress;
 
+    @Column(nullable = false, length = 50)
+    private String customerAddressNumber;
+
     @Column(nullable = false, length = 13)
     private String customerPhone;
 
