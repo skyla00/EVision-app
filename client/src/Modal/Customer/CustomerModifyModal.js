@@ -9,7 +9,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
     const [customerPhone, setCustomerPhone] = useState('');
     const [customerEmail, setCustomerEmail] = useState('');
     const [customerAddress, setCustomerAddress] = useState('');
-    const [customerAddressDetail, setCustomerAddressDetail] = useState('');
+    const [customerDetailAddress, setCustomerDetailAddress] = useState('');
     const [postcode, setPostcode] = useState('');
     const [customerNameErrors, setCustomerNameErrors] = useState('');
     const [managerErrors, setManagerErrors] = useState('');
@@ -104,10 +104,9 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             setCustomerName(customer.customerName);
             setManager(customer.manager);
             setCustomerAddress(customer.customerAddress);
+            setCustomerDetailAddress(customer.customerDetailAddress);
             setCustomerPhone(customer.customerPhone);
             setCustomerEmail(customer.customerEmail);
-            setCustomerAddressDetail(customer.customerAddressDetail);
-            setPostcode(customer.customerAddressNumber); 
             setCustomerNameErrors('');
             setManagerErrors('');
             setCustomerPhoneErrors('');
@@ -145,7 +144,8 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             manager,
             customerPhone,
             customerEmail,
-            customerAddress: `${customerAddress} ${customerAddressDetail}`,
+            customerAddress: `${customerAddress}`,
+            customerDetailAddress: `${customerDetailAddress}`,
             postcode,
             customerAddressNumber: postcode 
         };
@@ -263,8 +263,8 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                     <label>상세주소</label>
                     <input 
                         type="text" 
-                        value={customerAddressDetail} 
-                        onChange={(e) => setCustomerAddressDetail(e.target.value)} 
+                        value={customerDetailAddress} 
+                        onChange={(e) => setCustomerDetailAddress(e.target.value)} 
                         placeholder="상세주소" 
                     />
                 </div>
