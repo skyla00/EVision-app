@@ -18,6 +18,9 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [isProductSearchOpen, setIsProductSearchOpen] = useState(false);
 
+    //초기 상태 위한 변수
+    const [startorderHeaderStatus, setStartorderHeaderStatus] = useState('');
+
     // 수량이나 판매가가 변경될 때마다 최종 금액 업데이트
     useEffect(() => {
         const calculateFinalAmount = () => {
@@ -33,6 +36,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
         if (isOpen && order) {
             setOrderDate(order.orderDate || '');
             setOrderHeaderStatus(order.orderHeaderStatus || '');
+            setStartorderHeaderStatus (order.orderHeaderStatus);
             setItemName('');
             setItemCode('');
             setSalesAmount('');
@@ -190,43 +194,21 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
 
     const renderOrderStatusOptions = () => {
         if (userInfo.data.position === '팀장') {
-            if(orderHeaderStatus === "ACCEPT"){
-                return (
-                    <>
-                        <option disabled="disabled" value="WAITING">임시저장</option>
-                        <option disabled="disabled" value="REQUEST">승인요청</option>
-                        <option disabled="disabled" value="ACCEPT">승인</option>
-                        <option disabled="disabled" value="DENY">반려</option>
-                    </>
-                );
-            }
-            else{
-                return (
-                    <>
-                        <option value="WAITING">임시저장</option>
-                        <option value="REQUEST">승인요청</option>
-                        <option value="ACCEPT">승인</option>
-                        <option value="DENY">반려</option>
-                    </>
-                );
-            }
+            return (
+                <>
+                    <option value="WAITING">임시저장</option>
+                    <option value="REQUEST">승인요청</option>
+                    <option value="ACCEPT">승인</option>
+                    <option value="DENY">반려</option>
+                </>
+            );
         } else {
-            if(orderHeaderStatus === "ACCEPT"){
-                return (
-                    <>
-                        <option disabled="disabled" value="WAITING">임시저장</option>
-                        <option disabled="disabled" value="REQUEST">승인요청</option>
-                    </>
-                );
-            }
-            else{
-                return (
-                    <>
-                        <option value="WAITING">임시저장</option>
-                        <option value="REQUEST">승인요청</option>
-                    </>
-                );
-            }
+            return (
+                <>
+                    <option value="WAITING">임시저장</option>
+                    <option value="REQUEST">승인요청</option>
+                </>
+            );
         }
     };
 
@@ -246,14 +228,25 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             readOnly
                             placeholder="주문일자"
                         />
-                        <select
-                            placeholder="주문상태"
-                            value={orderHeaderStatus}
-                            onChange={(e) => setOrderHeaderStatus(e.target.value)}
-                        >
-                            <option value="" disabled hidden>주문상태</option>
-                            {renderOrderStatusOptions()}
-                        </select>
+                        {startorderHeaderStatus === "WAITING" ?
+                            <select
+                                placeholder="주문상태"
+                                value={orderHeaderStatus}
+                                onChange={(e) => setOrderHeaderStatus(e.target.value)}
+                            >
+                                <option value="" disabled hidden>주문상태</option>
+                                {renderOrderStatusOptions()}
+                            </select> :
+                            <select
+                                disabled
+                                placeholder="주문상태"
+                                value={orderHeaderStatus}
+                                onChange={(e) => setOrderHeaderStatus(e.target.value)}
+                            >
+                                <option value="" disabled hidden>주문상태</option>
+                                {renderOrderStatusOptions()}
+                            </select>
+                        }
                     </div>
                     {orderHeaderStatus === "WAITING" ? <>
                         <div className="md-input-third-line">
