@@ -319,7 +319,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                     }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </div>}
                 </div>
-                {orderHeaderStatus !== "WAITING" ? <></> :
+                {startorderHeaderStatus !== "WAITING" ? <></> :
 
                             <div className="md-option-button-container"><div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
                 return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
