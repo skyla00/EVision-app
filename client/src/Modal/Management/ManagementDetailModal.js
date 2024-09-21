@@ -12,14 +12,47 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     const [itemCode, setItemCode] = useState('');
     const [salesAmount, setSalesAmount] = useState('');
     const [orderItemQuantity, setOrderItemQuantity] = useState('');
+    const [salesAmountErrors, setSalesAmountErrors] = useState('');
+    const [orderItemQuantityErrors, setOrderItemQuantityErrors] = useState('');
     const [finalAmount, setFinalAmount] = useState('');
     const [requestDate, setRequestDate] = useState('');
     const [orderItemList, setOrderItemList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedMemberName, setSelectedMemberName] = useState(''); 
     const [isProductSearchOpen, setIsProductSearchOpen] = useState(false);
 
     //초기 상태 위한 변수
     const [startorderHeaderStatus, setStartorderHeaderStatus] = useState('');
+    
+    const validateSalesAmount = (salesAmount) => {
+        if (!salesAmount) return ''; 
+        const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
+        if (!regex.test(salesAmount)) {
+            return '0 이상 숫자만 입력 가능'
+        }
+        return '';
+    };
+    const handleSalesAmountChange = (e) => {
+        const value = e.target.value;
+        setSalesAmount(value);
+        const error = validateSalesAmount(value);
+        setSalesAmountErrors(error);
+    }
+    const validateOrderItemQuantity = (orderItemQuantity) => {
+        if (!orderItemQuantity) return ''; 
+        const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
+        if(!regex.test(orderItemQuantity)) {
+            return '0 이상 숫자만 입력 가능'
+        }
+        return '';
+    }
+    const handleOrderItemQuantityChange = (e) => {
+        const value = e.target.value;
+        setOrderItemQuantity(value);
+        const error = validateOrderItemQuantity(value);
+        setOrderItemQuantityErrors(error);
+    }
+
 
     // 수량이나 판매가가 변경될 때마다 최종 금액 업데이트
     useEffect(() => {
@@ -33,16 +66,21 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
 
     // orderHeader에 있는 정보인 orderDate, orderHeaderStatus를 담음
     useEffect(() => {
+        console.log(order.memberName);
+        console.log(selectedMemberName);
         if (isOpen && order) {
             setOrderDate(order.orderDate || '');
             setOrderHeaderStatus(order.orderHeaderStatus || '');
             setStartorderHeaderStatus (order.orderHeaderStatus);
+            setSelectedMemberName(order.memberName);
             setItemName('');
             setItemCode('');
             setSalesAmount('');
             setOrderItemQuantity('');
             setFinalAmount('');
             setRequestDate('');
+            setSalesAmountErrors('');
+            setOrderItemQuantityErrors('');
             setOrderItemList(order.orderItems || []);
         }
     }, [isOpen, order, order.orderHeaderStatus]);
@@ -80,7 +118,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
             );
 
             console.log('서버 응답:', response);
-            alert('주문이 등록되었습니다.');
+            alert('주문이 수정되었습니다.');
             onClose(); // 모달 닫기
             window.location.reload();    
         } catch (error) {
@@ -156,7 +194,13 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
 
         setOrderItemList(updatedList);
         setSelectedIndex(null); // 선택 초기화
-        alert('아이템이 수정되었습니다.');
+        alert('항목이 수정되었습니다.');
+        setItemCode('');
+        setItemName('');
+        setRequestDate('');
+        setSalesAmount('');
+        setOrderItemQuantity('');
+        
     };
 
     const openProductSearch = () => setIsProductSearchOpen(true);
@@ -179,6 +223,8 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
             setOrderItemQuantity('');
             setFinalAmount('');
             setRequestDate('');
+            setSalesAmountErrors('');
+            setOrderItemQuantityErrors('');
         } else {
             // 선택한 항목으로 설정
             const selectedOrderItem = orderItemList[index];
@@ -193,8 +239,25 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     };
 
     const renderOrderStatusOptions = () => {
-        if(startorderHeaderStatus === 'WAITING' || startorderHeaderStatus === 'REQUEST' || startorderHeaderStatus === 'ACCEPT'){
+        if(startorderHeaderStatus === 'WAITING' || startorderHeaderStatus === 'ACCEPT'){
             if (userInfo.data.position === '팀장') {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                    </>
+                )
+            }  else {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                    </>
+                );
+            }
+        }
+        else if (startorderHeaderStatus === 'REQUEST') {
+            if (userInfo.data.position === '팀장' && selectedMemberName === '은하늘') {
                 return (
                     <>
                         <option value="WAITING">임시저장</option>
@@ -203,10 +266,18 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         <option value="DENY">반려</option>
                     </>
                 );
+            } else if (userInfo.data.position === '팀장' && selectedMemberName !== '은하늘') {
+                return (
+                    <>
+                        <option value="REQUEST">승인요청</option>
+                        <option value="ACCEPT">승인</option>
+                        <option value="DENY">반려</option>
+                    </>
+                );
             } else {
                 return (
                     <>
-                        <option value="WAITING">임시저장</option>
+                         <option value="WAITING">임시저장</option>
                         <option value="REQUEST">승인요청</option>
                     </>
                 );
@@ -224,7 +295,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                 return (
                     <>
                         <option value="WAITING">임시저장</option>
-                        <option value="REQUEST">승인요청</option>
+                        <option value="DENY">반려</option>
                     </>
                 );
             }
@@ -268,21 +339,6 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         }
                     </div>
                     {startorderHeaderStatus === "WAITING" ? <>
-                        <div className="md-input-third-line">
-                            <input
-                                type="number"
-                                value={salesAmount}
-                                onChange={(e) => setSalesAmount(e.target.value)}
-                                placeholder="판매가(원)"
-                            />
-                            <input
-                                type="number"
-                                value={orderItemQuantity}
-                                onChange={(e) => setOrderItemQuantity(e.target.value)}
-                                placeholder="수량"
-                            />
-                        </div>
-
                         <div className="md-input-second-line">
                             <input
                                 type="search"
@@ -296,7 +352,6 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                                 readOnly
                                 placeholder="상품코드"
                             />
-                            <button className="order-modal-button" onClick={openProductSearch}>검색</button>
                         </div>
                         <div className="md-input-fourth-line">
                             <input
@@ -313,21 +368,50 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                                 placeholder="납품요청일자"
                             />
                         </div>
+                        <div className="md-input-third-line">
+                            <input
+                                type="text"
+                                value={salesAmount}
+                                onChange={handleSalesAmountChange}
+                                placeholder="판매가(원)"
+                            />
+                            <input
+                                type="text"
+                                value={orderItemQuantity}
+                                onChange={handleOrderItemQuantityChange}
+                                placeholder="수량"
+                            />
+                        </div>
+                        <div className="md-error-fourth-line">
+                                <div className='sales-amount-error'>
+                                {salesAmountErrors && <div className="md-error-message">{salesAmountErrors}</div>}
+                                </div>
+                                <div className='quantity-error'>
+                                {orderItemQuantityErrors && <div className="md-error-message">{orderItemQuantityErrors}</div>}
+                                </div>
+                        </div>
                         
-                    </> :                 <div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
-                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
-                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </> :                 
+                <div className='other-total-amount'> 주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
+                    return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                        }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </div>}
                 </div>
                 {startorderHeaderStatus !== "WAITING" ? <></> :
-
-                            <div className="md-option-button-container"><div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
-                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
-                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </div>
+                    <div className="md-option-button-container">
+                        <div className='total-amount-container'>
+                            <div className='total-amount'>
+                                주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
+                                    return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                                }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            </div>
+                        </div>
+                        <div className='md-click-button-container'>
                             <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
                             <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
-                        </div>}
+                        </div>
+                    </div>
+                        }
                 <table className={startorderHeaderStatus !== "WAITING" ? "order-table_big" : "order-table"}>
                     <thead>
                         <tr>

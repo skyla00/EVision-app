@@ -29,7 +29,7 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
         if (!salesAmount) return ''; 
         const regex = /^[0-9]+$/;
         if (!regex.test(salesAmount)) {
-            return '0 이상 숫자만 입력 가능합니다.';
+            return '0 이상 숫자만 입력 가능';
         }
         return '';
     };

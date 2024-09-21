@@ -63,7 +63,7 @@ const OrderStatus = ({ status }) => {
         WAITING: '임시저장',
         REQUEST: '승인 요청',
         ACCEPT: '승인',
-        DENY: '거부',
+        DENY: '반려',
     };
 
     // 상태에 따라 스타일 선택

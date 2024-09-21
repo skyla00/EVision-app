@@ -70,7 +70,7 @@
     justify-content: flex-start;
   }
   
-  .md-input-first-line, .md-input-second-line, .md-input-third-line, .md-input-fourth-line {
+  .md-input-first-line, .md-input-second-line, .md-input-fourth-line {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,9 +79,13 @@
     margin-bottom: 20px;
     width: 680px;
   }
-
-  .md-input-second-line {
-    width: 748px;
+  .md-input-third-line{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px ;
+    height: 26px;
+    width: 680px;
   }
 
   .md-input-first-line input {
@@ -109,14 +113,6 @@
     box-sizing: border-box;
     justify-content: flex-start;
   }
-
-  .md-option-button-container {
-    margin: 10px 40px 10px 10px !important;
-    float: right;
-    display: flex;
-    gap: 10px;
-  }
-
   .md-modal-button {
     width: 60px;
     height: 30px;
@@ -129,14 +125,57 @@
     margin-bottom: 13px;
   }
 
+  .md-error-fourth-line{
+    display: flex;
+    align-items:flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .sales-amount-error, .quantity-error {
+    width: 340px;
+    height: auto; /* 각 에러 메시지 박스에 최소 너비를 지정 */
+  }
+  .md-error-message{
+    color: #C60000; /* 에러 메시지 색상 */
+    font-size: 12px; /* 에러 메시지 크기 */
+    font-weight: normal;
+    margin-left: 10px; 
+    margin-top: 1px;
+    text-align: left;
+  }
+
+  .md-option-button-container {
+    margin: 0px 40px 10px 10px !important;
+    width: 100%;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+  }
+
+  .total-amount-container {
+      display: flex; /* Flexbox 사용 */
+      align-items: center; /* 세로 중앙 정렬 */
+  }
+
+  .total-amount {
+      text-align: left; /* 좌측 정렬 */
+      margin-left: 30px;
+  }
+
+  .md-click-button-container {
+      display: flex; 
+      justify-content: flex-end; /* 버튼들을 우측 정렬 */
+      margin-right: 50px;
+      gap: 10px;
+  }
+
   .md-option-button {
-    width: 90px;
-    height: 30px;
-    background-color: #348F6C;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 1000;
-    border: none;
+      width: 90px;
+      height: 30px;
+      background-color: #348F6C;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 1000;
+      border: none;
   }
 
   .order-table {
@@ -278,4 +317,8 @@
 
   .md-modal-input-section input[type="date"] {
     color: rgb(110, 110, 110);
+  }
+
+  .other-total-amount{
+    margin-bottom: 10px ;
   }

@@ -28,7 +28,7 @@ const OrderModal = ({ isOpen, onClose }) => {
         if (!salesAmount) return ''; 
         const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
         if (!regex.test(salesAmount)) {
-            return '0 이상 숫자만 입력'
+            return '0 이상 숫자만 입력 가능'
         }
         return '';
     };
@@ -44,7 +44,7 @@ const OrderModal = ({ isOpen, onClose }) => {
         if (!orderItemQuantity) return ''; 
         const regex = /^[1-9][0-9]*(?:,[0-9])*$/;
         if(!regex.test(orderItemQuantity)) {
-            return '0 이상 숫자만 입력'
+            return '0 이상 숫자만 입력 가능'
         }
         return '';
     }
@@ -251,7 +251,10 @@ const OrderModal = ({ isOpen, onClose }) => {
             });
 
             console.log('서버 응답:', response);
-            alert('주문이 등록되었습니다.');
+            if (response.status === 201) {
+                alert('주문이 등록되었습니다.');
+                window.location.reload();
+            }
 
             onClose();  // 모달 닫기
             setOrderList([]);  // 리스트 초기화
@@ -317,11 +320,19 @@ const OrderModal = ({ isOpen, onClose }) => {
                 </div>
                 
             </div>
-            <div className="om-option-button-container">
-                <button className="option-button" onClick={handleDeleteItem}> - 삭제</button>
-                <button className="option-button" onClick={handleAddItem}>+ 추가</button>
-            </div>
-       
+            <div className="md-option-button-container">
+                        <div className='total-amount-container'>
+                            <div className='total-amount'>
+                                주문 총 금액 : {orderList.reduce((acc, orderItem) => {
+                                    return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                                }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            </div>
+                        </div>
+                        <div className='md-click-button-container'>
+                            <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
+                            <button className="md-option-button" onClick={handleAddItem}>+ 추가</button>
+                        </div>
+                    </div>
             <table className="order-table">
                 <thead> 
                     <tr>
