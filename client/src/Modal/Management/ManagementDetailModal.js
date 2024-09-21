@@ -190,21 +190,43 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
 
     const renderOrderStatusOptions = () => {
         if (userInfo.data.position === '팀장') {
-            return (
-                <>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                    <option value="ACCEPT">승인</option>
-                    <option value="DENY">반려</option>
-                </>
-            );
+            if(orderHeaderStatus === "ACCEPT"){
+                return (
+                    <>
+                        <option disabled="disabled" value="WAITING">임시저장</option>
+                        <option disabled="disabled" value="REQUEST">승인요청</option>
+                        <option disabled="disabled" value="ACCEPT">승인</option>
+                        <option disabled="disabled" value="DENY">반려</option>
+                    </>
+                );
+            }
+            else{
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                        <option value="ACCEPT">승인</option>
+                        <option value="DENY">반려</option>
+                    </>
+                );
+            }
         } else {
-            return (
-                <>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                </>
-            );
+            if(orderHeaderStatus === "ACCEPT"){
+                return (
+                    <>
+                        <option disabled="disabled" value="WAITING">임시저장</option>
+                        <option disabled="disabled" value="REQUEST">승인요청</option>
+                    </>
+                );
+            }
+            else{
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                    </>
+                );
+            }
         }
     };
 
@@ -233,22 +255,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             {renderOrderStatusOptions()}
                         </select>
                     </div>
-                    <div className="md-input-second-line">
-                        <input
-                            type="search"
-                            value={itemName}
-                            readOnly
-                            placeholder="상품명"
-                        />
-                        <input
-                            type="search"
-                            value={itemCode}
-                            readOnly
-                            placeholder="상품코드"
-                        />
-                        <button className="order-modal-button" onClick={openProductSearch}>검색</button>
-                    </div>
-                    {orderHeaderStatus === "ACCEPT" ?
+                    {orderHeaderStatus === "WAITING" ? <>
                         <div className="md-input-third-line">
                             <input
                                 type="number"
@@ -262,30 +269,54 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                                 onChange={(e) => setOrderItemQuantity(e.target.value)}
                                 placeholder="수량"
                             />
-                         </div>
-                        : <></>}
-                    <div className="md-input-fourth-line">
-                        <input
-                            type="text"
-                            value={finalAmount}
-                            onChange={(e) => setFinalAmount(e.target.value)}
-                            placeholder="최종금액"
-                            readOnly
-                        />
-                        <input
-                            type="date"
-                            value={requestDate}
-                            onChange={(e) => setRequestDate(e.target.value)}
-                            placeholder="납품요청일자"
-                        />
-                    </div>
+                        </div>
+
+                        <div className="md-input-second-line">
+                            <input
+                                type="search"
+                                value={itemName}
+                                readOnly
+                                placeholder="상품명"
+                            />
+                            <input
+                                type="search"
+                                value={itemCode}
+                                readOnly
+                                placeholder="상품코드"
+                            />
+                            <button className="order-modal-button" onClick={openProductSearch}>검색</button>
+                        </div>
+                        <div className="md-input-fourth-line">
+                            <input
+                                type="text"
+                                value={finalAmount}
+                                onChange={(e) => setFinalAmount(e.target.value)}
+                                placeholder="최종금액"
+                                readOnly
+                            />
+                            <input
+                                type="date"
+                                value={requestDate}
+                                onChange={(e) => setRequestDate(e.target.value)}
+                                placeholder="납품요청일자"
+                            />
+                        </div>
+                        
+                    </> :                 <div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
+                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </div>}
                 </div>
-                {orderHeaderStatus !== "REQUEST" ? 
-                                <div className="md-option-button-container">
-                                <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
-                                <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
-                </div> : <></>}
-                <table className={orderHeaderStatus === "ACCEPT" ? "order-table_big" :"order-table"}>
+                {orderHeaderStatus !== "WAITING" ? <></> :
+
+                            <div className="md-option-button-container"><div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
+                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </div>
+                            <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
+                            <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
+                        </div>}
+                <table className={orderHeaderStatus !== "WAITING" ? "order-table_big" : "order-table"}>
                     <thead>
                         <tr>
                             <th>납품요청일자</th>
@@ -299,7 +330,12 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         {orderItemList.map((orderItem, index) => (
                             <tr
                                 key={index}
-                                onClick={() => handleRowClick(index)}
+                                onClick={() => {
+                                    if (orderHeaderStatus === "WAITING") {
+                                        handleRowClick(index)
+                                    }
+                                }
+                                }
                                 className={`order-row ${index === selectedIndex ? 'selected-row' : ''}`}
                             >
                                 <td>{orderItem.requestDate}</td>
@@ -311,10 +347,6 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         ))}
                     </tbody>
                 </table>
-                <div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
-                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
-                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </div>
                 <button className="submit-button" onClick={handleSubmit}>등록</button>
             </div>
             {isProductSearchOpen && (
