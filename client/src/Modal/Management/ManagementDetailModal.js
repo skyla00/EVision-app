@@ -267,7 +267,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             </select>
                         }
                     </div>
-                    {orderHeaderStatus === "WAITING" ? <>
+                    {startorderHeaderStatus === "WAITING" ? <>
                         <div className="md-input-third-line">
                             <input
                                 type="number"
@@ -328,7 +328,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
                             <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
                         </div>}
-                <table className={orderHeaderStatus !== "WAITING" ? "order-table_big" : "order-table"}>
+                <table className={startorderHeaderStatus !== "WAITING" ? "order-table_big" : "order-table"}>
                     <thead>
                         <tr>
                             <th>납품요청일자</th>
@@ -343,7 +343,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                             <tr
                                 key={index}
                                 onClick={() => {
-                                    if (orderHeaderStatus === "WAITING") {
+                                    if (startorderHeaderStatus === "WAITING") {
                                         handleRowClick(index)
                                     }
                                 }
