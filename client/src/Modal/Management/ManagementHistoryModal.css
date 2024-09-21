@@ -147,10 +147,38 @@
     vertical-align: middle;
     width: auto;
 }
+.delivery-date {
+    width: 80px !important; /* 원하는 너비 설정 */
+}
+
+.product-code {
+    width: 140px !important; /* 원하는 너비 설정 */
+}
+
+.orderItemQuantity-width {
+    width: 60px !important; /* 비율로 설정 */
+}
+
+.purchase-price {
+    width: 80px !important; /* 원하는 너비 설정 */
+}
+
+.sale-price {
+    width: 80px !important; /* 원하는 너비 설정 */
+}
 
 .marginRate-width {
-    width: 40px !important;
+    width: 30px !important; /* 기존 스타일 유지 */
 }
+
+.margin-amount {
+    width: 80px !important; /* 원하는 너비 설정 */
+}
+
+.final-sale-price {
+    width: 100px !important; /* 원하는 너비 설정 */
+}
+
 
 .mh-order-item-table td {
     height: 40px;
