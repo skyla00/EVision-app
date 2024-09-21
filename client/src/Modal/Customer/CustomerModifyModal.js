@@ -9,11 +9,23 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
     const [customerPhone, setCustomerPhone] = useState('');
     const [customerEmail, setCustomerEmail] = useState('');
     const [customerAddress, setCustomerAddress] = useState('');
+    const [customerAddressDetail, setCustomerAddressDetail] = useState('');
+    const [postcode, setPostcode] = useState('');
     const [customerNameErrors, setCustomerNameErrors] = useState('');
     const [managerErrors, setManagerErrors] = useState('');
     const [customerPhoneErrors, setCustomerPhoneErrors] = useState('');
     const [customerEmailErrors, setCustomerEmailErrors] = useState('');
     const [customerAddressErrors, setCustomerAddressErrors] = useState('');
+
+    const handleAddressSearch = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                setPostcode(data.zonecode); // 우편번호 설정
+                setCustomerAddress(data.address); // 주소 설정
+            }
+        }).open();
+    };
+
         // 판매업체명 유효성 검증
     const validateCustomerName = (name) => {
         const regex = /^[가-힣a-zA-Z]+(\s[가-힣a-zA-Z]+){0,29}$/;
@@ -131,7 +143,8 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             manager,
             customerPhone,
             customerEmail,
-            customerAddress,
+            customerAddress: `${customerAddress} ${customerAddressDetail}`,
+            postcode, 
         };
         
         const response = await axios.patch(process.env.REACT_APP_API_URL + 'customers' + '/' + updatedCustomer.customerCode,
@@ -161,14 +174,14 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
 
     return (
       <div className="modal">
-        <div className="modal-content">
+        <div className="cp-modal-content">
             <div className="cm-modal-header">
                 <div className="cm-modal-title">판매 업체 수정</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
             </div>
 
-            <div className="cm-modal-input-section">
-                <div className="cm-input-first-line">
+            <div className="cp-modal-input-section">
+                <div className="cp-input-first-line">
                     <label>판매업체명</label>
                     <input 
                         type="text" 
@@ -185,12 +198,12 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                         readOnly
                     />
                 </div>
-                <div className="cm-error-first-line">
+                <div className="cp-error-first-line">
                     <div className='customer-name-error'>
                      {customerNameErrors && <p className="error-message">{customerNameErrors}</p>}
                     </div>
                 </div>
-                <div className="cm-input-second-line">
+                <div className="cp-input-second-line">
                     <label>판매업체 담당자</label>
                     <input 
                         type="text" 
@@ -206,7 +219,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                         placeholder="판매업체 연락처" 
                     />
                 </div>
-                <div className="cm-error-second-line">
+                <div className="cp-error-second-line">
                     <div className='manager-error'>
                      {managerErrors && <p className="error-message">{managerErrors}</p>}
                     </div>
@@ -214,7 +227,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                      {customerPhoneErrors && <p className="error-message">{customerPhoneErrors}</p>}
                     </div>
                 </div>
-                <div className="cm-input-third-line">
+                <div className="cp-input-third-line">
                     <label>판매업체 이메일</label>
                     <input 
                         type="email" 
@@ -222,24 +235,38 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                         onChange={handleCustomerEmailChange} 
                         placeholder="판매업체 이메일" 
                     />
-                    <label>판매업체 주소</label>
+                   <label>판매업체 주소</label>
                     <input 
                         type="text" 
                         value={customerAddress} 
-                        onChange={handleCustomerAddressChange} 
                         placeholder="판매업체 주소" 
+                        readOnly
                     />
+                    <button className="address-button" onClick={handleAddressSearch}>주소 검색</button>
                 </div>
                 <div className="cm-error-third-line">
-                    <div className='customer-email-error'>
-                     {customerEmailErrors && <p className="error-message">{customerEmailErrors}</p>}
-                    </div>
                     <div className='customer-address-error'>
                      {customerAddressErrors && <p className="error-message">{customerAddressErrors}</p>}
                     </div>
                 </div>
+                <div className="cp-input-fourth-line">
+                    <label>우편번호</label>
+                    <input 
+                        type="text" 
+                        value={postcode} 
+                        readOnly 
+                        placeholder="우편번호" 
+                    />
+                    <label>상세주소</label>
+                    <input 
+                        type="text" 
+                        value={customerAddressDetail} 
+                        onChange={(e) => setCustomerAddressDetail(e.target.value)} 
+                        placeholder="상세주소" 
+                    />
+                </div>
             </div>
-            <button className="cm-post-submit-button" onClick={handleSubmit}>수정</button>
+            <button className="cp-post-submit-button" onClick={handleSubmit}>수정</button>
         </div>
       </div>
     );

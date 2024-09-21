@@ -15,6 +15,9 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [customerPhoneErrors, setCustomerPhoneErrors] = useState('');
     const [customerEmailErrors, setCustomerEmailErrors] = useState('');
     const [customerAddressErrors, setCustomerAddressErrors] = useState('');
+    const [customerAddressDetail, setCustomerAddressDetail] = useState('');
+    const [postcode, setPostcode] = useState('');
+
     // 판매업체명 유효성 검증 
     const validateCustomerName = (name) => {
         const regex = /^[가-힣a-zA-Z]+(\s[가-힣a-zA-Z]+){0,29}$/;
@@ -93,12 +96,25 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             return '한글, 영어, 숫자, 띄어쓰기 포함 50자'
         }
     }
+
     const handleCustomerAddressChange = (e) => {
         const value = e.target.value;
         setCustomerAddress(value);
         const error = validateCustomerAddress(value);
         setCustomerAddressErrors(error);
     }
+
+    const handleAddressSearch = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                // API에서 검색된 주소와 우편번호를 설정
+                setPostcode(data.zonecode); // 우편번호
+                setCustomerAddress(data.address); // 기본 주소
+            }
+        }).open();
+    };
+
+
     useEffect(() => {
         if (!isOpen) {
             setCustomerName('');
@@ -107,6 +123,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
             setCustomerPhone('');
             setCustomerEmail('');
             setCustomerAddress('');
+            setPostcode('');
             setCustomerNameErrors('');
             setCustomerCodeErrors('');
             setManagerErrors('');
@@ -149,7 +166,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                 manager,
                 customerPhone,
                 customerEmail,
-                customerAddress,
+                customerAddress: `${customerAddress} ${customerAddressDetail}`,
+                postcode,
             };
 
             const response = await axios.post(process.env.REACT_APP_API_URL + 'customers', newCustomer, {
@@ -184,7 +202,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
 
     return (
       <div className="modal">
-        <div className="modal-content">
+        <div className="cp-modal-content">
             <div className="cp-modal-header">
                 <div className="cp-modal-title">판매 업체 등록</div>
                 <div className="modal-close" onClick={onClose}>&times;</div>
@@ -251,17 +269,25 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input 
                         type="text" 
                         value={customerAddress} 
-                        onChange={handleCustomerAddressChange} 
+                        readOnly
                         placeholder="판매업체 주소" 
                     />
+                    <button className="address-button" onClick={handleAddressSearch}>주소 검색</button>
                 </div>
                 <div className="cp-error-third-line">
                     <div className='customer-email-error'>
                      {customerEmailErrors && <p className="error-message">{customerEmailErrors}</p>}
                     </div>
-                    <div className='customer-address-error'>
-                     {customerAddressErrors && <p className="error-message">{customerAddressErrors}</p>}
-                    </div>
+                </div>
+                
+                <div className="cp-input-fourth-line">
+                    <label>우편번호</label>
+                    <input type="text" value={postcode} placeholder="우편번호" readOnly/>
+                    <label>상세주소</label>
+                    <input 
+                    type="text" value={customerAddressDetail} 
+                    onChange={(e) => setCustomerAddressDetail(e.target.value)} 
+                    placeholder="상세주소" />
                 </div>
             </div>
             <button className="cp-post-submit-button" onClick={handleSubmit}>등록</button>
