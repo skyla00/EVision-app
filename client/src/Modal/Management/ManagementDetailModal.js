@@ -193,22 +193,41 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     };
 
     const renderOrderStatusOptions = () => {
-        if (userInfo.data.position === '팀장') {
-            return (
-                <>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                    <option value="ACCEPT">승인</option>
-                    <option value="DENY">반려</option>
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <option value="WAITING">임시저장</option>
-                    <option value="REQUEST">승인요청</option>
-                </>
-            );
+        if(startorderHeaderStatus === 'WAITING' || startorderHeaderStatus === 'REQUEST' || startorderHeaderStatus === 'ACCEPT'){
+            if (userInfo.data.position === '팀장') {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                        <option value="ACCEPT">승인</option>
+                        <option value="DENY">반려</option>
+                    </>
+                );
+            } else {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                    </>
+                );
+            }
+        }
+        else if(startorderHeaderStatus === 'DENY'){
+            if (userInfo.data.position === '팀장') {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="DENY">반려</option>
+                    </>
+                );
+            } else {
+                return (
+                    <>
+                        <option value="WAITING">임시저장</option>
+                        <option value="REQUEST">승인요청</option>
+                    </>
+                );
+            }
         }
     };
 
