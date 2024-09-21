@@ -23,10 +23,10 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
         const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0'); // 초 추가
         
-        return `${year}-${month}-${day} ${hours}:${minutes}`;
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; // 초 포함
     };
-
 
     const fetchOrderHistories = async (orderHeaderId) => {
         console.log('Fetching order histories for ID:', orderHeaderId);
@@ -94,27 +94,28 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                     <table className="mh-order-item-table">
                         <thead> 
                             <tr>
-                                <th>납품요청일자</th>
-                                <th>상품코드</th>
-                                <th>수량</th>
-                                <th>매입단가</th>
-                                <th>판매단가</th>
-                                <th className="marginRate-width">마진률</th>
-                                <th>마진금액</th>
-                                <th>최종판매금액</th>
+                            <th className="delivery-date">납품요청일자</th>
+                            <th className="product-code">상품코드</th>
+                            <th className="orderItemQuantity-width">수량</th>
+                            <th className="purchase-price">매입단가</th>
+                            <th className="sale-price">판매단가</th>
+                            <th className="marginRate-width">마진률</th>
+                            <th className="margin-amount">마진금액</th>
+                            <th className="final-sale-price">최종판매금액</th>
                             </tr>
                         </thead>
                         <tbody>
                         {selectedIndex !== null && orderHistories[selectedIndex]?.orderItemHistories?.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.requestDate}</td>
-                                    <td>{item.itemCode}</td>
-                                    <td>{item.orderItemQuantity}</td>
-                                    <td>{item.purchaseAmount}</td>
-                                    <td>{item.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td className="delivery-date">{item.requestDate}</td>
+                                    <td className="product-code">{item.itemCode}</td>
+                                    <td className="orderItemQuantity-width">{item.orderItemQuantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td className="purchase-price">{item.purchaseAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td className="sale-price">{item.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                     <td className="marginRate-width">{item.marginRate}</td>
-                                    <td>{item.marginAmount}</td>
-                                    <td>{item.finalAmount}</td>
+                                    <td className="margin-amount">{item.marginAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td className="final-sale-price">{item.finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+
                                 </tr>
                             ))}
                         </tbody>
