@@ -148,6 +148,16 @@
     border: 2px solid #74BDA1;
     table-layout: fixed;
   }
+
+  .order-table_big {
+    margin: 0 auto;
+    width: 680px;
+    height: 200px !important;
+    max-height: 100%;
+    border-collapse: collapse;
+    border: 2px solid #74BDA1;
+    table-layout: fixed;
+  }
   
   .order-table thead {
     display: table;
