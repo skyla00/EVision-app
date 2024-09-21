@@ -99,7 +99,7 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                                 <th>수량</th>
                                 <th>매입단가</th>
                                 <th>판매단가</th>
-                                <th>마진률</th>
+                                <th className="marginRate-width">마진률</th>
                                 <th>마진금액</th>
                                 <th>최종판매금액</th>
                             </tr>
@@ -112,7 +112,7 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                                     <td>{item.orderItemQuantity}</td>
                                     <td>{item.purchaseAmount}</td>
                                     <td>{item.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                                    <td>{item.marginRate}</td>
+                                    <td className="marginRate-width">{item.marginRate}</td>
                                     <td>{item.marginAmount}</td>
                                     <td>{item.finalAmount}</td>
                                 </tr>
