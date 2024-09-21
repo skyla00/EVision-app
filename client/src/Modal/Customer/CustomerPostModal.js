@@ -15,7 +15,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
     const [customerPhoneErrors, setCustomerPhoneErrors] = useState('');
     const [customerEmailErrors, setCustomerEmailErrors] = useState('');
     const [customerAddressErrors, setCustomerAddressErrors] = useState('');
-    const [customerAddressDetail, setCustomerAddressDetail] = useState('');
+    const [customerDetailAddress, setCustomerDetailAddress] = useState('');
     const [postcode, setPostcode] = useState('');
 
     // 판매업체명 유효성 검증 
@@ -166,7 +166,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                 manager,
                 customerPhone,
                 customerEmail,
-                customerAddress: `${customerAddress} ${customerAddressDetail}`,
+                customerAddress: `${customerAddress}`,
+                customerDetailAddress: `${customerDetailAddress}`,
                 postcode,
                 customerAddressNumber: postcode 
             };
@@ -288,8 +289,8 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                     <input type="text" value={postcode} placeholder="우편번호" readOnly/>
                     <label>상세주소</label>
                     <input 
-                    type="text" value={customerAddressDetail} 
-                    onChange={(e) => setCustomerAddressDetail(e.target.value)} 
+                    type="text" value={customerDetailAddress} 
+                    onChange={(e) => setCustomerDetailAddress(e.target.value)} 
                     placeholder="상세주소" />
                 </div>
             </div>
