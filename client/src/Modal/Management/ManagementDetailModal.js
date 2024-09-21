@@ -248,26 +248,29 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         />
                         <button className="order-modal-button" onClick={openProductSearch}>검색</button>
                     </div>
-                    <div className="md-input-third-line">
-                        <input
-                            type="text"
-                            value={salesAmount}
-                            onChange={(e) => setSalesAmount(e.target.value)}
-                            placeholder="판매가(원)"
-                        />
-                        <input
-                            type="text"
-                            value={orderItemQuantity}
-                            onChange={(e) => setOrderItemQuantity(e.target.value)}
-                            placeholder="수량"
-                        />
-                    </div>
+                    {orderHeaderStatus === "ACCEPT" ?
+                        <div className="md-input-third-line">
+                            <input
+                                type="number"
+                                value={salesAmount}
+                                onChange={(e) => setSalesAmount(e.target.value)}
+                                placeholder="판매가(원)"
+                            />
+                            <input
+                                type="number"
+                                value={orderItemQuantity}
+                                onChange={(e) => setOrderItemQuantity(e.target.value)}
+                                placeholder="수량"
+                            />
+                         </div>
+                        : <></>}
                     <div className="md-input-fourth-line">
                         <input
                             type="text"
                             value={finalAmount}
                             onChange={(e) => setFinalAmount(e.target.value)}
                             placeholder="최종금액"
+                            readOnly
                         />
                         <input
                             type="date"
@@ -277,12 +280,12 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                         />
                     </div>
                 </div>
-                <div className="md-option-button-container">
-                    <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
-                    <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
-                </div>
-
-                <table className="order-table">
+                {orderHeaderStatus !== "REQUEST" ? 
+                                <div className="md-option-button-container">
+                                <button className="md-option-button" onClick={handleDeleteItem}>- 삭제</button>
+                                <button className="md-option-button" onClick={handleModifyItem}>+ 수정</button>
+                </div> : <></>}
+                <table className={orderHeaderStatus === "ACCEPT" ? "order-table_big" :"order-table"}>
                     <thead>
                         <tr>
                             <th>납품요청일자</th>
@@ -302,12 +305,16 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                                 <td>{orderItem.requestDate}</td>
                                 <td>{orderItem.itemName}</td>
                                 <td>{orderItem.itemCode}</td>
-                                <td>{orderItem.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td>{orderItem.salesAmount}</td>
                                 <td>{orderItem.orderItemQuantity}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div>주문 총 금액 : {orderItemList.reduce((acc, orderItem) => {
+                return acc + (orderItem.salesAmount * orderItem.orderItemQuantity);
+                    }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </div>
                 <button className="submit-button" onClick={handleSubmit}>등록</button>
             </div>
             {isProductSearchOpen && (

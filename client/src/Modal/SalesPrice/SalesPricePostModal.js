@@ -145,6 +145,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                           type="text" 
                           value={salesAmount} 
                           onChange={(e) => setSalesAmount(e.target.value)} 
+                          onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
                           placeholder="판매가" 
                       />
                       <label>기준일자</label>
