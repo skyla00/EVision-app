@@ -44,6 +44,10 @@ public class CustomerService {
                 .ifPresent(manager -> findCustomer.setManager(manager));
         Optional.ofNullable(customer.getCustomerAddress())
                 .ifPresent(customerAddress -> findCustomer.setCustomerAddress(customerAddress));
+        Optional.ofNullable(customer.getCustomerDetailAddress())
+                .ifPresent(customerDetailAddress -> findCustomer.setCustomerDetailAddress(customerDetailAddress));
+        Optional.ofNullable(customer.getCustomerAddressNumber())
+                .ifPresent(customerAddressNumber -> findCustomer.setCustomerAddressNumber(customerAddressNumber));
         Optional.ofNullable(customer.getCustomerPhone())
                 .ifPresent(customerPhone -> findCustomer.setCustomerPhone(customerPhone));
         Optional.ofNullable(customer.getCustomerEmail())

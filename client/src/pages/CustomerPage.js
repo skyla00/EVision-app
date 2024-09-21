@@ -18,11 +18,11 @@ const CustomerPage = () => {
         { value: 'customerCode', label: '판매업체코드' },
         { value: 'customerName', label: '판매업체명' },
         { value: 'manager', label: '담당자' },
-        { value: 'customerAddress', label: '판매업체 주소' },
+        { value: 'customerAddress', label: '주소' },
         { value: 'customerDetailAddress', label: '상세주소'},
-        { value: 'customerAddressNumber', label: '판매업체 우편번호'},
-        { value: 'customerPhone', label: '판매업체 연락처' },
-        { value: 'customerEmail', label: '판매업체 이메일' },
+        { value: 'customerAddressNumber', label: '우편번호'},
+        { value: 'customerPhone', label: '연락처' },
+        { value: 'customerEmail', label: '이메일' },
     ];
 
     useEffect(() => {

@@ -105,6 +105,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             setManager(customer.manager);
             setCustomerAddress(customer.customerAddress);
             setCustomerDetailAddress(customer.customerDetailAddress);
+            setPostcode(customer.customerAddressNumber);
             setCustomerPhone(customer.customerPhone);
             setCustomerEmail(customer.customerEmail);
             setCustomerNameErrors('');
@@ -146,8 +147,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             customerEmail,
             customerAddress: `${customerAddress}`,
             customerDetailAddress: `${customerDetailAddress}`,
-            postcode,
-            customerAddressNumber: postcode 
+            customerAddressNumber: postcode
         };
         
         const response = await axios.patch(process.env.REACT_APP_API_URL + 'customers' + '/' + updatedCustomer.customerCode,
@@ -160,6 +160,10 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
 
         // 부모 컴포넌트로 데이터 전달
         onSubmit(response.data);
+        if (response.status === 200) {
+            alert('판매업체가 수정되었습니다.');
+            window.location.reload();
+        }
         setCustomerName('');
         setCustomerCode('');
         setManager('');
@@ -167,6 +171,7 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
         setCustomerEmail('');
         setCustomerAddress('');
         onClose();
+
         } catch (error) {
             console.error('판매업체 정보 등록 실패: ', error);
         }
@@ -248,6 +253,9 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
                     <button className="address-button" onClick={handleAddressSearch}>주소 검색</button>
                 </div>
                 <div className="cm-error-third-line">
+                    <div className='customer-address-error'>
+                     {customerEmailErrors && <p className="error-message">{customerEmailErrors}</p>}
+                    </div>
                     <div className='customer-address-error'>
                      {customerAddressErrors && <p className="error-message">{customerAddressErrors}</p>}
                     </div>
