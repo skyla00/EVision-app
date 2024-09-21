@@ -340,7 +340,7 @@ const OrderModal = ({ isOpen, onClose }) => {
                         <td>{item.deliveryDate}</td>
                         <td>{item.itemName}</td>
                         <td>{item.itemCode}</td>
-                        <td>{item.salesAmount}</td>
+                        <td>{item.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                         <td>{item.orderItemQuantity}</td>
                     </tr>
                     ))}

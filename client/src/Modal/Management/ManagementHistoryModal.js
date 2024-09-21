@@ -97,7 +97,7 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                                     <td>{item.itemCode}</td>
                                     <td>{item.orderItemQuantity}</td>
                                     <td>{item.purchaseAmount}</td>
-                                    <td>{item.salesAmount}</td>
+                                    <td>{item.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                     <td>{item.marginRate}</td>
                                     <td>{item.marginAmount}</td>
                                     <td>{item.finalAmount}</td>

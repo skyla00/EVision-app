@@ -302,7 +302,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                                 <td>{orderItem.requestDate}</td>
                                 <td>{orderItem.itemName}</td>
                                 <td>{orderItem.itemCode}</td>
-                                <td>{orderItem.salesAmount}</td>
+                                <td>{orderItem.salesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td>{orderItem.orderItemQuantity}</td>
                             </tr>
                         ))}
