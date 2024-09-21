@@ -52,6 +52,10 @@ const ManagementPage = () => {
             alert('히스토리를 조회할 주문을 선택하세요.');
             return;
         }
+        const selectedOrder = managementOrderList.find(order => order.orderHeaderId === orderHeaderId);
+        if (selectedOrder) {
+            setSelectedOrder(selectedOrder); // selectedOrder 업데이트
+        }
         setIsHistoryModalOpen(true);
     };
     const handleColseHistoryModal = () => setIsHistoryModalOpen(false);
@@ -177,7 +181,7 @@ const ManagementPage = () => {
 
     const handleOpenDetailModal = () => {
         if (!selectedOrder) {
-            alert('상세보기할 상품을 선택하세요.');
+            alert('상세보기할 주문을 선택하세요.');
             return;
         }
         setIsManagementDetailModalOpen(true);
@@ -237,7 +241,7 @@ const ManagementPage = () => {
             <ManagementHistoryModal
                 isOpen={isHistoryModalOpen}
                 onClose={handleColseHistoryModal}
-                orderHeaderId={selectedOrder?.orderHeaderId}
+                orderHeaderId={selectedOrder ? selectedOrder.orderHeaderId : null}
             />
         </div>
     );

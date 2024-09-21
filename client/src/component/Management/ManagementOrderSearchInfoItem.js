@@ -8,10 +8,6 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
     const { userInfo } = useContext(AuthContext);
     const [isHovered, setIsHovered] = useState(false); // hover 상태 관리
 
-    if (!managementOrder || !managementOrder.orderHeaderId) {
-        return null;
-    }
-
     const handleOrderIdClick = () => {
         // e.stopPropagation(); // Prevent row selection
         onOpenHistoryModal(managementOrder.orderHeaderId); // Trigger modal open

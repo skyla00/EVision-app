@@ -32,6 +32,9 @@ public class CustomerDto {
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]+(\\s[가-힣a-zA-Z0-9]+){0,49}$", message = "판매업체 주소는 한글, 영어, 숫자, 띄어쓰기가 포함될 수 있습니다.")
         private String customerAddress;
 
+        @Size(max = 255, message = "상세 주소는 최대 255자까지 입력 가능합니다.")
+        private String customerDetailAddress;
+
         @NotBlank
         @Pattern(regexp = "^[0-9]{5}$", message = "우편번호는 5자리 숫자여야 합니다.")
         private String customerAddressNumber;
@@ -57,6 +60,8 @@ public class CustomerDto {
         private String manager;
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]+(\\s[가-힣a-zA-Z0-9]+){0,49}$", message = "판매업체 주소는 한글과 영어, 숫자, 띄어쓰기가 포함될 수 있습니다.")
         private String customerAddress;
+        @Size(max = 255, message = "상세 주소는 최대 255자까지 입력 가능합니다.")
+        private String customerDetailAddress;
         @Pattern(regexp = "^[0-9]{5}$", message = "우편번호는 5자리 숫자여야 합니다.")
         private String customerAddressNumber;
         @Pattern(regexp = "^\\d{2,3}-\\d{4}-\\d{4}$", message = "전화번호는 하이픈(-)포함 형식이어야 합니다.")
@@ -73,6 +78,7 @@ public class CustomerDto {
         private String customerName;
         private String manager;
         private String customerAddress;
+        private String customerDetailAddress;
         private String customerAddressNumber;
         private String customerPhone;
         private String customerEmail;
