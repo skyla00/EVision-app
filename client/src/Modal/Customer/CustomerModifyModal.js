@@ -106,6 +106,8 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             setCustomerAddress(customer.customerAddress);
             setCustomerPhone(customer.customerPhone);
             setCustomerEmail(customer.customerEmail);
+            setCustomerAddressDetail(customer.customerAddressDetail);
+            setPostcode(customer.customerAddressNumber); 
             setCustomerNameErrors('');
             setManagerErrors('');
             setCustomerPhoneErrors('');
@@ -144,7 +146,8 @@ const CustomerModifyModal = ({ isOpen, onClose, onSubmit, customer }) => {
             customerPhone,
             customerEmail,
             customerAddress: `${customerAddress} ${customerAddressDetail}`,
-            postcode, 
+            postcode,
+            customerAddressNumber: postcode 
         };
         
         const response = await axios.patch(process.env.REACT_APP_API_URL + 'customers' + '/' + updatedCustomer.customerCode,

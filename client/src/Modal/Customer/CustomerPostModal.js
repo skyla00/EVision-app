@@ -168,7 +168,10 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                 customerEmail,
                 customerAddress: `${customerAddress} ${customerAddressDetail}`,
                 postcode,
+                customerAddressNumber: postcode 
             };
+
+            console.log("Sending data:", newCustomer);
 
             const response = await axios.post(process.env.REACT_APP_API_URL + 'customers', newCustomer, {
                 headers: {
