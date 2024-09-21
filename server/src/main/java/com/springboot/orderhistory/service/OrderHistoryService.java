@@ -10,6 +10,7 @@ import com.springboot.orderhistory.repository.OrderItemHistoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class OrderHistoryService {
         orderHeaderHistory.setMemberId(orderHeader.getMember().getMemberId());
         orderHeaderHistory.setOrderDate(orderHeader.getOrderDate());
         orderHeaderHistory.setAcceptDate(orderHeader.getAcceptDate());
+        orderHeaderHistory.setCreatedAt(LocalDateTime.now());
         orderHeaderHistory.setOrderHeaderStatus(orderHeader.getOrderHeaderStatus().getStatus());
         return orderHeaderHistoryRepository.save(orderHeaderHistory);
     }
@@ -42,6 +44,7 @@ public class OrderHistoryService {
         OrderItemHistory orderItemHistory = new OrderItemHistory();
         orderItemHistory.setOrderItemId(orderItem.getOrderItemId());
         orderItemHistory.setRequestDate(orderItem.getRequestDate());
+        orderItemHistory.setCreatedAt(LocalDateTime.now());
         orderItemHistory.setItemCode(orderItem.getItem().getItemCode());
         orderItemHistory.setOrderItemQuantity(orderItem.getOrderItemQuantity());
         orderItemHistory.setPurchaseAmount(orderItem.getPurchaseAmount());
@@ -76,6 +79,7 @@ public class OrderHistoryService {
                     OrderHistoryDto.OrderItemHistoryDto itemHistoryDto = new OrderHistoryDto.OrderItemHistoryDto();
                     itemHistoryDto.setOrderItemHistoryId(orderItemHistory.getOrderItemHistoryId());
                     itemHistoryDto.setOrderItemId(orderItemHistory.getOrderItemId());
+                    itemHistoryDto.setCreatedAt(orderItemHistory.getCreatedAt());
                     itemHistoryDto.setItemCode(orderItemHistory.getItemCode());
                     itemHistoryDto.setOrderItemQuantity(orderItemHistory.getOrderItemQuantity());
                     itemHistoryDto.setPurchaseAmount(orderItemHistory.getPurchaseAmount());
@@ -95,6 +99,7 @@ public class OrderHistoryService {
                 response.setMemberId(orderHeaderHistory.getMemberId());
                 response.setOrderDate(orderHeaderHistory.getOrderDate());
                 response.setAcceptDate(orderHeaderHistory.getAcceptDate());
+                response.setCreatedAt(orderHeaderHistory.getCreatedAt());
                 response.setOrderHeaderStatus(orderHeaderHistory.getOrderHeaderStatus());
                 response.setOrderItemHistories(orderItemHistoryDtos);  // 변환된 DTO 리스트 설정
 

@@ -39,7 +39,7 @@ public class OrderHeaderHistory {
     @Column(nullable = false)
     private String orderHeaderStatus;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "orderHeaderHistory", cascade = CascadeType.PERSIST)

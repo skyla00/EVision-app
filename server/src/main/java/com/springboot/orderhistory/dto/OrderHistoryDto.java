@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderHistoryDto {
@@ -43,6 +44,7 @@ public class OrderHistoryDto {
         private String memberId;
         private LocalDate orderDate;
         private LocalDate acceptDate;
+        private LocalDateTime createdAt;
         private String orderHeaderStatus;
         private List<OrderHistoryDto.OrderItemHistoryDto> orderItemHistories;
     }
@@ -65,6 +67,7 @@ public class OrderHistoryDto {
         private long purchaseAmount;
         private long salesAmount;
         private double marginRate;
+        private LocalDateTime createdAt;
         private long marginAmount;
         private long finalAmount;
         private LocalDate requestDate;
