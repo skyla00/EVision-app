@@ -16,6 +16,18 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
         setSelectedIndex(null);
     }, [isOpen, orderHeaderId]);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
+
+
     const fetchOrderHistories = async (orderHeaderId) => {
         console.log('Fetching order histories for ID:', orderHeaderId);
 
@@ -58,6 +70,7 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                 <table className="mh-order-table">
                     <thead> 
                         <tr>
+                            <th>수정일자</th>
                             <th>주문일자</th>
                             <th>주문상태</th>
                             <th>승인일자</th>
@@ -69,6 +82,7 @@ const ManagementHistoryModal = ({isOpen, onClose, orderHeaderId }) => {
                         <tr key={index} onClick={() => handleRowClick(index)}
                             className={`mh-order-row' ${index === selectedIndex ? 'mh-selected-row' : ''}`}
                         >
+                            <td>{formatDate(orderHeader.createdAt)}</td>
                             <td>{orderHeader.orderDate}</td>
                             <td>{orderHeader.orderHeaderStatus}</td>
                             <td>{orderHeader.acceptDate}</td>

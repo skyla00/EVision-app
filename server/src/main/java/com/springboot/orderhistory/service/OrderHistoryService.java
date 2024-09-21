@@ -61,11 +61,11 @@ public class OrderHistoryService {
     @Transactional(readOnly = true)
     public OrderHistoryDto.OrderHistoryResponse findOrderHistory(String orderHeaderId) {
 
-        if (orderHeaderHistoryRepository.findByOrderHeaderId(orderHeaderId).isEmpty()) {
+        if (orderHeaderHistoryRepository.findByOrderHeaderIdOrderByCreatedAtDesc(orderHeaderId).isEmpty()) {
             return new OrderHistoryDto.OrderHistoryResponse(new ArrayList<>());
         }
 
-        List<OrderHeaderHistory> orderHeaderHistories = orderHeaderHistoryRepository.findByOrderHeaderId(orderHeaderId);
+        List<OrderHeaderHistory> orderHeaderHistories = orderHeaderHistoryRepository.findByOrderHeaderIdOrderByCreatedAtDesc(orderHeaderId);
 
         List<OrderHistoryDto.Response> responses = new ArrayList<>();
 

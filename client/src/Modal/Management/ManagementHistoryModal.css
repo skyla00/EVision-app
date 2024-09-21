@@ -130,8 +130,8 @@
 
 .mh-order-item-table tbody {
     display: block;
-    height: 205px !important;
-    max-height: 205px !important;
+    height: 270px !important;
+    max-height: 270px !important;
     overflow-y: auto;
     width: 100%;
     table-layout: fixed;
@@ -150,4 +150,15 @@
     text-align: center;
     border-bottom: 1px solid #ccc;
     color: #4c4c4c;
+    word-wrap: break-word;
   }
+.mh-order-item-table th:nth-child(1) td:nth-child(1) {
+    width: 20%;  /* 두 번째 열의 너비를 조정 */
+}
+.mh-order-item-table th:nth-child(2) td:nth-child(2) {
+    width: 20px;  /* 두 번째 열의 너비를 조정 */
+}
+
+.mh-order-item-table th:nth-child(3) td:nth-child(3) {
+    width: 80px;  /* 두 번째 열의 너비를 조정 */
+}
