@@ -57,8 +57,36 @@ const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    setFavorites(userInfo?.data?.favorites || []);
-  }, [userInfo]);
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');  // 토큰 가져오기
+        const response = await axios.get(
+          process.env.REACT_APP_API_URL + 'members/me',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          const updatedUserInfo = response.data;
+          setUserInfo(updatedUserInfo);  // AuthContext에 userInfo 업데이트
+          setFavorites(updatedUserInfo.data.favorites || []);  // 최신 즐겨찾기 상태로 갱신
+          localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));  // 로컬 스토리지에 저장
+        }
+      } catch (error) {
+        console.error("내 정보 가져오기 중 오류 발생:", error);
+      }
+    };
+
+    fetchUserInfo();  // 페이지가 로드될 때 GET 요청
+  }, [setUserInfo]);
+
+  useEffect(() => {
+    console.log("Updated favorites:", favorites);  // 즐겨찾기 리스트 상태 확인
+  }, [favorites]);
+
 
   const toggleFavorite = async (orderHeaderId) => {
     const isFavorite = favorites.some(fav => fav.orderHeaderId === orderHeaderId);

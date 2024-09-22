@@ -111,9 +111,28 @@ const ManagementPage = () => {
                 const updatedUserInfo = { ...userInfo, data: { ...userInfo.data, favorites: updatedFavorites } };
                 setUserInfo(updatedUserInfo);
                 localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+
+                if (isFavorite) {
+                    alert('즐겨찾기가 해제되었습니다.');
+                } else {
+                    alert('즐겨찾기가 등록되었습니다.');
+                }
             }
         } catch (error) {
-            console.error("즐겨찾기 상태를 업데이트하는 중 오류가 발생했습니다:", error);
+            // 에러 처리
+            if (error.response) {
+                const { status, message } = error.response.data;
+    
+                if (status === 409 && message === "Order Not Belong To Member") {
+                    alert('자신의 주문만 즐겨 찾기로 등록할 수 있습니다.');
+                } else if (status === 404 && message === "Favorite Exceeded") {
+                    alert('즐겨찾기는 최대 3개까지 등록 가능합니다.');
+                } else {
+                    alert(`에러 발생: ${message}`);
+                }
+            } else {
+                console.error("즐겨찾기 등록 중 오류 발생:", error);
+            }
         }
     };
 

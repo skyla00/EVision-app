@@ -32,21 +32,34 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
         onSearch(finalItemCode, finalItemName, finalCustomerCode, finalCustomerName, finalSalesAmount, finalStartDate, finalEndDate);
     }, [itemCode, itemName, customerCode, customerName, salesAmount, startDate, endDate, selectedKeywords, onSearch]);
 
-    const handleDateKeyword = (dateValue, setDateFunction, keywordType) => {
-        setDateFunction(dateValue);
+    const handleDateChange = (e, type) => {
+        const selectedDate = e.target.value;
 
-        setDisplayKeywords(prevKeywords => [
-            ...prevKeywords,
-            ...(dateValue && !prevKeywords.includes(`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`) 
-                ? [`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`] 
-                : []
-            )
-        ]);
-
-        setSelectedKeywords(prevKeywords => ({
-            ...prevKeywords,
-            [keywordType]: dateValue
-        }));
+        if (type === 'startDate') {
+            setStartDate(selectedDate);
+            setSelectedKeywords(prevKeywords => ({
+                ...prevKeywords,
+                startDate: selectedDate
+            }));
+            setDisplayKeywords(prevKeywords => [
+                ...prevKeywords,
+                ...(selectedDate && !prevKeywords.includes(`기준일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`) 
+                    ? [`기준일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`] 
+                    : [])
+            ]);
+        } else if (type === 'endDate') {
+            setEndDate(selectedDate);
+            setSelectedKeywords(prevKeywords => ({
+                ...prevKeywords,
+                endDate: selectedDate
+            }));
+            setDisplayKeywords(prevKeywords => [
+                ...prevKeywords,
+                ...(selectedDate && !prevKeywords.includes(`만료일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`) 
+                    ? [`만료일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`] 
+                    : [])
+            ]);
+        }
     };
 
     const handleSearch = () => {
@@ -168,11 +181,11 @@ const SalesPriceDetailSearch = ({ title, list = [], onSearch }) => {
                         disabled={!!selectedKeywords.customerName}
                     />
                     <input type="date" placeholder="기준일자" value={startDate}
-                        onChange={(e) => handleDateKeyword(e.target.value, setStartDate, '기준일자')}
+                        onChange={(e) => handleDateChange(e, 'startDate')}
                         disabled={!!selectedKeywords.startDate}
                     />
                     <input type="date" placeholder="만료일자" value={endDate}
-                        onChange={(e) => handleDateKeyword(e.target.value, setEndDate, '만료일자')}
+                        onChange={(e) => handleDateChange(e, 'endDate')}
                         disabled={!!selectedKeywords.endDate}
                     />
                 </div>
