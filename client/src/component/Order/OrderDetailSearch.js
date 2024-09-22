@@ -39,25 +39,47 @@ const OrderDetailSearch = ({ title, onSearch }) => {
             finalMemberName, finalOrderDate, finalAcceptDate, finalRequestDate);
     }, [orderHeaderId, itemName, itemCode, customerName, customerCode, memberName, orderDate, acceptDate, requestDate, onSearch]);
 
-    const handleDateKeyword = (dateValue, setDateFunction, keywordType) => {
-        setDateFunction(dateValue);
-    
-        // 키워드로 날짜 등록
-        setDisplayKeywords(prevKeywords => [
-            ...prevKeywords,
-            ...(dateValue && !prevKeywords.includes(`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`) 
-                ? [`${keywordType}: ${new Date(dateValue).toISOString().split('T')[0]}`] 
-                : []
-            )
-        ]);
-    
-        // 키워드 선택 상태에도 반영
-        setSelectedKeywords(prevKeywords => ({
-            ...prevKeywords,
-            [keywordType]: dateValue
-        }));
-    };
+    const handleDateChange = (e, type) => {
+        const selectedDate = e.target.value;
 
+        if (type === 'orderDate') {
+            setOrderDate(selectedDate);
+            setSelectedKeywords(prevKeywords => ({
+                ...prevKeywords,
+                orderDate: selectedDate
+            }));
+            setDisplayKeywords(prevKeywords => [
+                ...prevKeywords,
+                ...(selectedDate && !prevKeywords.includes(`주문일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`) 
+                    ? [`주문일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`] 
+                    : [])
+            ]);
+        } else if (type === 'acceptDate') {
+            setAcceptDate(selectedDate);
+            setSelectedKeywords(prevKeywords => ({
+                ...prevKeywords,
+                acceptDate: selectedDate
+            }));
+            setDisplayKeywords(prevKeywords => [
+                ...prevKeywords,
+                ...(selectedDate && !prevKeywords.includes(`승인일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`) 
+                    ? [`승인일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`] 
+                    : [])
+            ]);
+        } else if (type === 'requestDate') {
+            setRequestDate(selectedDate);
+            setSelectedKeywords(prevKeywords => ({
+                ...prevKeywords,
+                requestDate: selectedDate
+            }));
+            setDisplayKeywords(prevKeywords => [
+                ...prevKeywords,
+                ...(selectedDate && !prevKeywords.includes(`납품요청일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`) 
+                    ? [`납품요청일자 : ${new Date(selectedDate).toISOString().split('T')[0]}`] 
+                    : [])
+            ]);
+        }
+    };
 
     // 검색 버튼 클릭 시 키워드 등록 및 필드 초기화
     const handleSearch = () => {
@@ -196,21 +218,21 @@ const OrderDetailSearch = ({ title, onSearch }) => {
                         type="date" 
                         placeholder="주문일자" 
                         value={orderDate}
-                        onChange={(e) => handleDateKeyword(e.target.value, setOrderDate, '주문일자')}
+                        onChange={(e) =>handleDateChange(e, 'orderDate')}
                         disabled={!!selectedKeywords.orderDate}
                     />
                     <input 
                         type="date" 
                         placeholder="승인일자" 
-                        value={acceptDate || ''}
-                        onChange={(e) => handleDateKeyword(e.target.value, setAcceptDate, '승인일자')}
+                        value={acceptDate}
+                        onChange={(e) =>handleDateChange(e, 'acceptDate')}
                         disabled={!!selectedKeywords.acceptDate}
                     />
                     <input 
                         type="date" 
                         placeholder="납품요청일자" 
-                        value={requestDate || ''}
-                        onChange={(e) => handleDateKeyword(e.target.value, setRequestDate, '납품요청일자')}
+                        value={requestDate}
+                        onChange={(e) =>handleDateChange(e, 'requestDate')}
                         disabled={!!selectedKeywords.requestDate}
                     />
                     <button className="order-search-button" onClick={handleSearch}>조회</button>

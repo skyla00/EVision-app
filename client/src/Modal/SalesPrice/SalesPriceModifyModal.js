@@ -113,7 +113,6 @@ const SalesPriceModifyModal = ({ isOpen, onClose, onSubmit, salesPrice }) => {
                     alert(`에러 발생: ${message}`);
                 }
             } else {
-                console.error('판매업체 정보 등록 실패: ', error.message);
                 alert('판매가 등록에 실패했습니다.');
             }
         }

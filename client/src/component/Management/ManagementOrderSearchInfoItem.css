@@ -1,7 +1,3 @@
 .underline-text {
     text-decoration: underline; /* 글자에 밑줄을 추가 */
 }
-
-.bold-text {
-    font-weight: 500; /* 볼드체의 두께 조절 (400은 일반, 700은 볼드) */
-}

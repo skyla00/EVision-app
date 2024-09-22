@@ -486,7 +486,7 @@ public class OrderService {
         OrderHeader orderHeader = orderHeaderRepository.findById(orderHeaderId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
         if(!orderHeader.getMember().getMemberId().equals((String) authentication.getPrincipal())) {
-            throw new BusinessLogicException(ExceptionCode.INVALID_DELETE_REQUEST);
+            throw new BusinessLogicException(ExceptionCode.ORDER_NOT_BELONG_TO_MEMBER);
         }
 
         if(orderHeader.getOrderHeaderStatus().getStatus().equals("승인")) {

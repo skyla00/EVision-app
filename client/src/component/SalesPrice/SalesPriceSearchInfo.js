@@ -50,7 +50,6 @@ const SalesPriceSearchInfo = ({ title, headers, salesPrices = [], onOpenPostModa
                             alert(`에러 발생: ${message}`);
                         }
                     } else {
-                        console.error('판매가 삭제 실패:', error.message);
                         alert('판매가 삭제에 실패했습니다.');
                     }
                 }
