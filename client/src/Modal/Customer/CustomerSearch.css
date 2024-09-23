@@ -1,6 +1,6 @@
 .cs-table {
     height: 220px;
-    width: 700px;
+    width: 750px;
     overflow-y: auto;
     overflow-x: auto;
     display: block;
@@ -9,7 +9,7 @@
 
 .cs-table-wrapper {
     height: 220px;
-    width: 720px;
+    width: 750px;
     overflow-y: auto;
     overflow-x: auto;
 }
@@ -39,11 +39,11 @@
 }
 
 .cs-code {
-    width: 80px;
+    width: 90px;
 }
 
 .cs-name {
-    width: 80px;
+    width: 90px;
 }
 
 .cs-manager {
@@ -55,7 +55,7 @@
 }
 
 .cs-phone {
-    width: 90px;
+    width: 120px;
 }
 
 .cs-email {
