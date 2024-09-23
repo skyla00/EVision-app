@@ -25,6 +25,19 @@
     height: 40px;
 }
 
+.modal-search{
+    display: flex;
+    justify-content: center;
+}
+
+.ps-search-input {
+    width: 300px;
+    height: 40px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #74BDA1;
+}
+
 .cs-code {
     width: 80px;
 }

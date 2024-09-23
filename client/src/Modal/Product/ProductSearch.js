@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ProductSearch.css';
+import '../Customer/CustomerModifyModal.css';
 import axios from 'axios';
 
 const ProductSearch = ({ onProductSelect, onClose }) => {
@@ -39,13 +40,15 @@ const ProductSearch = ({ onProductSelect, onClose }) => {
     return (
         <div className="modal">
             <div className="modal-content">
+            <div className="modal-search">
                 <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="ps-search-input"
-                    placeholder="상품명 또는 코드 검색"
-                />
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="ps-search-input"
+                        placeholder="상품명 또는 코드 검색"
+                    />
+            </div>
                 <div className="ps-table-wrapper">
                     <table className="ps-table">
                         <thead className="ps-head">

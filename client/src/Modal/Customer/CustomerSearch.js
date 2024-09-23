@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CustomerSearch.css';
+import '../Customer/CustomerModifyModal.css';
 
 const CustomerSearch = ({ onCustomerSelect, onClose }) => {
     const [customers, setCustomers] = useState([]);
@@ -39,13 +40,15 @@ const CustomerSearch = ({ onCustomerSelect, onClose }) => {
     return (
         <div className="modal">
             <div className="modal-content">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="ps-search-input"
-                    placeholder="판매업체명 또는 코드 검색"
-                />
+                <div className="modal-search">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="ps-search-input"
+                        placeholder="판매업체명 또는 코드 검색"
+                    />
+                </div>
                 <div className="cs-table-wrapper">
                     <table className="cs-table">
                         <thead className="ps-head">

@@ -71,3 +71,8 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.modal-search{
+    display: flex;
+    justify-content: center;
+}
