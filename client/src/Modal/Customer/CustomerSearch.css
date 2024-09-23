@@ -4,7 +4,7 @@
     overflow-y: auto;
     overflow-x: auto;
     display: block;
-    border: 2px solid #bbe1d2;
+    border: 2px solid #74BDA1;
 }
 
 .cs-table-wrapper {
@@ -12,6 +12,8 @@
     width: 750px;
     overflow-y: auto;
     overflow-x: auto;
+    font-weight: 400;
+    text-align: left;
 }
 
 
@@ -27,11 +29,11 @@
 
 .modal-search{
     display: flex;
-    justify-content: center;
+    justify-content: left;
 }
 
 .ps-search-input {
-    width: 300px;
+    width: 340px;
     height: 40px;
     padding-left: 10px;
     margin-bottom: 20px;
@@ -60,4 +62,8 @@
 
 .cs-email {
     width: 180px;
+}
+
+.ps-body td {
+    height: 30px;
 }

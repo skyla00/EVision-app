@@ -20,11 +20,14 @@
     height: 220px; /* 테이블 높이와 동일하게 설정 */
     width: 720px;
     overflow-y: auto; /* 스크롤 가능하도록 설정 */
+    font-weight: 400;
+    text-align: left;
 }
 
 .ps-head {
     position: sticky;
     width: 700px;
+    height: 40px;
 }
 
 .ps-head-cell {
@@ -70,9 +73,4 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.modal-search{
-    display: flex;
-    justify-content: center;
 }

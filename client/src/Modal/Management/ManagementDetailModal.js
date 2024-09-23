@@ -239,7 +239,7 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
     };
 
     const renderOrderStatusOptions = () => {
-        if(startorderHeaderStatus === 'WAITING' || startorderHeaderStatus === 'ACCEPT'){
+        if(startorderHeaderStatus === 'WAITING'){
             if (userInfo.data.position === '팀장') {
                 return (
                     <>
@@ -255,6 +255,12 @@ const ManagementDetailModal = ({ isOpen, onClose, onSubmit, order = {} }) => {
                     </>
                 );
             }
+        }else if (startorderHeaderStatus === 'ACCEPT'){
+            return (
+                <>
+                    <option value="ACCEPT">승인</option>
+                </>
+            )
         }
         else if (startorderHeaderStatus === 'REQUEST') {
             if (userInfo.data.position === '팀장' && selectedMemberName === '은하늘') {
