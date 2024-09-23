@@ -4,7 +4,7 @@ import './GraphPage.css';
 import Header from '../component/Common/Header';
 import SideBar from '../component/Common/SideBar';
 import Tab from '../component/Common/Tab';
-import RechartsGraph from '../component/RechartsGraph';
+import RechartsGraph from '../component/RechartsGraph';  // RechartsGraph 컴포넌트 사용
 import { AuthContext } from '../auth/AuthContext';  // AuthContext 추가
 
 const GraphPage = () => {
@@ -62,61 +62,65 @@ const GraphPage = () => {
           <div className="graph-per">단위 : 일</div>
         </div>
         <div className="graph-grid">
-          {/* 사용자 데이터 */}
+          {/* 주문 건수를 Bar 차트로 표현 */}
           <div className="graph1">
             내 거래 건 수
             <RechartsGraph
               data={memberGraphData}
-              dataKey="orderCount"
+              barDataKey="orderCount"   // Bar 차트 데이터 (거래 건수)
               yAxisLabel="거래 건수 (EA)"
-              displayName="주문 건수"
+              barDisplayName="주문 건수"
             />
           </div>
+
+          {/* 총 매출액을 Area 차트로 표현 */}
           <div className="graph1">
             내 거래 총 매출액
             <RechartsGraph
               data={memberGraphData}
-              dataKey="totalSales"
+              barDataKey="totalSales"  // Area 차트 데이터 (총 매출액)
               yAxisLabel="총 매출액 (₩)"
-              displayName="총 매출액"
+              barDisplayName="총 매출액"
             />
           </div>
+
+          {/* 마진율을 Area 차트로 표현 */}
           <div className="graph1">
             내 거래 마진률
             <RechartsGraph
               data={memberGraphData}
-              dataKey="totalMarginRate"
+              barDataKey="totalMarginRate"  // Area 차트 데이터 (마진율)
               yAxisLabel="마진률 (%)"
-              displayName="마진률"
+              barDisplayName="마진률"
             />
           </div>
 
-          {/* 회사 데이터 */}
+          {/* 회사 데이터: 주문 건수는 Bar, 매출액과 마진율은 Area */}
           <div className="graph1">
             회사 최근 거래 건수
             <RechartsGraph
               data={companyGraphData}
-              dataKey="orderCount"
+              barDataKey="orderCount"
               yAxisLabel="거래 건수 (EA)"
-              displayName="회사 주문 건수"
+              barDisplayName="회사 주문 건수"
             />
           </div>
           <div className="graph1">
             회사 최근 거래 총 매출액
             <RechartsGraph
               data={companyGraphData}
-              dataKey="totalSales"
+              barDataKey="totalSales"
               yAxisLabel="총 매출액 (₩)"
-              displayName="회사 총 매출액"
+              barDisplayName="회사 총 매출액"
             />
           </div>
           <div className="graph1">
             회사 최근 거래 마진률
             <RechartsGraph
               data={companyGraphData}
-              dataKey="totalMarginRate"
+              barDataKey="totalMarginRate"
               yAxisLabel="마진률 (%)"
-              displayName="회사 마진률"
+              barDisplayName="회사 마진률"
             />
           </div>
         </div>
