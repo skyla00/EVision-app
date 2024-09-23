@@ -2,6 +2,8 @@ package com.springboot.salesprice.service;
 
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
+import com.springboot.item.entity.Item;
+import com.springboot.item.repository.ItemRepository;
 import com.springboot.salesprice.entity.SalesPrice;
 import com.springboot.salesprice.repository.SalesPriceRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +22,11 @@ import java.util.*;
 @Transactional
 public class SalesPriceService {
     private final SalesPriceRepository salesPriceRepository;
+    private final ItemRepository itemRepository;
 
-    public SalesPriceService(SalesPriceRepository salesPriceRepository) {
+    public SalesPriceService(SalesPriceRepository salesPriceRepository, ItemRepository itemRepository) {
         this.salesPriceRepository = salesPriceRepository;
+        this.itemRepository = itemRepository;
     }
 
     public SalesPrice createSalesPrice(SalesPrice salesPrice) {
@@ -31,7 +35,8 @@ public class SalesPriceService {
         if (!findSalesPrice.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.SALES_PRICE_EXISTS);
         }
-        if (salesPrice.getItem().getPurchasePrices().isEmpty()) {
+        Item item = itemRepository.findByItemCode(salesPrice.getItem().getItemCode());
+        if (item.getPurchasePrices().isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.PURCHASE_AMOUNT_NOT_FOUND);
         }
         return salesPriceRepository.save(salesPrice);
