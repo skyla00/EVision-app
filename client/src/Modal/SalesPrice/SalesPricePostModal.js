@@ -192,7 +192,7 @@ const PostModal = ({ isOpen, onClose, onSubmit }) => {
                         </div>
                   </div>
               </div>
-              <button className="cp-post-submit-button" onClick={handleSubmit}>등록</button>
+              <button className="sp-post-submit-button" onClick={handleSubmit}>등록</button>
           </div>
            {/* ProductSearch 모달 */}
             {isProductSearchOpen && (
