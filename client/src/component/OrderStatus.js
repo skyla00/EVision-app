@@ -61,7 +61,7 @@ const OrderStatus = ({ status }) => {
     };
     const statusText = {
         WAITING: '임시저장',
-        REQUEST: '승인 요청',
+        REQUEST: '승인요청',
         ACCEPT: '승인',
         DENY: '반려',
     };

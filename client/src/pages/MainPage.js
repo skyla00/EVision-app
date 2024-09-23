@@ -84,7 +84,6 @@ const Favorite = () => {
   }, [setUserInfo]);
 
   useEffect(() => {
-    console.log("Updated favorites:", favorites);  // 즐겨찾기 리스트 상태 확인
   }, [favorites]);
 
 
