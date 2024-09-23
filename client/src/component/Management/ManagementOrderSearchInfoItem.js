@@ -8,10 +8,10 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
     const { userInfo } = useContext(AuthContext);
     const [isHovered, setIsHovered] = useState(false); // hover 상태 관리
 
-    const handleOrderIdClick = () => {
-        // e.stopPropagation(); // Prevent row selection
-        onOpenHistoryModal(managementOrder.orderHeaderId); // Trigger modal open
-    };
+    // const handleOrderIdClick = () => {
+    //     // e.stopPropagation(); // Prevent row selection
+    //     onOpenHistoryModal(managementOrder.orderHeaderId); // Trigger modal open
+    // };
 
     // userInfo 또는 favorites 안에 있는 orderHeaderId와 비교하여 즐겨찾기 상태 확인
     const isFavorite = userInfo?.data?.favorites?.some(fav => fav?.orderHeaderId === managementOrder?.orderHeaderId)
@@ -26,7 +26,10 @@ const ManagementOrderSearchInfoItem = ({ managementOrder, index, headerKey, onSe
                 <td className={`search-info-td ${key}`} key={key + index} >
                     {key === 'orderHeaderId' ? (
                         <span
-                            onClick={handleOrderIdClick} // orderHeaderId 클릭 시 핸들러 호출
+                            onClick={(e) =>{
+                                onOpenHistoryModal(managementOrder.orderHeaderId);
+                                e.stopPropagation();
+                            }} // orderHeaderId 클릭 시 핸들러 호출
                             className={isHovered ? 'underline-text' : ''} // hover 시 볼드체 적용
                             style={{ cursor: 'pointer' }}
                             onMouseEnter={() => setIsHovered(true)} // 마우스가 올라갔을 때
