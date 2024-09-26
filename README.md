@@ -41,6 +41,7 @@ ERP(Enterprise Resource Planning)
 
 ## API
 [API 명세서](https://docs.google.com/spreadsheets/d/1tndGE_PMH17_OWMTYuHo-EEsvb3XLKmq_bknP19tg48/edit?usp=sharing)
+[결과 발표](https://file.notion.so/f/f/a24df21f-d442-4466-b3bd-f4ed6a7c2306/ba11a4e1-d4ae-4bed-9a20-51a6ebc862d3/%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3_%E1%84%80%E1%85%A7%E1%86%AF%E1%84%80%E1%85%AA_%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD_PPT_(%E1%84%89%E1%85%B0%E1%84%8B%E1%85%A5%E1%84%83%E1%85%B3%E1%84%8B%E1%85%AF%E1%86%AB_A-_EVision)_.pdf?table=block&id=10d4c00b-26c1-8004-9ae1-ebe5094b519c&spaceId=a24df21f-d442-4466-b3bd-f4ed6a7c2306&expirationTimestamp=1727481600000&signature=-gFThbmujf-k5F7k2V77U6E4OUhDzh6I6zsQBzT9oJY&downloadName=%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3+%E1%84%80%E1%85%A7%E1%86%AF%E1%84%80%E1%85%AA+%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD+PPT+%28%E1%84%89%E1%85%B0%E1%84%8B%E1%85%A5%E1%84%83%E1%85%B3%E1%84%8B%E1%85%AF%E1%86%AB+A-+EVision%29_.pdf)
 
 <br><br><br>
 
@@ -72,3 +73,5 @@ ERP(Enterprise Resource Planning)
 ### 그래프 화면
 ![](https://i.imgur.com/0RqZYCG.png)
 
+## 소개 영상
+[![Video Label](http://img.youtube.com/vi/pqt3X3QOiUk/0.jpg)](https://youtu.be/pqt3X3QOiUk)
