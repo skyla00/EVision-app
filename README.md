@@ -5,6 +5,10 @@
 
 - ERP(Enterprise Resource Planning) 
 - [또듣 바로가기](http://evision-app.s3-website.ap-northeast-2.amazonaws.com/)
+|  권한  |  아이디  |  비밀번호  |
+|-------|--------|----------|
+|  팀장  | SLS001 | 20000610 |
+|  팀원  | SLS002 | 71400191 |
   
 <br><br><br>
 ## 기획 의도
