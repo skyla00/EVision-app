@@ -3,8 +3,9 @@
 
 # 프로젝트 요약
 
-ERP(Enterprise Resource Planning) 
-[또듣 바로가기](http://evision-app.s3-website.ap-northeast-2.amazonaws.com/)
+- ERP(Enterprise Resource Planning) 
+- [또듣 바로가기](http://evision-app.s3-website.ap-northeast-2.amazonaws.com/)
+  
 <br><br><br>
 ## 기획 의도
 
