@@ -1,0 +1,47 @@
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${PRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  
+    defer-datasource-initialization: true
+    show-sql: true    
+    properties:
+      hibernate:
+        format_sql: true 
+        highlight_sql: true
+        color-codes: true
+        use_sql_comments: true
+  output:
+    ansi:
+      enabled: ALWAYS
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: error
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
+server:
+  servlet:
+    encoding:
+      force-response: true
+id:
+  admin: ${ID_ADMIN}
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: ${JWT_ACCESS_TOKEN_MINUTES}
+  refresh-token-expiration-minutes: ${JWT_REFRESH_TOKEN_MINUTES}
