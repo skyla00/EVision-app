@@ -34,17 +34,42 @@ jobs:
           docker build -t evision .
           docker tag evision skyla00/evision:${GITHUB_SHA::7}
           docker push skyla00/evision:${GITHUB_SHA::7}
-
-      - name: Docker run
-        working-directory: ./server
-        run: |
-          docker run -d --name server -p 8080:8080 \
-          -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-          -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
-          -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
-          -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
-          -e ID_ADMIN=${{ secrets.ID_ADMIN}} \
-          -e JWT_ACCESS_TOKEN_MINUTES=${{ secrets.JWT_ACCESS_TOKEN_MINUTES}} \
-          -e JWT_REFRESH_TOKEN_MINUTES=${{ secrets.JWT_REFRESH_TOKEN_MINUTES}} \
-          skyla00/evision:${GITHUB_SHA::7}
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
           
+      - name: Start Session Manager session
+        run: aws ssm start-session --target i-0b0ab79d8b1468696
+        
+      - name: Deploy to Server
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-2
+        run: |
+          aws ssm send-command \
+            --instance-ids i-0b0ab79d8b1468696 \
+            --document-name "AWS-RunShellScript" \
+            --parameters "commands=[
+              'if sudo docker ps -a --format \\'{{.Names}}\\' | grep -q \\'^server$\\'; then',
+              '  sudo docker stop server',
+              '  sudo docker rm server',
+              'fi',
+              'sudo docker pull skyla00/evision:${GITHUB_SHA::7}',
+              'sudo docker tag skyla00/evision:${GITHUB_SHA::7} evision',
+              'sudo docker run -d --name server -p 8080:8080 \\
+          -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \\
+          -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \\
+          -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \\
+          -e ID_ADMIN=${{ secrets.ID_ADMIN}} \\
+          -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \\
+          -e JWT_ACCESS_TOKEN_MINUTES=${{ secrets.JWT_ACCESS_TOKEN_MINUTES}} \\
+          -e JWT_REFRESH_TOKEN_MINUTES=${{ secrets.JWT_REFRESH_TOKEN_MINUTES}} \\
+          evision'
+            ]" \
+            --output text
+        
