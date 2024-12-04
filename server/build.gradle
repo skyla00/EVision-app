@@ -10,6 +10,13 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -49,4 +56,8 @@ tasks.named('javadoc') {
 	source = sourceSets.main.allJava
 	options.memberLevel = JavadocMemberLevel.PRIVATE
 	destinationDir = file("build/docs/javadoc")
+}
+
+jar {
+	enabled = false
 }
