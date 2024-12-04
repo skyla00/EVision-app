@@ -34,3 +34,11 @@ jobs:
           docker build -t evision .
           docker tag evision skyla00/evision:${GITHUB_SHA::7}
           docker push skyla00/evision:${GITHUB_SHA::7}
+
+      - name: Docker run
+        working-directory: ./server
+        run: |
+          docker run -d --name server -p 8080:8080 \
+          -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+          skyla00/evision:${GITHUB_SHA::7}
+          
