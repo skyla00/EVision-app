@@ -46,5 +46,5 @@ jobs:
           -e ID_ADMIN=${{ secrets.ID_ADMIN}} \
           -e JWT_ACCESS_TOKEN_MINUTES=${{ secrets.JWT_ACCESS_TOKEN_MINUTES}} \
           -e JWT_REFRESH_TOKEN_MINUTES=${{ secrets.JWT_REFRESH_TOKEN_MINUTES}} \
-          evision:${GITHUB_SHA::7}
+          skyla00/evision:${GITHUB_SHA::7}
           
