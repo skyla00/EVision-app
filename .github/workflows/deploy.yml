@@ -69,6 +69,7 @@ jobs:
           -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \\
           -e JWT_ACCESS_TOKEN_MINUTES=${{ secrets.JWT_ACCESS_TOKEN_MINUTES}} \\
           -e JWT_REFRESH_TOKEN_MINUTES=${{ secrets.JWT_REFRESH_TOKEN_MINUTES}} \\
+          -e EC2_HOST=${{ secrets.EC2_HOST }} \\
           evision'
             ]" \
             --output text
