@@ -96,7 +96,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://evision-app.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://evision-app.site", "https://www.evision-app.site", "https://api.evision-app.site"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 로그인 성공시 memberId 를 header 에 전달할 수도 있지만? 다른 방법이 더 낫다고.. 다른 방법을 생각해 봅세.
