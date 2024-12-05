@@ -1,7 +1,7 @@
 spring:
   data:
     redis:
-      host: ${EC2_HOST}
+      host: 127.0.0.1
       port: 6379
   h2:
     console:
