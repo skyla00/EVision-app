@@ -43,7 +43,7 @@ jobs:
           aws-region: ap-northeast-2
           
       - name: Start Session Manager session
-        run: aws ssm start-session --target i-0b0ab79d8b1468696
+        run: aws ssm start-session --target i-09c3a5073631837c3
         
       - name: Deploy to Server
         env:
@@ -52,7 +52,7 @@ jobs:
           AWS_REGION: ap-northeast-2
         run: |
           aws ssm send-command \
-            --instance-ids i-0b0ab79d8b1468696 \
+            --instance-ids i-09c3a5073631837c3 \
             --document-name "AWS-RunShellScript" \
             --parameters "commands=[
               'if sudo docker ps -a --format \\'{{.Names}}\\' | grep -q \\'^server$\\'; then',
@@ -73,4 +73,36 @@ jobs:
           evision'
             ]" \
             --output text
-        
+            
+  # client - deploy
+  client-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > ./client/.env
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Build static file
+        working-directory: ./client
+        run: CI=false npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./client/build s3://evision-app
