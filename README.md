@@ -4,7 +4,7 @@
 # 프로젝트 요약
 
 - ERP(Enterprise Resource Planning) 
-- [또듣 바로가기](http://evision-app.s3-website.ap-northeast-2.amazonaws.com/)
+- [또듣 바로가기](https://evision-app.site/)
   
 |  권한  |  아이디  |  비밀번호  |
 |-------|--------|----------|
