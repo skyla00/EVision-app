@@ -4,7 +4,6 @@
 # 프로젝트 요약
 
 - ERP(Enterprise Resource Planning) 
-- [또듣 바로가기](https://evision-app.site/)
   
 |  권한  |  아이디  |  비밀번호  |
 |-------|--------|----------|
@@ -83,6 +82,3 @@
 
 ### 그래프 화면
 ![](https://i.imgur.com/0RqZYCG.png)
-
-## 소개 영상
-[![Video Label](http://img.youtube.com/vi/pqt3X3QOiUk/0.jpg)](https://youtu.be/pqt3X3QOiUk)
